@@ -1,0 +1,930 @@
+353 354 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 9.3}
+353 140 {'lanes': '1', 'ref': 'NY 79', 'travel_time': 6.0}
+353 141 {'travel_time': 3.7}
+70 237 {'travel_time': 1.7}
+70 238 {'travel_time': 4.3}
+70 69 {'travel_time': 31.8}
+114 115 {'maxspeed': '30 mph', 'travel_time': 4.2}
+114 498 {'maxspeed': '30 mph', 'travel_time': 12.6}
+114 113 {'travel_time': 4.8}
+536 537 {'travel_time': 13.1}
+536 439 {'ref': 'NY 366', 'travel_time': 7.3}
+536 74 {'ref': 'NY 366', 'travel_time': 15.8}
+536 530 {'travel_time': 4.0}
+153 46 {'maxspeed': '30 mph', 'travel_time': 0.8}
+153 123 {'maxspeed': '30 mph', 'travel_time': 13.3}
+153 152 {'travel_time': 9.4}
+115 618 {'travel_time': 29.7}
+115 68 {'maxspeed': '30 mph', 'travel_time': 19.3}
+115 113 {'travel_time': 4.4}
+577 439 {'ref': 'NY 366', 'travel_time': 1.6}
+577 440 {'travel_time': 0.9}
+577 208 {'ref': 'NY 366', 'travel_time': 6.6}
+218 219 {'travel_time': 13.0}
+218 190 {'travel_time': 8.9}
+218 327 {'travel_time': 18.2}
+617 192 {'lanes': '2', 'travel_time': 6.7}
+617 66 {'lanes': '2', 'travel_time': 20.8}
+617 113 {'travel_time': 25.1}
+354 567 {'travel_time': 9.1}
+354 466 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 1.4}
+246 247 {'travel_time': 9.0}
+246 567 {'travel_time': 15.0}
+246 139 {'travel_time': 13.3}
+246 626 {'travel_time': 3.7}
+628 5 {'travel_time': 3.8}
+628 457 {'travel_time': 5.1}
+628 404 {'travel_time': 11.9}
+247 413 {'travel_time': 4.1}
+247 414 {'travel_time': 1.1}
+116 509 {'travel_time': 7.8}
+116 480 {'travel_time': 21.5}
+116 596 {'travel_time': 11.4}
+537 440 {'travel_time': 8.4}
+537 460 {'travel_time': 11.8}
+537 76 {'travel_time': 13.0}
+219 220 {'travel_time': 12.0}
+219 296 {'travel_time': 31.0}
+572 120 {'bridge': 'yes', 'travel_time': 3.0}
+572 432 {'travel_time': 12.3}
+572 504 {'travel_time': 13.5}
+619 516 {'travel_time': 5.9}
+620 562 {'travel_time': 6.1}
+435 122 {'travel_time': 6.1}
+435 462 {'travel_time': 14.6}
+435 148 {'travel_time': 11.3}
+421 86 {'travel_time': 17.6}
+421 231 {'travel_time': 7.2}
+421 523 {'travel_time': 20.2}
+220 221 {'travel_time': 8.4}
+220 295 {'travel_time': 40.1}
+422 231 {'travel_time': 1.5}
+422 232 {'travel_time': 31.2}
+422 234 {'travel_time': 7.9}
+621 512 {'travel_time': 13.5}
+2 3 {'travel_time': 15.9}
+2 338 {'travel_time': 10.0}
+2 514 {'travel_time': 1.1}
+3 4 {'travel_time': 10.7}
+3 484 {'travel_time': 8.8}
+436 303 {'travel_time': 5.3}
+436 454 {'lanes': '1', 'travel_time': 11.8}
+436 148 {'travel_time': 8.2}
+4 5 {'travel_time': 10.8}
+4 211 {'bridge': 'yes', 'travel_time': 2.2}
+4 323 {'travel_time': 8.8}
+301 75 {'travel_time': 5.8}
+5 363 {'bridge': 'yes', 'travel_time': 2.2}
+616 425 {'maxspeed': '15 mph', 'travel_time': 21.1}
+616 108 {'travel_time': 12.9}
+616 109 {'travel_time': 9.1}
+616 615 {'travel_time': 6.5}
+590 496 {'travel_time': 0.3}
+554 355 {'travel_time': 13.1}
+554 229 {'travel_time': 31.0}
+554 623 {'travel_time': 3.3}
+518 519 {'travel_time': 8.1}
+518 165 {'travel_time': 9.2}
+518 405 {'travel_time': 10.1}
+518 275 {'travel_time': 11.9}
+6 7 {'travel_time': 5.1}
+6 501 {'travel_time': 7.3}
+6 449 {'travel_time': 4.7}
+373 374 {'travel_time': 0.9}
+373 378 {'travel_time': 1.6}
+373 44 {'travel_time': 5.5}
+373 542 {'travel_time': 18.2}
+374 375 {'travel_time': 5.4}
+374 378 {'travel_time': 1.0}
+456 573 {'travel_time': 9.8}
+456 29 {'travel_time': 9.8}
+456 197 {'travel_time': 9.0}
+456 320 {'travel_time': 10.8}
+519 561 {'travel_time': 11.4}
+519 393 {'travel_time': 13.3}
+519 266 {'travel_time': 8.1}
+457 485 {'travel_time': 10.7}
+457 351 {'travel_time': 9.1}
+457 323 {'travel_time': 10.8}
+375 376 {'travel_time': 1.8}
+375 28 {'travel_time': 25.8}
+520 14 {'travel_time': 9.1}
+520 226 {'travel_time': 7.2}
+520 430 {'travel_time': 12.0}
+423 424 {'travel_time': 14.6}
+423 507 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 7.5}
+423 312 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 10.8}
+521 17 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 7.5}
+521 228 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 6.0}
+521 430 {'travel_time': 17.5}
+558 522 {'travel_time': 10.0}
+71 72 {'ref': 'NY 366', 'travel_time': 6.5}
+71 73 {'ref': 'NY 366', 'travel_time': 4.5}
+71 74 {'ref': 'NY 366', 'travel_time': 15.3}
+424 543 {'lanes': '3', 'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 7.5}
+424 615 {'travel_time': 11.3}
+424 313 {'lanes': '3', 'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 10.8}
+559 437 {'travel_time': 14.5}
+463 550 {'travel_time': 9.8}
+463 178 {'travel_time': 7.4}
+463 478 {'travel_time': 3.9}
+154 155 {'travel_time': 11.9}
+154 443 {'travel_time': 15.3}
+154 210 {'travel_time': 8.5}
+376 377 {'travel_time': 1.7}
+376 27 {'travel_time': 24.1}
+376 546 {'travel_time': 13.7}
+72 73 {'ref': 'NY 366', 'travel_time': 3.1}
+377 378 {'travel_time': 4.7}
+377 549 {'travel_time': 14.4}
+400 171 {'travel_time': 6.5}
+400 97 {'travel_time': 8.6}
+400 505 {'travel_time': 9.1}
+400 143 {'travel_time': 11.4}
+394 329 {'travel_time': 26.0}
+425 173 {'maxspeed': '15 mph', 'travel_time': 27.1}
+425 451 {'travel_time': 9.1}
+425 315 {'travel_time': 12.9}
+378 539 {'travel_time': 16.7}
+401 402 {'ref': 'NY 79', 'bridge': 'yes', 'travel_time': 11.3}
+401 531 {'ref': 'NY 13;NY 34;NY 79;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.8}
+401 102 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.2}
+401 64 {'travel_time': 13.2}
+426 427 {'travel_time': 11.4}
+426 173 {'maxspeed': '15 mph', 'travel_time': 12.0}
+426 337 {'travel_time': 20.0}
+426 316 {'travel_time': 12.8}
+624 622 {'travel_time': 11.7}
+427 317 {'maxspeed': '30 mph', 'travel_time': 10.6}
+427 514 {'maxspeed': '30 mph', 'travel_time': 16.6}
+427 250 {'maxspeed': '30 mph', 'travel_time': 6.9}
+155 441 {'travel_time': 5.7}
+155 442 {'travel_time': 15.4}
+156 366 {'travel_time': 24.5}
+156 51 {'travel_time': 37.0}
+156 605 {'travel_time': 60.5}
+402 45 {'travel_time': 53.7}
+402 103 {'travel_time': 4.3}
+402 104 {'ref': 'NY 79', 'travel_time': 7.8}
+473 474 {'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 51.4}
+473 23 {'travel_time': 17.1}
+473 420 {'maxspeed': '30 mph', 'travel_time': 22.9}
+484 338 {'travel_time': 11.1}
+484 350 {'travel_time': 9.1}
+484 323 {'travel_time': 10.6}
+485 486 {'travel_time': 10.9}
+485 404 {'travel_time': 3.7}
+485 352 {'travel_time': 9.0}
+486 487 {'travel_time': 6.2}
+486 403 {'travel_time': 6.7}
+486 396 {'travel_time': 18.0}
+464 345 {'travel_time': 1.5}
+464 389 {'travel_time': 8.3}
+464 480 {'bridge': 'yes', 'travel_time': 14.4}
+629 56 {'travel_time': 14.7}
+361 287 {'travel_time': 16.2}
+361 391 {'travel_time': 7.2}
+361 267 {'travel_time': 8.9}
+361 471 {'travel_time': 10.9}
+610 201 {'travel_time': 25.9}
+610 39 {'travel_time': 14.0}
+599 589 {'maxspeed': '15 mph', 'travel_time': 26.3}
+599 199 {'maxspeed': '15 mph', 'travel_time': 17.7}
+599 202 {'maxspeed': ['30 mph', '15 mph'], 'travel_time': 10.1}
+32 33 {'travel_time': 9.2}
+32 25 {'travel_time': 8.0}
+32 26 {'travel_time': 8.8}
+117 118 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 3.7}
+117 140 {'ref': 'NY 79', 'travel_time': 2.0}
+117 141 {'travel_time': 2.2}
+118 119 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 28.9}
+118 141 {'lanes': '2', 'travel_time': 2.6}
+580 434 {'travel_time': 11.5}
+33 34 {'travel_time': 1.2}
+33 547 {'travel_time': 12.9}
+34 35 {'travel_time': 6.3}
+34 548 {'travel_time': 12.9}
+35 540 {'travel_time': 12.7}
+35 541 {'travel_time': 13.8}
+474 371 {'travel_time': 7.7}
+474 244 {'travel_time': 27.9}
+43 44 {'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 31.7}
+43 609 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 5.7}
+43 409 {'travel_time': 27.6}
+43 60 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 16.1}
+600 589 {'maxspeed': '15 mph', 'travel_time': 13.2}
+600 199 {'maxspeed': '15 mph', 'travel_time': 26.9}
+600 200 {'maxspeed': '15 mph', 'travel_time': 3.2}
+382 561 {'travel_time': 11.5}
+382 569 {'travel_time': 11.4}
+382 263 {'travel_time': 7.9}
+382 360 {'travel_time': 8.2}
+383 284 {'travel_time': 9.0}
+383 263 {'travel_time': 8.8}
+383 470 {'travel_time': 11.4}
+383 471 {'travel_time': 18.2}
+119 432 {'travel_time': 15.7}
+119 505 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 10.7}
+119 143 {'travel_time': 8.0}
+120 121 {'travel_time': 23.3}
+120 623 {'travel_time': 1.4}
+570 476 {'travel_time': 9.1}
+488 362 {'travel_time': 0.5}
+380 406 {'travel_time': 7.3}
+380 80 {'travel_time': 23.0}
+380 91 {'travel_time': 16.7}
+591 592 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 1.1}
+591 594 {'lanes': '2', 'bridge': 'yes', 'travel_time': 36.6}
+591 58 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 15.8}
+121 159 {'travel_time': 3.0}
+121 270 {'ref': 'NY 96B', 'travel_time': 13.9}
+121 432 {'ref': 'NY 96B', 'bridge': 'yes', 'travel_time': 12.8}
+44 45 {'maxspeed': '30 mph', 'travel_time': 18.5}
+550 551 {'travel_time': 7.1}
+550 576 {'travel_time': 8.0}
+171 18 {'travel_time': 14.6}
+171 228 {'travel_time': 9.1}
+171 98 {'travel_time': 8.6}
+172 173 {'travel_time': 12.8}
+172 98 {'travel_time': 9.1}
+172 315 {'travel_time': 14.6}
+172 316 {'travel_time': 6.5}
+45 318 {'travel_time': 34.0}
+604 604 {'travel_time': 12.9}
+604 604 {'travel_time': 12.9}
+604 545 {'travel_time': 25.5}
+173 174 {'travel_time': 9.1}
+174 175 {'travel_time': 10.9}
+174 451 {'travel_time': 16.3}
+581 181 {'travel_time': 3.1}
+581 182 {'travel_time': 2.7}
+581 22 {'travel_time': 30.2}
+46 152 {'maxspeed': '30 mph', 'travel_time': 4.7}
+175 336 {'travel_time': 1.4}
+175 337 {'travel_time': 7.2}
+538 53 {'travel_time': 4.7}
+437 612 {'travel_time': 9.4}
+437 289 {'travel_time': 11.1}
+437 130 {'travel_time': 9.8}
+437 522 {'travel_time': 12.0}
+302 388 {'maxspeed': '30 mph', 'travel_time': 1.3}
+302 588 {'maxspeed': '25 mph', 'travel_time': 5.5}
+302 147 {'maxspeed': '25 mph', 'travel_time': 21.0}
+501 502 {'ref': 'NY 96B', 'travel_time': 31.3}
+552 241 {'travel_time': 7.8}
+609 428 {'travel_time': 2.7}
+609 61 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 3.0}
+555 556 {'travel_time': 12.3}
+555 306 {'travel_time': 1.5}
+555 491 {'travel_time': 8.5}
+502 503 {'ref': 'NY 96B', 'travel_time': 7.7}
+502 241 {'travel_time': 18.3}
+502 347 {'travel_time': 15.4}
+503 158 {'ref': 'NY 96B', 'travel_time': 7.3}
+503 242 {'travel_time': 17.4}
+503 349 {'travel_time': 15.2}
+438 289 {'travel_time': 29.7}
+303 304 {'maxspeed': '25 mph', 'travel_time': 9.1}
+303 293 {'maxspeed': '25 mph', 'travel_time': 2.3}
+384 385 {'travel_time': 14.5}
+324 23 {'travel_time': 10.1}
+439 440 {'travel_time': 1.6}
+440 441 {'travel_time': 7.7}
+458 367 {'travel_time': 9.7}
+385 386 {'travel_time': 11.6}
+385 434 {'travel_time': 5.0}
+385 298 {'travel_time': 10.7}
+325 582 {'travel_time': 11.8}
+325 252 {'travel_time': 6.7}
+325 255 {'travel_time': 21.5}
+325 145 {'travel_time': 6.6}
+587 183 {'travel_time': 24.4}
+592 593 {'lanes': '2', 'bridge': 'yes', 'travel_time': 36.7}
+592 59 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 18.0}
+304 305 {'maxspeed': '25 mph', 'travel_time': 1.7}
+304 292 {'travel_time': 5.3}
+403 404 {'travel_time': 12.3}
+305 306 {'maxspeed': '25 mph', 'travel_time': 12.3}
+305 500 {'travel_time': 15.9}
+441 209 {'travel_time': 4.5}
+442 443 {'travel_time': 1.8}
+442 460 {'travel_time': 11.2}
+194 189 {'ref': 'NY 13A', 'maxspeed': '30 mph', 'travel_time': 2.1}
+194 37 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 30.8}
+443 79 {'travel_time': 9.4}
+557 40 {'travel_time': 15.4}
+557 192 {'lanes': '2', 'travel_time': 5.1}
+557 595 {'lanes': '2', 'travel_time': 4.7}
+574 498 {'maxspeed': '30 mph', 'travel_time': 9.7}
+574 178 {'maxspeed': '30 mph', 'travel_time': 1.8}
+574 613 {'travel_time': 3.8}
+306 307 {'maxspeed': '25 mph', 'travel_time': 7.2}
+459 444 {'travel_time': 9.9}
+459 445 {'travel_time': 20.0}
+459 367 {'travel_time': 24.0}
+526 17 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 13.5}
+526 125 {'travel_time': 9.0}
+526 176 {'travel_time': 9.1}
+526 63 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 13.5}
+307 308 {'maxspeed': '25 mph', 'travel_time': 14.8}
+47 48 {'travel_time': 5.6}
+47 289 {'travel_time': 13.4}
+47 523 {'travel_time': 19.6}
+343 344 {'travel_time': 2.4}
+343 346 {'travel_time': 5.3}
+343 565 {'travel_time': 8.5}
+444 445 {'travel_time': 20.5}
+444 368 {'travel_time': 19.9}
+444 483 {'travel_time': 4.1}
+49 579 {'ref': 'NY 13;NY 34', 'maxspeed': '40 mph', 'bridge': 'yes', 'lanes': '3', 'travel_time': 21.2}
+49 51 {'maxspeed': '30 mph', 'travel_time': 0.6}
+49 273 {'maxspeed': '30 mph', 'travel_time': 4.1}
+344 345 {'travel_time': 4.8}
+344 565 {'travel_time': 3.3}
+489 362 {'travel_time': 6.7}
+489 276 {'travel_time': 10.2}
+489 568 {'travel_time': 8.2}
+489 212 {'travel_time': 10.3}
+345 416 {'travel_time': 4.7}
+346 415 {'travel_time': 4.2}
+346 416 {'travel_time': 6.5}
+308 499 {'travel_time': 0.6}
+308 21 {'travel_time': 5.9}
+157 158 {'travel_time': 18.3}
+157 242 {'travel_time': 7.9}
+157 243 {'travel_time': 8.9}
+445 294 {'travel_time': 32.8}
+8 9 {'travel_time': 11.1}
+8 603 {'travel_time': 14.3}
+8 57 {'travel_time': 35.2}
+9 10 {'travel_time': 9.8}
+9 272 {'travel_time': 12.5}
+158 159 {'travel_time': 15.1}
+158 270 {'ref': 'NY 96B', 'travel_time': 7.7}
+10 11 {'travel_time': 6.9}
+10 222 {'travel_time': 16.1}
+10 42 {'travel_time': 16.2}
+159 349 {'travel_time': 8.7}
+11 12 {'travel_time': 4.0}
+11 223 {'travel_time': 16.3}
+12 13 {'bridge': 'yes', 'travel_time': 4.3}
+12 409 {'travel_time': 16.2}
+12 224 {'travel_time': 16.5}
+531 61 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'lanes': '3', 'travel_time': 17.2}
+531 63 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 10.8}
+13 14 {'travel_time': 12.4}
+13 553 {'travel_time': 25.8}
+13 225 {'travel_time': 16.6}
+14 15 {'travel_time': 12.0}
+14 553 {'travel_time': 21.7}
+15 16 {'travel_time': 8.5}
+15 429 {'lanes': '2', 'ref': 'NY 96B', 'travel_time': 13.5}
+15 430 {'lanes': '2', 'ref': 'NY 96B', 'travel_time': 7.5}
+583 584 {'travel_time': 5.9}
+583 585 {'travel_time': 3.3}
+583 499 {'travel_time': 6.0}
+16 17 {'travel_time': 9.1}
+16 125 {'travel_time': 16.3}
+17 18 {'travel_time': 9.1}
+18 99 {'travel_time': 8.6}
+18 176 {'travel_time': 14.6}
+160 161 {'travel_time': 11.7}
+160 211 {'travel_time': 3.4}
+160 212 {'travel_time': 8.8}
+161 162 {'travel_time': 1.8}
+161 363 {'travel_time': 8.4}
+161 360 {'travel_time': 9.3}
+567 411 {'travel_time': 9.0}
+162 163 {'travel_time': 9.7}
+162 575 {'maxspeed': '30 mph', 'travel_time': 7.8}
+163 164 {'travel_time': 1.0}
+163 405 {'travel_time': 9.2}
+164 165 {'travel_time': 10.4}
+164 575 {'travel_time': 5.5}
+165 166 {'travel_time': 1.7}
+494 496 {'travel_time': 31.6}
+494 475 {'travel_time': 4.7}
+494 597 {'travel_time': 6.6}
+166 167 {'travel_time': 10.5}
+166 534 {'travel_time': 2.2}
+167 274 {'travel_time': 7.1}
+167 275 {'travel_time': 9.4}
+183 311 {'ref': 'NY 96', 'bridge': 'yes', 'travel_time': 19.3}
+183 1 {'lanes': '2', 'ref': 'NY 96', 'travel_time': 68.4}
+362 211 {'travel_time': 10.7}
+495 415 {'travel_time': 11.4}
+363 364 {'travel_time': 10.7}
+363 211 {'travel_time': 10.8}
+364 365 {'travel_time': 10.7}
+364 575 {'travel_time': 8.8}
+365 535 {'travel_time': 8.8}
+365 273 {'travel_time': 18.9}
+496 532 {'travel_time': 9.5}
+496 533 {'travel_time': 33.8}
+460 78 {'travel_time': 7.2}
+405 561 {'maxspeed': '25 mph', 'travel_time': 8.1}
+405 360 {'travel_time': 10.3}
+184 185 {'travel_time': 46.3}
+184 185 {'ref': 'NY 89', 'maxspeed': '30 mph', 'travel_time': 28.8}
+184 545 {'ref': 'NY 89', 'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 25.1}
+563 497 {'travel_time': 9.9}
+563 626 {'travel_time': 4.2}
+563 626 {'travel_time': 18.3}
+527 78 {'travel_time': 9.1}
+527 479 {'travel_time': 11.0}
+527 186 {'travel_time': 9.2}
+406 407 {'travel_time': 2.8}
+406 90 {'travel_time': 15.1}
+407 517 {'travel_time': 5.7}
+407 290 {'travel_time': 6.1}
+408 528 {'travel_time': 2.4}
+408 82 {'travel_time': 7.4}
+408 65 {'travel_time': 2.4}
+73 622 {'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 45.7}
+74 75 {'travel_time': 11.7}
+74 627 {'travel_time': 19.2}
+74 479 {'travel_time': 23.6}
+74 455 {'travel_time': 13.1}
+528 186 {'travel_time': 14.6}
+528 65 {'travel_time': 1.9}
+75 76 {'travel_time': 6.0}
+36 381 {'ref': 'NY 34', 'travel_time': 1.5}
+36 206 {'travel_time': 5.6}
+543 544 {'travel_time': 12.7}
+543 332 {'lanes': '3', 'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 9.0}
+543 507 {'travel_time': 16.1}
+76 77 {'travel_time': 1.6}
+544 109 {'travel_time': 7.2}
+544 615 {'travel_time': 9.0}
+544 319 {'travel_time': 11.0}
+77 78 {'travel_time': 9.1}
+77 479 {'travel_time': 5.6}
+409 42 {'travel_time': 11.1}
+409 60 {'travel_time': 16.6}
+446 81 {'travel_time': 4.2}
+78 79 {'travel_time': 11.4}
+270 243 {'travel_time': 14.7}
+270 245 {'travel_time': 6.6}
+79 80 {'travel_time': 3.9}
+80 81 {'travel_time': 1.9}
+81 82 {'travel_time': 4.9}
+82 83 {'travel_time': 16.8}
+82 290 {'travel_time': 11.7}
+122 123 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 6.9}
+122 388 {'maxspeed': '30 mph', 'travel_time': 12.9}
+189 104 {'ref': 'NY 79', 'bridge': 'yes', 'lanes': '4', 'travel_time': 15.0}
+189 300 {'ref': 'NY 79', 'travel_time': 22.7}
+108 177 {'travel_time': 3.2}
+108 315 {'travel_time': 11.4}
+109 110 {'travel_time': 10.9}
+109 451 {'travel_time': 12.7}
+110 333 {'travel_time': 4.3}
+110 195 {'travel_time': 7.1}
+448 249 {'travel_time': 42.9}
+123 124 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 10.2}
+124 462 {'travel_time': 12.3}
+83 359 {'travel_time': 4.5}
+83 390 {'travel_time': 4.0}
+529 146 {'travel_time': 5.7}
+529 500 {'travel_time': 6.2}
+611 204 {'travel_time': 13.0}
+271 272 {'lanes': '1', 'travel_time': 1.2}
+271 601 {'junction': 'roundabout', 'travel_time': 1.3}
+271 603 {'junction': 'roundabout', 'travel_time': 1.5}
+553 571 {'travel_time': 12.1}
+490 491 {'travel_time': 13.8}
+490 292 {'travel_time': 4.5}
+490 147 {'travel_time': 28.2}
+539 540 {'travel_time': 1.1}
+539 542 {'travel_time': 1.0}
+539 549 {'travel_time': 6.3}
+540 541 {'travel_time': 1.0}
+540 548 {'travel_time': 6.2}
+24 89 {'lanes': '3', 'ref': 'NY 366', 'travel_time': 1.8}
+24 90 {'lanes': '3', 'ref': 'NY 366', 'travel_time': 5.3}
+24 516 {'travel_time': 12.2}
+560 412 {'travel_time': 8.8}
+491 492 {'travel_time': 12.6}
+541 542 {'travel_time': 1.2}
+601 222 {'travel_time': 10.2}
+601 229 {'junction': 'roundabout', 'travel_time': 1.1}
+602 603 {'junction': 'roundabout', 'travel_time': 1.4}
+602 229 {'junction': 'roundabout', 'travel_time': 2.6}
+410 379 {'travel_time': 8.8}
+410 257 {'travel_time': 7.7}
+410 466 {'travel_time': 7.9}
+410 467 {'travel_time': 11.4}
+411 412 {'travel_time': 4.6}
+411 379 {'travel_time': 1.1}
+190 1 {'lanes': '2', 'ref': 'NY 96', 'travel_time': 44.8}
+412 413 {'travel_time': 4.6}
+492 499 {'travel_time': 20.9}
+492 478 {'bridge': 'yes', 'travel_time': 26.5}
+413 564 {'travel_time': 8.3}
+530 87 {'travel_time': 12.3}
+530 524 {'travel_time': 10.4}
+414 465 {'travel_time': 10.0}
+414 107 {'travel_time': 1.7}
+415 107 {'travel_time': 2.3}
+416 497 {'travel_time': 8.1}
+416 112 {'travel_time': 7.7}
+449 450 {'travel_time': 13.1}
+449 238 {'travel_time': 16.2}
+355 356 {'travel_time': 17.9}
+355 578 {'travel_time': 11.4}
+309 310 {'travel_time': 5.7}
+309 328 {'lanes': '2', 'travel_time': 6.1}
+309 329 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 19.1}
+310 310 {'travel_time': 5.2}
+310 310 {'travel_time': 5.2}
+25 26 {'travel_time': 1.1}
+25 547 {'travel_time': 8.6}
+26 27 {'travel_time': 5.7}
+26 546 {'travel_time': 10.2}
+356 347 {'travel_time': 6.2}
+356 348 {'travel_time': 10.6}
+27 28 {'travel_time': 1.1}
+27 28 {'travel_time': 15.4}
+475 476 {'travel_time': 6.9}
+475 498 {'travel_time': 27.6}
+476 477 {'travel_time': 23.8}
+417 84 {'travel_time': 11.7}
+417 339 {'travel_time': 8.5}
+417 340 {'travel_time': 17.8}
+477 533 {'maxspeed': '30 mph', 'travel_time': 34.5}
+477 613 {'maxspeed': '30 mph', 'travel_time': 18.0}
+125 429 {'travel_time': 8.5}
+125 62 {'travel_time': 16.4}
+545 311 {'ref': 'NY 89', 'maxspeed': '30 mph', 'travel_time': 15.2}
+579 51 {'ref': 'NY 13;NY 34', 'maxspeed': ['30 mph', '40 mph'], 'bridge': 'yes', 'travel_time': 24.4}
+579 395 {'lanes': '5', 'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 5.2}
+50 51 {'lanes': ['3', '2'], 'ref': 'NY 13;NY 34', 'maxspeed': ['55 mph', '40 mph'], 'bridge': 'yes', 'travel_time': 51.7}
+50 381 {'ref': 'NY 34', 'travel_time': 10.0}
+84 85 {'maxspeed': '30 mph', 'travel_time': 7.1}
+85 86 {'maxspeed': '30 mph', 'travel_time': 7.0}
+85 339 {'travel_time': 11.2}
+418 419 {'travel_time': 23.6}
+418 368 {'travel_time': 23.6}
+418 341 {'travel_time': 16.7}
+86 87 {'maxspeed': '30 mph', 'travel_time': 7.3}
+86 524 {'travel_time': 10.8}
+419 369 {'travel_time': 15.0}
+419 216 {'travel_time': 12.7}
+87 88 {'maxspeed': '30 mph', 'travel_time': 18.8}
+87 234 {'travel_time': 7.9}
+19 20 {'maxspeed': '10 mph', 'travel_time': 47.5}
+19 259 {'bridge': 'yes', 'maxspeed': '25 mph', 'travel_time': 1.3}
+19 260 {'maxspeed': '25 mph', 'travel_time': 11.1}
+88 93 {'ref': 'NY 366', 'travel_time': 0.7}
+88 208 {'ref': 'NY 366', 'travel_time': 9.1}
+533 281 {'maxspeed': '30 mph', 'travel_time': 0.9}
+20 276 {'travel_time': 1.2}
+20 514 {'bridge': 'yes', 'travel_time': 1.9}
+326 327 {'travel_time': 18.4}
+89 135 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 7.9}
+89 136 {'lanes': '3', 'ref': 'NY 79', 'travel_time': 10.5}
+90 91 {'ref': 'NY 366', 'travel_time': 6.8}
+90 53 {'travel_time': 10.4}
+222 223 {'travel_time': 6.9}
+222 506 {'travel_time': 22.9}
+223 224 {'travel_time': 6.6}
+224 225 {'bridge': 'yes', 'travel_time': 4.3}
+224 506 {'travel_time': 7.7}
+91 92 {'ref': 'NY 366', 'travel_time': 4.5}
+387 387 {'travel_time': 4.8}
+387 387 {'travel_time': 4.8}
+387 388 {'travel_time': 8.5}
+92 93 {'ref': 'NY 366', 'travel_time': 8.9}
+92 210 {'travel_time': 7.1}
+497 111 {'travel_time': 8.5}
+497 138 {'travel_time': 12.5}
+93 233 {'travel_time': 8.6}
+327 297 {'travel_time': 13.1}
+225 226 {'travel_time': 9.8}
+225 504 {'travel_time': 8.0}
+226 227 {'travel_time': 12.0}
+227 228 {'travel_time': 17.5}
+227 430 {'lanes': '2', 'ref': 'NY 96B', 'travel_time': 6.0}
+227 431 {'lanes': '2', 'ref': 'NY 96B', 'travel_time': 6.0}
+228 505 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 6.0}
+357 517 {'travel_time': 10.7}
+357 291 {'travel_time': 7.3}
+357 136 {'travel_time': 14.9}
+358 359 {'travel_time': 9.1}
+358 291 {'travel_time': 4.7}
+358 111 {'travel_time': 8.7}
+359 112 {'travel_time': 7.8}
+561 264 {'maxspeed': '25 mph', 'travel_time': 8.0}
+94 95 {'travel_time': 5.3}
+94 368 {'travel_time': 20.2}
+94 369 {'travel_time': 10.7}
+498 478 {'travel_time': 11.3}
+510 371 {'travel_time': 4.4}
+510 513 {'travel_time': 9.7}
+510 242 {'travel_time': 8.3}
+607 141 {'travel_time': 6.8}
+607 142 {'travel_time': 1.9}
+607 608 {'travel_time': 3.1}
+23 133 {'travel_time': 7.3}
+330 331 {'travel_time': 10.2}
+331 332 {'travel_time': 9.9}
+331 507 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 10.7}
+331 508 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'lanes': '3', 'travel_time': 13.1}
+332 30 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 4.6}
+332 319 {'travel_time': 12.7}
+333 319 {'travel_time': 2.9}
+333 320 {'travel_time': 1.7}
+334 335 {'travel_time': 4.7}
+334 451 {'travel_time': 10.9}
+334 195 {'travel_time': 5.6}
+335 336 {'travel_time': 10.1}
+335 399 {'travel_time': 1.4}
+336 350 {'travel_time': 6.2}
+276 277 {'travel_time': 8.2}
+337 338 {'travel_time': 1.7}
+277 568 {'travel_time': 11.4}
+277 260 {'travel_time': 7.9}
+511 512 {'travel_time': 0.6}
+278 279 {'travel_time': 9.0}
+278 260 {'travel_time': 8.7}
+278 468 {'bridge': 'yes', 'travel_time': 17.0}
+278 469 {'travel_time': 11.5}
+428 429 {'lanes': '2', 'ref': 'NY 96B', 'travel_time': 11.2}
+428 61 {'ref': 'NY 96B', 'travel_time': 2.8}
+279 281 {'travel_time': 17.5}
+279 282 {'travel_time': 11.5}
+512 54 {'travel_time': 1.1}
+512 137 {'travel_time': 18.9}
+52 53 {'travel_time': 6.1}
+52 134 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 6.3}
+52 135 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 2.1}
+280 281 {'maxspeed': '30 mph', 'bridge': 'yes', 'travel_time': 5.8}
+280 379 {'travel_time': 14.1}
+280 467 {'maxspeed': '30 mph', 'travel_time': 6.8}
+431 432 {'lanes': ['3', '2'], 'ref': 'NY 96B', 'travel_time': 10.5}
+431 504 {'travel_time': 19.0}
+431 505 {'travel_time': 17.5}
+168 196 {'travel_time': 14.1}
+168 398 {'travel_time': 5.4}
+168 321 {'travel_time': 5.4}
+420 131 {'maxspeed': '30 mph', 'travel_time': 17.8}
+420 132 {'travel_time': 13.1}
+282 283 {'travel_time': 11.3}
+282 469 {'travel_time': 9.1}
+283 284 {'travel_time': 11.4}
+283 470 {'travel_time': 9.0}
+284 285 {'travel_time': 18.2}
+285 286 {'travel_time': 5.9}
+285 471 {'travel_time': 9.2}
+515 625 {'travel_time': 7.1}
+562 54 {'travel_time': 25.1}
+562 135 {'travel_time': 11.2}
+287 391 {'travel_time': 9.1}
+287 179 {'travel_time': 3.6}
+96 97 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 10.6}
+96 317 {'maxspeed': '30 mph', 'travel_time': 7.5}
+96 143 {'travel_time': 7.8}
+96 256 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 13.5}
+606 395 {'travel_time': 6.8}
+97 98 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 6.0}
+97 316 {'travel_time': 9.1}
+98 99 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 13.5}
+99 100 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 13.5}
+99 315 {'travel_time': 9.1}
+433 434 {'travel_time': 29.3}
+100 101 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 13.5}
+100 176 {'travel_time': 8.6}
+100 177 {'travel_time': 9.1}
+101 102 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 13.5}
+101 64 {'lanes': '4', 'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.1}
+101 313 {'lanes': '4', 'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.5}
+350 399 {'travel_time': 8.9}
+350 322 {'travel_time': 10.6}
+351 352 {'travel_time': 10.7}
+351 398 {'travel_time': 8.9}
+351 322 {'travel_time': 10.8}
+102 103 {'lanes': '2', 'ref': 'NY 79', 'bridge': 'yes', 'travel_time': 9.9}
+102 312 {'lanes': ['3', '2'], 'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.5}
+389 390 {'travel_time': 7.1}
+389 390 {'travel_time': 15.4}
+352 397 {'travel_time': 9.0}
+126 127 {'maxspeed': '30 mph', 'travel_time': 19.8}
+126 622 {'travel_time': 6.8}
+126 66 {'lanes': '2', 'travel_time': 16.1}
+103 104 {'lanes': '2', 'ref': 'NY 79', 'travel_time': 6.9}
+103 311 {'travel_time': 7.7}
+127 128 {'maxspeed': '30 mph', 'travel_time': 30.4}
+127 202 {'travel_time': 19.8}
+127 188 {'travel_time': 7.1}
+104 105 {'travel_time': 10.4}
+516 517 {'travel_time': 9.6}
+42 59 {'travel_time': 16.6}
+54 55 {'travel_time': 11.4}
+55 136 {'ref': 'NY 79', 'travel_time': 8.4}
+55 111 {'travel_time': 20.2}
+55 137 {'ref': 'NY 79', 'travel_time': 5.5}
+128 129 {'maxspeed': '30 mph', 'travel_time': 2.9}
+128 614 {'travel_time': 2.0}
+129 614 {'maxspeed': '30 mph', 'travel_time': 2.7}
+129 588 {'maxspeed': '25 mph', 'bridge': 'yes', 'travel_time': 15.4}
+367 368 {'travel_time': 9.2}
+367 342 {'travel_time': 8.0}
+614 68 {'maxspeed': '30 mph', 'travel_time': 21.0}
+586 482 {'travel_time': 9.1}
+525 371 {'travel_time': 12.1}
+176 64 {'travel_time': 14.6}
+177 314 {'travel_time': 3.3}
+288 289 {'travel_time': 9.0}
+248 56 {'travel_time': 114.1}
+248 249 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 52.0}
+29 30 {'travel_time': 2.0}
+29 41 {'travel_time': 1.7}
+56 57 {'travel_time': 19.4}
+391 392 {'travel_time': 1.7}
+249 58 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 46.2}
+57 58 {'travel_time': 2.5}
+392 268 {'travel_time': 7.1}
+392 472 {'travel_time': 7.2}
+230 231 {'travel_time': 22.0}
+30 41 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 2.8}
+506 623 {'travel_time': 13.3}
+393 268 {'travel_time': 8.2}
+393 275 {'travel_time': 7.9}
+369 482 {'travel_time': 19.0}
+452 239 {'travel_time': 7.0}
+452 169 {'travel_time': 9.6}
+59 60 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 9.3}
+370 342 {'travel_time': 8.5}
+232 233 {'travel_time': 8.6}
+232 134 {'travel_time': 14.4}
+61 62 {'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 5.9}
+252 253 {'travel_time': 5.9}
+62 63 {'lanes': '3', 'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.4}
+63 64 {'lanes': '3', 'ref': 'NY 13;NY 34;NY 96', 'maxspeed': '30 mph', 'travel_time': 7.5}
+290 291 {'travel_time': 16.4}
+233 234 {'travel_time': 22.6}
+453 461 {'travel_time': 3.7}
+453 240 {'travel_time': 32.5}
+453 169 {'travel_time': 12.0}
+493 152 {'maxspeed': '30 mph', 'travel_time': 4.1}
+371 372 {'travel_time': 12.1}
+311 312 {'ref': 'NY 89; NY 96', 'bridge': 'yes', 'travel_time': 11.2}
+615 314 {'travel_time': 12.9}
+534 535 {'travel_time': 9.0}
+534 274 {'travel_time': 10.4}
+535 273 {'maxspeed': '30 mph', 'travel_time': 8.9}
+535 575 {'maxspeed': '30 mph', 'travel_time': 8.9}
+312 313 {'lanes': '3', 'ref': 'NY 89; NY 96', 'travel_time': 13.4}
+186 187 {'travel_time': 7.9}
+313 314 {'travel_time': 11.3}
+195 196 {'travel_time': 6.9}
+196 320 {'travel_time': 9.1}
+196 321 {'travel_time': 9.1}
+316 317 {'travel_time': 11.4}
+317 257 {'travel_time': 14.6}
+339 340 {'travel_time': 9.4}
+339 524 {'travel_time': 8.5}
+197 198 {'travel_time': 10.5}
+197 398 {'travel_time': 9.1}
+340 455 {'travel_time': 8.5}
+589 199 {'maxspeed': '15 mph', 'travel_time': 11.8}
+130 131 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 7.9}
+508 41 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 2.5}
+508 395 {'ref': 'NY 13;NY 34', 'maxspeed': '30 mph', 'travel_time': 27.1}
+131 132 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 9.2}
+131 522 {'travel_time': 9.1}
+178 179 {'travel_time': 33.4}
+178 613 {'maxspeed': '30 mph', 'travel_time': 3.4}
+622 201 {'travel_time': 12.1}
+132 133 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 19.4}
+254 199 {'travel_time': 15.4}
+191 69 {'ref': 'CR 119', 'travel_time': 13.1}
+133 134 {'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 16.1}
+111 112 {'travel_time': 9.0}
+381 205 {'travel_time': 5.7}
+137 138 {'ref': 'NY 79', 'travel_time': 3.4}
+179 180 {'travel_time': 6.5}
+138 625 {'ref': 'NY 79', 'travel_time': 1.4}
+180 181 {'bridge': 'yes', 'travel_time': 17.3}
+180 472 {'travel_time': 14.4}
+480 598 {'travel_time': 7.3}
+139 140 {'ref': 'NY 79', 'travel_time': 8.9}
+139 625 {'ref': 'NY 79', 'travel_time': 13.4}
+328 341 {'travel_time': 31.9}
+181 182 {'travel_time': 2.6}
+31 347 {'travel_time': 11.9}
+142 608 {'travel_time': 3.6}
+142 466 {'travel_time': 7.2}
+329 215 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 20.5}
+514 251 {'maxspeed': '10 mph', 'travel_time': 23.9}
+37 38 {'travel_time': 4.5}
+37 215 {'lanes': '2', 'maxspeed': '30 mph', 'travel_time': 5.4}
+38 215 {'travel_time': 3.9}
+38 216 {'travel_time': 6.6}
+608 245 {'bridge': 'yes', 'travel_time': 7.7}
+201 202 {'maxspeed': '30 mph', 'travel_time': 19.4}
+21 22 {'travel_time': 12.2}
+292 293 {'travel_time': 17.4}
+203 203 {'travel_time': 63.4}
+203 204 {'travel_time': 24.8}
+65 66 {'bridge': 'yes', 'lanes': '2', 'travel_time': 22.4}
+568 569 {'travel_time': 11.4}
+568 261 {'travel_time': 7.9}
+341 342 {'travel_time': 18.0}
+569 262 {'travel_time': 7.9}
+569 212 {'travel_time': 8.1}
+192 193 {'travel_time': 11.5}
+204 205 {'travel_time': 11.7}
+293 147 {'maxspeed': '25 mph', 'travel_time': 7.6}
+0 1 {'travel_time': 11.7}
+0 298 {'ref': 'NY 79', 'travel_time': 21.8}
+0 299 {'ref': 'NY 79', 'travel_time': 37.5}
+205 206 {'travel_time': 1.3}
+206 207 {'travel_time': 23.5}
+595 596 {'travel_time': 1.9}
+595 597 {'lanes': '1', 'travel_time': 3.1}
+395 396 {'travel_time': 2.7}
+596 598 {'travel_time': 2.3}
+597 598 {'travel_time': 3.8}
+396 397 {'travel_time': 9.5}
+397 398 {'travel_time': 10.7}
+255 269 {'travel_time': 1.9}
+255 145 {'travel_time': 14.3}
+399 321 {'travel_time': 10.5}
+256 257 {'maxspeed': '25 mph', 'travel_time': 8.9}
+256 466 {'lanes': '2', 'ref': 'NY 79', 'maxspeed': '30 mph', 'travel_time': 7.1}
+257 258 {'maxspeed': '25 mph', 'travel_time': 12.7}
+258 259 {'maxspeed': '25 mph', 'travel_time': 11.0}
+258 250 {'maxspeed': '30 mph', 'travel_time': 6.6}
+258 467 {'maxspeed': '30 mph', 'travel_time': 7.2}
+106 107 {'travel_time': 5.2}
+259 251 {'maxspeed': '10 mph', 'travel_time': 22.6}
+259 468 {'travel_time': 9.8}
+67 68 {'access': 'yes', 'travel_time': 28.4}
+260 261 {'maxspeed': '25 mph', 'travel_time': 11.4}
+261 262 {'maxspeed': '25 mph', 'travel_time': 11.4}
+261 469 {'travel_time': 8.7}
+262 263 {'maxspeed': '25 mph', 'travel_time': 11.4}
+262 470 {'travel_time': 8.8}
+263 264 {'maxspeed': '25 mph', 'travel_time': 11.4}
+546 547 {'travel_time': 1.0}
+546 549 {'travel_time': 1.2}
+547 548 {'travel_time': 1.2}
+548 549 {'travel_time': 0.9}
+264 265 {'maxspeed': '25 mph', 'travel_time': 6.6}
+235 236 {'travel_time': 4.4}
+235 69 {'ref': 'CR 119', 'travel_time': 28.4}
+273 274 {'travel_time': 9.0}
+265 266 {'maxspeed': '25 mph', 'travel_time': 4.8}
+265 471 {'travel_time': 8.9}
+266 267 {'maxspeed': '25 mph', 'travel_time': 6.1}
+236 237 {'travel_time': 8.4}
+267 268 {'maxspeed': '25 mph', 'travel_time': 7.2}
+268 269 {'travel_time': 7.4}
+522 523 {'travel_time': 7.0}
+269 472 {'travel_time': 7.1}
+447 214 {'travel_time': 23.1}
+208 209 {'travel_time': 4.0}
+481 482 {'travel_time': 18.9}
+481 299 {'travel_time': 21.5}
+481 217 {'travel_time': 8.0}
+294 295 {'ref': 'NY 79', 'travel_time': 28.4}
+275 145 {'travel_time': 6.5}
+238 239 {'travel_time': 5.4}
+209 210 {'travel_time': 15.8}
+524 455 {'travel_time': 9.2}
+239 240 {'travel_time': 20.7}
+454 500 {'travel_time': 3.5}
+454 149 {'travel_time': 11.2}
+462 150 {'travel_time': 10.9}
+462 151 {'travel_time': 28.1}
+212 360 {'travel_time': 10.2}
+295 296 {'ref': 'NY 79', 'travel_time': 10.5}
+240 241 {'travel_time': 11.1}
+241 242 {'travel_time': 8.3}
+250 251 {'travel_time': 15.4}
+321 322 {'travel_time': 8.9}
+322 323 {'travel_time': 9.1}
+296 297 {'ref': 'NY 79', 'travel_time': 12.6}
+243 244 {'travel_time': 3.8}
+244 245 {'travel_time': 13.0}
+297 298 {'ref': 'NY 79', 'travel_time': 8.5}
+467 468 {'travel_time': 6.5}
+469 470 {'travel_time': 11.4}
+144 145 {'travel_time': 16.0}
+299 300 {'ref': 'NY 79', 'travel_time': 6.8}
+146 151 {'travel_time': 6.4}
+213 214 {'travel_time': 24.0}
+300 217 {'travel_time': 8.3}
+147 148 {'maxspeed': '30 mph', 'travel_time': 7.8}
+347 348 {'travel_time': 8.4}
+565 566 {'travel_time': 6.8}
+348 349 {'travel_time': 1.1}
+148 149 {'maxspeed': '30 mph', 'travel_time': 4.3}
+214 215 {'travel_time': 27.2}
+149 150 {'travel_time': 1.5}
+169 170 {'travel_time': 4.9}
+150 151 {'travel_time': 12.9}
+170 170 {'travel_time': 5.5}
+170 170 {'travel_time': 5.5}
+216 217 {'travel_time': 47.0}
