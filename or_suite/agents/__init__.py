@@ -1,5 +1,4 @@
-from or_suite.agents.rl.random import *
-from or_suite.agents.rl.enet_ql import *
-from or_suite.agents.rl.enet_mb import *
-from or_suite.agents.rl.ada_ql import *
-from or_suite.agents.rl.ada_mb import *
+from or_suite.agents.agent import *
+import or_suite.agents.rl
+import or_suite.agents.ambulance
+import or_suite.agents.resource_allocation
