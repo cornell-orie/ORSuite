@@ -7,24 +7,23 @@ import math
 from .. import env_configs
 
 
-
-
 class FiniteBanditEnvironment(gym.Env):
-  """
-  Custom Environment that follows gym interface.
-  This is a simple env for a finite armed bandit problem
-  """
+    """
+    Custom Environment that follows gym interface.
 
-  metadata = {'render.modes': ['human']}
+    This is a simple env for a finite armed bandit problem.
+    """
 
+    metadata = {'render.modes': ['human']}
 
-  def __init__(self, config=env_configs.finite_bandit_default_config):
-        '''
+    def __init__(self, config=env_configs.finite_bandit_default_config):
+        """
         For a more detailed description of each parameter, see the readme file
-        
-        epLen - number of time steps
-        arm_means - means for each of the arms
-        '''
+
+        Args:
+            epLen: The number of time steps.
+            arm_means: The means for each of the arms.
+        """
         super(FiniteBanditEnvironment, self).__init__()
 
         self.config = config
@@ -35,12 +34,12 @@ class FiniteBanditEnvironment(gym.Env):
         self.action_space = spaces.Discrete(len(self.arm_means))
 
         # The definition of the observation space is the same as the action space
-        self.observation_space = spaces.MultiDiscrete(np.ones((len(self.arm_means)))*self.epLen)
+        self.observation_space = spaces.MultiDiscrete(
+            np.ones((len(self.arm_means)))*self.epLen)
         self.starting_state = np.zeros((len(self.arm_means)))
         self.state = self.starting_state
 
-
-  def reset(self):
+    def reset(self):
         """
         Reinitializes variables and returns the starting state
         """
@@ -50,29 +49,30 @@ class FiniteBanditEnvironment(gym.Env):
 
         return self.starting_state
 
-  def get_config(self):
-      return self.config
+    def get_config(self):
+        return self.config
 
-  def step(self, action):
-        '''
+    def step(self, action):
+        """
         Move one step in the environment
 
         Args:
-        action - arm to pull
+        action: The arm to pull.
+
         Returns:
-            reward - float - reward based on the action chosen
-            newState - list - new state of the system
-            done - 0/1 - flag for end of the episode
-        '''
+            reward: A float; The reward based on the action chosen.
+            newState: A list; The new state of the system.
+            done: 0 or 1. The flag for end of the episode.
+        """
         old_state = self.state
 
-        # Update the state of the system according to the action taken and change 
+        # Update the state of the system according to the action taken and change
         old_state[action] += 1
         newState = old_state
 
         reward = np.random.binomial(1, self.arm_means[action])
 
-        info = {'reward' : reward}
+        info = {'reward': reward}
 
         if self.timestep != self.epLen - 1:
             done = False
@@ -84,11 +84,9 @@ class FiniteBanditEnvironment(gym.Env):
 
         return self.state, reward,  done, info
 
+    def render(self, mode='console'):
+        if mode != 'console':
+            raise NotImplementedError()
 
-  def render(self, mode='console'):
-    if mode != 'console':
-      raise NotImplementedError()
-
-  def close(self):
-    pass
-
+    def close(self):
+        pass

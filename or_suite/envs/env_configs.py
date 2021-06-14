@@ -1,8 +1,8 @@
-'''
+"""
 
 File containing default configurations for the various environments implemented in ORSuite.
 
-'''
+"""
 
 import numpy as np
 import os

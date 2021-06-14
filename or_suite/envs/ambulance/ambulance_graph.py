@@ -1,6 +1,4 @@
-'''
-Implementation of an RL environment in a discrete graph space.
-'''
+"""Implementation of an RL environment in a discrete graph space."""
 
 import numpy as np
 import gym
@@ -10,13 +8,12 @@ import math
 
 from .. import env_configs
 
-#------------------------------------------------------------------------------
-'''An ambulance environment over a simple graph.  An agent interacts through 
+# ------------------------------------------------------------------------------
+"""An ambulance environment over a simple graph.  An agent interacts through 
 the environment by [EXPLAIN HOW ENVIRONMENT WORKS HERE] the ambulance.  Then 
 a patient arrives and the ambulance most go and serve the arrival, paying a 
-cost of travel.'''
-
-
+cost of travel.
+"""
 
 
 class AmbulanceGraphEnvironment(gym.Env):
@@ -29,50 +26,49 @@ class AmbulanceGraphEnvironment(gym.Env):
     from each ambulance to the call, and choosing the ambulance with the minimum 
     length path. The calls arrive according to a prespecified iid probability 
     distribution that can change over time.
-    
+
     Methods:
-        reset() : resets the environment to its original settings
-        get_config() : returns the config dictionary used to initialize the environment
-        step(action) : takes an action from the agent and returns the state of the system after the next arrival
-        render(mode) : (UNIMPLEMENTED) renders the environment in the mode passed in; 'human' is the only mode currently supported
-        close() : (UNIMPLEMENTED) closes the window where the rendering is being drawn
+        reset() : Resets the environment to its original settings.
+        get_config() : Returns the config dictionary used to initialize the environment.
+        step(action) : Takes an action from the agent and returns the state of the system after the next arrival.
+        render(mode) : (UNIMPLEMENTED) Renders the environment in the mode passed in; 'human' is the only mode currently supported.
+        close() : (UNIMPLEMENTED) Closes the window where the rendering is being drawn.
 
     Attributes:
-        epLen: (int) number of time steps to run the experiment for
-        arrival_dist: (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space
-        alpha: (float) parameter controlling proportional difference in cost to move between calls and to respond to a call
-        from_data: (bool) indicator for whether the arrivals will be read from data or randomly generated
-        arrival_data: (int list) only used if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space
-        episode_num: (int) the current episode number, increments every time the environment is reset
-        graph: (networkx Graph) a graph representing the observation space
-        num_nodes: (int) the number of nodes in the graph
-        state: (int list) the current state of the environment
-        timestep: (int) the timestep the current episode is on
-        lengths: (float matrix) symmetric matrix containing the distance between each pair of nodes
-        starting_state: (int list) a list containing the starting locations for each ambulance
-        num_ambulance: (int) the number of ambulances in the environment 
-        action_space: (Gym.spaces MultiDiscrete) actions must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph
-        observation_space: (Gym.spaces MultiDiscrete) the environment state must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph
-  
+        epLen: The int number of time steps to run the experiment for.
+        arrival_dist: A lambda arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.
+        alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.
+        from_data: A bool indicator for whether the arrivals will be read from data or randomly generated.
+        arrival_data: An int list only used if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space.
+        episode_num: The (int) current episode number, increments every time the environment is reset.
+        graph: A networkx Graph representing the observation space.
+        num_nodes: The (int) number of nodes in the graph.
+        state: An int list representing the current state of the environment.
+        timestep: The (int) timestep the current episode is on.
+        lengths: A symmetric float matrix containing the distance between each pair of nodes.
+        starting_state: An int list containing the starting locations for each ambulance.
+        num_ambulance: The (int) number of ambulances in the environment.
+        action_space: (Gym.spaces MultiDiscrete) Actions must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph.
+        observation_space: (Gym.spaces MultiDiscrete) The environment state must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph.
+
     """
 
     metadata = {'render.modes': ['human']}
 
-
     def __init__(self, config=env_configs.ambulance_graph_default_config):
-        '''
+        """
         Args: 
-        config: (dict) a dictionary containing the parameters required to set up a metric ambulance environment
-            epLen: (int) number of time steps to run the experiment for
-            arrival_dist: (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space
-            alpha: (float) parameter controlling proportional difference in cost to move between calls and to respond to a call
-            from_data: (bool) indicator for whether the arrivals will be read from data or randomly generated
-            data: (int list) only needed if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space
-            edges: (tuple list) a list of tuples, each tuple corresponds to an edge in the graph. The tuples are of the form (int1, int2, {'travel_time': int3}). int1 and int2 are the two endpoints of the edge, and int3 is the time it takes to travel from one endpoint to the other
-            starting_state: (int list) a list containing the starting locations for each ambulance
-            num_ambulance: (int) the number of ambulances in the environment 
+        config: A dictionary (dict) containing the parameters required to set up a metric ambulance environment.
+            epLen: The (int) number of time steps to run the experiment for.
+            arrival_dist: A (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.
+            alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.
+            from_data: A bool indicator for whether the arrivals will be read from data or randomly generated.
+            data: An int list only needed if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space.
+            edges: A tuple list where each tuple corresponds to an edge in the graph. The tuples are of the form (int1, int2, {'travel_time': int3}). int1 and int2 are the two endpoints of the edge, and int3 is the time it takes to travel from one endpoint to the other.
+            starting_state: An int list containing the starting locations for each ambulance.
+            num_ambulance: The (int) number of ambulances in the environment.
 
-        '''
+        """
         super(AmbulanceGraphEnvironment, self).__init__()
 
         self.config = config
@@ -88,13 +84,11 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         self.from_data = config['from_data']
 
-
         self.lengths = self.find_lengths(self.graph, self.num_nodes)
 
         if self.from_data:
             self.arrival_data = config['data']
             self.episode_num = 0
-
 
         # Creates an array stored in space_array the length of the number of ambulances
         # where every entry is the number of nodes in the graph
@@ -107,17 +101,13 @@ class AmbulanceGraphEnvironment(gym.Env):
         # The definition of the observation space is the same as the action space
         self.observation_space = spaces.MultiDiscrete(space_array)
 
-
     def reset(self):
-        """
-        Reinitializes variables and returns the starting state
-        """
+        """Reinitializes variables and returns the starting state."""
         self.timestep = 0
         self.state = self.starting_state
 
         if self.from_data:
             self.episode_num += 1
-
 
         return self.starting_state
 
@@ -125,34 +115,36 @@ class AmbulanceGraphEnvironment(gym.Env):
         return self.config
 
     def step(self, action):
-        '''
-        Move one step in the environment
+        """
+        Move one step in the environment.
 
         Args:
-            action: (int list) list of nodes the same length as the number of ambulances,
-            where each entry i in the list corresponds to the chosen location for 
-            ambulance i
+            action: An int list of nodes the same length as the number of ambulances,
+                where each entry i in the list corresponds to the chosen location for 
+                ambulance i.
         Returns:
-            reward: (float) reward based on the action chosen
-            newState: (int list) the state of the environment after the action and call arrival
-            done: (bool) flag indicating the end of the episode
-        '''
+            reward: A float representing the reward based on the action chosen.
+            newState: An int list representing the state of the environment after the action and call arrival.
+            done: A bool flag indicating the end of the episode.
+        """
 
         assert self.action_space.contains(action)
 
         old_state = self.state
 
-        # The location of the new arrival is chosen randomly from among the nodes 
+        # The location of the new arrival is chosen randomly from among the nodes
         # in the graph according to the arrival distribution
         prob_list = []
         if self.from_data:
-            dataset_step = (self.episode_num * self.epLen + self.timestep) % len(self.arrival_data)
-            prob_list = self.arrival_dist(dataset_step, self.num_nodes, self.arrival_data)
+            dataset_step = (self.episode_num * self.epLen +
+                            self.timestep) % len(self.arrival_data)
+            prob_list = self.arrival_dist(
+                dataset_step, self.num_nodes, self.arrival_data)
         else:
             prob_list = self.arrival_dist(self.timestep, self.num_nodes)
         new_arrival = np.random.choice(self.num_nodes, p=prob_list)
 
-        # Finds the distance traveled by all the ambulances from the old state to 
+        # Finds the distance traveled by all the ambulances from the old state to
         # the chosen action, assuming that each ambulance takes the shortest path,
         # which is stored in total_dist_oldstate_to_action
         # Also finds the closest ambulance to the call based on their locations at
@@ -164,9 +156,11 @@ class AmbulanceGraphEnvironment(gym.Env):
         total_dist_oldstate_to_action = 0
 
         for amb_idx in range(len(action)):
-            new_length = nx.shortest_path_length(self.graph, action[amb_idx], new_arrival, weight='travel_time')
+            new_length = nx.shortest_path_length(
+                self.graph, action[amb_idx], new_arrival, weight='travel_time')
 
-            total_dist_oldstate_to_action += nx.shortest_path_length(self.graph, self.state[amb_idx], action[amb_idx], weight='dist')
+            total_dist_oldstate_to_action += nx.shortest_path_length(
+                self.graph, self.state[amb_idx], action[amb_idx], weight='dist')
 
             if new_length < shortest_length:
                 shortest_length = new_length
@@ -175,7 +169,7 @@ class AmbulanceGraphEnvironment(gym.Env):
             else:
                 continue
 
-        # Update the state of the system according to the action taken and change 
+        # Update the state of the system according to the action taken and change
         # the location of the closest ambulance to the call to the call location
         newState = np.array(action)
         newState[closest_amb_idx] = new_arrival
@@ -183,14 +177,15 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         # The reward is a linear combination of the distance traveled to the action
         # and the distance traveled to the call
-        # alpha controls the tradeoff between cost to travel between arrivals and 
+        # alpha controls the tradeoff between cost to travel between arrivals and
         # cost to travel to a call
         # The reward is negated so that maximizing it will minimize the distance
-        reward = -1 * (self.alpha * total_dist_oldstate_to_action + (1 - self.alpha) * shortest_length)
+        reward = -1 * (self.alpha * total_dist_oldstate_to_action +
+                       (1 - self.alpha) * shortest_length)
 
         # The info dictionary is used to pass the location of the most recent arrival
         # so it can be used by the agent
-        info = {'arrival' : new_arrival}
+        info = {'arrival': new_arrival}
 
         if self.timestep != (self.epLen-1):
             done = False
@@ -204,7 +199,6 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         return self.state, reward,  done, info
 
-
     def render(self, mode='console'):
         if mode != 'console':
             raise NotImplementedError()
@@ -212,14 +206,13 @@ class AmbulanceGraphEnvironment(gym.Env):
     def close(self):
         pass
 
-
-
     def find_lengths(self, graph, num_nodes):
-        '''
+        """
         Given a graph, find_lengths first calculates the pairwise shortest distance 
         between all the nodes, which is stored in a (symmetric) matrix.
-        '''
-        dict_lengths = dict(nx.all_pairs_dijkstra_path_length(graph, cutoff=None, weight='travel_time'))
+        """
+        dict_lengths = dict(nx.all_pairs_dijkstra_path_length(
+            graph, cutoff=None, weight='travel_time'))
         lengths = np.zeros((num_nodes, num_nodes))
 
         for node1 in range(num_nodes):
