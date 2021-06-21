@@ -10,6 +10,8 @@ Welcome to ORSuite's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   envs
+
 
 
 Indices and tables
