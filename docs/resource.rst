@@ -1,4 +1,10 @@
-Resource Allocation Documentation
+Resource Allocation Environments
 =================================
 
-.. automodule:: ../or_suite/envs/resource_allocation/discrete_resource_allocation
+.. toctree::
+  :maxdepth: 4
+
+  discrete_resource_allocation
+  resource_allocation_discrete
+  resource_allocation_donations
+  resource_allocation

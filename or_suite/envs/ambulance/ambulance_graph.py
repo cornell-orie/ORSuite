@@ -1,4 +1,10 @@
-"""Implementation of an RL environment in a discrete graph space."""
+"""Implementation of an RL environment in a discrete graph space.
+
+An ambulance environment over a simple graph.  An agent interacts through 
+the environment by [EXPLAIN HOW ENVIRONMENT WORKS HERE] the ambulance.  Then 
+a patient arrives and the ambulance most go and serve the arrival, paying a 
+cost of travel.
+"""
 
 import numpy as np
 import gym
@@ -9,11 +15,6 @@ import math
 from .. import env_configs
 
 # ------------------------------------------------------------------------------
-"""An ambulance environment over a simple graph.  An agent interacts through 
-the environment by [EXPLAIN HOW ENVIRONMENT WORKS HERE] the ambulance.  Then 
-a patient arrives and the ambulance most go and serve the arrival, paying a 
-cost of travel.
-"""
 
 
 class AmbulanceGraphEnvironment(gym.Env):
@@ -26,13 +27,6 @@ class AmbulanceGraphEnvironment(gym.Env):
     from each ambulance to the call, and choosing the ambulance with the minimum 
     length path. The calls arrive according to a prespecified iid probability 
     distribution that can change over time.
-
-    Methods:
-        reset() : Resets the environment to its original settings.
-        get_config() : Returns the config dictionary used to initialize the environment.
-        step(action) : Takes an action from the agent and returns the state of the system after the next arrival.
-        render(mode) : (UNIMPLEMENTED) Renders the environment in the mode passed in; 'human' is the only mode currently supported.
-        close() : (UNIMPLEMENTED) Closes the window where the rendering is being drawn.
 
     Attributes:
         epLen: The int number of time steps to run the experiment for.
@@ -67,7 +61,6 @@ class AmbulanceGraphEnvironment(gym.Env):
             edges: A tuple list where each tuple corresponds to an edge in the graph. The tuples are of the form (int1, int2, {'travel_time': int3}). int1 and int2 are the two endpoints of the edge, and int3 is the time it takes to travel from one endpoint to the other.
             starting_state: An int list containing the starting locations for each ambulance.
             num_ambulance: The (int) number of ambulances in the environment.
-
         """
         super(AmbulanceGraphEnvironment, self).__init__()
 
@@ -123,6 +116,7 @@ class AmbulanceGraphEnvironment(gym.Env):
                 where each entry i in the list corresponds to the chosen location for 
                 ambulance i.
         Returns:
+            float, int, bool:
             reward: A float representing the reward based on the action chosen.
             newState: An int list representing the state of the environment after the action and call arrival.
             done: A bool flag indicating the end of the episode.

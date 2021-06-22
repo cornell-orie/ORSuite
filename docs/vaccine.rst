@@ -1,4 +1,8 @@
-Vaccine AllotmentDocumentation
-=================================
+Vaccine Allotment Environments
+==============================
 
-.. automodule:: ../or_suite/envs/vaccine_allotment/dynamics_model_4groups
+.. toctree::
+  :maxdepth: 3
+
+  dynamics_model
+  vacc4_groups

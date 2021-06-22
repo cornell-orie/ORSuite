@@ -1,4 +1,5 @@
 Ambulance Graph Documentation
 =============================
 
-.. automodule:: ../or_suite/envs/ambulance/ambulance_graph
+.. automodule:: or_suite.envs.ambulance.ambulance_graph
+  :members:
