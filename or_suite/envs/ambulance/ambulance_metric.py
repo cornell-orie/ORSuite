@@ -3,7 +3,6 @@ Implementation of a basic RL environment for continuous spaces.
 Includes three test problems which were used in generating the figures.
 """
 
-import rendering
 import pyglet
 import time
 import numpy as np
@@ -11,7 +10,7 @@ import gym
 from gym import spaces
 import math
 from .. import env_configs
-# from gym.envs.classic_control import rendering
+from gym.envs.classic_control import rendering
 # import pyglet
 import os
 import sys
