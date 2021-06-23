@@ -8,6 +8,5 @@ Agents
   resource_allocation_agent
   rl_agent
 
-
 .. automodule:: or_suite.agents.agent
   :members:
