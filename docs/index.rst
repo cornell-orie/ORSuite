@@ -12,6 +12,7 @@ Welcome to ORSuite's documentation!
 
    envs
    agents
+   experiments
 
 
 
