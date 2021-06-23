@@ -11,6 +11,7 @@ Welcome to ORSuite's documentation!
    :caption: Contents:
 
    envs
+   agents
 
 
 
