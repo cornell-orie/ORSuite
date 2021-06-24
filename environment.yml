@@ -3,5 +3,19 @@ channels:
   - defaults
 dependencies:
   - python=3.8.5
+  - pip:
+    - gym
+    - numpy
+    - pandas
+    - networkx
+    - scipy
+    - matplotlib
+    - seaborn
+    - jupyter
+    - scikit-learn
+    - scikit-learn-extra
+    - stable-baselines3
+    - cvxpy
+    - pyglet==1.5.16
 prefix: /Users/davidwolfers/opt/anaconda3/envs/ORSuite
 
