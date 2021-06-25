@@ -2,21 +2,21 @@ name: ORSuite
 channels:
   - defaults
 dependencies:
-  - ca-certificates=2021.5.25=hecd8cb5_1
-  - certifi=2021.5.30=py38hecd8cb5_0
-  - libcxx=10.0.0=1
-  - libffi=3.3=hb1e8313_2
-  - ncurses=6.2=h0a44026_1
-  - openssl=1.1.1k=h9ed2024_0
-  - pip=21.1.1=py38hecd8cb5_0
-  - python=3.8.5=h26836e1_1
-  - readline=8.1=h9ed2024_0
-  - setuptools=52.0.0=py38hecd8cb5_0
-  - sqlite=3.35.4=hce871da_0
-  - tk=8.6.10=hb0a8c7a_0
-  - wheel=0.36.2=pyhd3eb1b0_0
-  - xz=5.2.5=h1de35cc_0
-  - zlib=1.2.11=h1de35cc_3
+  - ca-certificates=2021.5.25
+  - certifi=2021.5.30
+  - libcxx=10.0.0
+  - libffi=3.3
+  - ncurses=6.2
+  - openssl=1.1.1k
+  - pip=21.1.1
+  - python=3.8.5
+  - readline=8.1
+  - setuptools=52.0.0
+  - sqlite=3.35.4
+  - tk=8.6.10
+  - wheel=0.36.2
+  - xz=5.2.5
+  - zlib=1.2.11
   - pip:
     - cvxpy==1.1.13
     - gym==0.18.3
@@ -40,19 +40,5 @@ dependencies:
     - sphinxcontrib-qthelp==1.0.3
     - sphinxcontrib-serializinghtml==1.1.5
     - stable-baselines3==1.0
-    - setuptools==52.0.0=py38hecd8cb5_0
-    - pip==21.1.1=py38hecd8cb5_0
-    - libffi==3.3=hb1e8313_2
-    - certifi==2021.5.30=py38hecd8cb5_0
-    - readline==8.1=h9ed2024_0
-    - ca-certificates==2021.5.25=hecd8cb5_1
-    - libcxx==10.0.0=1
-    - xz==5.2.5=h1de35cc_0
-    - sqlite==3.35.4=hce871da_0
-    - python==3.8.5=h26836e1_1
-    - openssl==1.1.1k=h9ed2024_0
-    - zlib==1.2.11=h1de35cc_3
-    - ncurses==6.2=h0a44026_1
-    - tk==8.6.10=hb0a8c7a_0
 prefix: /Users/davidwolfers/opt/anaconda3/envs/ORSuite
 
