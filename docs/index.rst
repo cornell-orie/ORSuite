@@ -5,16 +5,20 @@
 
 Welcome to ORSuite's documentation!
 ===================================
+.. toctree::
+   :maxdepth: 1
+   :caption: Important Files:
+
+   readme
+   contribution_guide
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    envs
    agents
    experiments
-
-
 
 Indices and tables
 ==================

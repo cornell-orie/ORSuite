@@ -10,3 +10,4 @@ Agents
 
 .. automodule:: or_suite.agents.agent
   :members:
+  :undoc-members:
