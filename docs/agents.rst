@@ -9,5 +9,6 @@ Agents
   rl_agent
 
 .. automodule:: or_suite.agents.agent
-  :members: 
+  :members:
   :undoc-members:
+  :special-members: __init__
