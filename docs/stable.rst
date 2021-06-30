@@ -1,5 +1,5 @@
-Stable Agent Documentation
-================================
+Stable Agent
+============
 
 .. automodule:: or_suite.agents.ambulance.stable
   :members:

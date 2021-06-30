@@ -1,5 +1,5 @@
-Equal Allocation Agent Documentation
-=====================================
+Equal Allocation Agent
+======================
 
 .. automodule:: or_suite.agents.resource_allocation.equal_allocation
   :members:

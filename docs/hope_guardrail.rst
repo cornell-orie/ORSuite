@@ -1,5 +1,5 @@
-Hope Guardrail Agent Documentation
-=====================================
+Hope Guardrail Agent
+====================
 
 .. automodule:: or_suite.agents.resource_allocation.hope_guardrail
   :members:

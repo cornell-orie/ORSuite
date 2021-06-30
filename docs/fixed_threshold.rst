@@ -1,5 +1,5 @@
-Fixed Threshold Agent Documentation
-=====================================
+Fixed Threshold Agent
+=====================
 
 .. automodule:: or_suite.agents.resource_allocation.fixed_threshold
   :members:

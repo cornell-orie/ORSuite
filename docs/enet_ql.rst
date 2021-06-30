@@ -1,5 +1,5 @@
-eNET QL Agent Documentation
-============================
+eNET QL Agent
+=============
 
 .. automodule:: or_suite.agents.rl.enet_ql
   :members:

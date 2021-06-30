@@ -1,5 +1,5 @@
-Random Agent Documentation
-=====================================
+Random Agent
+============
 
 .. automodule:: or_suite.agents.rl.random
   :members:

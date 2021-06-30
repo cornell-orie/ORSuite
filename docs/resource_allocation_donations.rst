@@ -1,5 +1,5 @@
-Resource Allocatoin Donations Documentation
-============================================
+Resource Allocation Donations
+=============================
 
 .. automodule:: or_suite.envs.resource_allocation.resource_allocation_donations
   :members:
