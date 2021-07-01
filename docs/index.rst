@@ -20,6 +20,16 @@ Welcome to ORSuite's documentation!
    agents
    experiments
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Problem Notebooks:
+
+   ambulance_routing_readme
+   bandit_readme
+   resource_allocation_readme
+   vaccine_allocation_readme
+
+
 Indices and tables
 ==================
 
