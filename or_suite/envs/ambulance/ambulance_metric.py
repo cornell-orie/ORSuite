@@ -3,7 +3,7 @@ Implementation of a basic RL environment for continuous spaces.
 Includes three test problems which were used in generating the figures.
 """
 
-import rendering
+# import rendering
 import pyglet
 import time
 import numpy as np
@@ -11,7 +11,7 @@ import gym
 from gym import spaces
 import math
 from .. import env_configs
-# from gym.envs.classic_control import rendering
+from gym.envs.classic_control import rendering
 # import pyglet
 import os
 import sys
@@ -31,11 +31,11 @@ class AmbulanceEnvironment(gym.Env):
     """
     A 1-dimensional reinforcement learning environment in the space $X = [0, 1]$.
 
-    Ambulances are located anywhere in $X = [0,1]$, and at the beginning of each 
+    Ambulances are located anywhere in $X = [0,1]$, and at the beginning of each
     iteration, the agent chooses where to station each ambulance (the action).
     A call arrives, and the nearest ambulance goes to the location of that call.
 
-    Methods: 
+    Methods:
       reset() : Resets the environment to its original settings.
       get_config() : Returns the config dictionary used to initialize the environment.
       step(action) : Takes an action from the agent and returns the state of the system after the next arrival.
@@ -60,7 +60,7 @@ class AmbulanceEnvironment(gym.Env):
 
     def __init__(self, config=env_configs.ambulance_metric_default_config):
         """
-        Args: 
+        Args:
         config: A (dict) dictionary containing the parameters required to set up a metric ambulance environment.
             epLen: The (int) number of time steps to run the experiment for.
             arrival_dist: A (lambda) arrival distribution for calls over the space [0,1]; takes an integer (step) and returns a float between 0 and 1.
@@ -109,8 +109,8 @@ class AmbulanceEnvironment(gym.Env):
         Move one step in the environment.
 
         Args:
-            action: A float list of locations in [0,1] the same length as the 
-            number of ambulances, where each entry i in the list corresponds to the 
+            action: A float list of locations in [0,1] the same length as the
+            number of ambulances, where each entry i in the list corresponds to the
             chosen location for ambulance i.
         Returns:
             reward: A float representing the reward based on the action chosen.
