@@ -2,18 +2,19 @@ import numpy as np
 from .. import Agent
 
 
-''' Agent which implements several heuristic algorithms'''
+""" Agent which implements several heuristic algorithms"""
 
 
 class equalAllocationAgent(Agent):
 
     def __init__(self, epLen, env_config):
-        '''args:
-            epLen - number of steps
-            func - function used to decide action
-            env_config - parameters used in initialization of environment
-            data - all data observed so far
-        '''
+        """
+        Args:
+            epLen: number of steps
+            func: function used to decide action
+            env_config: parameters used in initialization of environment
+            data: all data observed so far
+        """
         self.env_config = env_config
 
         self.num_types = env_config['weight_matrix'].shape[0]
@@ -33,7 +34,7 @@ class equalAllocationAgent(Agent):
         Only need to run this once to get expectations for all locations
 
         Returns: 
-        rel_exp_endowments: matrix containing expected proportion of endowments for location t
+            matrix: rel_exp_endowments: matrix containing expected proportion of endowments for location t
         """
         num_types = self.env_config['weight_matrix'].shape[0]
         exp_size = np.zeros((num_types, self.env_config['num_rounds']))

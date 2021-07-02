@@ -9,11 +9,12 @@ from .. import Agent
 class hopeguardrailAgent(Agent):
 
     def __init__(self, epLen, env_config, scale):
-        '''args:
-            epLen - number of steps
-            func - function used to decide action
-            env_config - parameters used in initialization of environment
-            data - all data observed so far
+        '''
+        Args:
+            epLen: number of steps
+            func: function used to decide action
+            env_config: parameters used in initialization of environment
+            data: all data observed so far
         '''
 
         self.env_config = env_config
@@ -73,7 +74,7 @@ class hopeguardrailAgent(Agent):
 
     def get_lower_upper_sol(self, init_sizes):
         """
-        uses solver to get the lower and upper
+        Uses solver to get the lower and upper
         """
         budget = self.env_config['init_budget']
         weights = self.env_config['weight_matrix']
@@ -108,7 +109,7 @@ class hopeguardrailAgent(Agent):
         Only need to run this once to get expectations for all locations
 
         Returns: 
-        rel_exp_endowments: matrix containing expected proportion of endowments for location t
+            rel_exp_endowments - matrix containing expected proportion of endowments for location t
         """
         num_types = self.env_config['weight_matrix'].shape[0]
         exp_size = np.zeros((num_types, self.env_config['num_rounds']))

@@ -9,15 +9,11 @@ from .. import Agent
 class median_sklearnAgent(Agent):
     """
     Agent that implements a k-medoid heuristic algorithm for the metric ambulance environment
-    
+
     Methods:
-        reset() : clears data and call_locs which contain data on what has occurred so far in the environment
+        reset() : Clears data and call_locs which contain data on what has occurred so far in the environment
         update_config() : (UNIMPLEMENTED)
-        update_obs(obs, action, reward, newObs, timestep, info) : 
-            adds newObs, the most recently observed state, to data
-            adds the most recent call arrival, found in info['arrival'] to call_locs
-        update_policy() : not used, because a greedy algorithm does not have a policy
-        pick_action(state, step) : locations are chosen by finding the k-medoids in the 
+        pick_action(state, step) : Locations are chosen by finding the k-medoids in the 
             accumulated arrival data, where k is the number of ambulances, using 
             sci-kit learn's k-medoids algorithm
 
@@ -25,14 +21,14 @@ class median_sklearnAgent(Agent):
         epLen: (int) number of time steps to run the experiment for
         data: (float list list) a list of all the states of the environment observed so far
         call_locs: (float list) the locations of all calls observed so far
-    
+
     """
 
     def __init__(self, epLen):
         """
         Args:
             epLen: (int) number of time steps to run the experiment for
-        
+
         """
         self.epLen = epLen
         self.data = []
@@ -44,7 +40,8 @@ class median_sklearnAgent(Agent):
         self.call_locs = []
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Add observation to records'''
+        '''Adds newObs, the most recently observed state, to data
+            adds the most recent call arrival, found in info['arrival'] to call_locs.'''
 
         # Adds the most recent state obesrved in the environment to data
         self.data.append(newObs)
@@ -54,11 +51,12 @@ class median_sklearnAgent(Agent):
         return
 
     def update_policy(self, k):
-        '''Update internal policy based upon records'''
+        '''Update internal policy based upon records.
+
+        Not used, because a greedy algorithm does not have a policy.'''
 
         # Greedy algorithm does not update policy
         self.greedy = self.greedy
-
 
     def greedy(self, state, timestep, epsilon=0):
         """
@@ -71,14 +69,14 @@ class median_sklearnAgent(Agent):
         num_ambulance = len(self.data[0])
         action = []
         if len(self.call_locs) > num_ambulance:
-            reshaped_call_locs = np.asarray(self.call_locs).reshape(-1,1)
-            clusters = sklearn_extra.cluster.KMedoids(n_clusters=num_ambulance, max_iter=50).fit(reshaped_call_locs)
+            reshaped_call_locs = np.asarray(self.call_locs).reshape(-1, 1)
+            clusters = sklearn_extra.cluster.KMedoids(
+                n_clusters=num_ambulance, max_iter=50).fit(reshaped_call_locs)
             action = np.asarray(clusters.cluster_centers_).reshape(-1,)
         else:
             action = np.full(num_ambulance, np.median(self.call_locs))
-            
-        return action
 
+        return action
 
     def pick_action(self, state, step):
         action = self.greedy(state, step)

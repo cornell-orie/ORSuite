@@ -6,12 +6,14 @@ import networkx as nx
 import sys
 from .. import Agent
 
+
 def find_lengths(graph, num_nodes):
     """
     Given a graph, find_lengths first calculates the pairwise shortest distance 
     between all the nodes, which is stored in a (symmetric) matrix.
     """
-    dict_lengths = dict(nx.all_pairs_dijkstra_path_length(graph, cutoff=None, weight='travel_time'))
+    dict_lengths = dict(nx.all_pairs_dijkstra_path_length(
+        graph, cutoff=None, weight='travel_time'))
     lengths = np.zeros((num_nodes, num_nodes))
 
     for node1 in range(num_nodes):
@@ -24,15 +26,11 @@ def find_lengths(graph, num_nodes):
 class medianAgent(Agent):
     """
     Agent that implements a median-like heuristic algorithm for the graph ambulance environment
-    
+
     Methods:
-        reset() : clears data and call_locs which contain data on what has occurred so far in the environment
+        reset() :Clears data and call_locs which contain data on what has occurred so far in the environment
         update_config() : (UNIMPLEMENTED)
-        update_obs(obs, action, reward, newObs, timestep, info) : 
-            adds newObs, the most recently observed state, to data
-            adds the most recent call arrival, found in info['arrival'] to call_locs
-        update_policy() : not used, because a greedy algorithm does not have a policy
-        pick_action(state, step) : chooses locations for each of the ambulances that minimize the 
+        pick_action(state, step) : Chooses locations for each of the ambulances that minimize the 
             distance they would have travelled to respond to all calls that have occurred in the past
 
     Attributes:
@@ -43,7 +41,7 @@ class medianAgent(Agent):
         num_ambulance: (int) the number of ambulances in the environment
         lengths: (float matrix) symmetric matrix containing the distance between each pair of nodes
         call_locs: (int list) the node locations of all calls observed so far
-    
+
     """
 
     def __init__(self, epLen, edges, num_ambulance):
@@ -61,7 +59,6 @@ class medianAgent(Agent):
         self.lengths = find_lengths(self.graph, self.num_nodes)
         self.call_locs = []
 
-
     def update_config(self, env, config):
         pass
 
@@ -70,9 +67,9 @@ class medianAgent(Agent):
         self.data = []
         self.call_locs = []
 
-
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Add observation to records'''
+        '''Adds newObs, the most recently observed state, to data
+            adds the most recent call arrival, found in info['arrival'] to call_locs'''
 
         # Adds the most recent state observed in the environment to data
         self.data.append(newObs)
@@ -82,11 +79,12 @@ class medianAgent(Agent):
         return
 
     def update_policy(self, k):
-        '''Update internal policy based upon records'''
+        '''Update internal policy based upon records.
+
+        Not used, because a greedy algorithm does not have a policy.'''
 
         # Greedy algorithm does not update policy
         self.greedy = self.greedy
-
 
     def greedy(self, state, timestep, epsilon=0):
         """
@@ -104,7 +102,6 @@ class medianAgent(Agent):
             action.append(node)
             score[node] = 99999999
         return action
-
 
     def pick_action(self, state, step):
         action = self.greedy(state, step)

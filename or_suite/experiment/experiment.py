@@ -6,16 +6,12 @@ import numpy as np
 import pickle
 import os
 
+
 class Experiment(object):
     """Optional instrumentation for running an experiment.
 
     Runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode,
     and optionally saves trajectory information.
-
-    Methods:
-        run() : runs an experiment
-        save_data() : saves the dataset
-
 
     Attributes:
         seed: random seed set to allow reproducibility
@@ -30,16 +26,14 @@ class Experiment(object):
         agent: (or_suite.agent.Agent) an algorithm to run the experiments with
         data: (np.array) an array saving the metrics along the sample paths (rewards, time, space)
         trajectory_data: (list) a list saving the trajectory information
-    """   
-
-
+    """
 
     def __init__(self, env, agent, dict):
         '''
         Args:
             env: (openAI env) the environment to run the simulations on
             agent: (or_suite.agent.Agent) an algorithm to run the experiments with
-            dict - a dictionary containing the arguments to send for the experiment, including:
+            dict: a dictionary containing the arguments to send for the experiment, including:
                 dirPath: (string) location to store the data files
                 nEps: (int) number of episodes for the simulation
                 deBug: (bool) boolean, when set to true causes the algorithm to print information to the command line
@@ -61,9 +55,9 @@ class Experiment(object):
         self.save_trajectory = dict['saveTrajectory']
         self.render_flag = dict['render']
         self.agent = agent
-        self.data = np.zeros([dict['nEps']*self.num_iters, 5])  # initializes the dataset to save the information
+        # initializes the dataset to save the information
+        self.data = np.zeros([dict['nEps']*self.num_iters, 5])
         self.pickle = dict['pickle']
-
 
         if self.save_trajectory:  # initializes the list to save the trajectory
             self.trajectory = []
@@ -80,12 +74,12 @@ class Experiment(object):
         print('Running experiment')
         print('**************************************************')
 
-
         index = 0
-        
+
         for i in range(self.num_iters):  # loops over the numer of iterations
-            self.agent.reset() # resets algorithm, updates based on environment's configuration
-            self.agent.update_config(self.env, self.env.get_config())  # updates agent configuration based on environment
+            self.agent.reset()  # resets algorithm, updates based on environment's configuration
+            # updates agent configuration based on environment
+            self.agent.update_config(self.env, self.env.get_config())
             for ep in range(0, self.nEps):  # loops over the episodes
                 if self.deBug:
                     print('Episode : %s' % (ep))
@@ -99,7 +93,8 @@ class Experiment(object):
                 oldState = self.env.state  # obtains old state
                 epReward = 0
 
-                self.agent.update_policy(ep)  # updates agent policy based on episode
+                # updates agent policy based on episode
+                self.agent.update_policy(ep)
 
                 done = False
                 h = 0
@@ -112,11 +107,13 @@ class Experiment(object):
                     # Step through the episode
                     if self.deBug:
                         print('state : %s' % (oldState))
-                    action = self.agent.pick_action(oldState, h)  # algorithm picks a state
+                    action = self.agent.pick_action(
+                        oldState, h)  # algorithm picks a state
                     if self.deBug:
                         print('action : %s' % (action))
 
-                    newState, reward, done, info = self.env.step(action)  # steps based on the action chosen by the algorithm
+                    # steps based on the action chosen by the algorithm
+                    newState, reward, done, info = self.env.step(action)
                     epReward += reward
 
                     if self.deBug:
@@ -124,17 +121,18 @@ class Experiment(object):
                         print('reward: %s' % (reward))
                         print('epReward so far: %s' % (epReward))
 
-                    self.agent.update_obs(oldState, action, reward, newState, h, info)
+                    self.agent.update_obs(
+                        oldState, action, reward, newState, h, info)
 
-                    if self.save_trajectory: # saves trajectory step if desired
-                        record = {'iter': i, 
-                                    'episode': ep, 
-                                    'step' : h, 
-                                    'oldState' : oldState, 
-                                    'action' : action, 
-                                    'reward' : reward, 
-                                    'newState' : newState, 
-                                    'info' : info}
+                    if self.save_trajectory:  # saves trajectory step if desired
+                        record = {'iter': i,
+                                  'episode': ep,
+                                  'step': h,
+                                  'oldState': oldState,
+                                  'action': action,
+                                  'reward': reward,
+                                  'newState': newState,
+                                  'info': info}
                         self.trajectory.append(record)
 
                     oldState = newState
@@ -142,13 +140,12 @@ class Experiment(object):
                     if self.render_flag:  # optionally renders the environment
                         self.env.render()
 
-                current, _ = tracemalloc.get_traced_memory() # collects memory / time usage
+                current, _ = tracemalloc.get_traced_memory()  # collects memory / time usage
                 tracemalloc.stop()
                 end_time = time.time()
-                
+
                 if self.deBug:
                     print('final state: %s' % (newState))
-
 
                 # Logging to dataframe
                 self.data[index, 0] = ep
@@ -166,11 +163,12 @@ class Experiment(object):
         print('**************************************************')
 
     # Saves the data to the file location provided to the algorithm
-    def save_data(self): 
+    def save_data(self):
         '''
             Saves the acquired dataset to the noted location
 
-            Returns: dataframe corresponding to the saved data
+            Returns:
+                dataframe corresponding to the saved data
         '''
 
         print('**************************************************')
@@ -182,7 +180,6 @@ class Experiment(object):
 
         dir_path = self.dirPath
 
-
         data_loc = 'data.csv'
         traj_loc = 'trajectory.obj'
         agent_loc = 'agent.obj'
@@ -191,22 +188,25 @@ class Experiment(object):
         traj_filename = os.path.join(dir_path, traj_loc)
         agent_filename = os.path.join(dir_path, agent_loc)
 
-        dt = pd.DataFrame(self.data, columns=['episode', 'iteration', 'epReward', 'memory', 'time'])
+        dt = pd.DataFrame(self.data, columns=[
+                          'episode', 'iteration', 'epReward', 'memory', 'time'])
         dt = dt[(dt.T != 0).any()]
 
         print('Writing to file ' + data_loc)
-        
+
         if os.path.exists(dir_path):
             # saves the collected dataset
-            dt.to_csv(data_filename, index=False, float_format='%.5f', mode='w')
-            if self.save_trajectory: # saves trajectory to filename
+            dt.to_csv(data_filename, index=False,
+                      float_format='%.5f', mode='w')
+            if self.save_trajectory:  # saves trajectory to filename
                 outfile = open(traj_filename, 'wb')
                 pickle.dump(self.trajectory, outfile)
                 outfile.close()
-        else: # same as before, but first makes the directory
+        else:  # same as before, but first makes the directory
             os.makedirs(dir_path)
-            dt.to_csv(data_filename, index=False, float_format='%.5f', mode='w')
-            if self.save_trajectory: # saves trajectory to filename
+            dt.to_csv(data_filename, index=False,
+                      float_format='%.5f', mode='w')
+            if self.save_trajectory:  # saves trajectory to filename
                 outfile = open(traj_filename, 'wb')
                 pickle.dump(self.trajectory, outfile)
                 outfile.close()
@@ -216,7 +216,7 @@ class Experiment(object):
             if hasattr(self.agent, 'tree_list'):
                 outfile = open(agent_filename, 'wb')
                 pickle.dump(self.agent.tree_list, outfile)
-                outfile.close()               
+                outfile.close()
             elif hasattr(self.agent, 'qVals'):
                 outfile = open(agent_filename, 'wb')
                 pickle.dump(self.agent.qVals, outfile)

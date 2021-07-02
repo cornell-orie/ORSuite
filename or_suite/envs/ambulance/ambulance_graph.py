@@ -52,7 +52,7 @@ class AmbulanceGraphEnvironment(gym.Env):
     def __init__(self, config=env_configs.ambulance_graph_default_config):
         """
         Args: 
-        config: A dictionary (dict) containing the parameters required to set up a metric ambulance environment.
+            config: A dictionary (dict) containing the parameters required to set up a metric ambulance environment.
             epLen: The (int) number of time steps to run the experiment for.
             arrival_dist: A (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.
             alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.

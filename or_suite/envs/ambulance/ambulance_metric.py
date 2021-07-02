@@ -56,7 +56,7 @@ class AmbulanceEnvironment(gym.Env):
     def __init__(self, config=env_configs.ambulance_metric_default_config):
         """
         Args: 
-        config: A (dict) dictionary containing the parameters required to set up a metric ambulance environment.
+            config: A (dict) dictionary containing the parameters required to set up a metric ambulance environment.
             epLen: The (int) number of time steps to run the experiment for.
             arrival_dist: A (lambda) arrival distribution for calls over the space [0,1]; takes an integer (step) and returns a float between 0 and 1.
             alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.
@@ -106,7 +106,7 @@ class AmbulanceEnvironment(gym.Env):
         Args:
             action: A float list of locations in [0,1] the same length as the number of ambulances, where each entry i in the list corresponds to the chosen location for ambulance i.
         Returns:
-            float, float, bool:
+            float, float list, bool:
             reward: A float representing the reward based on the action chosen.
             newState: A float list representing the state of the environment after the action and call arrival.
             done: A bool flag indicating the end of the episode.

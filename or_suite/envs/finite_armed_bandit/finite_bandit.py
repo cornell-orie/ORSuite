@@ -57,9 +57,10 @@ class FiniteBanditEnvironment(gym.Env):
         Move one step in the environment
 
         Args:
-        action: The arm to pull.
+            action: The arm to pull.
 
         Returns:
+            float, list, 0/1:
             reward: A float; The reward based on the action chosen.
             newState: A list; The new state of the system.
             done: 0 or 1. The flag for end of the episode.
