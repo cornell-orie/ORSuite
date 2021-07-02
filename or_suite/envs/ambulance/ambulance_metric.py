@@ -3,23 +3,23 @@ Implementation of a basic RL environment for continuous spaces.
 Includes three test problems which were used in generating the figures.
 """
 
-# import rendering
-import pyglet
-import time
 import numpy as np
 import gym
 from gym import spaces
 import math
 from .. import env_configs
-from gym.envs.classic_control import rendering
+# from gym.envs.classic_control import rendering
 # import pyglet
-import os
-import sys
+import os, sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
+import rendering
+import time
+import pyglet
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
+
 
 # ------------------------------------------------------------------------------
 """An ambulance environment over [0,1].  An agent interacts through the environment
