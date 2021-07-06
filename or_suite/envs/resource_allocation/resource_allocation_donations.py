@@ -1,14 +1,12 @@
+"""Sequential Resource Allocation Problem for n locations with K commodities with Donations. 
+Currently reward is Nash Social Welfare but in the future will integrate more options 
+to determine a fair allocation """
 
 import numpy as np
 import gym
 from gym import spaces
 import math
 from .. import env_configs
-
-# ------------------------------------------------------------------------------
-"""Sequential Resource Allocation Problem for n locations with K commodities with Donations. 
-Currently reward is Nash Social Welfare but in the future will integrate more options 
-to determine a fair allocation """
 
 
 class ResourceAllocationDonationsEnvironment(gym.Env):
@@ -64,7 +62,7 @@ class ResourceAllocationDonationsEnvironment(gym.Env):
     def reset(self):
         """
         Important: the observation must be a numpy array
-        :return: (np.array)
+        Returns: np.array
         """
         # Initialize the timestep
         self.timestep = 0
@@ -82,9 +80,13 @@ class ResourceAllocationDonationsEnvironment(gym.Env):
         Args:
             action: A matrix; the chosen action (each row how much to allocate to prev location).
         Returns:
+            double, int, 0/1:
             reward: double; the reward.
+
             newState: int; the new state.
+
             done: 0/1; the flag for end of the episode.
+
             info: dict; any additional information. 
         """
 

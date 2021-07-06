@@ -12,38 +12,62 @@ def dynamics_model(params, population):
 
     Args:
         params: (dict) a dictionary containing the following keys and values:
-            'contact_matrix': (np.array of floats) Contact rates between susceptible people in each class and the infected people.
-            'P': (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.
-            'H': (np.array of floats) H = [h1 h2 h3 h4] where hi = Prob(hospitalized | symptomatic) for a person in class i.
-            'beta': (float) Recovery rate.
-            'gamma': (int) Vaccination rate.
-            'vaccines': The (int) number of vaccine available for this time period.
-            'priority': The (list of chars) vaccination priority order of the four groups.
-            'time_step': The (float) number of units of time you want the simulation to run for
+
+            - contact_matrix: (np.array of floats) Contact rates between susceptible people in each class and the infected people.
+
+            - P: (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.
+
+            - H: (np.array of floats) H = [h1 h2 h3 h4] where hi = Prob(hospitalized | symptomatic) for a person in class i.
+
+            - beta: (float) Recovery rate.
+
+            - gamma: (int) Vaccination rate.
+
+            - vaccines: The (int) number of vaccine available for this time period.
+
+            - priority: The (list of chars) vaccination priority order of the four groups.
+
+            - time_step: The (float) number of units of time you want the simulation to run for
                 e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.
         population : (np.array of ints) The starting state [S1 S2 S3 S4 A1 A2 A3 A4 I H R].
 
     Returns:
         np.array of ints, dict: 
-        newState - the final state [S1 S2 S3 S4 A1 A2 A3 A4 I H N].
+        newState: the final state [S1 S2 S3 S4 A1 A2 A3 A4 I H N].
             Note that instead of returning the final number of recovered people R, we return N, the number of infections that occurred.
-        output_dictionary : A (dict) dictionary containing the following keys and values.
-            'clock times': List of the times that each event happened.
-            'c1 asymptomatic': List of counts of A1 for each time in clks.
-            'c2 asymptomatic': List of counts of A2 for each time in clks.
-            'c3 asymptomatic': List of counts of A3 for each time in clks.
-            'c4 asymptomatic': List of counts of A4 for each time in clks.
-            'mild symptomatic': List of counts of I for each time in clks.
-            'hospitalized': List of counts of H for each time in clks.
-            'c1 susceptible': List of counts of S1 for each time in clks.
-            'c2 susceptible': List of counts of S2 for each time in clks.
-            'c3 susceptible': List of counts of S3 for each time in clks.
-            'c4 susceptible': List of counts of S4 for each time in clks.
-            'recovered': List of counts of R for each time in clks.
-            'total infected': int - Total number of infected (including those that were already infected).
-            'total hospitalized': int - Total number of hospitalized individuals (including those that were already hospitalized).
-            'vaccines': int - Total number of vaccines left.
-            'event counts': np.array - Contains the counts for the number of times each of the 22 events occurred.
+        output_dictionary : A (dict) dictionary containing the following keys and values:
+
+            - clock times: List of the times that each event happened.
+
+            - c1 asymptomatic: List of counts of A1 for each time in clks.
+
+            - c2 asymptomatic: List of counts of A2 for each time in clks.
+
+            - c3 asymptomatic: List of counts of A3 for each time in clks.
+
+            - c4 asymptomatic: List of counts of A4 for each time in clks.
+
+            - mild symptomatic: List of counts of I for each time in clks.
+
+            - hospitalized: List of counts of H for each time in clks.
+
+            - c1 susceptible: List of counts of S1 for each time in clks.
+
+            - c2 susceptible: List of counts of S2 for each time in clks.
+
+            - c3 susceptible: List of counts of S3 for each time in clks.
+
+            - c4 susceptible: List of counts of S4 for each time in clks.
+
+            - recovered: List of counts of R for each time in clks.
+
+            - total infected: int - Total number of infected (including those that were already infected).
+
+            - total hospitalized: int - Total number of hospitalized individuals (including those that were already hospitalized).
+
+            - vaccines: int - Total number of vaccines left.
+
+            - event counts: np.array - Contains the counts for the number of times each of the 22 events occurred.
 
 
     Typical usage example:
@@ -256,11 +280,17 @@ def vacc_update(state, changes, ind, count, flag, group, priority, vaccines):
     Returns:
         np.array, int, boolean, int, list of strings, int:
         newState : Updated state.
+
         count : Updated event counts.
+
         flag : Updated flag for if we should continue to vaccinate.
+
         group : Updated priority group.
+
         priority : Updated priority list.
+
         vaccines : Updated vaccine count.
+
 
     Notes:
         This function should only ever be called from inside dynamics model. 
@@ -326,10 +356,15 @@ def rand_vacc_update(state, changes, group, eligible, vaccines, count):
     Returns:
         np.array, int, int, list of ints, int:
         state : Updated state.
+
         count : Updated event count.
+
         group : Updated priority group.
+
         eligible : Updated eligible list.
+
         vaccines : Updated vaccine count.
+
 
     Notes:
         This function should only ever be called from inside dynamics model. 
