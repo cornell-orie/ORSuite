@@ -84,8 +84,11 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
         Returns:
             double, int, 0/1, dict:
             reward: double; the reward.
+
             newState: int; the new state.
+
             done: 0/1; the flag for end of the episode.
+
             info: dict; any additional information.
         """
 

@@ -81,10 +81,13 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
             action: A matrix; the chosen action (each row how much to allocate to prev location).
 
         Returns:
-            double, int, 0/1:
+            double, int, 0/1, dict:
             reward: double; the reward.
+
             newState: int; the new state.
+
             done: 0/1; the flag for end of the episode.
+
             info: dict; any additional information.
         """
 

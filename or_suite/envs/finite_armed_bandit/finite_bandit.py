@@ -62,7 +62,9 @@ class FiniteBanditEnvironment(gym.Env):
         Returns:
             float, list, 0/1:
             reward: A float; The reward based on the action chosen.
+
             newState: A list; The new state of the system.
+
             done: 0 or 1. The flag for end of the episode.
         """
         old_state = self.state

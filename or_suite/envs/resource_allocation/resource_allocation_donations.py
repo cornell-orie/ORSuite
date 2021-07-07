@@ -80,7 +80,7 @@ class ResourceAllocationDonationsEnvironment(gym.Env):
         Args:
             action: A matrix; the chosen action (each row how much to allocate to prev location).
         Returns:
-            double, int, 0/1:
+            double, int, 0/1, dict:
             reward: double; the reward.
 
             newState: int; the new state.

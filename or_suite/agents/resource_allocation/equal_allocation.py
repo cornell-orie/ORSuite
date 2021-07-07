@@ -33,8 +33,7 @@ class equalAllocationAgent(Agent):
         Monte Carlo Method for estimating Expectation of type distribution using N realizations
         Only need to run this once to get expectations for all locations
 
-        Returns: 
-            matrix: rel_exp_endowments: matrix containing expected proportion of endowments for location t
+        Returns: rel_exp_endowments: matrix containing expected proportion of endowments for location t
         """
         num_types = self.env_config['weight_matrix'].shape[0]
         exp_size = np.zeros((num_types, self.env_config['num_rounds']))

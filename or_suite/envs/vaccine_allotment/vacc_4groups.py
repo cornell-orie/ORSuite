@@ -77,13 +77,15 @@ class VaccineEnvironment(gym.Env):
                             e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.
 
 
-        Action Space (finite) (See vaccine_allocation_readme.ipynb for more detail.):
+        Action Space (finite):
 
-        - Set of all possible actions (priority orders in this case).
+            - Set of all possible actions (priority orders in this case).
 
-        - An action is an index i and the corresponding permutation is all_priority_orders[i].
+            - An action is an index i and the corresponding permutation is all_priority_orders[i].
 
-        - 0 corresponds to [], which means no priority order.
+            - 0 corresponds to [], which means no priority order.
+
+            - See vaccine_allocation_readme.ipynb for more detail.
 
 
 

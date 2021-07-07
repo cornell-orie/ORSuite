@@ -118,7 +118,9 @@ class AmbulanceGraphEnvironment(gym.Env):
         Returns:
             float, int, bool:
             reward: A float representing the reward based on the action chosen.
+
             newState: An int list representing the state of the environment after the action and call arrival.
+
             done: A bool flag indicating the end of the episode.
         """
 
