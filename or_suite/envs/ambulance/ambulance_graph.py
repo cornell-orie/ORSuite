@@ -19,7 +19,7 @@ from .. import env_configs
 
 class AmbulanceGraphEnvironment(gym.Env):
     """
-    A graph of nodes $V$ with edges between the nodes $E$; each node represents a 
+    A graph of nodes V with edges between the nodes E; each node represents a 
     location where an ambulance could be stationed or a call could come in. The 
     edges between nodes are undirected and have a weight representing the distance 
     between those two nodes.
