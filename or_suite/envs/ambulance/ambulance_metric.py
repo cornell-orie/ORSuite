@@ -30,9 +30,9 @@ sys.path.append(currentdir)
 
 class AmbulanceEnvironment(gym.Env):
     """
-    A 1-dimensional reinforcement learning environment in the space $X = [0, 1]$.
+    A 1-dimensional reinforcement learning environment in the space X = [0, 1].
 
-    Ambulances are located anywhere in $X = [0,1]$, and at the beginning of each 
+    Ambulances are located anywhere in X = [0,1], and at the beginning of each 
     iteration, the agent chooses where to station each ambulance (the action).
     A call arrives, and the nearest ambulance goes to the location of that call.
 

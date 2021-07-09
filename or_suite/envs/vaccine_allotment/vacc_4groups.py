@@ -54,12 +54,11 @@ class VaccineEnvironment(gym.Env):
 
                 - epLen : (int) Number of time steps.
 
-                - starting_state : (np.array) initial population group sizes; should contain 11 entries
-                    > [S1 S2 S3 S4 A1 A2 A3 A4 I H R]
+                - starting_state : (np.array) initial population group sizes; should contain 11 entries > [S1 S2 S3 S4 A1 A2 A3 A4 I H R]
 
                 - parameters : (dict) of parameter values to pass to dynamics model with the folowing keys and values:
 
-                        - contact_matrix': (np.array of floats) Contact rates between susceptible people in each class and the infected people.
+                        - contact_matrix: (np.array of floats) Contact rates between susceptible people in each class and the infected people.
 
                         - P: (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.
 
@@ -73,8 +72,7 @@ class VaccineEnvironment(gym.Env):
 
                         - priority: (list of chars) Vaccination priority order of the four groups.
 
-                        - time_step: (float) Number of units of time you want the simulation to run for
-                            e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.
+                        - time_step: (float) Number of units of time you want the simulation to run for e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.
 
 
         Action Space (finite):
