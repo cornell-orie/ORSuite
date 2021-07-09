@@ -40,5 +40,6 @@ dependencies:
     - sphinxcontrib-serializinghtml==1.1.5
     - stable-baselines3==1.0
     - m2r2
+    - sphinx_rtd_theme
 prefix: /Users/davidwolfers/opt/anaconda3/envs/ORSuite
 
