@@ -63,7 +63,7 @@ class commandLineAgent(Agent):
         for ambulance in range(num_ambulance):
             done = False
             while(not done):
-                text = "Where do you want to position ambulance " + str(ambulance+1) + "? (choose a number between 0 and 1)\n"
+                text = "Where do you want to position ambulance " + str(ambulance+1) + "? (choose a number between 0 and 1 or enter 'stop' to finish)\n"
                 new_loc = input(text)
                 try:
                     new_loc = float(new_loc)
@@ -72,7 +72,10 @@ class commandLineAgent(Agent):
                     action[ambulance] = new_loc
                     done = True
                 except ValueError:
-                    print("Please enter a number between 0 and 1")
+                    if new_loc == "stop":
+                        return "done"
+                    else:
+                        print("Please enter a number between 0 and 1")
 
         return action
 

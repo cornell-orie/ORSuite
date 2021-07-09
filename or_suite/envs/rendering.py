@@ -21,6 +21,7 @@ class PygletWindow:
         """Initialization"""
         self.active = True
         self.window = pyglet.window.Window(width=X, height=Y + 50)
+        self.window.set_visible(False)
         self.top = Y
 
         # make OpenGL context current
