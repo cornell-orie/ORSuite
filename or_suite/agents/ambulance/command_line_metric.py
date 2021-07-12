@@ -72,10 +72,7 @@ class commandLineAgent(Agent):
                     action[ambulance] = new_loc
                     done = True
                 except ValueError:
-                    if new_loc == "stop":
-                        return "done"
-                    else:
-                        print("Please enter a number between 0 and 1")
+                    print("Please enter a number between 0 and 1")
 
         return action
 
