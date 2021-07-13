@@ -2,11 +2,11 @@
 #display = Display(visible=0, size=(500, 800))
 #display.start()
 
-import or_suite
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython import display as ipythondisplay
+import or_suite
 
 import time
 import copy
