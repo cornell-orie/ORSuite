@@ -6,8 +6,8 @@ import or_suite
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
+import rendering
 from IPython import display as ipythondisplay
-reload(or_suite)
 
 import time
 import copy
