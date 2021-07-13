@@ -53,5 +53,5 @@ register(id='Oil-v0',
 # Inventory Control With Multiple Suppliers
 
 register(id='MultipleSuppliers-v0',
-         entry_point='or_suite.envs.inventory_control_multiple_suppliers.multiple_supliers_env:DualSourcingEnvironment'
+         entry_point='or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env:DualSourcingEnvironment'
          )
