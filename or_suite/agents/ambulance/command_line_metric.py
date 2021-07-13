@@ -63,7 +63,7 @@ class commandLineAgent(Agent):
         for ambulance in range(num_ambulance):
             done = False
             while(not done):
-                text = "Where do you want to position ambulance " + str(ambulance+1) + "? (choose a number between 0 and 1 or enter 'stop' to finish)\n"
+                text = "Where do you want to position ambulance " + str(ambulance+1) + "? (choose a number between 0 and 1)\n"
                 new_loc = input(text)
                 try:
                     new_loc = float(new_loc)
