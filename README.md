@@ -20,7 +20,7 @@ Reinforcement learning (RL) is a natural model for problems involving real-time 
 
 These project revolves around providing a unified landscape on scaling reinforcement learning algorithms to operations research domains.
 
-### Link to Documentation
+### Documentation
 https://orsuite.readthedocs.io/en/latest/
 
 ### Installation Guide
