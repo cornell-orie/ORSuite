@@ -3,29 +3,31 @@ import numpy as np
 import sys
 from scipy.stats import poisson
 
+from .. import env_configs
+
 
 class DualSourcingEnvironment(gym.Env):
 
-    def __init__(self, L_r=1, L_e=0, lam=10, c_r=2, c_e=2, c_h=1, c_b=1, starting=None):
+    def __init__(self, config=env_configs.inventory_control_multiple_suppliers_default_config):
 
-        self.L_r = L_r
-        self.L_e = L_e
-        self.lam = lam
-        self.c_r = c_r
-        self.c_e = c_e
-        self.c_h = c_h
-        self.c_b = c_b
-        self.I_MAX = 2000
-        self.a_MAX = 20
+        self.L_r = config['L_r']
+        self.L_e = config['L_e']
+        self.lam = config['lam']
+        self.c_r = config['c_r']
+        self.c_e = config['c_e']
+        self.c_h = config['c_h']
+        self.c_b = config['c_b']
+        self.I_MAX = config['I_MAX']
+        self.a_MAX = config['a_MAX']
 
         self.I_offset = self.I_MAX/2
 
-        if starting == None:
+        if config['starting'] == None:
             G_hat = np.random.geometric(1/2)
             I_0 = - np.random.poisson(G_hat*self.lam) + self.I_offset
             self.starting = np.append(np.zeros(self.L_r + self.L_e), [I_0])
         else:
-            self.starting = starting
+            self.starting = config['starting']
 
         self.state = np.asarray(self.starting)
         self.action_space = gym.spaces.Discrete(self.a_MAX**2)
