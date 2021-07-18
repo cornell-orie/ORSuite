@@ -42,13 +42,13 @@ Every environment in ORSuite consists of an action and observation space that ar
 
 Both the observation space and the action space will be of one of these types:
 
-`box`: an $n$-dimensional continuous feature space with an upper and lower bound for each dimension
+`box`: an n-dimensional continuous feature space with an upper and lower bound for each dimension
 
 `dict`: a dictionary of simpler spaces and labels for those spaces
 
-`discrete`: a discrete space over $n$ integers $\{ 0, 1, ..., n-1 \}$
+`discrete`: a discrete space over n integers { 0, 1, ..., n-1 }
 
-`multi_binary`: a binary space of size $n$
+`multi_binary`: a binary space of size n
 
 `multi_discrete`: allows for multiple discrete spaces with a different number of actions in each
 

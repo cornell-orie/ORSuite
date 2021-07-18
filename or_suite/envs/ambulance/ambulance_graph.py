@@ -1,9 +1,9 @@
 """Implementation of an RL environment in a discrete graph space.
 
 An ambulance environment over a simple graph.  An agent interacts through 
-the environment by [EXPLAIN HOW ENVIRONMENT WORKS HERE] the ambulance.  Then 
+the environment by selecting locations for various ambulances over the graph.  Afterwards 
 a patient arrives and the ambulance most go and serve the arrival, paying a 
-cost of travel.
+cost to travel.
 """
 
 import numpy as np
