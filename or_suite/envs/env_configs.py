@@ -220,14 +220,13 @@ oil_environment_default_config = {
 }
 
 inventory_control_multiple_suppliers_default_config = {
-    'L_r': 1,
-    'L_e': 0,
-    'lam': 10,
-    'c_r': 2,
-    'c_e': 2,
-    'c_h': 1,
-    'c_b': 1,
-    'starting': None,
-    'I_MAX': 2000,
-    'a_MAX': 20
+    'Lr': 5,
+    'Le': 1,
+    'lambda': 10,
+    'cr': 100,
+    'ce': 105,
+    'h': 1,
+    'b': 19,
+    'max_inventory': 1000,
+    'max_order': 20
 }
