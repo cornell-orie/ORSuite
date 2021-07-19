@@ -219,8 +219,11 @@ oil_environment_default_config = {
 
 }
 
+epLen = 4
 airline_default_config = {
-    'l': 3,
-    'epoch': 20,
-    'capVal': 2.0
+    'epLen': epLen,
+    'f': np.asarray([1., 2.]),
+    'A': np.transpose(np.asarray([[2., 3., 2.], [3., 0., 1.]])),
+    'starting_state': np.asarray([10., 10., 10]),
+    'P': np.asarray([[1/3, 1/3] for _ in range(epLen)])
 }
