@@ -228,5 +228,6 @@ inventory_control_multiple_suppliers_default_config = {
     'h': 1,
     'b': 19,
     'max_inventory': 1000,
-    'max_order': 20
+    'max_order': 20,
+    'epLen': 500
 }

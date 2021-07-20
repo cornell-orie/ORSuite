@@ -15,9 +15,10 @@ class DualSourcingEnvironment(gym.Env):
             Le: express supplier lead time
             cr: regular supplier cost
             ce: express supplier cost
-            lambda:
+            lambda: distribution parameter
             h: holding cost
             b: backorder cost
+            epLen: The episode length
             """
 
         self.Lr = config['Lr']
@@ -35,6 +36,9 @@ class DualSourcingEnvironment(gym.Env):
         self.action_space = gym.spaces.MultiDiscrete([self.max_order+1]*2)
         self.observation_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*(self.Lr+self.Le)+[self.max_inventory])
+
+        self.timestep = 0
+        self.epLen = config['epLen']
 
         self.nA = (self.max_order+1) ** 2
 
@@ -57,8 +61,10 @@ class DualSourcingEnvironment(gym.Env):
                            min(newState[-1], self.max_inventory))
         self.state = newState.copy()
 
-        #assert self.observation_space.contains(self.state)
-        done = False
+        assert self.observation_space.contains(self.state)
+
+        self.timestep += 1
+        done = self.timestep == self.epLen
 
         return self.state, float(reward), done, {'demand': demand}
 
@@ -79,4 +85,5 @@ class DualSourcingEnvironment(gym.Env):
 
     def reset(self):
         self.state = np.asarray(self.starting_state)
+        self.timestep = 0
         return self.state
