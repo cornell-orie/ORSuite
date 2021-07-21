@@ -1,45 +1,24 @@
 #!usr/bin/env python
-
-
-
-
 from setuptools import setup, find_packages
 import sys
 import os
-
-
 packages = find_packages(exclude=['docs', 'notebooks', 'assets'])
-
 install_requires = [
-	'gym',
 	'numpy>=1.17',
 	'pandas',
 	'networkx',
-	'scipy',
+    'cvxpy',
 	'matplotlib',
 	'seaborn',
 	'scikit-learn',
 	'scikit-learn-extra',
 	'stable-baselines3',
-	'cvxpy',
-	'pyglet==1.5.16',
+	'pyglet',
     'joblib',
+    'gym',
 ]
-
-tests_require = [
-]
-
-full_requires = [
-]
-
-extras_require = {
-    'full': full_requires,
-    'test': tests_require,
-}
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
-
 setup(
     name='or-suite',
 	version='0.0.1',
@@ -62,7 +41,5 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=install_requires,
-    tests_require=tests_require,
-    extras_require=extras_require,
     zip_safe=False,
 )
