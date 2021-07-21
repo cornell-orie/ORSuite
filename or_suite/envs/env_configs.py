@@ -220,9 +220,11 @@ oil_environment_default_config = {
 }
 
 inventory_control_multiple_suppliers_default_config = {
+    'L': [5, 1],
     'Lr': 5,
     'Le': 1,
     'lambda': 10,
+    'c': [100, 105],
     'cr': 100,
     'ce': 105,
     'h': 1,
