@@ -1,108 +1,20 @@
-The Ambulance Routing Problem
-=============================
+The Multi-Armed Bandit Problem
+==============================
 
 Description
 -----------
 
-One potential application of reinforcement learning involves positioning
-a server or servers (in this case an ambulance) in an optimal way
-geographically to respond to incoming calls while minimizing the
-distance traveled by the servers. The ambulance routing problem
-addresses this by modeling an environment where there are ambulances
-stationed at locations, and calls come in that one of the ambulances
-must be sent to respond to. The goal of the agent is to minimize both
-the distance traveled by the ambulances between calls and the distance
-traveled to respond to a call by optimally choosing the locations to
-station the ambulances. The ambulance environment has been implemented
-in two different ways; as a 1-dimensional number line :math:`(0,1)`
-along which ambulances will be stationed and calls will arrive, and a
-graph with nodes where ambulances can be stationed and calls can arrive,
-and edges between the nodes that ambulances travel along.
-
-Line
-~~~~
-
-``ambulance.py`` is a 2-dimensional reinforcement learning environment
-in the space :math:`X = [0, 1]`. Each ambulance in the problem can be
-located anywhere in :math:`X`, so the state space is :math:`S = X^k`,
-where :math:`k` is the number of ambulances. Calls for an ambulance can
-also arrive anywhere in :math:`X`, and the nearest ambulance (calculated
-using the :math:`\ell_1` distance) will respond to the call, leaving the
-locations of the other ambulances unchanged. Between calls the agent
-must choose a location to station each ambulance, with the goal of
-minimizing both the distance traveled between calls and to respond to a
-call.
-
-The default distribution for call arrivals is uniform over
-:math:`[0,1]`, however any probability distribution defined over the
-interval :math:`[0,1]` is valid. The probability distribution can also
-change with each timestep.
-
-For example, in a problem with two ambulances, imagine the ambulances
-are initially located at :math:`0.4` and :math:`0.6`. The agent could
-choose to move the ambulances to :math:`0.342` and :math:`0.887`. If a
-call arrived at :math:`0.115`, ambulance 1, which was at :math:`0.342`,
-would respond to that call, and the state at the end of the iteration
-would be ambulance 1 at :math:`0.115` and ambulance 2 at :math:`0.887`.
-The agent could then choose new locations to move the ambulances to, and
-the cycle would repeat.
-
-At the beginning of the iteration:
-
-.. container::
-
-After the ambulances move to the locations specified by the agent:
-
-.. container::
-
-After ambulance 1 responds to the call:
-
-.. container::
-
-Graph
-~~~~~
-
-``ambulance_graph.py`` is a reinforcement learning environment that
-represents an environment where ambulances are stationed at various
-locations, and individual calls come in which will be serviced by the
-nearest ambulance. Ambulances can also move to new locations between
-calls, and for simplicity calls do not come in while the ambulances are
-moving to their new locations. The environment is structured as a graph
-of nodes :math:`V` with edges between the nodes :math:`E`. Each node
-represents a location where an ambulance could be stationed or a call
-could come in. The edges between nodes are undirected and have a weight
-representing the distance between those two nodes.
-
-The nearest ambulance to a call is determined by computing the shortest
-path from each ambulance to the call, and choosing the ambulance with
-the minimum length path. The calls arrive using a prespecified iid
-probability distribution. The default is for the probability of call
-arrivals to be evenly distributed over all the nodes; however, the user
-can also choose different probabilities for each of the nodes that a
-call will arrive at that node. For example, in the following graph the
-default setting would be for each call to have a 0.25 probability of
-arriving at each node, but the user could instead specify that there is
-a 0.1 probability of a call at node 0, and a 0.3 probability of a call
-arriving at each of the other three nodes.
-
-.. container::
-
-After each call comes in, the agent will choose where to move each
-ambulance in the graph. Every ambulance except the ambulance that moved
-to respond to the call will be at the same location where the agent
-moved it to on the previous iteration, and the ambulance that moved to
-respond to the call will be at the node where the call came in.
-
-The graph environment is currently implemented using the `networkx
-package <https://networkx.org/documentation/stable/index.html>`__.
-
-Model Assumptions
------------------
-
--  New calls do not arrive while an ambulance is in transit
-
--  There is no step for traveling to a hospital after responding to a
-   call
+The Multi-Armed Bandit Problem (MAB, or often called K or N-armed bandit
+problems) is a problem where a fixed set of limied resources must be
+allocated between competing choices in a way that maximizes their
+expected gain, when the underlying rewards is not known at the start of
+learning. This is a classic reinforcement learning problem that
+exemplifies the exploration-exploitation tradeoff dilema. The crucial
+tradeoff the algorithm faces at each trial is between “exploitation” of
+the arm that has the highest expected payoff and “exploration” to get
+more information about the expected payoffs of the other arms. The
+trade-off between exploration and exploitation is also faced in machine
+learning.
 
 Dynamics
 --------
@@ -110,72 +22,30 @@ Dynamics
 State Space
 ~~~~~~~~~~~
 
-Line
-^^^^
-
-The state space for the line environment is :math:`S = X^k` where
-:math:`X = [0, 1]` and there are :math:`k` ambulances. Each ambulance
-can be located at any point on the line :math:`X`.
-
-Graph
-^^^^^
-
-The graph environment consists of nodes :math:`V` and edges between the
-nodes :math:`E`, and each ambulance can be located at any node
-:math:`v \in V` (and multiple ambulances can be at the same node). The
-state space of this environment is :math:`S = V^k`, where :math:`k` is
-the number of ambulances.
+The state space is represented as :math:`X = [K]^T` where :math:`K` is
+the number of arms and :math:`T` is the number of timesteps. Each
+component represents the number of times the arm has been pulled up to
+the current iteration.
 
 Action space
 ~~~~~~~~~~~~
 
-.. _line-1:
-
-Line
-^^^^
-
-The agent chooses a location for each ambulance to travel to between
-calls. The location for each ambulance can be any point :math:`t \in X`
-where :math:`X = [0, 1]`.
-
-.. _graph-1:
-
-Graph
-^^^^^
-
-The agent chooses a node for each ambulance to travel to between calls.
-The location for any ambulance can be any node :math:`v \in V`, so the
-action space :math:`A` will be :math:`A = V^k`.
+The action space is :math:`[K]` representing the index of the arm
+selected at that time instant.
 
 Reward
 ~~~~~~
 
-The reward is
-:math:`-1 \cdot (\alpha \cdot d(s, a) + (1 - \alpha) \cdot d(a, n))`
-where :math:`s` is the previous state of the system, :math:`a` is the
-action chosen by the user, :math:`n` is the state of the system after
-the new call arrival, and :math:`d` is the distance function. The goal
-of the agent is to maximize this reward, and because the reward is
-negative this implies getting the reward as close to :math:`0` as
-possible.
-
-The :math:`\alpha` parameter allows the user to control the proportional
-difference in cost to move ambulances normally versus when responding to
-an emergency. In real world scenarios the distance traveled to respond
-to a call will likely be more costly than the distance traveled between
-calls because of the additional cost of someone having to wait a long
-time for an ambulance.
-
-Thought: should we penalize inequity in some way? penalty for having a
-high variance in response times?
-
-By collecting data on their past actions, call arrival locations, and
-associated rewards, an agent’s goal is to learn how to most effectively
-position ambulances to respond to calls to minimize the distance the
-ambulances have to travel.
+The reward is calculated via :math:`r(x,a)` taken as a random sample
+from a specified distribution :math:`\mu(a)`.
 
 Transitions
 ~~~~~~~~~~~
+
+From state :math:`x` having taking action :math:`a` the agent
+transitions to a new state :math:`x'` where :math:`x'[a]` is incremented
+by one to denote the increment that the arm :math:`a` has been selected
+an extra time.
 
 Environment
 -----------
@@ -190,25 +60,18 @@ Returns the environment to its original state.
 ``step(action)``
 
 Takes an action from the agent and returns the state of the system after
-the next arrival. \* ``action``: a list with the location of each
-ambulance, where each location is a float between :math:`0` and
-:math:`1`.
-
-Ex. two ambulances at 0.572 and 0.473 would be ``[0.572, 0.473]``
+the next arrival. \* ``action``: the index of the selected arm
 
 Returns:
 
--  ``state``: A list containing the locations of each ambulance
+-  ``state``: The number of times each arm has been selected so far
 
--  ``reward``: The reward associated with the most recent action and
-   event
+-  ``reward``: The reward drawn from the distribution specified by the
+   given action.
 
 -  ``pContinue``:
 
--  ``info``: a dictionary containing the node where the most recent
-   arrival occured
-
-   -  Ex. ``{'arrival': 0.988}`` if the most recent arrival was at 0.988
+-  ``info``: Empty
 
 ``render``
 
@@ -217,170 +80,9 @@ Currently unimplemented
 ``close``
 
 Currently unimplemented
-
-``make_ambulanceEnvMDP(epLen, arrivals, alpha, starting_state, num_ambulance)``
-
-Creates an instance of the line ambulance environment
-
--  ``epLen``: the length of each episode, i.e. how many calls will come
-   in before the episode terminates.
-
--  ``arrivals``: a lambda function defining the distribution of call
-   arrivals. (need to add more detail here later)
-
--  ``alpha``: controls the proportional difference between the cost to
-   move ambulances in between calls and the cost to move an ambulance to
-   respond to a call.
-
-   -  ``alpha = 0``: no cost to move between calls
-   -  ``alpha = 1``: no cost to move to respond to a call
-
--  ``starting_state``: a list of floats :math:`\in (0,1)` the length of
-   the number of ambulances. Each entry in the list corresponds to the
-   starting location for that ambulance.
-
--  ``num_ambulance``: integer representing the number of ambulances in
-   the system
-
-Graph
-~~~~~
-
-``reset``
-
-Returns the environment to its original state.
-
-``step(action)``
-
-Takes an action from the agent and returns the state of the system after
-the next arrival. \* ``action``: a list with the location of each
-ambulance
-
-Ex. two ambulances at nodes 0 and 6 would be ``[0, 6]``
-
-Returns:
-
--  ``state``: A list containing the locations of each ambulance
-
--  ``reward``: The reward associated with the most recent action and
-   event
-
--  ``pContinue``:
-
--  ``info``: a dictionary containing the node where the most recent
-   arrival occured
-
-   -  Ex. ``{'arrival': 1}`` if the most recent arrival was at node 1
-
-``render``
-
-Currently unimplemented
-
-``close``
-
-Currently unimplemented
-
-``make_ambulanceGraphEnvMDP(epLen, alpha, edges, starting_state, num_ambulance)``
-
-Creates an instance of the graph ambulance environment
-
--  ``epLen``: the length of each episode, i.e. how many calls will come
-   in before the episode terminates.
-
--  ``alpha``: controls the proportional difference between the cost to
-   move ambulances in between calls and the cost to move an ambulance to
-   respond to a call.
-
-   -  ``alpha = 0``: no cost to move between calls
-   -  ``alpha = 1``: no cost to move to respond to a call
-
--  ``edges``: a list of tuples where each tuple has three entries
-   corresponding to the starting node, the ending node, and the distance
-   between them. The distance is a dictionary with one entry, ‘dist’,
-   where the value is the distance
-
-   -  Ex. ``(0, 4, {'dist': 2})`` is an edge between nodes 0 and 4 with
-      distance 2
-   -  The graph is undirected and nodes are inferred from the edges
-   -  Requires that the graph is fully connected
-   -  Requires that the numbering of nodes is chronological and starts
-      at 0 (ie, if you have 5 nodes they must be labeled 0, 1, 2, 3, and
-      4)
-
--  ``starting_state``: a list where each index corresponds to an
-   ambulance, and the entry at that index is the node where the
-   ambulance is located
-
--  ``num_ambulance``: integer representing the number of ambulances in
-   the system (kind of redundant, maybe we should get rid of this?)
 
 Heuristic Agents
 ----------------
 
-Stable Agent
-~~~~~~~~~~~~
-
-The stable agent does not move any of the ambulances between calls, and
-the only time an ambulance moves is when responding to an incoming call.
-In other words, the policy :math:`\pi` chosen by the agent for any given
-state :math:`X` will be :math:`\pi_h(X) = X`
-
-Line K-Medoid Agent
-~~~~~~~~~~~~~~~~~~~
-
-The k-medoid agent uses the k-medoid algorithm where k is the number of
-ambulances to figure out where to station ambulances. The k-medoids
-algorithm attempts to find k clusters of data such that the total
-distance from each of the data points to the center of the cluster is
-minimized, however it differs from k-means in that it always chooses an
-element of the dataset as the center of the cluster. The k-medoid agent
-is implemented using the `scikit learn k-medoids
-algorithm <https://scikit-learn-extra.readthedocs.io/en/latest/generated/sklearn_extra.cluster.KMedoids.html>`__.
-The policy :math:`\pi` chosen by the agent for a state :math:`X` will be
-:math:`\pi_h(X) = kmedoid\text{(historical call data)}`
-
-The precise definition of the medoid :math:`x_{\text{medoid}}` for a set
-of points :math:`\mathcal{X} := \{x_1, x_2, ..., x_n\}` with a distance
-function :math:`d` is
-
-:math:`x_{\text{medoid}} = \text{arg} \text{min}_{y \in \mathcal{X}} \sum_{i=1}^n d(y, x_i)`
-
-Graph Median Agent
-~~~~~~~~~~~~~~~~~~
-
-The median agent for the graph environment chooses to station the
-ambulances at the nodes where the minimum distance would have to be
-traveled to respond to all calls that have arrived in the past. The
-distance between each pair of nodes is calculated and put into a
-(symmetric) matrix, where an entry in the matrix :math:`(i, j)` is the
-length of the shortest path between nodes :math:`i` and :math:`j`. This
-matrix is multiplied by a vector containing the number of calls that
-have arrived at each node in the past. The minimum total distances in
-the resulting matrix are chosen as the nodes at which to station the
-ambulances.
-
-The following is an example calculated for the graph from the overview
-assuming the data of past call arrivals is:
-
-:math:`[0,0,3,2,0,1,1,1,0,3,3,3,2,3,3]`
-
-.. container::
-
-:math:`\begin{bmatrix} d(0,0) & d(0,1) & d(0,2) & d(0,3)\\ d(1,0) & d(1,1) & d(1,2) & d(1,3)\\ d(2,0) & d(2,1) & d(2,2) & d(2,3)\\ d(3,0) & d(3,1) & d(3,2) & d(3,3) \end{bmatrix} = \begin{bmatrix} 0 & 4 & 5 & 3\\ 4 & 0 & 2 & 5\\ 5 & 2 & 0 & 3\\ 3 & 5 & 3 & 0 \end{bmatrix}`
-
-:math:`\begin{bmatrix} \sum_{x \in \text{past data}} \mathbb{1}(x = 0)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 1)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 2)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 3) \end{bmatrix} = \begin{bmatrix} 4\\ 3\\ 2\\ 6 \end{bmatrix}`
-
-:math:`\begin{bmatrix} 0 & 4 & 5 & 3\\ 4 & 0 & 2 & 5\\ 5 & 2 & 0 & 3\\ 3 & 5 & 3 & 0 \end{bmatrix} \begin{bmatrix} 4\\ 3\\ 2\\ 6 \end{bmatrix}  = \begin{bmatrix} 40\\ 50\\ 44\\ 33 \end{bmatrix}`
-
-The graph median agent would choose to position the first ambulance at
-node 3, the second ambulance at node 0, etc.
-
-Graph Mode Agent
-~~~~~~~~~~~~~~~~
-
-The mode agent chooses to station the ambulances at the nodes where the
-most calls have come in the past. The first ambulance will be stationed
-at the node with the most historical calls, the second ambulance at the
-node with the second most historical calls, etc. The policy :math:`\pi`
-chosen by the agent for a state :math:`X` will be
-:math:`\pi_h(X) = mode\text{(historical call data)}`
-
+We currently have no heuristic algorithms implemented for this
+environment.

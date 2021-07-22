@@ -86,7 +86,28 @@ Dynamics
 Model Assumptions
 ~~~~~~~~~~~~~~~~~
 
-No assumptions yet, need help on this one
+-  We also primarily focus on utility functions that are linear, where
+   the latent individual type is characterized by a vector of
+   preferences over each of the different resources. Here again, we
+   believe that our techniques extend to more general homothetic
+   preferences, but for ease of notation (and given the richness of
+   linear utilities), choose to focus on these.
+
+-  We assume that our resources aredivisible, in that allocations can
+   take values inRK+.In our particular regimes of interest where we
+   scale the number of rounds and budgets, this is easyto relax to
+   integer allocations with vanishing loss in performance.
+
+-  The assumption that latent types are finite is common in
+   decision-making settings, as in practice, the set of possible types
+   is approximated from historical data.
+
+-  One limiting assumption is that in the online setting, the principal
+   only knows the number of individuals from one location at a time. In
+   reality the principal could have some additional information about
+   future locations, e.g. via calling ahead, that could be incorporated
+   in decidingan allocation. Our algorithmic approach naturally
+   incorporates such additional information.
 
 Environment
 ~~~~~~~~~~~

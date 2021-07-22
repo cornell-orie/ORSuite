@@ -454,20 +454,12 @@ simualation (includes people that were already hospitalized) > >
 
 
 
-.. image:: /docs/vaccine_allocation_readme_files/vaccine_allocation_readme_16_0.png
+.. image:: vaccine_allocation_readme_files/vaccine_allocation_readme_16_0.png
 
 
 Heuristic Agents
 ~~~~~~~~~~~~~~~~
 
-TODO
-
-4 Groups with Continuous Action and Continuous State Space
-----------------------------------------------------------
-
-TODO: currently unimplemented
-
-Further extensions…
--------------------
-
-TODO: currently unimplemented
+We currently have a single heuristic agent implemented. This algorithm
+picks a fixed priority order over the different classes and allocates
+according to that priority order.
