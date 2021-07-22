@@ -37,7 +37,7 @@ class DualSourcingEnvironment(gym.Env):
         self.max_inventory = config['max_inventory']
 
         self.state = np.asarray(self.starting_state)
-        self.action_space = gym.spaces.MultiDiscrete([self.max_order+1]*2)
+        self.action_space = gym.spaces.MultiDiscrete([self.max_order+1]*len(self.L))
         # self.observation_space = gym.spaces.MultiDiscrete(
         #     [self.max_order+1]*(self.Lr+self.Le)+[self.max_inventory])
         self.observation_space = gym.spaces.MultiDiscrete(
