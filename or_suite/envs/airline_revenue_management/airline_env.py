@@ -8,10 +8,31 @@ from .. import env_configs
 
 
 class AirlineRevenueEnvironment(gym.Env):
+    """
+    An environment representing the airline revenue management problem
+
+    Attributes:
+        A: The 2-D float array representing the resource consumption.
+        f: The float array representing the revenue per class.
+        P: The float array representing the distribution over arrivals.
+        epLen: The int number of time steps to run the experiment for.
+        starting_state: The float array representing the number of available seats on each flight.
+        timestep: The int timestep the current episode is on.
+        action_space: (Gym.spaces MultiDiscrete) Actions must be binary arrays of the length of the number of customers.
+        observation_space: (Gym.spaces MultiDiscrete) States must be float arrays of the length of the number of flights.
+
+    """
     metadata = {'render.modes': ['human']}
 
     def __init__(self, config):
-
+        """
+        Args:
+            A: The 2-D float array representing the resource consumption.
+            f: The float array representing the revenue per class.
+            P: The float array representing the distribution over arrivals.
+            epLen: The int number of time steps to run the experiment for.
+            starting_state: The float array representing the number of available seats on each flight.
+            """
         # Initializes model parameters based on a configuration dictionary
         self.A = config['A']  # resource consumption
         self.f = config['f']  # revenue per class
@@ -31,6 +52,7 @@ class AirlineRevenueEnvironment(gym.Env):
 
     # Resets environment to initial state
     def reset(self):
+        """Reinitializes variables and returns the starting state."""
         self.state = np.asarray(self.starting_state)
         self.timestep = 0
         return self.state
@@ -38,6 +60,7 @@ class AirlineRevenueEnvironment(gym.Env):
     # Defines one step of the MDP, returning the new state, reward, whether time horizon is finished, and a dictionary of information
 
     def step(self, action):
+        """Move one step in the environment."""
         # Sample customer arrival
         pDist = np.append(
             np.copy(self.P[self.timestep, :]), 1 - np.sum(self.P[self.timestep, :]))
