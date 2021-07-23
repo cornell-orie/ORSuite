@@ -7,18 +7,35 @@ from .. import env_configs
 
 
 class DualSourcingEnvironment(gym.Env):
+    """
+    An environment with a variable number of suppliers, each with their own lead time and cost.
 
+    Attributes:
+        L: The array of ints representing the lead times of each supplier.
+        c: The array of ints representing the costs of each supplier.
+        lambda: The Poission distribution parameter.
+        h: The int holding cost.
+        b: The int backorder cost.
+        epLen:  The int number of time steps to run the experiment for.
+        max_order: The maximum value (int) that can be ordered from each supplier.
+        max_inventory: The maximum value (int) that can be held in inventory.
+        timestep: The (int) timestep the current episode is on.
+        starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
+        action_space: (Gym.spaces MultiDiscrete) Actions must be the length of the number of suppliers. Each entry is an int corresponding to the order size. 
+        observation_space: (Gym.spaces MultiDiscrete) The environment state must be the length of the of the sum of all lead times plus one. Each entry corresponds to the order that will soon be placed to a supplier. The last index is the current on-hand inventory.
+    """
     def __init__(self, config):
         """
         Args:
-            L: array of ints representing the lead times of each supplier
-            c: array of ints representing the costs of each supplier
-            lambda: distribution parameter
-            h: holding cost
-            b: backorder cost
-            epLen: The episode length
-            max_order: the maximum value (int) that can be ordered from each supplier
-            max_inventory: the maximum value (int) that can be held in inventory
+            config: A dictionary containt the following parameters required to set up the environment:
+                L: array of ints representing the lead times of each supplier
+                c: array of ints representing the costs of each supplier
+                lambda: distribution parameter
+                h: holding cost
+                b: backorder cost
+                epLen: The episode length
+                max_order: the maximum value (int) that can be ordered from each supplier
+                max_inventory: the maximum value (int) that can be held in inventory
             """
         self.L = config['L']
         self.c = config['c']
@@ -52,11 +69,30 @@ class DualSourcingEnvironment(gym.Env):
         metadata = {'render.modes': ['human']}
 
     def seed(self, seed=None):
+        """Sets the numpy seed to the given value
+        
+        Args:
+            seed: The int represeting the numpy seed."""
         np.random.seed(seed)
         self.action_space.np_random.seed(seed)
         return seed
 
     def step(self, action):
+        """
+        Move one step in the environment.
+        
+        Args:
+            action: An int list of the amount to order from each supplier.
+            
+        Returns:
+            float, int, bool, info:
+            reward: A float representing the reward based on the action chosen.
+            
+            newState: An int list representing the new state of the environment after the action.
+            
+            done: A bool flag indicating the end of the episode.
+            
+            info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
         assert self.action_space.contains(action)
 
         reward = self.r(self.state)
@@ -107,6 +143,7 @@ class DualSourcingEnvironment(gym.Env):
         outfile.write(np.array2string(self.state)+'\n')
 
     def reset(self):
+        """Reinitializes variables and returns the starting state."""
         self.state = np.asarray(self.starting_state)
         self.timestep = 0
         return self.state
