@@ -13,7 +13,7 @@ install_requires = [
 	'scikit-learn',
 	'scikit-learn-extra',
 	'stable-baselines3',
-	'pyglet',
+	'pyglet==1.5.16',
     'joblib',
     'gym',
 ]
