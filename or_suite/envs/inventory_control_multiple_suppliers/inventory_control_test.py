@@ -5,6 +5,7 @@ from scipy.stats import poisson
 
 from .. import env_configs
 import pytest
+from stable_baselines3.common.env_checker import check_env
 
 CONFIG = env_configs.inventory_control_multiple_suppliers_default_config
 
@@ -65,6 +66,7 @@ def test_step():
     for i in range(sum_L + 1):
         assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
             i)
+    check_env(env, skip_render_check=True)
 
 
 def test_bad_action():
