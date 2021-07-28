@@ -53,6 +53,7 @@ class DualSourcingEnvironment(gym.Env):
         self.starting_state = [0] * (L_total + 1)
         self.max_order = config['max_order']
         self.max_inventory = config['max_inventory']
+        self.starting_state[-1] = self.max_inventory
 
         self.state = np.asarray(self.starting_state)
         self.action_space = gym.spaces.MultiDiscrete(
@@ -118,7 +119,7 @@ class DualSourcingEnvironment(gym.Env):
         total = 0
         for i in range(0, len(self.L)):
             total += self.c[i]*state[self.L[i] - 1]
-        return -(total + self.h*max(state[-1] - self.max_inventory, 0) + self.b*max(-state[-1] - self.max_inventory, 0))
+        return -(total + self.h*max(state[-1] - self.max_inventory, 0) + self.b*max(-(state[-1] - self.max_inventory), 0))
         # Old function for two suppliers
         # return -(self.cr*state[self.Lr-1] + self.ce*state[self.Lr+self.Le-1] +
         #          self.h*max(state[-1], 0) + self.b*max(-state[-1], 0))

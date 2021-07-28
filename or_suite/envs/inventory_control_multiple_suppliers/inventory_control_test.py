@@ -22,8 +22,9 @@ def test_initial_state():
         1, "State array is not the same as the sum of all leading times plus one"
 
     # Testing that state has all 0s as starting values.
-    for i in range(sum_L + 1):
+    for i in range(sum_L):
         assert env.state[i] == 0, "State array has not been initialized to all zeros"
+        assert env.state[-1] == env.max_inventory, "Last index is not max"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -46,9 +47,10 @@ def test_step():
 
     assert reward == 0.0
 
-    expected_state = [0, 0, 0, 0, 1, 15, 0]
+    expected_state = [0, 0, 0, 0, 1, 15, 987]
     for i in range(sum_L + 1):
-        assert env.state[i] == expected_state[i], "New state does not match expected state"
+        assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
+            i)
 
     # Do step again
     newState, reward, done, info = env.step([1, 15])
@@ -57,11 +59,12 @@ def test_step():
     assert env.observation_space.contains(
         newState), "Returned state is not part of given observation space after step"
 
-    assert reward == -100.0
+    assert reward == -347.0
 
-    expected_state = [0, 0, 0, 1, 1, 15, 4]
+    expected_state = [0, 0, 0, 1, 1, 15, 991]
     for i in range(sum_L + 1):
-        assert env.state[i] == expected_state[i], "New state does not match expected state"
+        assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
+            i)
 
 
 def test_bad_action():
@@ -74,5 +77,7 @@ def test_bad_action():
 def test_reset():
     env.reset()
     assert env.timestep == 0, "Timestep not set to 0 on reset"
-    for i in range(sum_L + 1):
-        assert env.state[i] == env.starting_state[i], "State not set back to starting state on reset"
+    for i in range(sum_L):
+        assert env.state[i] == env.starting_state[i], "State not set back to starting state on reset at index {}".format(
+            i)
+    assert env.state[-1] == env.max_inventory
