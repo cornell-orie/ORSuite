@@ -32,6 +32,7 @@ class DualSourcingEnvironment(gym.Env):
                 L: array of ints representing the lead times of each supplier
                 c: array of ints representing the costs of each supplier
                 lambda: distribution parameter
+                demand_dist: The random number sampled from the given distribution to be used to calculate the demand
                 h: holding cost
                 b: backorder cost
                 epLen: The episode length
@@ -46,6 +47,7 @@ class DualSourcingEnvironment(gym.Env):
         # self.cr = config['cr']
         # self.ce = config['ce']
         self.Lambda = config['lambda']
+        self.demand_dist = config['demand_dist']
         self.h = config['h']
         self.b = config['b']
         #self.starting_state = [0] * (self.Lr + self.Le + 1)
@@ -100,7 +102,7 @@ class DualSourcingEnvironment(gym.Env):
 
         reward = self.r(self.state)
 
-        demand = np.random.poisson(self.Lambda)
+        demand = self.demand_dist(self.timestep)
         newState = self.g(self.state, action)
         newState[-1] = newState[-1] - demand
         newState[-1] = max(- self.max_inventory,

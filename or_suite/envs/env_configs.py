@@ -224,6 +224,7 @@ inventory_control_multiple_suppliers_default_config = {
     'Lr': 5,
     'Le': 1,
     'lambda': 10,
+    'demand_dist': lambda x: np.random.poisson(10),
     'c': [100, 105],
     'cr': 100,
     'ce': 105,
