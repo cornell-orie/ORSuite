@@ -24,6 +24,7 @@ class DualSourcingEnvironment(gym.Env):
         action_space: (Gym.spaces MultiDiscrete) Actions must be the length of the number of suppliers. Each entry is an int corresponding to the order size. 
         observation_space: (Gym.spaces MultiDiscrete) The environment state must be the length of the of the sum of all lead times plus one. Each entry corresponds to the order that will soon be placed to a supplier. The last index is the current on-hand inventory.
     """
+
     def __init__(self, config):
         """
         Args:
@@ -54,11 +55,12 @@ class DualSourcingEnvironment(gym.Env):
         self.max_inventory = config['max_inventory']
 
         self.state = np.asarray(self.starting_state)
-        self.action_space = gym.spaces.MultiDiscrete([self.max_order+1]*len(self.L))
+        self.action_space = gym.spaces.MultiDiscrete(
+            [self.max_order+1]*len(self.L))
         # self.observation_space = gym.spaces.MultiDiscrete(
         #     [self.max_order+1]*(self.Lr+self.Le)+[self.max_inventory])
         self.observation_space = gym.spaces.MultiDiscrete(
-            [self.max_order+1]*(L_total)+[self.max_inventory])
+            [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
         # Check to see if cost and lead time vectors match
         assert len(self.c) == len(self.L)
         self.timestep = 0
@@ -70,7 +72,7 @@ class DualSourcingEnvironment(gym.Env):
 
     def seed(self, seed=None):
         """Sets the numpy seed to the given value
-        
+
         Args:
             seed: The int represeting the numpy seed."""
         np.random.seed(seed)
@@ -80,18 +82,18 @@ class DualSourcingEnvironment(gym.Env):
     def step(self, action):
         """
         Move one step in the environment.
-        
+
         Args:
             action: An int list of the amount to order from each supplier.
-            
+
         Returns:
             float, int, bool, info:
             reward: A float representing the reward based on the action chosen.
-            
+
             newState: An int list representing the new state of the environment after the action.
-            
+
             done: A bool flag indicating the end of the episode.
-            
+
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
         assert self.action_space.contains(action)
 
@@ -100,8 +102,8 @@ class DualSourcingEnvironment(gym.Env):
         demand = np.random.poisson(self.Lambda)
         newState = self.g(self.state, action)
         newState[-1] = newState[-1] - demand
-        newState[-1] = max(0,
-                           min(newState[-1], self.max_inventory))
+        newState[-1] = max(- self.max_inventory,
+                           min(newState[-1] - self.max_inventory, self.max_inventory)) + self.max_inventory
         self.state = newState.copy()
 
         assert self.observation_space.contains(self.state)
@@ -116,7 +118,7 @@ class DualSourcingEnvironment(gym.Env):
         total = 0
         for i in range(0, len(self.L)):
             total += self.c[i]*state[self.L[i] - 1]
-        return -(total + self.h*max(state[-1], 0) + self.b*max(-state[-1], 0))
+        return -(total + self.h*max(state[-1] - self.max_inventory, 0) + self.b*max(-state[-1] - self.max_inventory, 0))
         # Old function for two suppliers
         # return -(self.cr*state[self.Lr-1] + self.ce*state[self.Lr+self.Le-1] +
         #          self.h*max(state[-1], 0) + self.b*max(-state[-1], 0))
