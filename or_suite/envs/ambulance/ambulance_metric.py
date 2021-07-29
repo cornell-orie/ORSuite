@@ -3,20 +3,21 @@ Implementation of a basic RL environment for continuous spaces.
 Includes three test problems which were used in generating the figures.
 """
 
+import pyglet
+import time
+#import rendering
 import numpy as np
 import gym
 from gym import spaces
 import math
 from .. import env_configs
-# from gym.envs.classic_control import rendering
+from gym.envs.classic_control import rendering
 # import pyglet
-import os, sys
+import os
+import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
-import rendering
-import time
-import pyglet
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
@@ -228,7 +229,7 @@ class AmbulanceEnvironment(gym.Env):
 
         screen3 = self.viewer.render(mode)
         time.sleep(2)
-        
+
         return (screen1, screen2, screen3)
 
     def close(self):
