@@ -5,7 +5,8 @@ import gym
 from gym import spaces
 import networkx as nx
 import math
-
+from .. import rendering
+import time, os, pyglet
 from .. import env_configs
 
 # ------------------------------------------------------------------------------
@@ -82,6 +83,10 @@ class AmbulanceGraphEnvironment(gym.Env):
         self.num_ambulance = config['num_ambulance']
         self.arrival_dist = config['arrival_dist']
 
+        # variables used for rendering code
+        self.viewer = None
+        self.most_recent_action = None
+        
         self.from_data = config['from_data']
 
         self.lengths = self.find_lengths(self.graph, self.num_nodes)
@@ -154,6 +159,7 @@ class AmbulanceGraphEnvironment(gym.Env):
         closest_amb_loc = action[closest_amb_idx]
 
         total_dist_oldstate_to_action = 0
+        self.most_recent_action = action
 
         for amb_idx in range(len(action)):
             new_length = nx.shortest_path_length(
@@ -199,12 +205,73 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         return self.state, reward,  done, info
 
-    def render(self, mode='console'):
-        if mode != 'console':
-            raise NotImplementedError()
+    def reset_current_step(self, text, line_x1, line_x2, line_y):
+        """Used to render a textbox saying the current timestep."""
+        self.viewer.reset()
+        self.viewer.text("Current timestep: " + str(self.timestep), line_x1, 0)
+        self.viewer.text(text, line_x1, 100)
+        self.viewer.line(line_x1, line_x2, line_y,
+                         width=2, color=rendering.WHITE)
+
+    def draw_ambulances(self, locations, line_x1, line_x2, line_y, ambulance):
+        for loc in locations:
+            self.viewer.image(line_x1 + (line_x2 - line_x1)
+                              * loc, line_y, ambulance, 0.02)
+            # self.viewer.circle(line_x1 + (line_x2 - line_x1) * loc, line_y, radius=5, color=rendering.RED)
+
+    def render(self, mode='human'):
+        """Renders the environment using a pyglet window."""
+        screen_width = 800
+        screen_height = 500
+        line_x1 = 50
+        line_x2 = screen_width - line_x1
+        line_y = 300
+        script_dir = os.path.dirname(__file__)
+        ambulance = pyglet.image.load(script_dir + '/images/ambulance.jpg')
+        call = pyglet.image.load(script_dir + '/images/call.jpg')
+
+        screen1, screen2, screen3 = None, None, None
+
+        if self.viewer is None:
+            self.viewer = rendering.PygletWindow(
+                screen_width + 50, screen_height + 50)
+
+        # if self.most_recent_action is not None:
+
+        #     self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
+        #     self.draw_ambulances(self.most_recent_action,
+        #                          line_x1, line_x2, line_y, ambulance)
+        #     screen1 = self.viewer.render(mode)
+        #     time.sleep(2)
+
+        #     self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
+        #     self.draw_ambulances(self.most_recent_action,
+        #                          line_x1, line_x2, line_y, ambulance)
+
+        #     arrival_loc = self.state[np.argmax(
+        #         np.abs(self.state - self.most_recent_action))]
+        #     self.viewer.image(line_x1 + (line_x2 - line_x1)
+        #                       * arrival_loc, line_y, call, 0.02)
+        # #   self.viewer.circle(line_x1 + (line_x2 - line_x1) * arrival_loc, line_y, radius=5, color=rendering.GREEN)
+        #     screen2 = self.viewer.render(mode)
+        #     time.sleep(2)
+
+        # self.reset_current_step("Iteration ending state",
+        #                         line_x1, line_x2, line_y)
+
+        # self.draw_ambulances(self.state, line_x1, line_x2, line_y, ambulance)
+
+        # screen3 = self.viewer.render(mode)
+        time.sleep(2)
+        
+        return (screen1, screen2, screen3)
 
     def close(self):
-        pass
+        """Closes the rendering window."""
+        if self.viewer:
+            self.viewer.close()
+            self.viewer = None
+
 
     def find_lengths(self, graph, num_nodes):
         """
@@ -219,3 +286,5 @@ class AmbulanceGraphEnvironment(gym.Env):
             for node2 in range(num_nodes):
                 lengths[node1, node2] = dict_lengths[node1][node2]
         return lengths
+
+
