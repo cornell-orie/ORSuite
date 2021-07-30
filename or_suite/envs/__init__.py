@@ -6,6 +6,7 @@ import or_suite.envs.vaccine_allotment
 import or_suite.envs.ridesharing
 
 from or_suite.envs.env_configs import *
+from or_suite.envs.rendering import *
 from or_suite.envs.vaccine_allotment import dynamics_model_4groups
 
 
