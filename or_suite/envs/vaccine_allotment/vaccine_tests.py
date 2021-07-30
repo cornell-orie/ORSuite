@@ -7,15 +7,16 @@ from .. import env_configs
 import pytest
 from stable_baselines3.common.env_checker import check_env
 
-# Oil Discovery
-CONFIG = env_configs.oil_environment_default_config
+# Vaccine Allotment Tests
+CONFIG = env_configs.vaccine_default_config1
 
-env = gym.make('Oil-v0', config=CONFIG)
+env = gym.make('Vaccine-v0', config=CONFIG)
 
 
 def test_initial_state():
     for i in range(len(env.starting_state)):
-        assert env.starting_state[i] == 0, "Starting state array does not have all values of 0"
+        assert type(
+            env.starting_state[i]) == int, "Starting state array does not have all int values"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -27,7 +28,7 @@ def test_initial_state():
 
 def test_step():
     np.random.seed(10)
-    newState, reward, done, info = env.step([0])
+    newState, reward, done, info = env.step(1)
 
     # Test if new state is part of observation space
     assert env.observation_space.contains(
@@ -41,7 +42,7 @@ def test_step():
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
-    newState, reward, done, info = env.step([0])
+    newState, reward, done, info = env.step(1)
 
     # Test if new state is part of observation space
     assert env.observation_space.contains(
