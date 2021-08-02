@@ -12,25 +12,25 @@ CONFIG = env_configs.inventory_control_multiple_suppliers_default_config
 
 env = gym.make('MultipleSuppliers-v0', config=CONFIG)
 
-L = CONFIG['L']
+lead_times = CONFIG['lead_times']
 sum_L = 0  # Sum of all leadtimes
-for x in range(len(L)):
-    sum_L += L[x]
+for x in range(len(lead_times)):
+    sum_L += lead_times[x]
 
 
-CONFIG3 = {'L': [5, 1, 8],
-           'lambda': 10,
+CONFIG3 = {'lead_times': [5, 1, 8],
            'demand_dist': lambda x: np.random.poisson(10),
-           'c': [100, 105, 90],
-           'h': 1,
-           'b': 19,
+           'supplier_costs': [100, 105, 90],
+           'hold_cost': 1,
+           'backorder_cost': 19,
            'max_inventory': 1000,
            'max_order': 20,
-           'epLen': 500}
+           'epLen': 500,
+           'starting_state': None}
 
 env3 = gym.make('MultipleSuppliers-v0', config=CONFIG3)
 
-L3 = CONFIG3['L']
+L3 = CONFIG3['lead_times']
 sum_L3 = 0  # Sum of all leadtimes
 for x in range(len(L3)):
     sum_L3 += L3[x]

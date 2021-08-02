@@ -11,11 +11,10 @@ class DualSourcingEnvironment(gym.Env):
     An environment with a variable number of suppliers, each with their own lead time and cost.
 
     Attributes:
-        L: The array of ints representing the lead times of each supplier.
-        c: The array of ints representing the costs of each supplier.
-        lambda: The Poission distribution parameter.
-        h: The int holding cost.
-        b: The int backorder cost.
+        lead_times: The array of ints representing the lead times of each supplier.
+        supplier_costs: The array of ints representing the costs of each supplier.
+        hold_cost: The int holding cost.
+        backorder_cost: The int backorder cost.
         epLen:  The int number of time steps to run the experiment for.
         max_order: The maximum value (int) that can be ordered from each supplier.
         max_inventory: The maximum value (int) that can be held in inventory.
@@ -29,43 +28,44 @@ class DualSourcingEnvironment(gym.Env):
         """
         Args:
             config: A dictionary containt the following parameters required to set up the environment:
-                L: array of ints representing the lead times of each supplier
-                c: array of ints representing the costs of each supplier
-                lambda: distribution parameter
+                lead_times: array of ints representing the lead times of each supplier
+                supplier_costs: array of ints representing the costs of each supplier
                 demand_dist: The random number sampled from the given distribution to be used to calculate the demand
                 h: holding cost
                 b: backorder cost
                 epLen: The episode length
                 max_order: the maximum value (int) that can be ordered from each supplier
                 max_inventory: the maximum value (int) that can be held in inventory
+                starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
             """
-        self.L = config['L']
-        self.c = config['c']
+        self.lead_times = config['lead_times']
+        self.supplier_costs = config['supplier_costs']
 
         # self.Lr = config['Lr']
         # self.Le = config['Le']
         # self.cr = config['cr']
         # self.ce = config['ce']
-        self.Lambda = config['lambda']
         self.demand_dist = config['demand_dist']
-        self.h = config['h']
-        self.b = config['b']
+        self.hold_cost = config['hold_cost']
+        self.backorder_cost = config['backorder_cost']
         #self.starting_state = [0] * (self.Lr + self.Le + 1)
-        L_total = sum(self.L)
-        self.starting_state = [0] * (L_total + 1)
+        L_total = sum(self.lead_times)
+        self.starting_state = config['starting_state']
+        if self.starting_state == None:
+            self.starting_state = [0] * (L_total + 1)
         self.max_order = config['max_order']
         self.max_inventory = config['max_inventory']
         self.starting_state[-1] = self.max_inventory
 
         self.state = np.asarray(self.starting_state)
         self.action_space = gym.spaces.MultiDiscrete(
-            [self.max_order+1]*len(self.L))
+            [self.max_order+1]*len(self.lead_times))
         # self.observation_space = gym.spaces.MultiDiscrete(
         #     [self.max_order+1]*(self.Lr+self.Le)+[self.max_inventory])
         self.observation_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
         # Check to see if cost and lead time vectors match
-        assert len(self.c) == len(self.L)
+        assert len(self.supplier_costs) == len(self.lead_times)
         self.timestep = 0
         self.epLen = config['epLen']
 
@@ -119,9 +119,9 @@ class DualSourcingEnvironment(gym.Env):
     # Auxilary function computing the reward
     def r(self, state):
         total = 0
-        for i in range(0, len(self.L)):
-            total += self.c[i]*state[self.L[i] - 1]
-        return -(total + self.h*max(state[-1] - self.max_inventory, 0) + self.b*max(-(state[-1] - self.max_inventory), 0))
+        for i in range(0, len(self.lead_times)):
+            total += self.supplier_costs[i]*state[self.lead_times[i] - 1]
+        return -(total + self.hold_cost*max(state[-1] - self.max_inventory, 0) + self.backorder_cost*max(-(state[-1] - self.max_inventory), 0))
         # Old function for two suppliers
         # return -(self.cr*state[self.Lr-1] + self.ce*state[self.Lr+self.Le-1] +
         #          self.h*max(state[-1], 0) + self.b*max(-state[-1], 0))
@@ -131,11 +131,11 @@ class DualSourcingEnvironment(gym.Env):
         running_L_sum = 1
         vec = []
         inventory_add_sum = state[-1]
-        for i in range(0, len(self.L)):
+        for i in range(0, len(self.lead_times)):
             inventory_add_sum += state[running_L_sum - 1]
             vec = np.hstack(
-                (vec, state[running_L_sum: running_L_sum - 1 + self.L[i]], action[i]))
-            running_L_sum += self.L[i]
+                (vec, state[running_L_sum: running_L_sum - 1 + self.lead_times[i]], action[i]))
+            running_L_sum += self.lead_times[i]
         return np.hstack((vec, inventory_add_sum)).astype(int)
 
         # Old function for two suppliers
