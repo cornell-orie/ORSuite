@@ -81,9 +81,7 @@ class RideshareGraphEnvironment(gym.Env):
     def reset(self):
         """Reinitializes variables and returns the starting state."""
         self.timestep = 0
-        self.state = np.asarray(np.concatenate(
-            (self.config['starting_state'], self.request_dist(0, self.num_nodes))))
-
+        self.state = self.starting_state
         return self.state
 
     def get_config(self):

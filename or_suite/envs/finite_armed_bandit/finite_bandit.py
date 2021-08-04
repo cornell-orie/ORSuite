@@ -29,6 +29,7 @@ class FiniteBanditEnvironment(gym.Env):
         self.config = config
         self.epLen = config['epLen']
         self.arm_means = config['arm_means']
+        self.timestep = 0
 
         # specifies action space
         self.action_space = spaces.Discrete(len(self.arm_means))
@@ -64,6 +65,9 @@ class FiniteBanditEnvironment(gym.Env):
             newState: A list; The new state of the system.
             done: 0 or 1. The flag for end of the episode.
         """
+
+        assert self.action_space.contains(action)
+
         old_state = self.state
 
         # Update the state of the system according to the action taken and change
@@ -82,7 +86,7 @@ class FiniteBanditEnvironment(gym.Env):
         self.state = newState
         self.timestep += 1
 
-        return self.state, reward,  done, info
+        return self.state, np.float32(reward),  done, info
 
     def render(self, mode='console'):
         if mode != 'console':
