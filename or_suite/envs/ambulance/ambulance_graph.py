@@ -82,6 +82,7 @@ class AmbulanceGraphEnvironment(gym.Env):
         self.timestep = 0
         self.num_ambulance = config['num_ambulance']
         self.arrival_dist = config['arrival_dist']
+        self.pos = nx.spring_layout(self.graph) ##
 
         # variables used for rendering code
         self.viewer = None
@@ -210,13 +211,11 @@ class AmbulanceGraphEnvironment(gym.Env):
         self.viewer.reset()
         self.viewer.text("Current timestep: " + str(self.timestep), line_x1, 0)
         self.viewer.text(text, line_x1, 100)
-        self.viewer.line(line_x1, line_x2, line_y,
-                         width=2, color=rendering.WHITE)
-
+        self.viewer.draw_graph(self.pos, self.graph) ##
+        
     def draw_ambulances(self, locations, line_x1, line_x2, line_y, ambulance):
         for loc in locations:
-            self.viewer.image(line_x1 + (line_x2 - line_x1)
-                              * loc, line_y, ambulance, 0.02)
+            self.viewer.image(self.pos[0][0], self.pos[0][1], ambulance, 0.02) ##
             # self.viewer.circle(line_x1 + (line_x2 - line_x1) * loc, line_y, radius=5, color=rendering.RED)
 
     def render(self, mode='human'):
