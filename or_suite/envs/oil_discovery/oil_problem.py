@@ -25,13 +25,14 @@ class OilEnvironment(gym.Env):
 
         Attributes:
             epLen: The (int) number of time steps to run the experiment for.
-            arrival_dist: A (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.
-            timestep: The (int) timestep the current episode is on.
-            starting_state: An int list containing the starting locations for each ambulance.
-            action_space: (Gym.spaces Box) Actions must be the location.
-            observation_space: (Gym.spaces Box) The location.
-
+            oil_prob (lambda function): A function taken as input a state, action and timestep, and outputting a reward for moving agent to that location
+            cost_param (float): The parameter regulating the cost for moving the agent from one location to another
+            noise_variance (lambda function): A function taken as input state, action, and timestamp, and outputting the noise added on to moving the agent
+            starting_state: An int list containing the starting locations for the agent.
+            action_space: (Gym.spaces Box) Actions must be the location to move the agent.
+            observation_space: (Gym.spaces Box) The location of the agent.
         """
+
     metadata = {'render.modes': ['human']}
 
     def __init__(self, config=env_configs.oil_environment_default_config):
