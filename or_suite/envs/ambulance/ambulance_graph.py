@@ -8,6 +8,7 @@ import math
 from .. import rendering
 import time, os, pyglet
 from .. import env_configs
+import matplotlib.pyplot as plt
 
 # ------------------------------------------------------------------------------
 """An ambulance environment over a simple graph.  An agent interacts through 
@@ -211,7 +212,13 @@ class AmbulanceGraphEnvironment(gym.Env):
         self.viewer.reset()
         self.viewer.text("Current timestep: " + str(self.timestep), line_x1, 0)
         self.viewer.text(text, line_x1, 100)
-        self.viewer.draw_graph(self.pos, self.graph) ##
+        pos = nx.spring_layout(self.graph)
+        c = pos[0][0]
+        nx.draw(self.graph, pos, node_size=1, with_labels = True)
+        plt.tight_layout()
+        plt.savefig('graph.png', format='png')
+        image = pyglet.resource.image('graph.png')
+        image.blit(0,0)
         
     def draw_ambulances(self, locations, line_x1, line_x2, line_y, ambulance):
         for loc in locations:
@@ -230,41 +237,41 @@ class AmbulanceGraphEnvironment(gym.Env):
         call = pyglet.image.load(script_dir + '/images/call.jpg')
 
         screen1, screen2, screen3 = None, None, None
-
+        print('set up screens')
         if self.viewer is None:
             self.viewer = rendering.PygletWindow(
                 screen_width + 50, screen_height + 50)
+        if self.most_recent_action is not None:
 
-        # if self.most_recent_action is not None:
+            self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
+#             self.draw_ambulances(self.most_recent_action,
+#                                  line_x1, line_x2, line_y, ambulance)
+            screen1 = self.viewer.render(mode)
+            time.sleep(2)
 
-        #     self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
-        #     self.draw_ambulances(self.most_recent_action,
-        #                          line_x1, line_x2, line_y, ambulance)
-        #     screen1 = self.viewer.render(mode)
-        #     time.sleep(2)
+            self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
+#             self.draw_ambulances(self.most_recent_action,
+#                                  line_x1, line_x2, line_y, ambulance)
 
-        #     self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
-        #     self.draw_ambulances(self.most_recent_action,
-        #                          line_x1, line_x2, line_y, ambulance)
+#             arrival_loc = self.state[np.argmax(
+#                 np.abs(self.state - self.most_recent_action))]
+#             self.viewer.image(line_x1 + (line_x2 - line_x1)
+#                               * arrival_loc, line_y, call, 0.02)
+        #   self.viewer.circle(line_x1 + (line_x2 - line_x1) * arrival_loc, line_y, radius=5, color=rendering.GREEN)
+            screen2 = self.viewer.render(mode)
+            time.sleep(2)
 
-        #     arrival_loc = self.state[np.argmax(
-        #         np.abs(self.state - self.most_recent_action))]
-        #     self.viewer.image(line_x1 + (line_x2 - line_x1)
-        #                       * arrival_loc, line_y, call, 0.02)
-        # #   self.viewer.circle(line_x1 + (line_x2 - line_x1) * arrival_loc, line_y, radius=5, color=rendering.GREEN)
-        #     screen2 = self.viewer.render(mode)
-        #     time.sleep(2)
+        self.reset_current_step("Iteration ending state",
+                                line_x1, line_x2, line_y)
 
-        # self.reset_current_step("Iteration ending state",
-        #                         line_x1, line_x2, line_y)
+#         self.draw_ambulances(self.state, line_x1, line_x2, line_y, ambulance)
 
-        # self.draw_ambulances(self.state, line_x1, line_x2, line_y, ambulance)
-
-        # screen3 = self.viewer.render(mode)
+        screen3 = self.viewer.render(mode)
         time.sleep(2)
         
-        return (screen1, screen2, screen3)
-
+        return (screen1, screen2, screen3) 
+    
+    
     def close(self):
         """Closes the rendering window."""
         if self.viewer:
