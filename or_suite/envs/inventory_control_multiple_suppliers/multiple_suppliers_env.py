@@ -41,14 +41,9 @@ class DualSourcingEnvironment(gym.Env):
         self.lead_times = config['lead_times']
         self.supplier_costs = config['supplier_costs']
 
-        # self.Lr = config['Lr']
-        # self.Le = config['Le']
-        # self.cr = config['cr']
-        # self.ce = config['ce']
         self.demand_dist = config['demand_dist']
         self.hold_cost = config['hold_cost']
         self.backorder_cost = config['backorder_cost']
-        #self.starting_state = [0] * (self.Lr + self.Le + 1)
         L_total = sum(self.lead_times)
         self.starting_state = config['starting_state']
         if self.starting_state == None:
@@ -60,16 +55,12 @@ class DualSourcingEnvironment(gym.Env):
         self.state = np.asarray(self.starting_state)
         self.action_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*len(self.lead_times))
-        # self.observation_space = gym.spaces.MultiDiscrete(
-        #     [self.max_order+1]*(self.Lr+self.Le)+[self.max_inventory])
         self.observation_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
         # Check to see if cost and lead time vectors match
         assert len(self.supplier_costs) == len(self.lead_times)
         self.timestep = 0
         self.epLen = config['epLen']
-
-        self.nA = (self.max_order+1) ** 2
 
         metadata = {'render.modes': ['human']}
 
@@ -100,10 +91,8 @@ class DualSourcingEnvironment(gym.Env):
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
         assert self.action_space.contains(action)
 
-        reward = self.r(self.state)
-
         demand = self.demand_dist(self.timestep)
-        newState = self.g(self.state, action)
+        newState = self.new_state_helper(self.state, action)
         newState[-1] = newState[-1] - demand
         newState[-1] = max(- self.max_inventory,
                            min(newState[-1] - self.max_inventory, self.max_inventory)) + self.max_inventory
@@ -111,23 +100,31 @@ class DualSourcingEnvironment(gym.Env):
 
         assert self.observation_space.contains(self.state)
 
+        reward = self.reward(self.state)
+
         self.timestep += 1
         done = self.timestep == self.epLen
 
         return self.state, float(reward), done, {'demand': demand}
 
     # Auxilary function computing the reward
-    def r(self, state):
+    def reward(self, state):
+        """
+        Reward is calculated in three components:
+            - First component corresponds to the cost for ordering amounts from each supplier
+            - Second component corresponds to paying a holding cost for extra inventory after demand arrives
+            - Third component corresponds to a back order cost for unmet demand
+        """
         total = 0
+        sum_previous_lead_times = 0
         for i in range(0, len(self.lead_times)):
-            total += self.supplier_costs[i]*state[self.lead_times[i] - 1]
+            total += self.supplier_costs[i] * \
+                state[self.lead_times[i] - 1 + sum_previous_lead_times]
+            sum_previous_lead_times += self.lead_times[i]
         return -(total + self.hold_cost*max(state[-1] - self.max_inventory, 0) + self.backorder_cost*max(-(state[-1] - self.max_inventory), 0))
-        # Old function for two suppliers
-        # return -(self.cr*state[self.Lr-1] + self.ce*state[self.Lr+self.Le-1] +
-        #          self.h*max(state[-1], 0) + self.b*max(-state[-1], 0))
 
     # Auxilary function
-    def g(self, state, action):
+    def new_state_helper(self, state, action):
         running_L_sum = 1
         vec = []
         inventory_add_sum = state[-1]
@@ -137,10 +134,6 @@ class DualSourcingEnvironment(gym.Env):
                 (vec, state[running_L_sum: running_L_sum - 1 + self.lead_times[i]], action[i]))
             running_L_sum += self.lead_times[i]
         return np.hstack((vec, inventory_add_sum)).astype(int)
-
-        # Old function for two suppliers
-        # return np.hstack([state[1:self.Lr], action[0], state[self.Lr+1:self.Lr+self.Le], action[1],
-        #                  state[self.Lr+self.Le]+state[0]+state[self.Lr]]).astype(int)
 
     def render(self, mode='human'):
         outfile = sys.stdout if mode == 'human' else super(
