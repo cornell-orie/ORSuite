@@ -2,7 +2,7 @@
 import numpy as np
 import gym
 from gym import spaces
-import math
+#import math
 from .. import env_configs
 
 # ------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ class ResourceAllocationEnvironment(gym.Env):
             done: 0/1; theflag for end of the episode.
             info: dict; any additional information.
         """
-
+        assert self.action_space.contains(action)
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
         old_type = self.state[self.num_commodities:]
