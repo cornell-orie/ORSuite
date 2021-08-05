@@ -16,7 +16,7 @@ env = gym.make('Vaccine-v0', config=CONFIG)
 def test_initial_state():
     for i in range(len(env.starting_state)):
         assert type(
-            env.starting_state[i]) == int, "Starting state array does not have all int values"
+            env.starting_state[i]) == np.int64, "Starting state array does not have all int values"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -35,10 +35,10 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Test to see if returned reward is a float
-    assert type(reward) == np.float64, "Reward is not a float"
+    assert type(reward) == float, "Reward is not a float"
 
     # Check value of reward
-    difference = 0.
+    difference = abs(reward - (-77.0))
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
@@ -49,7 +49,7 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Check value of reward
-    difference = 0.
+    difference = abs(reward - (-87.0))
     assert difference <= .000001 and difference >= 0.0
 
     check_env(env, skip_render_check=True)
