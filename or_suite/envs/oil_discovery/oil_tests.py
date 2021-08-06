@@ -34,10 +34,11 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Test to see if returned reward is a float
-    assert type(reward) == np.float64, "Reward is not a float"
+    assert type(reward) == np.float64 or type(reward) == float or type(
+        reward) == np.float32, "Reward is not a float"
 
     # Check value of reward
-    difference = 0.
+    difference = abs(reward - 1.0)
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
@@ -48,7 +49,7 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Check value of reward
-    difference = 0.
+    difference = abs(reward - 1.0)
     assert difference <= .000001 and difference >= 0.0
 
     check_env(env, skip_render_check=True)
