@@ -61,6 +61,9 @@ class AirlineRevenueEnvironment(gym.Env):
 
     def step(self, action):
         """Move one step in the environment."""
+
+        assert self.action_space.contains(action)
+
         # Sample customer arrival
         pDist = np.append(
             np.copy(self.P[self.timestep, :]), 1 - np.sum(self.P[self.timestep, :]))
@@ -77,7 +80,7 @@ class AirlineRevenueEnvironment(gym.Env):
 
         # Given a valid action
         newState = np.copy(self.state)
-        reward = 0
+        reward = 0.
         if (not customer == self.A.shape[1]) and valid:
             if action[customer] == 1:
                 newState = np.copy(self.state) - self.A[:, customer]
