@@ -5,6 +5,7 @@ import or_suite.envs.finite_armed_bandit
 import or_suite.envs.vaccine_allotment
 import or_suite.envs.ridesharing
 import or_suite.envs.inventory_control_multiple_suppliers
+import or_suite.envs.airline_revenue_management
 
 from or_suite.envs.env_configs import *
 from or_suite.envs.vaccine_allotment import dynamics_model_4groups
@@ -51,7 +52,12 @@ register(id='Oil-v0',
          )
 
 # Inventory Control With Multiple Suppliers
-
 register(id='MultipleSuppliers-v0',
          entry_point='or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env:DualSourcingEnvironment'
          )
+
+
+# Airline Problem
+register(id = 'Airline-v0',
+        entry_point = 'or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
+)
