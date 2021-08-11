@@ -4,6 +4,7 @@ import or_suite.envs.resource_allocation
 import or_suite.envs.finite_armed_bandit
 import or_suite.envs.vaccine_allotment
 import or_suite.envs.ridesharing
+import or_suite.envs.airline_revenue_management
 
 from or_suite.envs.env_configs import *
 from or_suite.envs.vaccine_allotment import dynamics_model_4groups
@@ -47,4 +48,11 @@ register(id = 'Rideshare-v0',
 
 register(id = 'Oil-v0',
         entry_point = 'or_suite.envs.oil_discovery.oil_problem:OilEnvironment'        
+)
+
+
+# Airline Problem
+
+register(id = 'Airline-v0',
+        entry_point = 'or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
 )
