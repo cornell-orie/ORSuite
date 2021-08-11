@@ -86,7 +86,7 @@ class FiniteBanditEnvironment(gym.Env):
         self.state = newState
         self.timestep += 1
 
-        return self.state, np.float32(reward),  done, info
+        return self.state, np.float64(reward),  done, info
 
     def render(self, mode='console'):
         if mode != 'console':
