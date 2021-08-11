@@ -28,9 +28,6 @@ jobs:
     - name: Install GLU library
       run: |
         sudo apt-get install freeglut3-dev
-    - name: Setup fake screen
-      run: |
-        sudo nvidia-xconfig -a --cool-bits=4
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
