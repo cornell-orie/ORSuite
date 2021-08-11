@@ -5,7 +5,6 @@ Includes three test problems which were used in generating the figures.
 
 import pyglet
 import time
-#import rendering
 import numpy as np
 import gym
 from gym import spaces
@@ -18,6 +17,7 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
+import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
