@@ -17,7 +17,7 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
-from .. import rendering
+import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
