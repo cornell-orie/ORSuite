@@ -168,11 +168,10 @@ class Tree():
     def plot(self, figname = 'tree plot', colormap_name = 'cool', max_value = 10, node=None, root=True,):
         if root:
             assert self.dim == 2, "Plot only available for 2-dimensional spaces."
-            plt.figure(fignum)
         
         if node.is_leaf():
             x0, x1 = node.bounds[0, :]
-            y_1, y_1 = node.bounds[1, :]
+            y0, y1 = node.bounds[1, :]
             colormap_fn = plt.get_cmap(colormap_name)
             color = colormap_fn(node.qVal / max_value)
             rectangle = plt.Rectangle((x0, y0), x1-x0, y1-y0, ec='black', color=color)
