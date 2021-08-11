@@ -109,7 +109,7 @@ class AmbulanceGraphEnvironment(gym.Env):
         if self.from_data:
             self.episode_num += 1
 
-        return self.starting_state
+        return np.asarray(self.starting_state)
 
     def get_config(self):
         return self.config

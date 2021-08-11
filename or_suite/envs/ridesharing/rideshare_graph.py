@@ -182,4 +182,4 @@ class RideshareGraphEnvironment(gym.Env):
 
         self.timestep += 1
 
-        return self.state, reward, done, {'request': new_request}
+        return self.state, np.float64(reward), done, {'request': new_request}
