@@ -4,6 +4,7 @@ import gym
 from gym import spaces
 import math
 from .. import env_configs
+from .resource_allocation import ResourceAllocationEnvironment
 
 # ------------------------------------------------------------------------------
 """Sequential Resource Allocation Problem for n locations with K commodities with Donations. 
