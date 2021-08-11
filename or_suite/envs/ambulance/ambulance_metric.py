@@ -12,7 +12,8 @@ import math
 from .. import env_configs
 from gym.envs.classic_control import rendering
 # import pyglet
-import os, sys
+import os
+import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
@@ -228,7 +229,7 @@ class AmbulanceEnvironment(gym.Env):
 
         screen3 = self.viewer.render(mode)
         time.sleep(2)
-        
+
         return (screen1, screen2, screen3)
 
     def close(self):

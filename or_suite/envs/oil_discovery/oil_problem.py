@@ -77,7 +77,7 @@ class OilEnvironment(gym.Env):
         assert self.action_space.contains(action)
         # print('state: ' + str(self.state))
         # print('action: ' + str(action))
-        reward = min(1, max(self.oil_prob(self.state, action, self.timestep) -
+        reward = min(1.0, max(self.oil_prob(self.state, action, self.timestep) -
                      self.cost_param*np.sum(np.abs(self.state - action)), 0))
         # print('reward: ' + str(reward))
 
