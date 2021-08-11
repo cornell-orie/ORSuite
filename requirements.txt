@@ -11,3 +11,4 @@ scikit-learn-extra==0.2.0
 stable-baselines3==1.0
 cvxpy==1.1.13
 pyglet
+pyopengl
