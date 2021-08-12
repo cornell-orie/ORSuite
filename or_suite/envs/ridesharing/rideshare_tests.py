@@ -9,6 +9,7 @@ from stable_baselines3.common.env_checker import check_env
 
 # Finite Armed Bandit Tests
 CONFIG = env_configs.rideshare_graph_default_config
+np.random.seed(10)
 
 env = gym.make('Rideshare-v0', config=CONFIG)
 
@@ -27,7 +28,6 @@ def test_initial_state():
 
 
 def test_step():
-    np.random.seed(10)
     newState, reward, done, info = env.step(1)
 
     # Test if new state is part of observation space
@@ -38,7 +38,7 @@ def test_step():
     assert type(reward) == np.float64, "Reward is not a float"
 
     # Check value of reward
-    difference = abs(reward - (-1.0))
+    difference = abs(reward - (0.0))
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
