@@ -33,5 +33,12 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pip install pytest
         pytest or_suite/envs/general_test.py
+        pytest or_suite/envs/ambulance/ambulance_tests.py
+        pytest or_suite/envs/oil_discovery/oil_tests.py
+        pytest or_suite/envs/resource_allocation/resource_allocation_tests.py
+        pytest or_suite/envs/ridesharing/rideshare_tests.py
+        pytest or_suite/envs/airline_revenue_management/airline_tests.py
+        pytest or_suite/envs/finite_armed_bandit/bandit_tests.py
+        pytest or_suite/envs/inventory_control_multiple_suppliers/inventory_control_test.py
+        pytest or_suite/envs/vaccine_allotment/vaccine_tests.py
