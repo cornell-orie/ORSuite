@@ -25,9 +25,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Install GLU library
+    - name: Install GLU library and XVFB
       run: |
         sudo apt-get install freeglut3-dev
+        sudo apt-get install xvfb
     - name: Display Fix
       run: |
         export DISPLAY=':99.0'
