@@ -7,7 +7,6 @@ by picking a location to station the ambulance.  Then a patient arrives and the 
 most go and serve the arrival, paying a cost of travel.
 """
 
-import rendering
 import pyglet
 import time
 import numpy as np
@@ -22,6 +21,7 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
+import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
