@@ -1,8 +1,13 @@
 """
 Implementation of a basic RL environment for continuous spaces.
 Includes three test problems which were used in generating the figures.
+
+An ambulance environment over [0,1].  An agent interacts through the environment
+by picking a location to station the ambulance.  Then a patient arrives and the ambulance
+most go and serve the arrival, paying a cost of travel.
 """
 
+import rendering
 import pyglet
 import time
 import numpy as np
@@ -17,31 +22,20 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
-import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
 
 # ------------------------------------------------------------------------------
-"""An ambulance environment over [0,1].  An agent interacts through the environment
-by picking a location to station the ambulance.  Then a patient arrives and the ambulance
-most go and serve the arrival, paying a cost of travel."""
 
 
 class AmbulanceEnvironment(gym.Env):
     """
-    A 1-dimensional reinforcement learning environment in the space $X = [0, 1]$.
+    A 1-dimensional reinforcement learning environment in the space X = [0, 1].
 
-    Ambulances are located anywhere in $X = [0,1]$, and at the beginning of each
+    Ambulances are located anywhere in X = [0,1], and at the beginning of each 
     iteration, the agent chooses where to station each ambulance (the action).
     A call arrives, and the nearest ambulance goes to the location of that call.
-
-    Methods:
-      reset() : Resets the environment to its original settings.
-      get_config() : Returns the config dictionary used to initialize the environment.
-      step(action) : Takes an action from the agent and returns the state of the system after the next arrival.
-      render(mode) : Renders the environment in the mode passed in; 'human' is the only mode currently supported.
-      close() : Closes the window where the rendering is being drawn.
 
     Attributes:
       epLen: The (int) number of time steps to run the experiment for.
@@ -61,8 +55,9 @@ class AmbulanceEnvironment(gym.Env):
 
     def __init__(self, config=env_configs.ambulance_metric_default_config):
         """
-        Args:
-        config: A (dict) dictionary containing the parameters required to set up a metric ambulance environment.
+
+        Args: 
+            config: A (dict) dictionary containing the parameters required to set up a metric ambulance environment.
             epLen: The (int) number of time steps to run the experiment for.
             arrival_dist: A (lambda) arrival distribution for calls over the space [0,1]; takes an integer (step) and returns a float between 0 and 1.
             alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.
@@ -110,12 +105,13 @@ class AmbulanceEnvironment(gym.Env):
         Move one step in the environment.
 
         Args:
-            action: A float list of locations in [0,1] the same length as the
-            number of ambulances, where each entry i in the list corresponds to the
-            chosen location for ambulance i.
+            action: A float list of locations in [0,1] the same length as the number of ambulances, where each entry i in the list corresponds to the chosen location for ambulance i.
         Returns:
+            float, float list, bool:
             reward: A float representing the reward based on the action chosen.
+
             newState: A float list representing the state of the environment after the action and call arrival.
+
             done: A bool flag indicating the end of the episode.
         """
 

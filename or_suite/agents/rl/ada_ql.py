@@ -2,6 +2,7 @@ import numpy as np
 from .. import Agent
 from or_suite.agents.rl.utils.tree import Tree, Node
 
+
 class AdaptiveDiscretizationQL(Agent):
     """
     Adaptive Q-Learning algorithm  implemented for enviroments
@@ -14,8 +15,6 @@ class AdaptiveDiscretizationQL(Agent):
         inherit_flag: (bool) boolean of whether to inherit estimates
         dim: (int) dimension of R^d the state_action space is represented in
     """
-
-
 
     def __init__(self, epLen, scaling, inherit_flag, dim):
         self.epLen = epLen
@@ -39,22 +38,20 @@ class AdaptiveDiscretizationQL(Agent):
             self.tree_list.append(tree)
 
     def update_config(self, env, config):
-        ''' Update agent information based on the config__file'''
+        ''' Update agent information based on the config__file.'''
         pass
 
-    
     # Gets the number of balls for each tree and adds them together
+
     def get_num_balls(self):
         total_size = 0
         for tree in self.tree_list:
             total_size += tree.get_number_of_active_balls()
         return total_size
 
-
-
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         """
-        Updates estimate of the Q function for the ball used in a given state
+        Updates estimate of the Q function for the ball used in a given state.
         """
 
         # Gets the active tree based on current timestep
@@ -74,35 +71,34 @@ class AdaptiveDiscretizationQL(Agent):
 
             vFn = min(self.epLen, new_q)
 
-
         # Updates parameters for the node
         active_node.num_visits += 1
         t = active_node.num_visits
-        
+
         lr = (self.epLen + 1) / (self.epLen + t)
         bonus = self.scaling * np.sqrt(1 / t)
-        
-        active_node.qVal = (1 - lr) * active_node.qVal + lr * (reward + vFn + bonus)
 
-        '''determines if it is time to split the current ball'''
+        active_node.qVal = (1 - lr) * active_node.qVal + \
+            lr * (reward + vFn + bonus)
+
+        '''Determines if it is time to split the current ball.'''
         if t >= 2**(2*active_node.depth):
             active_node.split_node(self.inherit_flag)
 
     def update_policy(self, k):
-        '''Update internal policy based upon records'''
+        '''Update internal policy based upon records.'''
         return
-
 
     def pick_action(self, state, timestep):
         '''
-        Select action according to a greedy policy
+        Select action according to a greedy policy.
 
         Args:
-            state - int - current state
-            timestep - int - timestep *within* episode
+            state: int - current state
+            timestep: int - timestep *within* episode
 
         Returns:
-            action - int
+            int: action
         '''
         # Considers the partition of the space for the current timestep
         tree = self.tree_list[timestep]
@@ -112,5 +108,6 @@ class AdaptiveDiscretizationQL(Agent):
 
         # Picks an action uniformly in that ball
         action_dim = self.dim - len(state)
-        action = np.random.uniform(active_node.bounds[action_dim:, 0], active_node.bounds[action_dim:, 1])
+        action = np.random.uniform(
+            active_node.bounds[action_dim:, 0], active_node.bounds[action_dim:, 1])
         return action

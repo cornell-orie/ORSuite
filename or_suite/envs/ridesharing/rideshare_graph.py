@@ -136,17 +136,13 @@ class RideshareGraphEnvironment(gym.Env):
                 An Integer representing the node selected by the agent to 
                 service the request.
 
-        Returns:
-            A 3-tuple consisting of the following elements:
+        Returns: A 3-tuple consisting of the following elements:
 
-            An updated representation of the state, including updated car
-            locations resulting from the previous dispatch and a new ride
-            request,
+           - An updated representation of the state, including updated car locations resulting from the previous dispatch and a new ride request,
 
-            An integer reward value based on the action,
+           - An integer reward value based on the action,
 
-            A boolean indicating whether or not the model has reached the limit
-            timestep.
+           - A boolean indicating whether or not the model has reached the limit timestep.
         """
         assert self.action_space.contains(action)
 

@@ -2,24 +2,21 @@ import numpy as np
 import sys
 from .. import Agent
 
+
 class commandLineAgent(Agent):
     """
     Allows the user to act as the agent by entering locations for each of the ambulances through the command line. Only works with the metric environment.
-    
+
     Methods:
         reset() : clears data and call_locs which contain data on what has occurred so far in the environment
         update_config() : (UNIMPLEMENTED)
-        update_obs(obs, action, reward, newObs, timestep, info) : 
-            adds newObs, the most recently observed state, to data
-            adds the most recent call arrival, found in info['arrival'] to call_locs
-        update_policy() : not used, because action is chosen by user 
         pick_action(state, step) : the user is prompted to enter a new location for each ambulance, and these locations are used as the action
 
     Attributes:
         epLen: (int) number of time steps to run the experiment for
         data: (float list list) a list of all the states of the environment observed so far
         call_locs: (float list) the locations of all calls observed so far
-    
+
   """
 
     def __init__(self, epLen):
@@ -38,7 +35,8 @@ class commandLineAgent(Agent):
         self.call_locs = []
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Add observation to records'''
+        '''adds newObs, the most recently observed state, to data
+            adds the most recent call arrival, found in info['arrival'] to call_locs'''
 
         # Adds the most recent state obesrved in the environment to data
         self.data.append(newObs)
@@ -48,11 +46,12 @@ class commandLineAgent(Agent):
         return
 
     def update_policy(self, k):
-        '''Update internal policy based upon records'''
+        '''Update internal policy based upon records.
+
+        Not used, because action is chosen by user.'''
 
         # Greedy algorithm does not update policy
         self.greedy = self.greedy
-
 
     def greedy(self, state, timestep, epsilon=0):
         """
@@ -63,7 +62,8 @@ class commandLineAgent(Agent):
         for ambulance in range(num_ambulance):
             done = False
             while(not done):
-                text = "Where do you want to position ambulance " + str(ambulance+1) + "? (choose a number between 0 and 1)\n"
+                text = "Where do you want to position ambulance " + \
+                    str(ambulance+1) + "? (choose a number between 0 and 1)\n"
                 new_loc = input(text)
                 try:
                     new_loc = float(new_loc)

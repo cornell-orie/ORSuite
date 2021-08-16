@@ -9,15 +9,11 @@ from stable_baselines3.common.monitor import Monitor
 
 
 class SB_Experiment(object):
-    """Optional instrumentation for running an experiment.
+    """
+    Optional instrumentation for running an experiment.
 
     Runs a simulation between an arbitrary openAI Gym environment and a STABLE BASELINES ALGORITHM, saving a dataset of (reward, time, space) complexity across each episode,
     and optionally saves trajectory information.
-
-    Methods:
-        run() : runs an experiment
-        save_data() : saves the dataset
-
 
     Attributes:
         seed: random seed set to allow reproducibility
@@ -32,26 +28,33 @@ class SB_Experiment(object):
         model: (stable baselines algorithm) an algorithm to run the experiments with
         data: (np.array) an array saving the metrics along the sample paths (rewards, time, space)
         trajectory_data: (list) a list saving the trajectory information
-    """   
+    """
 
     def __init__(self, env, model, dict):
         '''
         Args:
             env: (openAI env) the environment to run the simulations on
             model: (stable baseilnes algorithm) an algorithm to run the experiments with
-            dict - a dictionary containing the arguments to send for the experiment, including:
-                dirPath: (string) location to store the data files
-                nEps: (int) number of episodes for the simulation
-                deBug: (bool) boolean, when set to true causes the algorithm to print information to the command line
-                env: (openAI env) the environment to run the simulations on
-                epLen: (int) the length of each episode
-                numIters: (int) the number of iterations of (nEps, epLen) pairs to iterate over with the environment
-                save_trajectory: (bool) boolean, when set to true saves the entire trajectory information
+            dict: a dictionary containing the arguments to send for the experiment, including:
+
+                - dirPath: (string) location to store the data files
+
+                - nEps: (int) number of episodes for the simulation
+
+                - deBug: (bool) boolean, when set to true causes the algorithm to print information to the command line
+
+                - env: (openAI env) the environment to run the simulations on
+
+                - epLen: (int) the length of each episode
+
+                - numIters: (int) the number of iterations of (nEps, epLen) pairs to iterate over with the environment
+
+                - save_trajectory: (bool) boolean, when set to true saves the entire trajectory information
                             TODO: Feature not implemented
-                render: (bool) boolean, when set to true renders the simulations 
+
+                - render: (bool) boolean, when set to true renders the simulations 
                             TODO: Feature not implemeneted
         '''
-
 
         self.seed = dict['seed']
         self.dirPath = dict['dirPath']
@@ -66,7 +69,6 @@ class SB_Experiment(object):
         self.model = model
         # print('epLen: ' + str(self.epLen))
 
-
         if self.save_trajectory:
             self.trajectory = []
 
@@ -78,11 +80,9 @@ class SB_Experiment(object):
             Runs the simulations between an environment and an algorithm
         '''
 
-
         print('**************************************************')
         print('Running experiment')
         print('**************************************************')
-
 
         index = 0
         traj_index = 0
@@ -91,38 +91,39 @@ class SB_Experiment(object):
         rewards = []
         times = []
         memory = []
-        
+
         # Running an experiment
 
         for i in range(self.num_iters):  # loops over all the iterations
 
-            tracemalloc.start() # starts timer for memory information
+            tracemalloc.start()  # starts timer for memory information
 
-            self.model.learn(total_timesteps=self.epLen*self.nEps) # learns over all of the episodes
+            # learns over all of the episodes
+            self.model.learn(total_timesteps=self.epLen*self.nEps)
 
-            current, _ = tracemalloc.get_traced_memory() # collects memory information
+            current, _ = tracemalloc.get_traced_memory()  # collects memory information
             tracemalloc.stop()
 
-
             # appends data to dataset
-            episodes = np.append(episodes,np.arange(0, self.nEps))
+            episodes = np.append(episodes, np.arange(0, self.nEps))
             iterations = np.append(iterations, [i for _ in range(self.nEps)])
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
 
-        rewards = np.append(rewards, self.env.get_episode_rewards())  # rewards are kept cumulatively so we save it out of the loop
+        # rewards are kept cumulatively so we save it out of the loop
+        rewards = np.append(rewards, self.env.get_episode_rewards())
 
         # Times are calculated cumulatively so need to calculate the per iteration time complexity
         orig_times = [0.] + self.env.get_episode_times()
-        times = [orig_times[i] - orig_times[i-1] for i in np.arange(1, len(orig_times))]
+        times = [orig_times[i] - orig_times[i-1]
+                 for i in np.arange(1, len(orig_times))]
 
         # Combining data in dataframe
         self.data = pd.DataFrame({'episode': episodes,
-                            'iteration': iterations,
-                            'epReward': rewards,
-                            'time': np.log(times),
-                            'memory': memory})
-
+                                  'iteration': iterations,
+                                  'epReward': rewards,
+                                  'time': np.log(times),
+                                  'memory': memory})
 
         print('**************************************************')
         print('Experiment complete')
@@ -146,23 +147,21 @@ class SB_Experiment(object):
 
         data_loc = 'data.csv'
 
-
-    
         dt = self.data
         dt = dt[(dt.T != 0).any()]
-        
+
         data_filename = os.path.join(dir_path, data_loc)
-        
+
         print('Writing to file ' + dir_path + data_loc)
-    
-        
+
         if os.path.exists(dir_path):
-            dt.to_csv(data_filename, index=False, float_format='%.5f', mode='w')
+            dt.to_csv(data_filename, index=False,
+                      float_format='%.5f', mode='w')
 
         else:
             os.makedirs(dir_path)
-            dt.to_csv(data_filename, index=False, float_format='%.5f', mode='w')
-
+            dt.to_csv(data_filename, index=False,
+                      float_format='%.5f', mode='w')
 
         print('**************************************************')
         print('Data save complete')

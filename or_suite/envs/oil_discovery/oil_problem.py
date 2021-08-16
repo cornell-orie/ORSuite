@@ -12,32 +12,31 @@ from .. import env_configs
 
 
 class OilEnvironment(gym.Env):
-
-    metadata = {'render.modes': ['human']}
-
-    def __init__(self, config=env_configs.oil_environment_default_config):
-        """
+    """
         An oil discovery problem on the metric space [0,1]^k for some power k.  
 
         Here the state space and the action space
         are given to have the same dimension.
 
         Methods:
-            reset() : Resets the environment to its original settings.
             get_config() : Returns the config dictionary used to initialize the environment.
-            step(action) : Takes an action from the agent and returns the state of the system after the next arrival.
             render(mode) : (UNIMPLEMENTED) Renders the environment in the mode passed in; 'human' is the only mode currently supported.
             close() : (UNIMPLEMENTED) Closes the window where the rendering is being drawn.
 
         Attributes:
             epLen: The (int) number of time steps to run the experiment for.
-            arrival_dist: A (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.
-            timestep: The (int) timestep the current episode is on.
-            starting_state: An int list containing the starting locations for each ambulance.
-            action_space: (Gym.spaces Box) Actions must be the location.
-            observation_space: (Gym.spaces Box) The location.
-
+            oil_prob (lambda function): A function taken as input a state, action and timestep, and outputting a reward for moving agent to that location
+            cost_param (float): The parameter regulating the cost for moving the agent from one location to another
+            noise_variance (lambda function): A function taken as input state, action, and timestamp, and outputting the noise added on to moving the agent
+            starting_state: An int list containing the starting locations for the agent.
+            action_space: (Gym.spaces Box) Actions must be the location to move the agent.
+            observation_space: (Gym.spaces Box) The location of the agent.
         """
+
+    metadata = {'render.modes': ['human']}
+
+    def __init__(self, config=env_configs.oil_environment_default_config):
+
         self.config = config
         self.epLen = config['epLen']
         self.dim = config['dim']
@@ -54,7 +53,7 @@ class OilEnvironment(gym.Env):
                                        shape=(self.dim,), dtype=np.float32)
 
     def reset(self):
-        """Reset the environment."""
+        """Reset the environment to its original settings."""
         self.timestep = 0
         self.state = self.starting_state
         return self.state
@@ -69,8 +68,11 @@ class OilEnvironment(gym.Env):
         Args:
             action: The chosen action; int.
         Returns:
+            double, int, 0/1:
             reward: double; the reward.
+
             newState: int; the new state.
+
             done: 0/1; the flag for end of the episode.
         """
 

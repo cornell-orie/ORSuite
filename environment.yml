@@ -1,0 +1,45 @@
+name: ORSuite
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2021.5.25
+  - certifi=2021.5.30
+  - libffi=3.3
+  - ncurses=6.2
+  - openssl=1.1.1k
+  - pip=21.1.1
+  - python=3.8.5
+  - readline=8.1
+  - setuptools=52.0.0
+  - sqlite=3.35.4
+  - tk=8.6.10
+  - wheel=0.36.2
+  - xz=5.2.5
+  - zlib=1.2.11
+  - pip:
+    - cvxpy==1.1.13
+    - gym==0.18.3
+    - jupyter==1.0.0
+    - matplotlib==3.4.2
+    - networkx==2.5.1
+    - numpy==1.20.3
+    - pandas==1.2.4
+    - pyglet
+    - scikit-learn==0.24.2
+    - scikit-learn-extra==0.2.0
+    - scipy==1.6.3
+    - seaborn==0.11.1
+    - sphinx==4.0.2
+    - sphinx-autobuild==2021.3.14
+    - sphinxcontrib-applehelp==1.0.2
+    - sphinxcontrib-devhelp==1.0.2
+    - sphinxcontrib-htmlhelp==2.0.0
+    - sphinxcontrib-jsmath==1.0.1
+    - sphinxcontrib-napoleon==0.7
+    - sphinxcontrib-qthelp==1.0.3
+    - sphinxcontrib-serializinghtml==1.1.5
+    - stable-baselines3==1.0
+    - m2r2
+    - sphinx_rtd_theme
+prefix: /Users/davidwolfers/opt/anaconda3/envs/ORSuite
+
