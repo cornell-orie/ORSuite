@@ -29,12 +29,14 @@ def dynamics_model(params, population):
 
             - time_step: The (float) number of units of time you want the simulation to run for
                 e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.
+
         population : (np.array of ints) The starting state [S1 S2 S3 S4 A1 A2 A3 A4 I H R].
 
     Returns:
         np.array of ints, dict: 
         newState: the final state [S1 S2 S3 S4 A1 A2 A3 A4 I H N].
             Note that instead of returning the final number of recovered people R, we return N, the number of infections that occurred.
+
         output_dictionary : A (dict) dictionary containing the following keys and values:
 
             - clock times: List of the times that each event happened.
