@@ -16,7 +16,7 @@
      <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ORSuite">
   </a> 
    -->
-   <a href="https://img.shields.io/github/contributors/cornell-orie/ORSuite">
+   <a href="https://github.com/cornell-orie/ORSuite/graphs/contributors">
       <img alt="contributors" src="https://img.shields.io/github/contributors/cornell-orie/ORSuite">
    </a>
    <!--
