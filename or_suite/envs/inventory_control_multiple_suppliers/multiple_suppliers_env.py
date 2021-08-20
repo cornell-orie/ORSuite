@@ -31,11 +31,11 @@ class DualSourcingEnvironment(gym.Env):
                 lead_times: array of ints representing the lead times of each supplier
                 supplier_costs: array of ints representing the costs of each supplier
                 demand_dist: The random number sampled from the given distribution to be used to calculate the demand
-                h: holding cost
-                b: backorder cost
+                hold_cost: The int holding cost.
+                backorder_cost: The int backorder cost.
                 epLen: The episode length
-                max_order: the maximum value (int) that can be ordered from each supplier
-                max_inventory: the maximum value (int) that can be held in inventory
+                max_order: The maximum value (int) that can be ordered from each supplier
+                max_inventory: The maximum value (int) that can be held in inventory
                 starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
             """
         self.lead_times = config['lead_times']
