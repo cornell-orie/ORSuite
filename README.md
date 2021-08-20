@@ -5,9 +5,25 @@
 
 <!-- The badges -->
 <p align="center">
+  <a href="https://github.com/cornell-orie/ORSuite/actions">
+    <img alt="pytest" src="https://github.com/cornell-orie/ORSuite/workflows/Test/badge.svg">
+  </a>
   <a href='https://orsuite.readthedocs.io/en/latest/?badge=latest'>
     <img src='https://readthedocs.org/projects/orsuite/badge/?version=latest' alt='Documentation Status' />
   </a>
+   <!--
+  <a href="https://img.shields.io/pypi/pyversions/ORSuite">
+     <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ORSuite">
+  </a> 
+   -->
+   <a href="https://github.com/cornell-orie/ORSuite/graphs/contributors">
+      <img alt="contributors" src="https://img.shields.io/github/contributors/cornell-orie/ORSuite">
+   </a>
+   <!--
+   <a href="https://img.shields.io/pypi/dm/orsuite">
+      <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/orsuite">
+   </a> 
+   -->
 </p>
 
 <!-- Horizontal rule -->
