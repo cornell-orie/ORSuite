@@ -211,7 +211,7 @@ class AmbulanceGraphEnvironment(gym.Env):
         """Used to render a textbox saying the current timestep.""" 
         self.viewer.reset() 
         self.viewer.text("Current timestep: " + str(self.timestep), line_x1, 0) 
-        self.viewer.text(text, line_x1, 100)
+        self.viewer.text(text, line_x1, 70)
         
         nx.draw(self.graph, self.pos, node_size=400, font_size=18, with_labels = True, edge_color="white", node_color="lightblue", font_color="black") 
 
@@ -239,14 +239,12 @@ class AmbulanceGraphEnvironment(gym.Env):
         call = pyglet.image.load(script_dir + '/images/call.jpg')
 
         screen1, screen2, screen3 = None, None, None
-        print('set up screens')
         
         if self.viewer is None:
             self.viewer = rendering.PygletWindow(
                 screen_width + 50, screen_height + 50)
             
         if self.most_recent_action is not None:
-            print(self.most_recent_action)
             self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
             self.draw_ambulances(self.most_recent_action, ambulance)
             screen1 = self.viewer.render(mode)
@@ -254,16 +252,14 @@ class AmbulanceGraphEnvironment(gym.Env):
 
             self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
             self.viewer.image((self.pos[self.new_arrival][0]+1)*425/2+215, (self.pos[self.new_arrival][1]-1)*-275/2+120, call, 0.03)
+            self.draw_ambulances(self.most_recent_action, ambulance)
             screen2 = self.viewer.render(mode)
             time.sleep(2)
 
-        self.reset_current_step("Iteration ending state",
-                                line_x1, line_x2, line_y)
-        print(self.state)
-        self.draw_ambulances(self.state, ambulance)
+            self.reset_current_step("Iteration ending state", line_x1, line_x2, line_y)
+            self.draw_ambulances(self.state, ambulance)
+            screen3 = self.viewer.render(mode)
 
-        screen3 = self.viewer.render(mode)
-        print('finished display')
         time.sleep(2)
         return (screen1, screen2, screen3) 
     
