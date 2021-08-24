@@ -1,3 +1,8 @@
+<!-- Logo -->
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/orsuite/ORSuite.svg" width="50%">
+</p>
+
 <!-- Short description -->
 <p align="center">
    ORSuite: Benchmarking Suite for Sequential Operations Models
