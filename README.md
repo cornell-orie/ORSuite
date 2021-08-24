@@ -1,6 +1,6 @@
 <!-- Logo -->
 <p align="center">
-   <img src="https://raw.githubusercontent.com/cornell-orie/orsuite/ORSuite.svg" width="50%">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/ORSuite.svg" width="50%">
 </p>
 
 <!-- Short description -->
