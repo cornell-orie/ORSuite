@@ -182,7 +182,6 @@ class AmbulanceEnvironment(gym.Env):
         for loc in locations:
             self.viewer.image(line_x1 + (line_x2 - line_x1)
                               * loc, line_y, ambulance, 0.02)
-            # self.viewer.circle(line_x1 + (line_x2 - line_x1) * loc, line_y, radius=5, color=rendering.RED)
 
     def render(self, mode='human'):
         """Renders the environment using a pyglet window."""

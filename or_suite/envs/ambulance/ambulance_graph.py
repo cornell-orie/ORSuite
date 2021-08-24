@@ -149,7 +149,7 @@ class AmbulanceGraphEnvironment(gym.Env):
                 dataset_step, self.num_nodes, self.arrival_data)
         else:
             prob_list = self.arrival_dist(self.timestep, self.num_nodes)
-        new_arrival = np.random.choice(self.num_nodes, p=prob_list)
+        self.new_arrival = np.random.choice(self.num_nodes, p=prob_list)
 
         # Finds the distance traveled by all the ambulances from the old state to
         # the chosen action, assuming that each ambulance takes the shortest path,
@@ -165,7 +165,7 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         for amb_idx in range(len(action)):
             new_length = nx.shortest_path_length(
-                self.graph, action[amb_idx], new_arrival, weight='travel_time')
+                self.graph, action[amb_idx], self.new_arrival, weight='travel_time')
 
             total_dist_oldstate_to_action += nx.shortest_path_length(
                 self.graph, self.state[amb_idx], action[amb_idx], weight='dist')
@@ -176,11 +176,11 @@ class AmbulanceGraphEnvironment(gym.Env):
                 closest_amb_loc = action[closest_amb_idx]
             else:
                 continue
-
+        
         # Update the state of the system according to the action taken and change
         # the location of the closest ambulance to the call to the call location
         newState = np.array(action)
-        newState[closest_amb_idx] = new_arrival
+        newState[closest_amb_idx] = self.new_arrival
         obs = newState
 
         # The reward is a linear combination of the distance traveled to the action
@@ -193,7 +193,7 @@ class AmbulanceGraphEnvironment(gym.Env):
 
         # The info dictionary is used to pass the location of the most recent arrival
         # so it can be used by the agent
-        info = {'arrival': new_arrival}
+        info = {'arrival': self.new_arrival}
 
         if self.timestep != (self.epLen-1):
             done = False
@@ -211,21 +211,21 @@ class AmbulanceGraphEnvironment(gym.Env):
         """Used to render a textbox saying the current timestep.""" 
         self.viewer.reset() 
         self.viewer.text("Current timestep: " + str(self.timestep), line_x1, 0) 
-        self.viewer.text(text, line_x1, 100) 
+        self.viewer.text(text, line_x1, 100)
+        
         nx.draw(self.graph, self.pos, node_size=400, font_size=18, with_labels = True, edge_color="white", node_color="lightblue", font_color="black") 
-        plt.tight_layout() 
+
         script_dir = os.path.dirname(__file__) 
         plt.savefig(script_dir + 'graph.png', format='png', facecolor='black') 
         plt.close() 
         image = pyglet.resource.image('graph.png') 
         image.blit(200,150) 
         image.width = 425 
-        image.height = 275  
+        image.height = 275
         
     def draw_ambulances(self, locations, ambulance):
         for loc in locations:
             self.viewer.image((self.pos[loc][0]+1)*425/2+215, (self.pos[loc][1]-1)*-275/2+120, ambulance, 0.02)
-            # self.viewer.circle(line_x1 + (line_x2 - line_x1) * loc, line_y, radius=5, color=rendering.RED)
 
     def render(self, mode='human'):
         """Renders the environment using a pyglet window."""
@@ -246,28 +246,25 @@ class AmbulanceGraphEnvironment(gym.Env):
                 screen_width + 50, screen_height + 50)
             
         if self.most_recent_action is not None:
+            print(self.most_recent_action)
             self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
             self.draw_ambulances(self.most_recent_action, ambulance)
             screen1 = self.viewer.render(mode)
             time.sleep(2)
 
             self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
-            arrival_loc = self.state[np.argmax(
-                np.abs(self.state - self.most_recent_action))]
-            self.viewer.image((self.pos[arrival_loc][0]+1)*425/2+215, (self.pos[arrival_loc][1]-1)*-275/2+120, call, 0.03)
-            self.draw_ambulances(self.most_recent_action, ambulance)
-            # self.viewer.circle((self.pos[arrival_loc][0]+1)*425/2+215, (self.pos[arrival_loc][1]-1)*-275/2+120, radius=5, color=rendering.GREEN)
+            self.viewer.image((self.pos[self.new_arrival][0]+1)*425/2+215, (self.pos[self.new_arrival][1]-1)*-275/2+120, call, 0.03)
             screen2 = self.viewer.render(mode)
             time.sleep(2)
 
         self.reset_current_step("Iteration ending state",
                                 line_x1, line_x2, line_y)
-
+        print(self.state)
         self.draw_ambulances(self.state, ambulance)
 
         screen3 = self.viewer.render(mode)
+        print('finished display')
         time.sleep(2)
-        
         return (screen1, screen2, screen3) 
     
     
