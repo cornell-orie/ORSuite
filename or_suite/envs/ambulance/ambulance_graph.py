@@ -120,7 +120,7 @@ class AmbulanceGraphEnvironment(gym.Env):
 
     def get_config(self):
         return self.config
-
+    
     def step(self, action):
         """
         Move one step in the environment.
@@ -222,10 +222,9 @@ class AmbulanceGraphEnvironment(gym.Env):
         image.width = 425 
         image.height = 275  
         
-    def draw_ambulances(self, locations, line_x1, line_x2, line_y, ambulance):
-        for loc in range(5):
-            print (loc)
-            self.viewer.image((self.pos[loc][0]+1)*425/2+215, (self.pos[loc][1]-1)*-275/2+130, ambulance, 0.02)
+    def draw_ambulances(self, locations, ambulance):
+        for loc in locations:
+            self.viewer.image((self.pos[loc][0]+1)*425/2+215, (self.pos[loc][1]-1)*-275/2+120, ambulance, 0.02)
             # self.viewer.circle(line_x1 + (line_x2 - line_x1) * loc, line_y, radius=5, color=rendering.RED)
 
     def render(self, mode='human'):
@@ -248,33 +247,26 @@ class AmbulanceGraphEnvironment(gym.Env):
             
         if self.most_recent_action is not None:
             self.reset_current_step("Action chosen", line_x1, line_x2, line_y)
-            self.draw_ambulances(self.most_recent_action,
-                                  line_x1, line_x2, line_y, ambulance)
+            self.draw_ambulances(self.most_recent_action, ambulance)
             screen1 = self.viewer.render(mode)
             time.sleep(2)
 
             self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
-            self.draw_ambulances(self.most_recent_action,
-                                  line_x1, line_x2, line_y, ambulance)
-
             arrival_loc = self.state[np.argmax(
                 np.abs(self.state - self.most_recent_action))]
-            self.viewer.image(line_x1 + (line_x2 - line_x1)
-                              * arrival_loc, line_y, call, 0.02)
-            self.viewer.circle(line_x1 + (line_x2 - line_x1) * arrival_loc, line_y, radius=5, color=rendering.GREEN)
+            self.viewer.image((self.pos[arrival_loc][0]+1)*425/2+215, (self.pos[arrival_loc][1]-1)*-275/2+120, call, 0.03)
+            self.draw_ambulances(self.most_recent_action, ambulance)
+            # self.viewer.circle((self.pos[arrival_loc][0]+1)*425/2+215, (self.pos[arrival_loc][1]-1)*-275/2+120, radius=5, color=rendering.GREEN)
             screen2 = self.viewer.render(mode)
             time.sleep(2)
 
         self.reset_current_step("Iteration ending state",
                                 line_x1, line_x2, line_y)
 
-        self.draw_ambulances(self.state, line_x1, line_x2, line_y, ambulance)
+        self.draw_ambulances(self.state, ambulance)
 
         screen3 = self.viewer.render(mode)
         time.sleep(2)
-        
-        print(self.pos)
-
         
         return (screen1, screen2, screen3) 
     
