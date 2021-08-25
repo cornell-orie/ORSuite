@@ -250,6 +250,7 @@ class AmbulanceGraphEnvironment(gym.Env):
             screen1 = self.viewer.render(mode)
             time.sleep(2)
 
+            # Offsets center image on node
             self.reset_current_step("Call arrival", line_x1, line_x2, line_y)
             self.viewer.image((self.pos[self.new_arrival][0]+1)*425/2+215, (self.pos[self.new_arrival][1]-1)*-275/2+120, call, 0.03)
             self.draw_ambulances(self.most_recent_action, ambulance)
