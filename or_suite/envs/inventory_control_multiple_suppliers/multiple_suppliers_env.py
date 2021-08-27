@@ -40,7 +40,7 @@ class DualSourcingEnvironment(gym.Env):
             """
         self.lead_times = config['lead_times']
         self.supplier_costs = config['supplier_costs']
-
+        self.config = config
         self.demand_dist = config['demand_dist']
         self.hold_cost = config['hold_cost']
         self.backorder_cost = config['backorder_cost']
@@ -107,7 +107,11 @@ class DualSourcingEnvironment(gym.Env):
 
         return self.state, float(reward), done, {'demand': demand}
 
+    def get_config(self):
+        return self.config
+
     # Auxilary function computing the reward
+
     def reward(self, state):
         """
         Reward is calculated in three components:

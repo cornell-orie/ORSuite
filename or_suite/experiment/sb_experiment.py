@@ -119,6 +119,11 @@ class SB_Experiment(object):
                  for i in np.arange(1, len(orig_times))]
 
         # Combining data in dataframe
+        print(episodes)
+        print(iterations)
+        print(rewards)
+        print(memory)
+        print(np.log(times))
         self.data = pd.DataFrame({'episode': episodes,
                                   'iteration': iterations,
                                   'epReward': rewards,
