@@ -40,7 +40,7 @@ class DualSourcingEnvironment(gym.Env):
             """
         self.lead_times = config['lead_times']
         self.supplier_costs = config['supplier_costs']
-
+        self.config = config
         self.demand_dist = config['demand_dist']
         self.hold_cost = config['hold_cost']
         self.backorder_cost = config['backorder_cost']
@@ -63,6 +63,9 @@ class DualSourcingEnvironment(gym.Env):
         self.epLen = config['epLen']
 
         metadata = {'render.modes': ['human']}
+
+    def get_config(self):
+        return self.config
 
     def seed(self, seed=None):
         """Sets the numpy seed to the given value
