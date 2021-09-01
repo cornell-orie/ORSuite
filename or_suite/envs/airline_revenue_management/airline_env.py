@@ -50,6 +50,9 @@ class AirlineRevenueEnvironment(gym.Env):
         self.state = np.asarray(self.starting_state)
         self.timestep = 0
 
+    def get_config(self):
+        return self.config
+
     # Resets environment to initial state
     def reset(self):
         """Reinitializes variables and returns the starting state."""
