@@ -41,6 +41,8 @@
 
 <!-- Table of content -->
 
+
+
 # OR Suite
 Reinforcement learning (RL) is a natural model for problems involving real-time sequential decision making. In these models, a principal interacts with a system having stochastic transitions and rewards and aims to control the system online (by exploring available actions using real-time feedback) or offline (by exploiting known properties of the system).
 
