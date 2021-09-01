@@ -34,6 +34,7 @@ class AirlineRevenueEnvironment(gym.Env):
             starting_state: The float array representing the number of available seats on each flight.
             """
         # Initializes model parameters based on a configuration dictionary
+        self.config = config
         self.A = config['A']  # resource consumption
         self.f = config['f']  # revenue per class
         self.P = config['P']  # distribution over arrivals
