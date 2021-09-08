@@ -9,20 +9,29 @@ class base_surgeAgent(Agent):
         self.r = r
         self.S = S
 
+        # S is the goal inventory level
+
     def update_config(self, env, config):
         ''' Update agent information based on the config__file'''
         self.config = config
-        # TODO: Need to figure out which  have shorter lead times, used for the self.r action
-        # Make r a vector of shorter lead times
-        # Have longest lead time used for order_amount = max(...)
-        # Assume config is sorted by increasing lead times; can add check to env for this
+        lead_times = config['lead_times']
+        self.offset = config['max_inventory']
+        self.max_order = config['max_order']
+
+        # Doesn't include longest lead time (assuming lead times sorted in non-decreasing order)
+
+        # TODO: Figure out problem with action not being part of observation space
+        # Set up tests for 1 and 2 suppliers
+        # Run Stable Baselines (uncomment SB line)
+        # Look into linear programming solvers ( CVXPY, PuLP, or others)
 
     def pick_action(self, obs, h):
         '''Select an action based upon the observation'''
         # Step 1, extract I_t from obs
+        inventory = obs[-1] - self.offset
 
-        inventory = obs[-1]
-        order_amount = max(0, self.S - inventory)
-
-        action = [self.r, order_amount]
+        order_amount = min(self.max_order, min(
+            self.offset - 1, max(0, self.S - inventory)))
+        action = np.asarray(self.r+[order_amount])
+        # action = [self.r, order_amount]
         return action

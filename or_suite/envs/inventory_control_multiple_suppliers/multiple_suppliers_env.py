@@ -89,7 +89,8 @@ class DualSourcingEnvironment(gym.Env):
             done: A bool flag indicating the end of the episode.
 
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
-        assert self.action_space.contains(action)
+        assert self.action_space.contains(
+            action), "Action, {},  not part of action space".format(action)
 
         demand = self.demand_dist(self.timestep)
         newState = self.new_state_helper(self.state, action)
