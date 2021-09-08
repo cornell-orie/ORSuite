@@ -40,6 +40,7 @@ class AirlineRevenueEnvironment(gym.Env):
         self.epLen = config['epLen']  # length of episode
         self.starting_state = config['starting_state']  # starting state
 
+        self.config = config
         print(self.P.shape)
         print(self.A.shape)
 
@@ -91,3 +92,6 @@ class AirlineRevenueEnvironment(gym.Env):
         if self.timestep == self.epLen:
             episode_over = True
         return self.state, reward, episode_over, {'customer': customer}
+
+    def get_config(self):
+        return self.config
