@@ -29,6 +29,9 @@ class AdaptiveDiscretizationQL(Agent):
         for _ in range(epLen):
             tree = Tree(epLen, self.dim)
             self.tree_list.append(tree)
+    
+    def update_parameters(self, param):
+        self.scaling = param
 
     def reset(self):
         # Resets the agent by setting all parameters back to zero

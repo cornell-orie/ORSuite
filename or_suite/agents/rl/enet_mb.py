@@ -59,7 +59,10 @@ class eNetMB(Agent):
             [self.epLen] + self.state_size + self.action_size, dtype=np.float32)
         self.pEst = np.zeros([self.epLen] + self.state_size + self.action_size+self.state_size,
                              dtype=np.float32)
-
+    
+    def update_parameters(self, param):
+        self.scaling = param
+    
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
 
