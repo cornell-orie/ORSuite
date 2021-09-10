@@ -23,13 +23,13 @@ def run_single_algo(env, agent, settings):
     dt_data = exp.save_data()
 
 
-def run_single_algo_tune(env, agent, scaling_list, settings):
+def run_single_algo_tune(env, agent, param_list, settings):
     best_reward = (-1)*np.inf
-    best_scaling = scaling_list[0]
+    best_param = param_list[0]
 
-    for scaling in scaling_list:
+    for param in param_list:
         agent.reset()
-        agent.scaling = scaling
+        agent.update_parameters(param)
 
         exp = or_suite.experiment.experiment.Experiment(env, agent, settings)
         exp.run()
@@ -39,10 +39,10 @@ def run_single_algo_tune(env, agent, scaling_list, settings):
                             dt.max()['episode']].iloc[0]['epReward']
         if avg_end_reward >= best_reward:
             best_reward = avg_end_reward
-            best_scaling = scaling_list[0]
+            best_param = param
             best_exp = exp
     best_exp.save_data()
-    print(best_scaling)
+    print(best_param)
 
 # Helper code to run single stable baseline experiment
 

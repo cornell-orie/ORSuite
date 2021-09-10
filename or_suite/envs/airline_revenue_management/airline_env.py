@@ -34,6 +34,7 @@ class AirlineRevenueEnvironment(gym.Env):
             starting_state: The float array representing the number of available seats on each flight.
             """
         # Initializes model parameters based on a configuration dictionary
+        self.config = config
         self.A = config['A']  # resource consumption
         self.f = config['f']  # revenue per class
         self.P = config['P']  # distribution over arrivals
@@ -49,6 +50,9 @@ class AirlineRevenueEnvironment(gym.Env):
         self.observation_space = gym.spaces.MultiDiscrete(sstate)
         self.state = np.asarray(self.starting_state)
         self.timestep = 0
+
+    def get_config(self):
+        return self.config
 
     # Resets environment to initial state
     def reset(self):

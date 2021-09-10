@@ -64,6 +64,9 @@ class DualSourcingEnvironment(gym.Env):
 
         metadata = {'render.modes': ['human']}
 
+    def get_config(self):
+        return self.config
+
     def seed(self, seed=None):
         """Sets the numpy seed to the given value
 
