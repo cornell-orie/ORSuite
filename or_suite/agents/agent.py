@@ -10,7 +10,11 @@ class Agent(object):
 
     def update_config(self, env, config):
         ''' Update agent information based on the config__file'''
-        pass
+        self.config = config
+        return
+        
+    def update_parameters(self, param):
+        return
 
     def update_obs(self, obs, action, reward, newObs, info):
         '''Add observation to records'''
