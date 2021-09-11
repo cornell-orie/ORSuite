@@ -44,6 +44,9 @@ class eNetQL(Agent):
         '''
             Resets the agent by overwriting all of the estimates back to zero
         '''
+    
+    def update_parameters(self, param):
+        self.scaling = param
 
     def reset(self):
         self.qVals = np.ones(self.matrix_dim, dtype=np.float32) * self.epLen

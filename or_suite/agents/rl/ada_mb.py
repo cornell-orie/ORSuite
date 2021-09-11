@@ -45,6 +45,9 @@ class AdaptiveDiscretizationMB(Agent):
             tree = MBTree(self.epLen, self.state_dim, self.action_dim)
             self.tree_list.append(tree)
 
+    def update_parameters(self, param):
+        self.scaling = param
+
     def reset(self):
         # Resets the agent by setting all parameters back to zero
         # List of tree's, one for each step
