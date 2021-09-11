@@ -11,8 +11,6 @@ class base_surgeAgent(Agent):
 
         # S is the goal inventory level
 
-
-
     def update_config(self, env, config):
         ''' Update agent information based on the config__file'''
         self.config = config
@@ -41,3 +39,7 @@ class base_surgeAgent(Agent):
         action = np.asarray(self.r+[order_amount])
         # action = [self.r, order_amount]
         return action
+
+    def update_parameters(self, param):
+        self.r = [param[0]]
+        self.S = param[1]
