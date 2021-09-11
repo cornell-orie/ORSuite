@@ -36,6 +36,11 @@ class maxWeightFixedAgent(Agent):
         '''
         Select action according to function
         '''
+        weighted_value = state / self.env_config['alpha']
+        action = np.argmax(weighted_value, axis=1)
 
-    def pick_action(self, obs):
-        '''Select an action based upon the observation'''
+        return action
+
+    def pick_action(self, state, step):
+        action = self.greedy(state)
+        return action
