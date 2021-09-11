@@ -3,7 +3,7 @@ from .. import Agent
 
 
 class maxWeightFixedAgent(Agent):
-    def __init__(self, epLen, env_config):
+    def __init__(self, epLen, num_cars, alpha):
         """
         Args:
             epLen: number of steps
@@ -11,33 +11,30 @@ class maxWeightFixedAgent(Agent):
             env_config: parameters used in initialization of environment
             data: all data observed so far
         """
-        self.env_config = env_config
-
-        self.num_cars = env_config['num_cars']
-        self.epLen = epLen
         self.data = []
+        self.epLen = epLen
+        self.num_cars = num_cars
+        self.alpha = alpha
 
-    def update_config(self, env, config):
-        ''' Update agent information based on the config__file'''
-        self.env_config = config
-        return
-
-    def update_obs(self, obs, action, reward, newObs, info):
+    def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
         self.data.append(newObs)
         return
+
+    def reset(self):
+        self.data = []
 
     def update_policy(self, h):
         '''Update internal policy based upon records'''
         self.greedy = self.greedy
         return
 
-    def greedy(self, state, timestep, epsilon=0):
+    def greedy(self, state, epsilon=0):
         '''
         Select action according to function
         '''
-        weighted_value = state / self.env_config['alpha']
-        action = np.argmax(weighted_value, axis=1)
+        weighted_value = state[:-2] / self.alpha
+        action = np.argmax(weighted_value)
 
         return action
 
