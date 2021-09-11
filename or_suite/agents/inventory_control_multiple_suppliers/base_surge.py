@@ -11,6 +11,8 @@ class base_surgeAgent(Agent):
 
         # S is the goal inventory level
 
+
+
     def update_config(self, env, config):
         ''' Update agent information based on the config__file'''
         self.config = config
@@ -30,8 +32,12 @@ class base_surgeAgent(Agent):
         # Step 1, extract I_t from obs
         inventory = obs[-1] - self.offset
 
-        order_amount = min(self.max_order, min(
-            self.offset - 1, max(0, self.S - inventory)))
+        order_amount = min(self.max_order, max(0, self.S - inventory))
+        # print(
+        #     f'Current order_amount: {order_amount} and inventory {inventory}')
+
+        # order_amount = min(self.max_order, min(
+        #     self.offset - 1, max(0, self.S - inventory)))
         action = np.asarray(self.r+[order_amount])
         # action = [self.r, order_amount]
         return action
