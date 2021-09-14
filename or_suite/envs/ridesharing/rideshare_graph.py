@@ -67,7 +67,9 @@ class RideshareGraphEnvironment(gym.Env):
         self.lengths = self.find_lengths(self.graph, self.num_nodes)
         self.request_dist = config['request_dist']
         self.reward = config['reward']
+        self.reward_denied = config['reward_denied']
         self.reward_fail = config['reward_fail']
+        self.alpha = config['alpha']
         self.gamma = config['gamma']
         self.d_threshold = config['d_threshold']
         self.action_space = spaces.Discrete(self.num_nodes)
@@ -150,6 +152,7 @@ class RideshareGraphEnvironment(gym.Env):
         source = self.state[-2]
         sink = self.state[-1]
         dispatch_dist = self.lengths[action, source]
+        service_dist = self.lengths[source, sink]
 
         if self.state[action] > 0:
             exp = np.exp((-1)*self.gamma*(dispatch_dist-self.d_threshold))
@@ -160,10 +163,10 @@ class RideshareGraphEnvironment(gym.Env):
             if accept == 1:
                 # print('accept service')
                 self.fulfill_req(action, sink)
-                reward = self.reward(dispatch_dist)
+                reward = self.reward(self.alpha, dispatch_dist, service_dist)
             else:
                 # print('decline service')
-                reward = self.reward_fail(dispatch_dist)
+                reward = self.reward_denied(self.alpha, dispatch_dist)
         else:
             reward = self.reward_fail(dispatch_dist)
             done = True

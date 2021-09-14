@@ -133,8 +133,10 @@ rideshare_graph_default_config = {
     'starting_state': [1, 2, 3, 4],
     'num_cars': 10,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 1,
     'd_threshold': 1
 }
@@ -147,8 +149,10 @@ rideshare_graph_non_uniform_distances_config = {
     'starting_state': [1, 2, 3, 4],
     'num_cars': 10,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 1,
     'd_threshold': 3
 }
@@ -161,8 +165,10 @@ rideshare_graph_initial_central_dispatch_config = {
     'starting_state': [100, 0, 0, 0],
     'num_cars': 100,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 1,
     'd_threshold': 3
 }
@@ -175,8 +181,10 @@ rideshare_graph_0_1_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([1, 1]),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 0.25,
     'd_threshold': 3
 }
@@ -189,8 +197,10 @@ rideshare_graph_0_2_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([2, 2]),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 0.25,
     'd_threshold': 3
 }
@@ -203,8 +213,10 @@ rideshare_graph_0_3_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([3, 3]),
-    'reward': lambda distance: -np.sqrt(distance),
+    'reward': lambda alpha, to_source, to_sink: alpha * to_sink - (1 - alpha) * to_source,
+    'reward_denied': lambda alpha, to_source: - (1-alpha) * to_source,
     'reward_fail': lambda distance: -10000,
+    'alpha': 0.25,
     'gamma': 0.25,
     'd_threshold': 3
 }
