@@ -41,3 +41,6 @@ class maxWeightFixedAgent(Agent):
     def pick_action(self, state, step):
         action = self.greedy(state)
         return action
+
+    def update_parameters(self, param):
+        self.alpha = param

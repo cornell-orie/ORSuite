@@ -1,5 +1,6 @@
 import numpy as np
 import networkx as nx
+import copy
 from .. import Agent
 
 
@@ -17,6 +18,13 @@ class closetCarAgent(Agent):
         self.num_cars = env_config['num_cars']
         self.epLen = epLen
         self.data = []
+        self.lengths = self.get_lengths()
+
+    def get_lengths(self):
+        graph = nx.Graph(self.env_config['edges'])
+        num_nodes = graph.number_of_nodes()
+
+        return self.find_lengths(graph, num_nodes)
 
     def reset(self):
         self.data = []
@@ -67,15 +75,12 @@ class closetCarAgent(Agent):
         Select action according to function
         '''
 
-        graph = nx.Graph(self.env_config['edges'])
-        num_nodes = graph.number_of_nodes()
-        lengths = self.find_lengths(graph, num_nodes)
+        lengths_to_sink = copy.deepcopy(self.lengths[state[-2]])
+        action = np.argmin(lengths_to_sink)
 
-        for i in range(len(lengths[state[-2]])):
-            if state[i] == 0:
-                lengths[state[-2], i] = float('inf')
-
-        action = np.argmin(lengths[state[-2]])
+        while(state[action] == 0):
+            lengths_to_sink[action] = float('inf')
+            action = np.argmin(lengths_to_sink)
 
         return action
 
