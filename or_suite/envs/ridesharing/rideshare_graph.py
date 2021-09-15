@@ -73,7 +73,7 @@ class RideshareGraphEnvironment(gym.Env):
         self.gamma = config['gamma']
         self.d_threshold = config['d_threshold']
         self.action_space = spaces.Discrete(self.num_nodes)
-        vec = [self.num_cars for _ in range(
+        vec = [self.num_cars+1 for _ in range(
             self.num_nodes)] + [self.num_nodes, self.num_nodes]
         self.observation_space = spaces.MultiDiscrete(vec)
         self.starting_state = np.asarray(np.concatenate(
@@ -169,14 +169,14 @@ class RideshareGraphEnvironment(gym.Env):
                 reward = self.reward_denied(self.alpha, dispatch_dist)
         else:
             reward = self.reward_fail(dispatch_dist)
-            done = True
+            done = False
 
         # updating the state with a new rideshare request
         new_request = self.request_dist(self.timestep, self.num_nodes)
         self.state[-2] = new_request[0]
         self.state[-1] = new_request[1]
 
-        if self.timestep >= self.epLen:
+        if self.timestep == self.epLen - 1:
             done = True
 
         self.timestep += 1
