@@ -61,6 +61,6 @@ register(id='MultipleSuppliers-v0',
 
 
 # Airline Problem
-register(id = 'Airline-v0',
-        entry_point = 'or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
-)
+register(id='Airline-v0',
+         entry_point='or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
+         )
