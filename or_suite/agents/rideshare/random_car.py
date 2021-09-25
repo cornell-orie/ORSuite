@@ -14,8 +14,8 @@ class randomCarAgent(Agent):
             data: all data observed so far
         """
         self.env_config = env_config
-
         self.num_cars = env_config['num_cars']
+        self.num_nodes = len(env_config['starting_state'])
         self.epLen = epLen
         self.data = []
 
@@ -41,10 +41,19 @@ class randomCarAgent(Agent):
         '''
         Select action according to function
         '''
-
-        potential_actions = list(range(len(state[:-2])))
-        prob_weight = np.array(state[:-2]) / self.num_cars
-        action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
+        if self.num_nodes + 2 == len(state):
+            potential_actions = list(range(self.num_nodes))
+            prob_weight = np.array(
+                state[:self.num_nodes]) / (self.num_cars)
+            action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
+            return action
+        if self.num_cars > state[-3]:
+            potential_actions = list(range(self.num_nodes))
+            prob_weight = np.array(
+                state[:self.num_nodes]) / (self.num_cars - state[-3])
+            action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
+        else:
+            np.random.choice(self.num_nodes)
 
         return action
 

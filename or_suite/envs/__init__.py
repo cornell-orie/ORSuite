@@ -44,6 +44,9 @@ register(id='Vaccine-v0',
 register(id='Rideshare-v0',
          entry_point='or_suite.envs.ridesharing.rideshare_graph:RideshareGraphEnvironment'
          )
+register(id='Rideshare-v1',
+         entry_point='or_suite.envs.ridesharing.rideshare_graph_traveltime:RideshareGraphEnvironment'
+         )
 
 # Oil Problem
 

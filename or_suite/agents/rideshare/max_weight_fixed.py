@@ -3,7 +3,7 @@ from .. import Agent
 
 
 class maxWeightFixedAgent(Agent):
-    def __init__(self, epLen, num_cars, alpha):
+    def __init__(self, epLen, env_config, alpha):
         """
         Args:
             epLen: number of steps
@@ -13,8 +13,9 @@ class maxWeightFixedAgent(Agent):
         """
         self.data = []
         self.epLen = epLen
-        self.num_cars = num_cars
+        self.num_cars = env_config['num_cars']
         self.alpha = alpha
+        self.num_nodes = len(env_config['starting_state'])
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
@@ -33,7 +34,7 @@ class maxWeightFixedAgent(Agent):
         '''
         Select action according to function
         '''
-        weighted_value = state[:-2] / self.alpha
+        weighted_value = state[:self.num_nodes] / self.alpha
         action = np.argmax(weighted_value)
 
         return action
