@@ -94,7 +94,6 @@ class DualSourcingEnvironment(gym.Env):
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
         assert self.action_space.contains(
             action), "Action, {},  not part of action space".format(action)
-        print(action)
         demand = self.demand_dist(self.timestep)
         newState = self.new_state_helper(self.state, action)
         newState[-1] = newState[-1] - demand
