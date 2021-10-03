@@ -69,8 +69,12 @@ class RideshareGraphEnvironment(gym.Env):
         self.reward = config['reward']
         self.reward_denied = config['reward_denied']
         self.reward_fail = config['reward_fail']
-        self.alpha = config['alpha']
+        self.trave_time = config['travel_time']
+        self.fare = config['fare']
+        self.cost = config['cost']
+        self.velocity = config['velocity']
         self.gamma = config['gamma']
+        self.max_dist = np.max(self.lengths.flatten())
         self.d_threshold = config['d_threshold']
         self.action_space = spaces.Discrete(self.num_nodes)
         vec = [self.num_cars for _ in range(
@@ -110,7 +114,7 @@ class RideshareGraphEnvironment(gym.Env):
             # entering car into transit state
             self.state[self.num_nodes + 2 * self.state[-3]] = sink
             self.state[self.num_nodes + 2 * self.state[-3] +
-                       1] = int(3 * self.lengths[source, sink])
+                       1] = self.trave_time(self.velocity, self.lengths[source, sink])
             self.state[-3] += 1
         else:
             self.state[sink] += 1
@@ -119,7 +123,7 @@ class RideshareGraphEnvironment(gym.Env):
         for i in range(self.state[-3]):
             self.state[self.num_nodes + 2 * i + 1] -= 1
             # When the transit is complete
-            if self.state[self.num_nodes + 2 * i + 1] == 0:
+            if self.state[self.num_nodes + 2 * i + 1] <= 0:
                 # Make the car who completed transit available again
                 transit_arrival = self.state[self.num_nodes + 2 * i]
                 self.state[transit_arrival] += 1
@@ -193,12 +197,13 @@ class RideshareGraphEnvironment(gym.Env):
             if accept == 1:
                 # print('accept service')
                 self.fulfill_req(action, source, sink)
-                reward = self.reward(self.alpha, dispatch_dist, service_dist)
+                reward = self.reward(self.fare, self.cost,
+                                     dispatch_dist, service_dist)
             else:
                 # print('decline service')
-                reward = self.reward_denied(self.alpha, dispatch_dist)
+                reward = self.reward_denied()
         else:
-            reward = self.reward_fail(dispatch_dist)
+            reward = self.reward_fail(self.max_dist, self.cost)
             done = True
 
         # updating the state with a new rideshare request
