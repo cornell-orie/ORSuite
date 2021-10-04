@@ -41,7 +41,7 @@ def run_single_algo_tune(env, agent, param_list, settings):
             best_reward = avg_end_reward
             best_param = param
             best_exp = exp
-    print("Chosen parameters: "+best_param)
+    print(f"Chosen parameters: {best_param}")
     best_exp.save_data()
     print(best_param)
 
