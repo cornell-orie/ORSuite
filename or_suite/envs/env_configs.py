@@ -228,7 +228,8 @@ inventory_control_multiple_suppliers_default_config = {
     'max_inventory': 1000,
     'max_order': 20,
     'epLen': 500,
-    'starting_state': None
+    'starting_state': None,
+    'neg_inventory': False
 }
 epLen = 4
 airline_default_config = {
