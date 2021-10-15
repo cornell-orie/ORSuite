@@ -1,4 +1,6 @@
 import numpy as np
+import networkx as nx
+import sys
 from .. import Agent
 
 
@@ -16,6 +18,37 @@ class maxWeightFixedAgent(Agent):
         self.num_cars = env_config['num_cars']
         self.alpha = alpha
         self.num_nodes = len(env_config['starting_state'])
+        self.graph = nx.Graph(env_config['edges'])
+        self.num_nodes = self.graph.number_of_nodes()
+        self.lengths = self.find_lengths(self.graph, self.num_nodes)
+        self.gamma = env_config['gamma']
+        self.d_threshold = env_config['d_threshold']
+
+    def find_lengths(self, graph, num_nodes):
+        """Find the lengths between each pair of nodes in [graph].
+
+        Given a graph, find_lengths first calculates the pairwise shortest distance 
+        between all the nodes, which is stored in a (symmetric) matrix.
+
+        Args:
+            graph:
+                An object containing nodes and edges; each edge has a travel 
+                time.
+            num_nodes:
+                An integer representing the number of nodes in the graph.
+
+        Returns:
+            A 2-dimensional symmetric array containing the distances between
+            each pair of nodes.
+        """
+        dict_lengths = dict(nx.all_pairs_dijkstra_path_length(
+            graph, cutoff=None, weight='travel_time'))
+        lengths = np.zeros((num_nodes, num_nodes))
+
+        for node1 in range(num_nodes):
+            for node2 in range(num_nodes):
+                lengths[node1, node2] = dict_lengths[node1][node2]
+        return lengths
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
@@ -34,8 +67,13 @@ class maxWeightFixedAgent(Agent):
         '''
         Select action according to function
         '''
-        weighted_value = state[:self.num_nodes] / self.alpha
-        action = np.argmax(weighted_value)
+        dispatch_dist = self.lengths[state[-2]]
+        exp = np.exp((-1)*self.gamma*(dispatch_dist-self.d_threshold))
+        prob = exp / (1 + exp)
+        weight_value = state[:self.num_nodes] * prob / self.alpha
+        # filtered_weight = [weight_value[i] if state[i] > 0 else -1 *
+        #                    sys.maxsize for i in range(self.num_nodes)]
+        action = np.argmax(weight_value)
 
         return action
 
