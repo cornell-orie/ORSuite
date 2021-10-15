@@ -189,8 +189,8 @@ class RideshareGraphEnvironment(gym.Env):
         service_dist = self.lengths[source, sink]
 
         if self.state[action] > 0:
-            exp = np.exp((-1)*self.gamma*(dispatch_dist-self.d_threshold))
-            prob = exp / (1 + exp)
+            exp = np.exp(self.gamma*(dispatch_dist-self.d_threshold))
+            prob = 1 / (1 + exp)
             accept = np.random.binomial(1, prob)
             # print("prob: " + str(prob))
             # print("accept: " + str(accept))

@@ -68,11 +68,9 @@ class maxWeightFixedAgent(Agent):
         Select action according to function
         '''
         dispatch_dist = self.lengths[state[-2]]
-        exp = np.exp((-1)*self.gamma*(dispatch_dist-self.d_threshold))
-        prob = exp / (1 + exp)
-        weight_value = state[:self.num_nodes] * prob / self.alpha
-        # filtered_weight = [weight_value[i] if state[i] > 0 else -1 *
-        #                    sys.maxsize for i in range(self.num_nodes)]
+        exp = np.exp(self.gamma*(dispatch_dist-self.d_threshold))
+        prob = 1 / (1 + exp)
+        weight_value = state[:self.num_nodes] * prob * self.alpha
         action = np.argmax(weight_value)
 
         return action
