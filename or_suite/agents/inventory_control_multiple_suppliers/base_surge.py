@@ -41,9 +41,10 @@ class base_surgeAgent(Agent):
         return action
 
     def update_parameters(self, param):
-        if len(param[0]) == 0:
+        if len(param) == 1:
             self.r = []
+            self.S = param[0]
         else:
             self.r = [param[0]]
-        self.S = param[1]
+            self.S = param[1]
         print(self.r, self.S)
