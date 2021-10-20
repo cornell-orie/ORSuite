@@ -43,7 +43,7 @@ class bayes_selectorAgent(Agent):
         objective = cp.Maximize(self.config['f'].T@x)
         constraints = []
         constraints += [0 <= x]
-        constraints += [x <= num_type]
+        constraints += [x <= expect_type]
 
         constraints += [self.config['A'] @ x <= obs]
 
