@@ -220,15 +220,16 @@ oil_environment_default_config = {
 }
 
 inventory_control_multiple_suppliers_default_config = {
-    'lead_times': [5, 1],
+    'lead_times': [1, 5],
     'demand_dist': lambda x: np.random.poisson(10),
-    'supplier_costs': [100, 105],
+    'supplier_costs': [105, 100],
     'hold_cost': 1,
     'backorder_cost': 19,
     'max_inventory': 1000,
     'max_order': 20,
     'epLen': 500,
-    'starting_state': None
+    'starting_state': None,
+    'neg_inventory': False
 }
 epLen = 4
 airline_default_config = {

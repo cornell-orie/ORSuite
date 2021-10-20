@@ -1,1 +1,2 @@
 from or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env import *
+from or_suite.envs.inventory_control_multiple_suppliers.no_negative_inventory import *
