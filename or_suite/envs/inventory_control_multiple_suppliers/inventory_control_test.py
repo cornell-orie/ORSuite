@@ -26,7 +26,7 @@ CONFIG3 = {'lead_times': [5, 1, 8],
            'max_inventory': 1000,
            'max_order': 20,
            'epLen': 500,
-           'starting_state': None, 
+           'starting_state': None,
            'neg_inventory': True}
 
 env3 = gym.make('MultipleSuppliers-v0', config=CONFIG3)
@@ -66,9 +66,9 @@ def test_step():
     # Test to see if returned reward is a float
     assert type(reward) == float, "Reward is not a float"
 
-    assert reward == -1922.0
+    assert reward == -2592.0
 
-    expected_state = [0, 0, 0, 0, 1, 15, 987]
+    expected_state = [1, 0, 0, 0, 0, 15, 987]
     for i in range(sum_L + 1):
         assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
             i)
@@ -80,9 +80,9 @@ def test_step():
     assert env.observation_space.contains(
         newState), "Returned state is not part of given observation space after step"
 
-    assert reward == -1846.0
+    assert reward == -2582.0
 
-    expected_state = [0, 0, 0, 1, 1, 15, 991]
+    expected_state = [1, 0, 0, 0, 15, 15, 977]
     for i in range(sum_L + 1):
         assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
             i)
