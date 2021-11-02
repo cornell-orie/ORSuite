@@ -16,6 +16,7 @@ class closetCarAgent(Agent):
         self.env_config = env_config
 
         self.num_cars = env_config['num_cars']
+        self.num_nodes = len(env_config['starting_state'])
         self.epLen = epLen
         self.data = []
         self.lengths = self.get_lengths()
@@ -74,13 +75,18 @@ class closetCarAgent(Agent):
         '''
         Select action according to function
         '''
-
+        visited = set([])
         lengths_to_sink = copy.deepcopy(self.lengths[state[-2]])
         action = np.argmin(lengths_to_sink)
+        visited.add(action)
 
         while(state[action] == 0):
             lengths_to_sink[action] = float('inf')
             action = np.argmin(lengths_to_sink)
+            if action in visited:
+                return np.random.choice(self.num_nodes)
+            else:
+                visited.add(action)
 
         return action
 

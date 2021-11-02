@@ -130,7 +130,7 @@ rideshare_graph_default_config = {
     'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
               (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
               (1, 3, {'travel_time': 10}), (2, 3, {'travel_time': 10})],
-    'starting_state': [1, 2, 3, 4],
+    'starting_state': [2, 3, 3, 2],
     'num_cars': 10,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
@@ -139,7 +139,7 @@ rideshare_graph_default_config = {
     'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
     'fare': 3,
     'cost': 1,
-    'velocity': 1/3,
+    'velocity': 10,
     'gamma': 1,
     'd_threshold': 1
 }
@@ -147,9 +147,11 @@ rideshare_graph_default_config = {
 rideshare_graph_exp_config = {
     'epLen': 5,
     'edges': [(0, 1, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
-              (2, 3, {'travel_time': 10})],
-    'starting_state': [1, 1, 1, 1],
-    'num_cars': 4,
+              (2, 0, {'travel_time': 10}), (2, 3, {'travel_time': 10}),
+              (3, 4, {'travel_time': 10}), (4, 5, {'travel_time': 10}),
+              (5, 6, {'travel_time': 10}), (6, 4, {'travel_time': 10})],
+    'starting_state': [1, 1, 2, 2, 2, 1, 1],
+    'num_cars': 10,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,
@@ -157,9 +159,9 @@ rideshare_graph_exp_config = {
     'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
     'fare': 3,
     'cost': 1,
-    'velocity': 1/3,
+    'velocity': 10,
     'gamma': 1,
-    'd_threshold': 7
+    'd_threshold': 4
 }
 
 

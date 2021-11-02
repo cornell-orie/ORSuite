@@ -47,14 +47,14 @@ class randomCarAgent(Agent):
                 state[:self.num_nodes]) / (self.num_cars)
             action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
             return action
+
         if self.num_cars > state[-3]:
             potential_actions = list(range(self.num_nodes))
             prob_weight = np.array(
                 state[:self.num_nodes]) / (self.num_cars - state[-3])
             action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
         else:
-            np.random.choice(self.num_nodes)
-
+            action = np.random.choice(self.num_nodes)
         return action
 
     def pick_action(self, state, step):

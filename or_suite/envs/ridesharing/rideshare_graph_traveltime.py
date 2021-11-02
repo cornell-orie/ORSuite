@@ -69,7 +69,7 @@ class RideshareGraphEnvironment(gym.Env):
         self.reward = config['reward']
         self.reward_denied = config['reward_denied']
         self.reward_fail = config['reward_fail']
-        self.trave_time = config['travel_time']
+        self.travel_time = config['travel_time']
         self.fare = config['fare']
         self.cost = config['cost']
         self.velocity = config['velocity']
@@ -110,14 +110,11 @@ class RideshareGraphEnvironment(gym.Env):
                 request.
         """
         self.state[dispatch] -= 1
-        if self.lengths[source, sink] != 0:
-            # entering car into transit state
-            self.state[self.num_nodes + 2 * self.state[-3]] = sink
-            self.state[self.num_nodes + 2 * self.state[-3] +
-                       1] = self.trave_time(self.velocity, self.lengths[source, sink])
-            self.state[-3] += 1
-        else:
-            self.state[sink] += 1
+        # entering car into transit state
+        self.state[self.num_nodes + 2 * self.state[-3]] = sink
+        self.state[self.num_nodes + 2 * self.state[-3] +
+                   1] = self.travel_time(self.velocity, self.lengths[source, sink])
+        self.state[-3] += 1
 
     def step_in_transit(self):
         for i in range(self.state[-3]):
@@ -129,13 +126,17 @@ class RideshareGraphEnvironment(gym.Env):
                 self.state[transit_arrival] += 1
         # Removing & Compressing down
         for i in range(self.state[-3] - 1, -1, -1):
-            if self.state[self.num_nodes + 2 * i + 1] == 0:
-                self.state[self.num_nodes + 2 *
-                           i] = self.state[self.num_nodes + 2 * self.state[-3] - 2]
-                self.state[self.num_nodes + 2 * i +
-                           1] = self.state[self.num_nodes + 2 * self.state[-3] - 1]
-                self.state[self.num_nodes + 2 * self.state[-3] - 2] = 0
-                self.state[self.num_nodes + 2 * self.state[-3] - 1] = 0
+            if self.state[self.num_nodes + 2 * i + 1] <= 0:
+                if i == self.state[-3] - 1:
+                    self.state[self.num_nodes + 2 * i] = 0
+                    self.state[self.num_nodes + 2 * i + 1] = 0
+                else:
+                    self.state[self.num_nodes + 2 *
+                               i] = self.state[self.num_nodes + 2 * self.state[-3] - 2]
+                    self.state[self.num_nodes + 2 * i +
+                               1] = self.state[self.num_nodes + 2 * self.state[-3] - 1]
+                    self.state[self.num_nodes + 2 * self.state[-3] - 2] = 0
+                    self.state[self.num_nodes + 2 * self.state[-3] - 1] = 0
                 self.state[-3] -= 1
 
     def find_lengths(self, graph, num_nodes):
