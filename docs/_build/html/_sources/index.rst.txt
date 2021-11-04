@@ -5,6 +5,9 @@
 
 Welcome to ORSuite's documentation!
 ===================================
+
+.. mdinclude:: ../README.md
+   
 .. toctree::
    :maxdepth: 1
    :caption: Important Files:

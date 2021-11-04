@@ -5,11 +5,13 @@
 
 Welcome to ORSuite's documentation!
 ===================================
+
+.. mdinclude:: ../README.md
+
 .. toctree::
    :maxdepth: 1
    :caption: Important Files:
 
-   readme
    contribution_guide
 
 .. toctree::
