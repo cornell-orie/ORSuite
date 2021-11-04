@@ -255,6 +255,12 @@
 <dd><p>(Gym.spaces MultiDiscrete) The environment state must be the length of the of the sum of all lead times plus one. Each entry corresponds to the order that will soon be placed to a supplier. The last index is the current on-hand inventory.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env.DualSourcingEnvironment.neg_inventory">
+<span class="sig-name descname"><span class="pre">neg_inventory</span></span><a class="headerlink" href="#or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env.DualSourcingEnvironment.neg_inventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>A bool that says whether the on-hand inventory can be negative or not.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env.DualSourcingEnvironment.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/inventory_control_multiple_suppliers/multiple_suppliers_env.html#DualSourcingEnvironment.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.inventory_control_multiple_suppliers.multiple_suppliers_env.DualSourcingEnvironment.__init__" title="Permalink to this definition">¶</a></dt>
@@ -264,12 +270,13 @@
 lead_times: array of ints representing the lead times of each supplier
 supplier_costs: array of ints representing the costs of each supplier
 demand_dist: The random number sampled from the given distribution to be used to calculate the demand
-h: holding cost
-b: backorder cost
+hold_cost: The int holding cost.
+backorder_cost: The int backorder cost.
 epLen: The episode length
-max_order: the maximum value (int) that can be ordered from each supplier
-max_inventory: the maximum value (int) that can be held in inventory
-starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.</p>
+max_order: The maximum value (int) that can be ordered from each supplier
+max_inventory: The maximum value (int) that can be held in inventory
+starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
+neg_inventory: A bool that says whether the on-hand inventory can be negative or not.</p>
 </dd>
 </dl>
 </dd></dl>

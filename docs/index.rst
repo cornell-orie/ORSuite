@@ -24,10 +24,13 @@ Welcome to ORSuite's documentation!
    :maxdepth: 1
    :caption: Problem Notebooks:
 
+   airline_revenue_readme
    ambulance_routing_readme
    bandit_readme
+   inventory_control_readme
    resource_allocation_readme
    vaccine_allocation_readme
+
 
 
 Indices and tables

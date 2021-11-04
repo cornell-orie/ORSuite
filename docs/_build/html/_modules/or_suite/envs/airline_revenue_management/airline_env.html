@@ -204,6 +204,7 @@
 <span class="sd">            starting_state: The float array representing the number of available seats on each flight.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
         <span class="c1"># Initializes model parameters based on a configuration dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>  <span class="c1"># resource consumption</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>  <span class="c1"># revenue per class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>  <span class="c1"># distribution over arrivals</span>
@@ -219,6 +220,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span><span class="n">sstate</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
 
     <span class="c1"># Resets environment to initial state</span>
 <div class="viewcode-block" id="AirlineRevenueEnvironment.reset"><a class="viewcode-back" href="../../../../airline_revenue.html#or_suite.envs.airline_revenue_management.airline_env.AirlineRevenueEnvironment.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

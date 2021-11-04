@@ -178,17 +178,24 @@
 <div class="viewcode-block" id="Agent.__init__"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Agent.update_config"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="Agent.reset"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Agent.update_obs"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_obs">[docs]</a>    <span class="k">def</span> <span class="nf">update_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">newObs</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<div class="viewcode-block" id="Agent.update_config"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="k">return</span></div>
+        
+<div class="viewcode-block" id="Agent.update_parameters"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Agent.update_obs"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_obs">[docs]</a>    <span class="k">def</span> <span class="nf">update_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">newObs</span><span class="p">,</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Add observation to records&#39;&#39;&#39;</span></div>
 
 <div class="viewcode-block" id="Agent.update_policy"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.update_policy">[docs]</a>    <span class="k">def</span> <span class="nf">update_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Update internal policy based upon records&#39;&#39;&#39;</span></div>
 
-<div class="viewcode-block" id="Agent.pick_action"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+<div class="viewcode-block" id="Agent.pick_action"><a class="viewcode-back" href="../../../agents.html#or_suite.agents.agent.Agent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Select an action based upon the observation&#39;&#39;&#39;</span></div></div>
 </pre></div>
 
