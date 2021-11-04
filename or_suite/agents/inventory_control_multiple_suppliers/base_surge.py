@@ -45,6 +45,6 @@ class base_surgeAgent(Agent):
             self.r = []
             self.S = param[0]
         else:
-            self.r = [param[0]]
+            self.r = param[0]
             self.S = param[1]
         print(self.r, self.S)
