@@ -66,7 +66,7 @@ def test_step():
     # Test to see if returned reward is a float
     assert type(reward) == float, "Reward is not a float"
 
-    assert reward == -2592.0
+    assert reward == -1852.0
 
     expected_state = [1, 0, 0, 0, 0, 15, 987]
     for i in range(sum_L + 1):
@@ -80,7 +80,7 @@ def test_step():
     assert env.observation_space.contains(
         newState), "Returned state is not part of given observation space after step"
 
-    assert reward == -2582.0
+    assert reward == -2042.0
 
     expected_state = [1, 0, 0, 0, 15, 15, 977]
     for i in range(sum_L + 1):
