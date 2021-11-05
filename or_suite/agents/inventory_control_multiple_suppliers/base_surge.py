@@ -15,7 +15,10 @@ class base_surgeAgent(Agent):
         ''' Update agent information based on the config__file'''
         self.config = config
         lead_times = config['lead_times']
-        self.offset = config['max_inventory']
+        if config['neg_inventory']:
+            self.offset = config['max_inventory']
+        else:
+            self.offset = 0
         self.max_order = config['max_order']
 
         # Doesn't include longest lead time (assuming lead times sorted in non-decreasing order)
@@ -41,10 +44,6 @@ class base_surgeAgent(Agent):
         return action
 
     def update_parameters(self, param):
-        if len(param) == 1:
-            self.r = []
-            self.S = param[0]
-        else:
-            self.r = param[0]
-            self.S = param[1]
+        self.r = param[0]
+        self.S = param[1]
         print(self.r, self.S)
