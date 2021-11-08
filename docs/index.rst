@@ -30,6 +30,7 @@ Welcome to ORSuite's documentation!
    ambulance_routing_readme
    bandit_readme
    inventory_control_readme
+   oil_discovery_readme
    resource_allocation_readme
    vaccine_allocation_readme
 
