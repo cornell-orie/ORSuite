@@ -56,6 +56,11 @@ class DualSourcingEnvironment(gym.Env):
 
         self.neg_inventory = config['neg_inventory']
 
+        if self.neg_inventory:  # inventory can be negative
+            self.starting_state[-1] = self.max_inventory
+        else:
+            self.starting_state[-1] = 0
+
         self.state = np.asarray(self.starting_state)
         self.action_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*len(self.lead_times))
@@ -109,15 +114,19 @@ class DualSourcingEnvironment(gym.Env):
         if self.neg_inventory:  # Inventory can be negative
             newState[-1] = max(- self.max_inventory, min(newState[-1] -
                                self.max_inventory, self.max_inventory)) + self.max_inventory
+            amount_neg = 0
         else:  # Inventory is only positive
+            if newState[-1] < 0:
+                amount_neg = newState[-1]
+            else:
+                amount_neg = 0
             newState[-1] = max(0,
                                min(newState[-1], self.max_inventory))
-
         self.state = newState.copy()
 
         assert self.observation_space.contains(self.state)
 
-        reward = self.reward(self.state)
+        reward = self.reward(self.state) + self.backorder_cost * amount_neg
 
         self.timestep += 1
         done = self.timestep == self.epLen
