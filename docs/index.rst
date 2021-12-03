@@ -5,11 +5,13 @@
 
 Welcome to ORSuite's documentation!
 ===================================
+
+.. mdinclude:: ../README.md
+
 .. toctree::
    :maxdepth: 1
    :caption: Important Files:
 
-   readme
    contribution_guide
 
 .. toctree::
@@ -24,10 +26,14 @@ Welcome to ORSuite's documentation!
    :maxdepth: 1
    :caption: Problem Notebooks:
 
+   airline_revenue_readme
    ambulance_routing_readme
    bandit_readme
+   inventory_control_readme
+   oil_discovery_readme
    resource_allocation_readme
    vaccine_allocation_readme
+
 
 
 Indices and tables

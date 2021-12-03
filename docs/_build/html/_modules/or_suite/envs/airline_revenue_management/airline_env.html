@@ -87,7 +87,6 @@
             
               <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
@@ -98,8 +97,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
@@ -204,6 +206,7 @@
 <span class="sd">            starting_state: The float array representing the number of available seats on each flight.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
         <span class="c1"># Initializes model parameters based on a configuration dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>  <span class="c1"># resource consumption</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>  <span class="c1"># revenue per class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>  <span class="c1"># distribution over arrivals</span>
@@ -219,6 +222,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span><span class="n">sstate</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
 
     <span class="c1"># Resets environment to initial state</span>
 <div class="viewcode-block" id="AirlineRevenueEnvironment.reset"><a class="viewcode-back" href="../../../../airline_revenue.html#or_suite.envs.airline_revenue_management.airline_env.AirlineRevenueEnvironment.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

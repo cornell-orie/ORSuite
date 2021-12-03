@@ -22,6 +22,7 @@ class DualSourcingEnvironment(gym.Env):
         starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
         action_space: (Gym.spaces MultiDiscrete) Actions must be the length of the number of suppliers. Each entry is an int corresponding to the order size. 
         observation_space: (Gym.spaces MultiDiscrete) The environment state must be the length of the of the sum of all lead times plus one. Each entry corresponds to the order that will soon be placed to a supplier. The last index is the current on-hand inventory.
+        neg_inventory: A bool that says whether the on-hand inventory can be negative or not.
     """
 
     def __init__(self, config):
@@ -37,6 +38,7 @@ class DualSourcingEnvironment(gym.Env):
                 max_order: The maximum value (int) that can be ordered from each supplier
                 max_inventory: The maximum value (int) that can be held in inventory
                 starting_state: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
+                neg_inventory: A bool that says whether the on-hand inventory can be negative or not. 
             """
         self.lead_times = config['lead_times']
         self.supplier_costs = config['supplier_costs']
@@ -52,11 +54,17 @@ class DualSourcingEnvironment(gym.Env):
         self.max_inventory = config['max_inventory']
         self.starting_state[-1] = self.max_inventory
 
+        self.neg_inventory = config['neg_inventory']
+
         self.state = np.asarray(self.starting_state)
         self.action_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*len(self.lead_times))
-        self.observation_space = gym.spaces.MultiDiscrete(
-            [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
+        if self.neg_inventory:  # inventory can be negative
+            self.observation_space = gym.spaces.MultiDiscrete(
+                [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
+        else:  # inventory is only positive
+            self.observation_space = gym.spaces.MultiDiscrete(
+                [self.max_order+1]*(L_total)+[self.max_inventory + 1])
         # Check to see if cost and lead time vectors match
         assert len(self.supplier_costs) == len(self.lead_times)
         self.timestep = 0
@@ -92,13 +100,19 @@ class DualSourcingEnvironment(gym.Env):
             done: A bool flag indicating the end of the episode.
 
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
-        assert self.action_space.contains(action)
-
+        assert self.action_space.contains(
+            action), "Action, {},  not part of action space".format(action)
+        # print(action)
         demand = self.demand_dist(self.timestep)
         newState = self.new_state_helper(self.state, action)
         newState[-1] = newState[-1] - demand
-        newState[-1] = max(- self.max_inventory,
-                           min(newState[-1] - self.max_inventory, self.max_inventory)) + self.max_inventory
+        if self.neg_inventory:  # Inventory can be negative
+            newState[-1] = max(- self.max_inventory, min(newState[-1] -
+                               self.max_inventory, self.max_inventory)) + self.max_inventory
+        else:  # Inventory is only positive
+            newState[-1] = max(0,
+                               min(newState[-1], self.max_inventory))
+
         self.state = newState.copy()
 
         assert self.observation_space.contains(self.state)
@@ -110,7 +124,11 @@ class DualSourcingEnvironment(gym.Env):
 
         return self.state, float(reward), done, {'demand': demand}
 
+    def get_config(self):
+        return self.config
+
     # Auxilary function computing the reward
+
     def reward(self, state):
         """
         Reward is calculated in three components:
@@ -124,7 +142,10 @@ class DualSourcingEnvironment(gym.Env):
             total += self.supplier_costs[i] * \
                 state[self.lead_times[i] - 1 + sum_previous_lead_times]
             sum_previous_lead_times += self.lead_times[i]
-        return -(total + self.hold_cost*max(state[-1] - self.max_inventory, 0) + self.backorder_cost*max(-(state[-1] - self.max_inventory), 0))
+        if self.neg_inventory:  # Inventory can be negative
+            return -(total + self.hold_cost*max(state[-1] - self.max_inventory, 0) + self.backorder_cost*max(-(state[-1] - self.max_inventory), 0))
+        else:  # Inventory is only positive
+            return -(total + self.hold_cost*max(state[-1], 0) + self.backorder_cost*max(-(state[-1]), 0))
 
     # Auxilary function
     def new_state_helper(self, state, action):

@@ -39,6 +39,7 @@ def run_single_algo_tune(env, agent, param_list, settings):
                             dt.max()['episode']].iloc[0]['epReward']
         if avg_end_reward >= best_reward:
             best_reward = avg_end_reward
+
             best_param = param
             best_exp = exp
     best_exp.save_data()

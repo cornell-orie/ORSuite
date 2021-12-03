@@ -120,6 +120,7 @@ class Experiment(object):
                         print('new state: %s' % (newState))
                         print('reward: %s' % (reward))
                         print('epReward so far: %s' % (epReward))
+                        print(f'Info: {info}')
 
                     self.agent.update_obs(
                         oldState, action, reward, newState, h, info)

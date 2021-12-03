@@ -58,6 +58,11 @@ register(id='MultipleSuppliers-v0',
 
 
 # Airline Problem
-register(id = 'Airline-v0',
-        entry_point = 'or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
-)
+register(id='Airline-v0',
+         entry_point='or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
+         )
+
+# Inventory Control with No Negative Inventory
+register(id='NoNegative-v0',
+         entry_point='or_suite.envs.inventory_control_multiple_suppliers.no_negative_inventory:NoNegativeEnvironment'
+         )
