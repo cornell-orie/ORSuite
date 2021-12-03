@@ -92,7 +92,7 @@ class RideshareGraphEnvironment(gym.Env):
         """Returns the configuration for the current environment."""
         return self.config
 
-    def fulfill_req(self, dispatch, sink):
+    def fulfill_req(self, state, dispatch, sink):
         """Update the state to represent a car moving from source to sink.
 
         Args:
@@ -103,8 +103,8 @@ class RideshareGraphEnvironment(gym.Env):
                 An integer representing the destination node of the rideshare
                 request.
         """
-        self.state[dispatch] -= 1
-        self.state[sink] += 1
+        state[dispatch] -= 1
+        state[sink] += 1
 
     def find_lengths(self, graph, num_nodes):
         """Find the lengths between each pair of nodes in [graph].
@@ -151,12 +151,15 @@ class RideshareGraphEnvironment(gym.Env):
         assert self.action_space.contains(action)
 
         done = False
+        accepted = False
         source = self.state[-2]
         sink = self.state[-1]
+        newState = np.copy(self.state)
         dispatch_dist = self.lengths[action, source]
         service_dist = self.lengths[source, sink]
 
-        if self.state[action] > 0:
+        # If there is a car at the location the agent chose
+        if newState[action] > 0:
             exp = np.exp(self.gamma*(dispatch_dist-self.d_threshold))
             prob = 1 / (1 + exp)
             accept = np.random.binomial(1, prob)
@@ -164,9 +167,10 @@ class RideshareGraphEnvironment(gym.Env):
             # print("accept: " + str(accept))
             if accept == 1:
                 # print('accept service')
-                self.fulfill_req(action, sink)
+                self.fulfill_req(newState, action, sink)
                 reward = self.reward(self.fare, self.cost,
                                      dispatch_dist, service_dist)
+                accepted = True
             else:
                 # print('decline service')
                 reward = self.reward_denied()
@@ -176,12 +180,12 @@ class RideshareGraphEnvironment(gym.Env):
 
         # updating the state with a new rideshare request
         new_request = self.request_dist(self.timestep, self.num_nodes)
-        self.state[-2] = new_request[0]
-        self.state[-1] = new_request[1]
-
+        newState[-2] = new_request[0]
+        newState[-1] = new_request[1]
+        self.state = newState
         if self.timestep == self.epLen - 1:
             done = True
 
         self.timestep += 1
 
-        return self.state, np.float64(reward), done, {'request': new_request}
+        return self.state, np.float64(reward), done, {'request': new_request, 'acceptance': accepted}

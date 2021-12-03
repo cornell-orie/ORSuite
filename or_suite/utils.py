@@ -72,6 +72,43 @@ and return a corresponding value, where large corresponds to 'good'.
 
 
 '''
+RIDESHARING ENVIRONMENT
+'''
+# Calculating the acceptance rate for the ridesharing environment on the trajectory datafile
+
+
+def acceptance_rate(traj, dist):
+    accepted = 0
+    for i in range(len(traj)):
+        cur_data = traj[i]
+        if cur_data['info']['acceptance']:
+            accepted += 1
+    return accepted / len(traj)
+
+# Calculating the mean of the dispatched distance of the ridesharing environment on the trajectory datafile
+
+
+def mean_dispatch_dist(traj, dist):
+    dispatch_dists = 0
+    for i in range(len(traj)):
+        cur_data = traj[i]
+        cur_state = cur_data['oldState']
+        dispatch_dists += dist(cur_data['action'], cur_state[-2])
+    return dispatch_dists / len(traj)
+
+# Calculating the variance of the dispatched distance of the ridesharing environment on the trajectory datafile
+
+
+def var_dispatch_dist(traj, dist):
+    dispatch_dists = []
+    for i in range(len(traj)):
+        cur_data = traj[i]
+        cur_state = cur_data['oldState']
+        dispatch_dists.append(dist(cur_data['action'], cur_state[-2]))
+    return np.var(dispatch_dists)
+
+
+'''
 AMBULANCE ENVIRONMENT
 '''
 
