@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Base SurgeAgent &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Base SurgeAgent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/base_surge.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="base-surgeagent">
+<h1>Base SurgeAgent<a class="headerlink" href="#base-surgeagent" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-or_suite.agents.inventory_control_multiple_suppliers.base_surge"></span><dl class="py class">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.inventory_control_multiple_suppliers.base_surge.</span></span><span class="sig-name descname"><span class="pre">base_surgeAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a value, r, which is the order amount for the supplier with the lowest lead time, and an order-up-to-amount, S, which is used to calculate the order amount for all other suppliers.</p>
+<p>The base surge agent has 2 parameters, r and S.
+Each action is expressed as [r,[orderamount]]. r represents the order amount for the supplier with the lowest lead time and stays constant.
+S represents the “order up to amount”.
+orderamount is calculated by calculating S - I where I is the current on-hand inventory.
+This value is then made 0 if it is negative or is reduced to the maxorder if it is greater.
+This order value is the same for all suppliers that do not have the lowest lead time.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.r">
+<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>The order amount for the supplier with the lowest lead time.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.S">
+<span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.S" title="Permalink to this definition">¶</a></dt>
+<dd><p>The order-up-to amount for all other suppliers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of values used to set up the environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Either 0 or the value of the max_inventory. It is used to have correct order amounts when inventory is strictly positive or if it is positive and negative.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.max_order">
+<span class="sig-name descname"><span class="pre">max_order</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.max_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum order amount for every supplier.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the agent with attributes r and S.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> – The order amount for the supplier with the lowest lead time.</p></li>
+<li><p><strong>S</strong> – The order-up-to amount for all other suppliers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select an action based upon the observation
+:param obs: The most recently observed state.
+:param h: Not used</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent.update_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update agent information based on the config__file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The environment being used.</p></li>
+<li><p><strong>config</strong> – The dictionary of values used to set up the environment.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_parameters">
+<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the parameters, r and S.
+:param param: A list of the form [r, S] where r is a list of integers and S is an integer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
