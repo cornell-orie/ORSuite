@@ -40,7 +40,7 @@ def test_step():
 
     assert reward == 0.
 
-    expected_state = [10., 10., 10.]
+    expected_state = [20/3, 4., 4.]
     for i in range(len(env.state)):
         assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
             i)
@@ -54,7 +54,7 @@ def test_step():
 
     assert reward == 1.
 
-    expected_state = [8., 7., 8.]
+    expected_state = [20/3 - 2, 1., 2.]
     for i in range(len(env.state)):
         assert env.state[i] == expected_state[i], "New state does not match expected state at index {}".format(
             i)
