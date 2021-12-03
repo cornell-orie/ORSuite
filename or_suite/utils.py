@@ -37,6 +37,7 @@ def run_single_algo_tune(env, agent, param_list, settings):
                           'episode', 'iteration', 'epReward', 'memory', 'time'])
         avg_end_reward = dt[dt['episode'] ==
                             dt.max()['episode']].iloc[0]['epReward']
+        # print(avg_end_reward)
         if avg_end_reward >= best_reward:
             best_reward = avg_end_reward
 

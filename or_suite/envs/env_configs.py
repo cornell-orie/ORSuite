@@ -231,6 +231,22 @@ inventory_control_multiple_suppliers_default_config = {
     'starting_state': None,
     'neg_inventory': True
 }
+
+inventory_control_multiple_suppliers_modified_config = {
+    'lead_times': [1, 5],
+    'demand_dist': lambda x: np.random.poisson(10),
+    'supplier_costs': [15, 5],
+    'hold_cost': 1,
+    'backorder_cost': 200,
+    'max_inventory': 1000,
+    'max_order': 20,
+    'epLen': 500,
+    'starting_state': None,
+    'neg_inventory': True
+}
+
+
+
 epLen = 4
 airline_default_config = {
     'epLen': epLen,
