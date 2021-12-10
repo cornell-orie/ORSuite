@@ -37,17 +37,15 @@ State Space
 ^^^^^^^^^^^
 
 The state space is the set of all possible available seats for every
-flight into and out of each location up to the full capacities. $ S =
-[0, B_1] :raw-latex:`\times [0, B_2] `:raw-latex:`\times `…
-:raw-latex:`\times [0, B_k] `$ where $ B_i $ is the maximum availability
-of resource type $ i $ and $ k $ is the number of resource types.
+flight into and out of each location up to the full capacities. :math:`S = [0, B_1] \times [0, B_2] \times ... \times [0, B_k]` where :math:`B_i` is the maximum availability
+of resource type :math:`i`and :math:`k` is the number of resource types.
 
 Action Space
 ^^^^^^^^^^^^
 
-The action space is all possible binary vectors of length $ n $ which
+The action space is all possible binary vectors of length :math:`n` which
 tells you whether a customer class is accepted or declined by the
-company, where n is the number of customer classes. $ A = {{0, 1}}^n $
+company, where n is the number of customer classes. :math:`A = {{0, 1}}^n`
 
 Reward
 ^^^^^^
@@ -60,15 +58,13 @@ reward is zero.
 Transitions
 ^^^^^^^^^^^
 
-Given an arrival $ P_t $ of type $ j_t :raw-latex:`\in [n] `$ or
-:math:`\empty` : \* if :math:`\empty` then $ S_{t+1} = S_t $ with reward
-$ = 0 $, indicating that no arrivals occured and so the agent receives
-no revenue \* if $ j_t $ : \* if $ a_{j_t} = 0 $ (i.e. algorithm refuses
-to allocate to that type of customer) then $ S_{t+1} = S_t $ with reward
-$ = 0 $ \* if $ a_{j_t} = 1 $ and $ S_t - A_{j_t}^T ≥ 0 $ (i.e. budget
-for resources to satisfy the request) then $ S_{t + 1} = S_t - A_{j_t}^T
-$ with $ reward = f_{j_t} $
-
+Given an arrival :math:`P_t` of type :math:`j_t \in [n]` or :math:`\emptyset`: 
+   * if :math:`\emptyset` then :math:`S_{t+1} = S_t` with :math:`reward = 0`, indicating that no arrivals occured and so the agent receives no revenue 
+   * if :math:`j_t`: 
+  
+     * if :math:`a_{j_t} = 0` (i.e. algorithm refuses to allocate to that type of customer) then :math:`S_{t+1} = S_t` with :math:`reward = 0`
+     * if :math:`a_{j_t} = 1` and :math:`S_t - A_{j_t}^T ≥ 0` (i.e. budget for resources to satisfy the request) then :math:`S_{t + 1} = S_t - A_{j_t}^T` with :math:`reward = f_{j_t}`
+  
 At each time step a customer may or may not arrive. If no customer
 arrives, then the next state is the same as the current state and the
 reward is zero. If a customer does arrive they can either be accepted or

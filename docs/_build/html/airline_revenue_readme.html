@@ -225,16 +225,14 @@ earlier (or later) timestep.</p></li>
 <div class="section" id="state-space">
 <h4>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h4>
 <p>The state space is the set of all possible available seats for every
-flight into and out of each location up to the full capacities. $ S =
-[0, B_1] <a href="#id1"><span class="problematic" id="id2">:raw-latex:`\times [0, B_2] `:raw-latex:`</span></a>times <cite>…
-:raw-latex:</cite>times [0, B_k] <a href="#id3"><span class="problematic" id="id4">`</span></a>$ where $ B_i $ is the maximum availability
-of resource type $ i $ and $ k $ is the number of resource types.</p>
+flight into and out of each location up to the full capacities. <span class="math notranslate nohighlight">\(S = [0, B_1] \times [0, B_2] \times ... \times [0, B_k]\)</span> where <span class="math notranslate nohighlight">\(B_i\)</span> is the maximum availability
+of resource type <span class="math notranslate nohighlight">\(i\)</span> is the number of resource types.</p>
 </div>
 <div class="section" id="action-space">
 <h4>Action Space<a class="headerlink" href="#action-space" title="Permalink to this headline">¶</a></h4>
-<p>The action space is all possible binary vectors of length $ n $ which
+<p>The action space is all possible binary vectors of length <span class="math notranslate nohighlight">\(n\)</span> which
 tells you whether a customer class is accepted or declined by the
-company, where n is the number of customer classes. $ A = {{0, 1}}^n $</p>
+company, where n is the number of customer classes. <span class="math notranslate nohighlight">\(A = {{0, 1}}^n\)</span></p>
 </div>
 <div class="section" id="reward">
 <h4>Reward<a class="headerlink" href="#reward" title="Permalink to this headline">¶</a></h4>
@@ -245,14 +243,18 @@ reward is zero.</p>
 </div>
 <div class="section" id="transitions">
 <h4>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline">¶</a></h4>
-<p>Given an arrival $ P_t $ of type $ j_t <a href="#id5"><span class="problematic" id="id6">:raw-latex:`\in [n] `$ or
-:math:`</span></a>empty` : * if <span class="math notranslate nohighlight">\(\empty\)</span> then $ S_{t+1} = S_t $ with reward
-$ = 0 $, indicating that no arrivals occured and so the agent receives
-no revenue * if $ j_t $ : * if $ a_{j_t} = 0 $ (i.e. algorithm refuses
-to allocate to that type of customer) then $ S_{t+1} = S_t $ with reward
-$ = 0 $ * if $ a_{j_t} = 1 $ and $ S_t - A_{j_t}^T ≥ 0 $ (i.e. budget
-for resources to satisfy the request) then $ S_{t + 1} = S_t - A_{j_t}^T
-$ with $ reward = f_{j_t} $</p>
+<dl class="simple">
+<dt>Given an arrival <span class="math notranslate nohighlight">\(P_t\)</span> of type <span class="math notranslate nohighlight">\(j_t \in [n]\)</span> or <span class="math notranslate nohighlight">\(\emptyset\)</span>:</dt><dd><ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\emptyset\)</span> then <span class="math notranslate nohighlight">\(S_{t+1} = S_t\)</span> with <span class="math notranslate nohighlight">\(reward = 0\)</span>, indicating that no arrivals occured and so the agent receives no revenue</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(j_t\)</span>:</p>
+<ul>
+<li><p>if <span class="math notranslate nohighlight">\(a_{j_t} = 0\)</span> (i.e. algorithm refuses to allocate to that type of customer) then <span class="math notranslate nohighlight">\(S_{t+1} = S_t\)</span> with <span class="math notranslate nohighlight">\(reward = 0\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(a_{j_t} = 1\)</span> and <span class="math notranslate nohighlight">\(S_t - A_{j_t}^T ≥ 0\)</span> (i.e. budget for resources to satisfy the request) then <span class="math notranslate nohighlight">\(S_{t + 1} = S_t - A_{j_t}^T\)</span> with <span class="math notranslate nohighlight">\(reward = f_{j_t}\)</span></p></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 <p>At each time step a customer may or may not arrive. If no customer
 arrives, then the next state is the same as the current state and the
 reward is zero. If a customer does arrive they can either be accepted or

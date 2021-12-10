@@ -8,11 +8,11 @@ class base_surgeAgent(Agent):
     Uses a value, r, which is the order amount for the supplier with the lowest lead time, and an order-up-to-amount, S, which is used to calculate the order amount for all other suppliers.
 
     The base surge agent has 2 parameters, r and S. 
-    Each action is expressed as [r,[orderamount]]. r represents the order amount for the supplier with the lowest lead time and stays constant. 
+    Each action is expressed as [r,[orderamount]]. r is a vector of the order amounts for all suppliers except the one with the greatest lead time. 
     S represents the "order up to amount". 
     orderamount is calculated by calculating S - I where I is the current on-hand inventory.
     This value is then made 0 if it is negative or is reduced to the maxorder if it is greater. 
-    This order value is the same for all suppliers that do not have the lowest lead time. 
+    This order amount is used for the supplier with the greatest lead time.
 
     Attributes:
         r: The order amount for the supplier with the lowest lead time.
