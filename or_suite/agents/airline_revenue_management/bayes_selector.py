@@ -9,7 +9,9 @@ import cvxpy as cp
 
 class bayes_selectorAgent(Agent):
     """The bayes selector algorithm, at every iteration, solves an optimization problem for the optimal actions based on the current inventory levels and the expected number of future arrival types.  In particular, given the current state s_t denoting the available resource for the k different resource types, we solve the following optimization problem:
-        :math:`\max \sum_n f_n x_n \\ \text{ s. t. }0 \leq x \leq \mathbb{E}[N_{t}]`
+        :math:`\max \sum_n f_n x_n` 
+
+        :math:`\\\t{ s. t. } 0 \leq x \leq \mathbb{E}[N_{t}]`
     where :math:`\mathbb{E}[N_{t}]` is a vector of length n with each element corresponding to the expected number of future arrivals of each type j.
 
     Attributes:
@@ -48,7 +50,7 @@ class bayes_selectorAgent(Agent):
 
     def pick_action(self, obs, timestep):
         '''Select an action based upon the observation.
-        
+
         Args:
             obs: The current state.
             timestep: The number of timesteps that have passed.

@@ -181,7 +181,9 @@
 
 <div class="viewcode-block" id="bayes_selectorAgent"><a class="viewcode-back" href="../../../../bayes_selector.html#or_suite.agents.airline_revenue_management.bayes_selector.bayes_selectorAgent">[docs]</a><span class="k">class</span> <span class="nc">bayes_selectorAgent</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The bayes selector algorithm, at every iteration, solves an optimization problem for the optimal actions based on the current inventory levels and the expected number of future arrival types.  In particular, given the current state s_t denoting the available resource for the k different resource types, we solve the following optimization problem:</span>
-<span class="sd">        :math:`\max \sum_n f_n x_n \\ \text{ s. t. }0 \leq x \leq \mathbb{E}[N_{t}]`</span>
+<span class="sd">        :math:`\max \sum_n f_n x_n` </span>
+
+<span class="sd">        :math:`\\\t{ s. t. } 0 \leq x \leq \mathbb{E}[N_{t}]`</span>
 <span class="sd">    where :math:`\mathbb{E}[N_{t}]` is a vector of length n with each element corresponding to the expected number of future arrivals of each type j.</span>
 
 <span class="sd">    Attributes:</span>
@@ -220,7 +222,7 @@
 
 <div class="viewcode-block" id="bayes_selectorAgent.pick_action"><a class="viewcode-back" href="../../../../bayes_selector.html#or_suite.agents.airline_revenue_management.bayes_selector.bayes_selectorAgent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">timestep</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Select an action based upon the observation.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            obs: The current state.</span>
 <span class="sd">            timestep: The number of timesteps that have passed.</span>
