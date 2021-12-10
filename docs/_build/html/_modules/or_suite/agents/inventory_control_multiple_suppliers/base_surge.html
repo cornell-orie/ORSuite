@@ -177,7 +177,7 @@
 
 <div class="viewcode-block" id="base_surgeAgent"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent">[docs]</a><span class="k">class</span> <span class="nc">base_surgeAgent</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uses a value, r, which is the order amount for the supplier with the lowest lead time, and an order-up-to-amount, S, which is used to calculate the order amount for all other suppliers.</span>
+<span class="sd">    Uses a value, r, which is a vector of order amounts of length number of suppliers - 1, and an order-up-to-amount, S, which is used to calculate the order amount for the supplier with the greatest lead time.</span>
 
 <span class="sd">    The base surge agent has 2 parameters, r and S. </span>
 <span class="sd">    Each action is expressed as [r,[orderamount]]. r is a vector of the order amounts for all suppliers except the one with the greatest lead time. </span>
@@ -187,8 +187,8 @@
 <span class="sd">    This order amount is used for the supplier with the greatest lead time.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        r: The order amount for the supplier with the lowest lead time.</span>
-<span class="sd">        S: The order-up-to amount for all other suppliers.</span>
+<span class="sd">        r: A vector of order amounts of length number of suppliers - 1.</span>
+<span class="sd">        S: The order-up-to amount for the supplier with the greatest lead time.</span>
 <span class="sd">        config: The dictionary of values used to set up the environment.</span>
 <span class="sd">        offset: Either 0 or the value of the max_inventory. It is used to have correct order amounts when inventory is strictly positive or if it is positive and negative.</span>
 <span class="sd">        max_order: The maximum order amount for every supplier.</span>
@@ -198,8 +198,8 @@
         <span class="sd">&#39;&#39;&#39;Initializes the agent with attributes r and S.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            r: The order amount for the supplier with the lowest lead time.</span>
-<span class="sd">            S: The order-up-to amount for all other suppliers.</span>
+<span class="sd">            r: A vector of order amounts of length number of suppliers - 1.</span>
+<span class="sd">            S: The order-up-to amount for the supplier with the greatest lead time.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">S</span></div>
@@ -228,10 +228,15 @@
         <span class="c1"># Look into linear programming solvers ( CVXPY, PuLP, or others)</span>
 
 <div class="viewcode-block" id="base_surgeAgent.pick_action"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Select an action based upon the observation</span>
+        <span class="sd">&#39;&#39;&#39;Select an action based upon the observation.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            obs: The most recently observed state.</span>
-<span class="sd">            h: Not used &#39;&#39;&#39;</span>
+<span class="sd">            h: Not used.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list:</span>
+<span class="sd">            action: The action the agent will take in the next timestep.&#39;&#39;&#39;</span>
         <span class="c1"># Step 1, extract I_t from obs</span>
         <span class="n">inventory</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span>
 

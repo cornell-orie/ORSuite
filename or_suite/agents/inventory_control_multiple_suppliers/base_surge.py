@@ -5,7 +5,7 @@ from .. import Agent
 
 class base_surgeAgent(Agent):
     """
-    Uses a value, r, which is the order amount for the supplier with the lowest lead time, and an order-up-to-amount, S, which is used to calculate the order amount for all other suppliers.
+    Uses a value, r, which is a vector of order amounts of length number of suppliers - 1, and an order-up-to-amount, S, which is used to calculate the order amount for the supplier with the greatest lead time.
 
     The base surge agent has 2 parameters, r and S. 
     Each action is expressed as [r,[orderamount]]. r is a vector of the order amounts for all suppliers except the one with the greatest lead time. 
@@ -15,8 +15,8 @@ class base_surgeAgent(Agent):
     This order amount is used for the supplier with the greatest lead time.
 
     Attributes:
-        r: The order amount for the supplier with the lowest lead time.
-        S: The order-up-to amount for all other suppliers.
+        r: A vector of order amounts of length number of suppliers - 1.
+        S: The order-up-to amount for the supplier with the greatest lead time.
         config: The dictionary of values used to set up the environment.
         offset: Either 0 or the value of the max_inventory. It is used to have correct order amounts when inventory is strictly positive or if it is positive and negative.
         max_order: The maximum order amount for every supplier.
@@ -26,8 +26,8 @@ class base_surgeAgent(Agent):
         '''Initializes the agent with attributes r and S.
 
         Args:
-            r: The order amount for the supplier with the lowest lead time.
-            S: The order-up-to amount for all other suppliers.
+            r: A vector of order amounts of length number of suppliers - 1.
+            S: The order-up-to amount for the supplier with the greatest lead time.
         '''
         self.r = r
         self.S = S
@@ -56,10 +56,15 @@ class base_surgeAgent(Agent):
         # Look into linear programming solvers ( CVXPY, PuLP, or others)
 
     def pick_action(self, obs, h):
-        '''Select an action based upon the observation
+        '''Select an action based upon the observation.
+
         Args:
             obs: The most recently observed state.
-            h: Not used '''
+            h: Not used.
+
+        Returns:
+            list:
+            action: The action the agent will take in the next timestep.'''
         # Step 1, extract I_t from obs
         inventory = obs[-1] - self.offset
 

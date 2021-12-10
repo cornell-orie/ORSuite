@@ -344,13 +344,13 @@ negative or not.</p></li>
 the amount ordered from each supplier is an integer from
 <span class="math notranslate nohighlight">\([0, maxorder]\)</span>. ### Base Surge Agent (TBS) The base surge agent
 has 2 parameters, <span class="math notranslate nohighlight">\(r\)</span> and <span class="math notranslate nohighlight">\(S\)</span>. Each action is expressed as
-<span class="math notranslate nohighlight">\([r,[orderamount]]\)</span>. <span class="math notranslate nohighlight">\(r\)</span> represents the order amount for the
-supplier with the lowest lead time and stays constant. <span class="math notranslate nohighlight">\(S\)</span>
+<span class="math notranslate nohighlight">\([r,[orderamount]]\)</span>. <span class="math notranslate nohighlight">\(r\)</span> is a vector of the order amounts
+for all suppliers except the one with the greatest lead time. <span class="math notranslate nohighlight">\(S\)</span>
 represents the “order up to amount”. orderamount is calculated by
 calculating <span class="math notranslate nohighlight">\(S - I\)</span> where <span class="math notranslate nohighlight">\(I\)</span> is the current on-hand
 inventory. This value is then made 0 if it is negative or is reduced to
-the <span class="math notranslate nohighlight">\(maxorder\)</span> if it is greater. This order value is the same for
-all suppliers that do not have the lowest lead time.</p>
+the <span class="math notranslate nohighlight">\(maxorder\)</span> if it is greater. This order amount is used for the
+supplier with the greatest lead time.</p>
 </div>
 </div>
 </div>

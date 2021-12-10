@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Base SurgeAgent &mdash; ORSuite  documentation</title>
+  <title>Base Surge Agent &mdash; ORSuite  documentation</title>
   
 
   
@@ -97,10 +97,11 @@
 <li class="toctree-l1 current"><a class="reference internal" href="agents.html">Agents</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ambulance_agent.html">Ambulance Agents</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="inventory_agents.html">Inventory Control Agents</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Base SurgeAgent</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Base Surge Agent</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="resource_allocation_agent.html">Resource Allocation Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revenue_management_agents.html">Revenue Management Agents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rl_agent.html">RL Agents</a></li>
 </ul>
 </li>
@@ -167,7 +168,7 @@
         
           <li><a href="inventory_agents.html">Inventory Control Agents</a> &raquo;</li>
         
-      <li>Base SurgeAgent</li>
+      <li>Base Surge Agent</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -186,12 +187,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="base-surgeagent">
-<h1>Base SurgeAgent<a class="headerlink" href="#base-surgeagent" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-or_suite.agents.inventory_control_multiple_suppliers.base_surge"></span><dl class="py class">
+  <div class="section" id="module-or_suite.agents.inventory_control_multiple_suppliers.base_surge">
+<span id="base-surge-agent"></span><h1>Base Surge Agent<a class="headerlink" href="#module-or_suite.agents.inventory_control_multiple_suppliers.base_surge" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
 <dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.inventory_control_multiple_suppliers.base_surge.</span></span><span class="sig-name descname"><span class="pre">base_surgeAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses a value, r, which is the order amount for the supplier with the lowest lead time, and an order-up-to-amount, S, which is used to calculate the order amount for all other suppliers.</p>
+<dd><p>Uses a value, r, which is a vector of order amounts of length number of suppliers - 1, and an order-up-to-amount, S, which is used to calculate the order amount for the supplier with the greatest lead time.</p>
 <p>The base surge agent has 2 parameters, r and S.
 Each action is expressed as [r,[orderamount]]. r is a vector of the order amounts for all suppliers except the one with the greatest lead time.
 S represents the “order up to amount”.
@@ -201,13 +202,13 @@ This order amount is used for the supplier with the greatest lead time.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.r">
 <span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.r" title="Permalink to this definition">¶</a></dt>
-<dd><p>The order amount for the supplier with the lowest lead time.</p>
+<dd><p>A vector of order amounts of length number of suppliers - 1.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.S">
 <span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.S" title="Permalink to this definition">¶</a></dt>
-<dd><p>The order-up-to amount for all other suppliers.</p>
+<dd><p>The order-up-to amount for the supplier with the greatest lead time.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -235,8 +236,8 @@ This order amount is used for the supplier with the greatest lead time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>r</strong> – The order amount for the supplier with the lowest lead time.</p></li>
-<li><p><strong>S</strong> – The order-up-to amount for all other suppliers.</p></li>
+<li><p><strong>r</strong> – A vector of order amounts of length number of suppliers - 1.</p></li>
+<li><p><strong>S</strong> – The order-up-to amount for the supplier with the greatest lead time.</p></li>
 </ul>
 </dd>
 </dl>
@@ -245,9 +246,21 @@ This order amount is used for the supplier with the greatest lead time.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action">
 <span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/inventory_control_multiple_suppliers/base_surge.html#base_surgeAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Select an action based upon the observation
-:param obs: The most recently observed state.
-:param h: Not used</p>
+<dd><p>Select an action based upon the observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obs</strong> – The most recently observed state.</p></li>
+<li><p><strong>h</strong> – Not used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>action: The action the agent will take in the next timestep.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
