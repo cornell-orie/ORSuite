@@ -80,6 +80,7 @@ class base_surgeAgent(Agent):
 
     def update_parameters(self, param):
         ''' Update the parameters, r and S.
+
         Args:
             param: A list of the form [r, S] where r is a list of integers and S is an integer.'''
         self.r = param[0]
