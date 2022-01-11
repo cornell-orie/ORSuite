@@ -74,7 +74,7 @@ class commandLineAgent(Agent):
                 except ValueError:
                     print("Please enter a number between 0 and 1")
 
-        return action
+        return np.float32(action)
 
     def pick_action(self, state, step):
         action = self.greedy(state, step)
