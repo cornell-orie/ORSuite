@@ -75,14 +75,19 @@ class closetCarAgent(Agent):
         '''
         Select action according to function
         '''
-        visited = set([])
-        lengths_to_sink = copy.deepcopy(self.lengths[state[-2]])
-        action = np.argmin(lengths_to_sink)
+        visited = set(
+            [])  # Set of nodes that was visited to check whether there is a car
+        lengths_to_source = copy.deepcopy(self.lengths[state[-2]])
+        # Array of lengths from the source to a node
+        action = np.argmin(lengths_to_source)  # Search for the closest node
         visited.add(action)
 
+        # When the closest node does not have a car to dispatch, we search for the next closest node until
+        # 1) we find a node with a car to dispatch or
+        # 2) realize there are no cars to dispatch and choose a random action from the action space
         while(state[action] == 0):
-            lengths_to_sink[action] = float('inf')
-            action = np.argmin(lengths_to_sink)
+            lengths_to_source[action] = float('inf')
+            action = np.argmin(lengths_to_source)
             if action in visited:
                 return np.random.choice(self.num_nodes)
             else:

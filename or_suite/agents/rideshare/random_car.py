@@ -41,6 +41,9 @@ class randomCarAgent(Agent):
         '''
         Select action according to function
         '''
+
+        # When travel time is not considered, taking a weighted random choice
+        # based on number of cars available at each node
         if self.num_nodes + 2 == len(state):
             potential_actions = list(range(self.num_nodes))
             prob_weight = np.array(
@@ -48,11 +51,13 @@ class randomCarAgent(Agent):
             action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
             return action
 
+        # When there are cars that are not in transit (state[-3] = # of cars in transit)
         if self.num_cars > state[-3]:
             potential_actions = list(range(self.num_nodes))
             prob_weight = np.array(
                 state[:self.num_nodes]) / (self.num_cars - state[-3])
             action = np.random.choice(potential_actions, 1, p=prob_weight)[0]
+        # When there aren't any cars available for dispatch
         else:
             action = np.random.choice(self.num_nodes)
         return action

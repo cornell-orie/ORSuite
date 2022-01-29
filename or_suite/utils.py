@@ -94,7 +94,7 @@ def mean_dispatch_dist(traj, dist):
         cur_data = traj[i]
         cur_state = cur_data['oldState']
         dispatch_dists += dist(cur_data['action'], cur_state[-2])
-    return dispatch_dists / len(traj)
+    return (-1) * dispatch_dists / len(traj)
 
 # Calculating the variance of the dispatched distance of the ridesharing environment on the trajectory datafile
 
@@ -105,7 +105,7 @@ def var_dispatch_dist(traj, dist):
         cur_data = traj[i]
         cur_state = cur_data['oldState']
         dispatch_dists.append(dist(cur_data['action'], cur_state[-2]))
-    return np.var(dispatch_dists)
+    return (-1) * np.var(dispatch_dists)
 
 
 '''

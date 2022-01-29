@@ -1,6 +1,6 @@
 """Implementation of an RL environment in a discrete graph space.
 
-A ridesharing environment over a simple graph. An agent interacts through the
+A ridesharing environment over a simple graph with travel time. An agent interacts through the
 environment by choosing a non-zero node to service a given rideshare request.
 """
 
