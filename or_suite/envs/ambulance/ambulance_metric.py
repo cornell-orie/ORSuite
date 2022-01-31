@@ -113,6 +113,7 @@ class AmbulanceEnvironment(gym.Env):
 
             done: A bool flag indicating the end of the episode.
         """
+        action = action.astype(np.float32)
         assert self.action_space.contains(action)
 
         old_state = np.array(self.state)

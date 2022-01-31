@@ -80,9 +80,9 @@ class SB_Experiment(object):
             Runs the simulations between an environment and an algorithm
         '''
 
-        print('**************************************************')
-        print('Running experiment')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Running experiment')
+        # print('**************************************************')
 
         index = 0
         traj_index = 0
@@ -119,20 +119,20 @@ class SB_Experiment(object):
                  for i in np.arange(1, len(orig_times))]
 
         # Combining data in dataframe
-        print(episodes)
-        print(iterations)
-        print(rewards)
-        print(memory)
-        print(np.log(times))
+        # print(episodes)
+        # print(iterations)
+        # print(rewards)
+        # print(memory)
+        # print(np.log(times))
         self.data = pd.DataFrame({'episode': episodes,
                                   'iteration': iterations,
                                   'epReward': rewards,
                                   'time': np.log(times),
                                   'memory': memory})
 
-        print('**************************************************')
-        print('Experiment complete')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Experiment complete')
+        # print('**************************************************')
 
     # Saves the data to the file location provided to the algorithm
     def save_data(self):
@@ -142,11 +142,11 @@ class SB_Experiment(object):
             Returns: dataframe corresponding to the saved data
         '''
 
-        print('**************************************************')
-        print('Saving data')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Saving data')
+        # print('**************************************************')
 
-        print(self.data)
+        # print(self.data)
 
         dir_path = self.dirPath
 
@@ -168,8 +168,8 @@ class SB_Experiment(object):
             dt.to_csv(data_filename, index=False,
                       float_format='%.5f', mode='w')
 
-        print('**************************************************')
-        print('Data save complete')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Data save complete')
+        # print('**************************************************')
 
         return dt
