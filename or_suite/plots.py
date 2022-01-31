@@ -140,7 +140,7 @@ def plot_radar_plots(path_list, algo_list, fig_path, fig_name, additional_metric
     rel_path = './PaperDoubleFig.mplstyle.txt'
     if os.path.isfile(os.path.join(script_dir, rel_path)):
         plt.style.use(os.path.join(script_dir, rel_path))
-    # plt.rc('text', usetex=True)
+    plt.rc('text', usetex=True)
 
     # Generating the dataframe
     index = 0
@@ -228,7 +228,7 @@ def plot_line_plots(path_list, algo_list, fig_path, fig_name, plot_freq):
     rel_path = './PaperDoubleFig.mplstyle.txt'
     if os.path.isfile(os.path.join(script_dir, rel_path)):
         plt.style.use(os.path.join(script_dir, rel_path))
-    # plt.rc('text', usetex=True)
+    plt.rc('text', usetex=True)
 
 
     fig, ax = plt.subplots(1, 3, constrained_layout=False, figsize=(15, 5))
