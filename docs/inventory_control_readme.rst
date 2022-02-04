@@ -158,10 +158,10 @@ This agent randomly samples from the action space. For this environment,
 the amount ordered from each supplier is an integer from
 :math:`[0, maxorder]`. ### Base Surge Agent (TBS) The base surge agent
 has 2 parameters, :math:`r` and :math:`S`. Each action is expressed as
-:math:`[r,[orderamount]]`. :math:`r` represents the order amount for the
-supplier with the lowest lead time and stays constant. :math:`S`
+:math:`[r,[orderamount]]`. :math:`r` is a vector of the order amounts
+for all suppliers except the one with the greatest lead time. :math:`S`
 represents the “order up to amount”. orderamount is calculated by
 calculating :math:`S - I` where :math:`I` is the current on-hand
 inventory. This value is then made 0 if it is negative or is reduced to
-the :math:`maxorder` if it is greater. This order value is the same for
-all suppliers that do not have the lowest lead time.
+the :math:`maxorder` if it is greater. This order amount is used for the
+supplier with the greatest lead time.

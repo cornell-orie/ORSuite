@@ -76,7 +76,6 @@ class AmbulanceEnvironment(gym.Env):
         self.num_ambulance = config['num_ambulance']
         self.arrival_dist = config['arrival_dist']
         self.norm = config['norm']
-
         # variables used for rendering code
         self.viewer = None
         self.most_recent_action = None
@@ -114,7 +113,7 @@ class AmbulanceEnvironment(gym.Env):
 
             done: A bool flag indicating the end of the episode.
         """
-
+        if isinstance(action, np.ndarray): action = action.astype(np.float32)
         assert self.action_space.contains(action)
 
         old_state = np.array(self.state)

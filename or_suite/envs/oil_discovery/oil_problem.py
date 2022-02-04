@@ -75,7 +75,7 @@ class OilEnvironment(gym.Env):
 
             done: 0/1; the flag for end of the episode.
         """
-
+        if isinstance(action, np.ndarray): action = action.astype(np.float32)
         assert self.action_space.contains(action)
         # print('state: ' + str(self.state))
         # print('action: ' + str(action))
