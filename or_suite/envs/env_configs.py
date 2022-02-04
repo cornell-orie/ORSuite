@@ -74,7 +74,8 @@ ambulance_graph_ithaca_config = {'epLen': 5,
                                  'from_data': True,
                                  'edges': ithaca_edges,
                                  'starting_state': [1, 2],
-                                 'num_ambulance': 2
+                                 'num_ambulance': 2,
+                                 'data': ithaca_arrivals
                                  }
 
 
