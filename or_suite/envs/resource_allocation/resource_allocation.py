@@ -88,8 +88,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
             info: dict; any additional information.
         """
-        action = action.astype(np.float32)
-        print(action)
+        if isinstance(action, np.ndarray): action = action.astype(np.float32)
         assert self.action_space.contains(action)
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
