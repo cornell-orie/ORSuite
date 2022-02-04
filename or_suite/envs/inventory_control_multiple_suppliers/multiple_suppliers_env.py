@@ -1,7 +1,6 @@
 import gym
 import numpy as np
 import sys
-from scipy.stats import poisson
 
 from .. import env_configs
 
@@ -56,15 +55,24 @@ class DualSourcingEnvironment(gym.Env):
 
         self.neg_inventory = config['neg_inventory']
 
+        if self.neg_inventory:  # inventory can be negative
+            self.starting_state[-1] = self.max_inventory
+        else:
+            self.starting_state[-1] = 0
+
         self.state = np.asarray(self.starting_state)
+
         self.action_space = gym.spaces.MultiDiscrete(
             [self.max_order+1]*len(self.lead_times))
+
+
         if self.neg_inventory:  # inventory can be negative
             self.observation_space = gym.spaces.MultiDiscrete(
                 [self.max_order+1]*(L_total)+[2 * self.max_inventory + 1])
         else:  # inventory is only positive
             self.observation_space = gym.spaces.MultiDiscrete(
                 [self.max_order+1]*(L_total)+[self.max_inventory + 1])
+
         # Check to see if cost and lead time vectors match
         assert len(self.supplier_costs) == len(self.lead_times)
         self.timestep = 0
@@ -100,24 +108,28 @@ class DualSourcingEnvironment(gym.Env):
             done: A bool flag indicating the end of the episode.
 
             info: A dictionary containing extra information about the step. This dictionary contains the int value of the demand during the previous step"""
+        
         assert self.action_space.contains(
             action), "Action, {},  not part of action space".format(action)
-        # print(action)
         demand = self.demand_dist(self.timestep)
         newState = self.new_state_helper(self.state, action)
         newState[-1] = newState[-1] - demand
         if self.neg_inventory:  # Inventory can be negative
             newState[-1] = max(- self.max_inventory, min(newState[-1] -
                                self.max_inventory, self.max_inventory)) + self.max_inventory
+            amount_neg = 0
         else:  # Inventory is only positive
+            if newState[-1] < 0:
+                amount_neg = newState[-1]
+            else:
+                amount_neg = 0
             newState[-1] = max(0,
                                min(newState[-1], self.max_inventory))
-
         self.state = newState.copy()
 
         assert self.observation_space.contains(self.state)
 
-        reward = self.reward(self.state)
+        reward = self.reward(self.state) + self.backorder_cost * amount_neg
 
         self.timestep += 1
         done = self.timestep == self.epLen
@@ -142,6 +154,7 @@ class DualSourcingEnvironment(gym.Env):
             total += self.supplier_costs[i] * \
                 state[self.lead_times[i] - 1 + sum_previous_lead_times]
             sum_previous_lead_times += self.lead_times[i]
+
         if self.neg_inventory:  # Inventory can be negative
             return -(total + self.hold_cost*max(state[-1] - self.max_inventory, 0) + self.backorder_cost*max(-(state[-1] - self.max_inventory), 0))
         else:  # Inventory is only positive
