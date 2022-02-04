@@ -126,46 +126,136 @@ vaccine_default_config2 = {'epLen': 4,
                                           'time_step': 7}
                            }
 
+# Importing the NY dataset
+script_dir = os.path.dirname(__file__)
+ny_rel_path = './ridesharing/ny_data/'
+
+edges_file = open(os.path.join(script_dir, ny_rel_path+'ny.edgelist.txt'), "r")
+ny_edges = []
+for line in edges_file:
+    travel_dict = ast.literal_eval(re.search('({.+})', line).group(0))
+    split = line.split()
+    ny_edges.append((int(split[0]), int(
+        split[1]), travel_dict))
+edges_file.close()
+
+ny_arrivals_file = open(os.path.join(
+    script_dir, ny_rel_path+'arrivals.txt'), "r")
+ny_arrivals = []
+for line in ny_arrivals_file:
+    split = line.split()
+    ny_arrivals.append((int(split[0]), int(split[1])))
+ny_arrivals_file.close()
+
+
+def from_data_ny(step):
+    request = ny_arrivals[step]
+    return request
+
+
+rideshare_graph_ny_config = {
+    'epLen': 5,
+    'edges': ny_edges,
+    'starting_state': [10 for _ in range(63)],
+    'num_cars': 630,
+    'request_dist': lambda step, ny_arrivals: from_data_ny(step),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 6.385456638089008,
+    'cost': 1,
+    'velocity': 0.36049478338631713,
+    'gamma': 1,
+    'd_threshold': 4.700448825133434
+}
+
 rideshare_graph_default_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 1}), (0, 2, {'travel_time': 1}),
-              (0, 3, {'travel_time': 1}), (1, 2, {'travel_time': 1}),
-              (1, 3, {'travel_time': 1}), (2, 3, {'travel_time': 1})],
-    'starting_state': [1, 2, 3, 4],
+    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
+              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
+              (1, 3, {'travel_time': 10}), (2, 3, {'travel_time': 10})],
+    'starting_state': [2, 3, 3, 2],
     'num_cars': 10,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 3,
+    'gamma': 1,
+    'd_threshold': 20
+}
+
+rideshare_graph_2cities_config = {
+    'epLen': 5,
+    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
+              (0, 3, {'travel_time': 10}), (0, 4, {'travel_time': 50}),
+              (4, 5, {'travel_time': 10}), (4, 6, {'travel_time': 10})],
+    'starting_state': [0, 0, 3, 0, 3, 3, 0],
+    'num_cars': 9,
+    'request_dist': lambda step, num_nodes: np.array([np.random.randint(0, 4), np.random.randint(4, 7)]) if np.random.random() > 1/2
+    else np.array([np.random.randint(4, 7), np.random.randint(0, 4)]),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 20,
+    'gamma': 1,
+    'd_threshold': 15
+}
+
+rideshare_graph_ring_config = {
+    'epLen': 5,
+    'edges': [(0, 1, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
+              (2, 3, {'travel_time': 10}), (3, 4, {'travel_time': 10}),
+              (4, 5, {'travel_time': 10}), (5, 6, {'travel_time': 10}),
+              (6, 0, {'travel_time': 10})],
+    'starting_state': [1, 1, 2, 2, 2, 1, 1],
+    'num_cars': 10,
+    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 10,
+    'gamma': 1,
+    'd_threshold': 7
+}
+
+# Helper function for setting the initial car location in ithaca. Puts two car every other node
+
+
+def starting_node_ithaca(num_cars):
+    output = [0 for _ in range(630)]
+    for i in range(630):
+        if i % 2 == 0:
+            output[i] = 2
+
+    return output
+
+
+rideshare_graph_ithaca_config = {
+    'epLen': 5,
+    'edges': ithaca_edges,
+    'starting_state': starting_node_ithaca(630),
+    'num_cars': 630,
+    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 1/3,
     'gamma': 1,
     'd_threshold': 1
-}
-
-rideshare_graph_non_uniform_distances_config = {
-    'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 1}), (0, 2, {'travel_time': 5}),
-              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 4}),
-              (1, 3, {'travel_time': 9}), (2, 3, {'travel_time': 5})],
-    'starting_state': [1, 2, 3, 4],
-    'num_cars': 10,
-    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
-    'gamma': 1,
-    'd_threshold': 3
-}
-
-rideshare_graph_initial_central_dispatch_config = {
-    'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 1}), (0, 2, {'travel_time': 5}),
-              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 4}),
-              (1, 3, {'travel_time': 9}), (2, 3, {'travel_time': 5})],
-    'starting_state': [100, 0, 0, 0],
-    'num_cars': 100,
-    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
-    'gamma': 1,
-    'd_threshold': 3
 }
 
 rideshare_graph_0_1_rides_config = {
@@ -176,8 +266,13 @@ rideshare_graph_0_1_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([1, 1]),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink/velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 1/3,
     'gamma': 0.25,
     'd_threshold': 3
 }
@@ -190,8 +285,13 @@ rideshare_graph_0_2_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([2, 2]),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink/velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 1/3,
     'gamma': 0.25,
     'd_threshold': 3
 }
@@ -204,8 +304,13 @@ rideshare_graph_0_3_rides_config = {
     'starting_state': [1000, 0, 0, 0],
     'num_cars': 1000,
     'request_dist': lambda step, num_nodes: np.array([3, 3]),
-    'reward': lambda distance: -np.sqrt(distance),
-    'reward_fail': lambda distance: -10000,
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink/velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 1/3,
     'gamma': 0.25,
     'd_threshold': 3
 }

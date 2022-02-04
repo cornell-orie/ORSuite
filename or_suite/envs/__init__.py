@@ -44,6 +44,9 @@ register(id='Vaccine-v0',
 register(id='Rideshare-v0',
          entry_point='or_suite.envs.ridesharing.rideshare_graph:RideshareGraphEnvironment'
          )
+register(id='Rideshare-v1',
+         entry_point='or_suite.envs.ridesharing.rideshare_graph_traveltime:RideshareGraphEnvironment'
+         )
 
 # Oil Problem
 
@@ -61,8 +64,11 @@ register(id='MultipleSuppliers-v0',
 register(id='Airline-v0',
          entry_point='or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
          )
+<<<<<<< HEAD
+=======
 
 # Inventory Control with No Negative Inventory
 register(id='NoNegative-v0',
          entry_point='or_suite.envs.inventory_control_multiple_suppliers.no_negative_inventory:NoNegativeEnvironment'
          )
+>>>>>>> main
