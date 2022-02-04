@@ -64,11 +64,3 @@ register(id='MultipleSuppliers-v0',
 register(id='Airline-v0',
          entry_point='or_suite.envs.airline_revenue_management.airline_env:AirlineRevenueEnvironment'
          )
-<<<<<<< HEAD
-=======
-
-# Inventory Control with No Negative Inventory
-register(id='NoNegative-v0',
-         entry_point='or_suite.envs.inventory_control_multiple_suppliers.no_negative_inventory:NoNegativeEnvironment'
-         )
->>>>>>> main
