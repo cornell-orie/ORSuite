@@ -49,7 +49,7 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Check value of reward
-    difference = abs(reward - (-1.0))
+    difference = abs(reward - (10.0))
     assert difference <= .000001 and difference >= 0.0
 
     check_env(env, skip_render_check=True)
