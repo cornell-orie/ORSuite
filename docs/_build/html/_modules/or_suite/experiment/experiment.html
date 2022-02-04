@@ -87,7 +87,6 @@
             
               <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
@@ -98,8 +97,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
@@ -290,6 +292,7 @@
                         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new state: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">newState</span><span class="p">))</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reward: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">reward</span><span class="p">))</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;epReward so far: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epReward</span><span class="p">))</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Info: </span><span class="si">{</span><span class="n">info</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">update_obs</span><span class="p">(</span>
                         <span class="n">oldState</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">newState</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>

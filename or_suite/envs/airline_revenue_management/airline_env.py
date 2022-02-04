@@ -41,8 +41,7 @@ class AirlineRevenueEnvironment(gym.Env):
         self.epLen = config['epLen']  # length of episode
         self.starting_state = config['starting_state']  # starting state
 
-        print(self.P.shape)
-        print(self.A.shape)
+        self.config = config
 
         # Defines state and action spaces, sets current state to be starting_state
         self.action_space = gym.spaces.MultiBinary(self.A.shape[1])
@@ -71,8 +70,6 @@ class AirlineRevenueEnvironment(gym.Env):
         # Sample customer arrival
         pDist = np.append(
             np.copy(self.P[self.timestep, :]), 1 - np.sum(self.P[self.timestep, :]))
-        print(pDist)
-        print(range(self.A.shape[1] + 1))
         customer = np.random.choice(range(self.A.shape[1]+1), 1, p=pDist)[0]
 
         # Check if valid action
@@ -95,3 +92,6 @@ class AirlineRevenueEnvironment(gym.Env):
         if self.timestep == self.epLen:
             episode_over = True
         return self.state, reward, episode_over, {'customer': customer}
+
+    def get_config(self):
+        return self.config

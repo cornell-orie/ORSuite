@@ -74,7 +74,8 @@ ambulance_graph_ithaca_config = {'epLen': 5,
                                  'from_data': True,
                                  'edges': ithaca_edges,
                                  'starting_state': [1, 2],
-                                 'num_ambulance': 2
+                                 'num_ambulance': 2,
+                                 'data': ithaca_arrivals
                                  }
 
 
@@ -325,21 +326,22 @@ oil_environment_default_config = {
 }
 
 inventory_control_multiple_suppliers_default_config = {
-    'lead_times': [5, 1],
+    'lead_times': [1, 5],
     'demand_dist': lambda x: np.random.poisson(10),
-    'supplier_costs': [100, 105],
+    'supplier_costs': [105, 100],
     'hold_cost': 1,
     'backorder_cost': 19,
     'max_inventory': 1000,
     'max_order': 20,
     'epLen': 500,
-    'starting_state': None
+    'starting_state': None,
+    'neg_inventory': True
 }
 epLen = 4
 airline_default_config = {
     'epLen': epLen,
     'f': np.asarray([1., 2.]),
     'A': np.transpose(np.asarray([[2., 3., 2.], [3., 0., 1.]])),
-    'starting_state': np.asarray([10., 10., 10.]),
-    'P': np.asarray([[1/3, 1/3] for _ in range(epLen)])
+    'starting_state': np.asarray([20/3, 4., 4.]),
+    'P': np.asarray([[1/3, 1/3] for _ in range(epLen+1)])
 }

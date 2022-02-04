@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Oil Discovery Problem &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Resource Allocation" href="resource_allocation_readme.html" />
+    <link rel="prev" title="Inventory Control with Lead Times and Multiple Suppliers" href="inventory_control_readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Oil Discovery Problem</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dynamics">Dynamics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#state-space">State Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#action-space">Action space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reward">Reward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transitions">Transitions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metric">Metric</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#heuristic-agents">Heuristic Agents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The Oil Discovery Problem</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/oil_discovery_readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-oil-discovery-problem">
+<h1>The Oil Discovery Problem<a class="headerlink" href="#the-oil-discovery-problem" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>This problem, adaptved from
+<a class="reference external" href="https://www.pnas.org/content/109/3/764">here</a> is a continuous
+variant of the “Grid World” environment. It comprises of an agent
+surveying a d-dimensional map in search of hidden “oil deposits”. The
+world is endowed with an unknown survey function which encodes the
+probability of observing oil at that specific location. For agents to
+move to a new location they pay a cost proportional to the distance
+moved, and surveying the land produces noisy estimates of the true value
+of that location. In addition, due to varying terrain the true location
+the agent moves to is perturbed as a function of the state and action.</p>
+<p><code class="docutils literal notranslate"><span class="pre">oil_problem.py</span></code> is a <span class="math notranslate nohighlight">\(d\)</span>-dimensional reinforcement learning
+environment in the space <span class="math notranslate nohighlight">\(X = [0, 1]^d\)</span>. The action space
+<span class="math notranslate nohighlight">\(A = [0,1]^d\)</span> corresponding to the ability to attempt to move to
+any desired location within the state space. On top of that, there is a
+corresponding reward function <span class="math notranslate nohighlight">\(f_h(x,a)\)</span> for the reward for moving
+the agent to that location. Moving also causes an additional cost
+<span class="math notranslate nohighlight">\(\alpha d(x,a)\)</span> scaling with respect to the distance moved.</p>
+</div>
+<div class="section" id="dynamics">
+<h2>Dynamics<a class="headerlink" href="#dynamics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="state-space">
+<h3>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h3>
+<p>The state space for the line environment is <span class="math notranslate nohighlight">\(S = X^d\)</span> where
+<span class="math notranslate nohighlight">\(X = [0, 1]\)</span> and there are <span class="math notranslate nohighlight">\(d\)</span> dimensions.</p>
+</div>
+<div class="section" id="action-space">
+<h3>Action space<a class="headerlink" href="#action-space" title="Permalink to this headline">¶</a></h3>
+<p>The agent chooses a location to move to, and so the action space is also
+<span class="math notranslate nohighlight">\(A = X^d\)</span> where <span class="math notranslate nohighlight">\(X = [0,1]\)</span> and there are <span class="math notranslate nohighlight">\(d\)</span>
+dimensions.</p>
+</div>
+<div class="section" id="reward">
+<h3>Reward<a class="headerlink" href="#reward" title="Permalink to this headline">¶</a></h3>
+<p>The reward is
+<span class="math notranslate nohighlight">\(\text{oil prob}(s, a, h) - \alpha \sum_i |s_i - a_i|\)</span> where
+<span class="math notranslate nohighlight">\(s\)</span> is the previous state of the system, <span class="math notranslate nohighlight">\(a\)</span> is the action
+chosen by the user, <span class="math notranslate nohighlight">\(\text{oil prob}\)</span> is a user specified reward
+function, and <span class="math notranslate nohighlight">\(\alpha\)</span> dictates the cost tradeoff for movement.
+Clearly when <span class="math notranslate nohighlight">\(\alpha = 0\)</span> then the optimal policy is to just take
+the action that maximizes the resulting oil probability function.</p>
+<p>The <span class="math notranslate nohighlight">\(\alpha\)</span> parameter though more generally allows the user to
+control how much to penalize the agent for moving.</p>
+</div>
+<div class="section" id="transitions">
+<h3>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline">¶</a></h3>
+<p>Given an initial state at the start of the iteration <span class="math notranslate nohighlight">\(s\)</span>, an
+action chosen by the user <span class="math notranslate nohighlight">\(a\)</span>, the next state will be
+<span class="math notranslate nohighlight">\(\begin{align*}  s_{new} = a + \text{Normal}(0, \sigma(s,a,h)) \end{align*}\)</span>
+where <span class="math notranslate nohighlight">\(\sigma(s,a,h)\)</span> is a user-specified function corresponding
+to the variance in movement.</p>
+</div>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="metric">
+<h3>Metric<a class="headerlink" href="#metric" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p>
+<p>Returns the environment to its original state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">step(action)</span></code></p>
+<p>Takes an action from the agent and returns the state of the system.</p>
+<p>Returns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: A list containing the new location of the agent</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reward</span></code>: The reward associated with the most recent action and
+event</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pContinue</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">info</span></code>: empty</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">render</span></code></p>
+<p>Currently unimplemented</p>
+<p><code class="docutils literal notranslate"><span class="pre">close</span></code></p>
+<p>Currently unimplemented</p>
+<p>Init parameters for the line ambulance environment, passed in using a
+dictionary named CONFIG</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epLen</span></code>: the length of each episode</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dim</span></code>: the dimension of the problem</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: a float <span class="math notranslate nohighlight">\(\in [0,1]\)</span> that controls the proportional
+difference between the cost to move</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oil_prob</span></code>: a function corresponding to the reward for moving to a
+new location</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">noise_variance</span></code>: a function corresponding to the variance for
+movement</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starting_state</span></code>: an element in <span class="math notranslate nohighlight">\([0,1]^{dim}\)</span></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="heuristic-agents">
+<h2>Heuristic Agents<a class="headerlink" href="#heuristic-agents" title="Permalink to this headline">¶</a></h2>
+<p>There are no currently implemented heuristic agents for this
+environment.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="resource_allocation_readme.html" class="btn btn-neutral float-right" title="Resource Allocation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="inventory_control_readme.html" class="btn btn-neutral float-left" title="Inventory Control with Lead Times and Multiple Suppliers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

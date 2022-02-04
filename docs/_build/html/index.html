@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="OR Suite" href="readme.html" /> 
+    <link rel="next" title="ORSuite Contribution Guide" href="contribution_guide.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,7 +88,6 @@
             
               <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
@@ -99,8 +98,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
@@ -172,10 +174,79 @@
             
   <div class="section" id="welcome-to-orsuite-s-documentation">
 <h1>Welcome to ORSuite’s documentation!<a class="headerlink" href="#welcome-to-orsuite-s-documentation" title="Permalink to this headline">¶</a></h1>
+<!-- Logo -->
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/ORSuite.svg" width="50%">
+</p>
+
+<!-- Short description -->
+<p align="center">
+   ORSuite: Benchmarking Suite for Sequential Operations Models
+</p>
+
+<!-- The badges -->
+<p align="center">
+  <a href="https://github.com/cornell-orie/ORSuite/actions">
+    <img alt="pytest" src="https://github.com/cornell-orie/ORSuite/workflows/Test/badge.svg">
+  </a>
+  <a href='https://orsuite.readthedocs.io/en/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/orsuite/badge/?version=latest' alt='Documentation Status' />
+  </a>
+   <!--
+  <a href="https://img.shields.io/pypi/pyversions/ORSuite">
+     <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ORSuite">
+  </a>
+   -->
+   <a href="https://github.com/cornell-orie/ORSuite/graphs/contributors">
+      <img alt="contributors" src="https://img.shields.io/github/contributors/cornell-orie/ORSuite">
+   </a>
+   <!--
+   <a href="https://img.shields.io/pypi/dm/orsuite">
+      <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/orsuite">
+   </a>
+   -->
+</p>
+
+<!-- Horizontal rule -->
+<hr>
+
+<!-- Table of content --></div>
+<div class="section" id="or-suite">
+<h1>OR Suite<a class="headerlink" href="#or-suite" title="Permalink to this headline">¶</a></h1>
+<p>Reinforcement learning (RL) is a natural model for problems involving real-time sequential decision making. In these models, a principal interacts with a system having stochastic transitions and rewards and aims to control the system online (by exploring available actions using real-time feedback) or offline (by exploiting known properties of the system).</p>
+<p>These project revolves around providing a unified landscape on scaling reinforcement learning algorithms to operations research domains.</p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://orsuite.readthedocs.io/en/latest/">https://orsuite.readthedocs.io/en/latest/</a></p>
+</div>
+<div class="section" id="code-demonstration">
+<h2>Code Demonstration<a class="headerlink" href="#code-demonstration" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1oSv8pCwl9efqU4VEHgi8KXNvHiPXi7r1?usp=sharing">https://colab.research.google.com/drive/1oSv8pCwl9efqU4VEHgi8KXNvHiPXi7r1?usp=sharing</a></p>
+</div>
+<div class="section" id="installation-guide">
+<h2>Installation Guide<a class="headerlink" href="#installation-guide" title="Permalink to this headline">¶</a></h2>
+<p>In order to install the required dpeendencies for a new conda environment, please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">ORSuite</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.8.5</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">ORSuite</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="high-level-overview">
+<h2>High-Level Overview<a class="headerlink" href="#high-level-overview" title="Permalink to this headline">¶</a></h2>
+<p>The repository has three main components as a traditional Reinforcement Learning set-up :</p>
+<ol class="arabic simple">
+<li><p>Environments : Environment for the agent to interact with and reside in. <code class="docutils literal notranslate"><span class="pre">~/or_suite/envs</span></code></p></li>
+<li><p>Agents : Choice of Algorithm <code class="docutils literal notranslate"><span class="pre">~/or_suite/agents</span></code></p></li>
+<li><p>Experiments : This is a take on implementing the enviroment and agents with a choice of algorithm <code class="docutils literal notranslate"><span class="pre">~/or_suite/experiment</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="contribution-guide">
+<h2>Contribution Guide<a class="headerlink" href="#contribution-guide" title="Permalink to this headline">¶</a></h2>
+<p>See ‘ORSuite Contribution Guide’ to see information on how to add new environments and algorithms to the package.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 </div>
@@ -190,11 +261,15 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -212,7 +287,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="readme.html" class="btn btn-neutral float-right" title="OR Suite" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="contribution_guide.html" class="btn btn-neutral float-right" title="ORSuite Contribution Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

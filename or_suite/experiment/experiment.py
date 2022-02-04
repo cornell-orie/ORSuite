@@ -70,9 +70,9 @@ class Experiment(object):
             Runs the simulations between an environment and an algorithm
         '''
 
-        print('**************************************************')
-        print('Running experiment')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Running experiment')
+        # print('**************************************************')
 
         index = 0
 
@@ -120,6 +120,7 @@ class Experiment(object):
                         print('new state: %s' % (newState))
                         print('reward: %s' % (reward))
                         print('epReward so far: %s' % (epReward))
+                        print(f'Info: {info}')
 
                     self.agent.update_obs(
                         oldState, action, reward, newState, h, info)
@@ -159,9 +160,9 @@ class Experiment(object):
 
             self.env.close()
 
-        print('**************************************************')
-        print('Experiment complete')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Experiment complete')
+        # print('**************************************************')
 
     # Saves the data to the file location provided to the algorithm
     def save_data(self):
@@ -172,9 +173,9 @@ class Experiment(object):
                 dataframe corresponding to the saved data
         '''
 
-        print('**************************************************')
-        print('Saving data')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Saving data')
+        # print('**************************************************')
 
         if self.deBug:
             print(self.data)
@@ -223,8 +224,8 @@ class Experiment(object):
                 pickle.dump(self.agent.qVals, outfile)
                 outfile.close()
 
-        print('**************************************************')
-        print('Data save complete')
-        print('**************************************************')
+        # print('**************************************************')
+        # print('Data save complete')
+        # print('**************************************************')
 
         return dt
