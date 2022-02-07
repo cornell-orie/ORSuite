@@ -165,7 +165,7 @@ rideshare_graph_ny_config = {
     'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
     'fare': 6.385456638089008,
     'cost': 1,
-    'velocity': 0.36049478338631713,
+    'velocity': 0.011959030558032642,
     'gamma': 1,
     'd_threshold': 4.700448825133434
 }
