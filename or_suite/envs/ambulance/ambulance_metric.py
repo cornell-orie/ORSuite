@@ -25,7 +25,6 @@ import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
-
 # ------------------------------------------------------------------------------
 
 
@@ -69,6 +68,7 @@ class AmbulanceEnvironment(gym.Env):
 
         self.config = config
         self.epLen = config['epLen']
+        self._max_episode_length = config['epLen']
         self.alpha = config['alpha']
         self.starting_state = config['starting_state']
         self.state = np.array(self.starting_state, dtype=np.float32)

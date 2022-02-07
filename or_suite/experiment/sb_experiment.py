@@ -95,7 +95,7 @@ class SB_Experiment(object):
         # Running an experiment
         print(f'New Experiment Run')
         for i in range(self.num_iters):  # loops over all the iterations
-            print(f'Iteration: {i}')
+            # print(f'Iteration: {i}')
             tracemalloc.start()  # starts timer for memory information
 
             # learns over all of the episodes
@@ -110,8 +110,8 @@ class SB_Experiment(object):
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
 
-        print(self.env.get_episode_rewards())
-        print(len(self.env.get_episode_rewards()))
+        # print(self.env.get_episode_rewards())
+        # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
         rewards = np.append(rewards, self.env.get_episode_rewards())
 
