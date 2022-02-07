@@ -113,6 +113,7 @@ class AmbulanceEnvironment(gym.Env):
 
             done: A bool flag indicating the end of the episode.
         """
+        print(action)
         if isinstance(action, np.ndarray): action = action.astype(np.float32)
         assert self.action_space.contains(action)
 
