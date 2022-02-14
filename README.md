@@ -60,7 +60,7 @@ In order to install the required dpeendencies for a new conda environment, pleas
 ```
 conda create --name ORSuite python=3.8.5
 conda activate ORSuite
-python -m pip install -r requirements.txt
+pip install -e .
 ```
 
 ### High-Level Overview
