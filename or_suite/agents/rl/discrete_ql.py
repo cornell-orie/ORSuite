@@ -23,7 +23,7 @@ class DiscreteQl(Agent):
 
         self.state = np.resize(
             state, (state_action_dim[0], len(state))).T
-        self.action_net = np.resize(
+        self.action = np.resize(
             action, (state_action_dim[1], len(action))).T
         self.epLen = epLen
         self.scaling = scaling
