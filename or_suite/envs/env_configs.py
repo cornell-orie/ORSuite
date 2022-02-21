@@ -169,6 +169,25 @@ rideshare_graph_ny_config = {
     'gamma': 1,
     'd_threshold': 4.700448825133434
 }
+rideshare_graph_simple_config = {
+    'epLen': 5,
+    'edges': [(0, 1, {'travel_time': 10}),
+              (0, 2, {'travel_time': 10}),
+              (1, 2, {'travel_time': 10})
+              ],
+    'starting_state': [1, 0, 1],
+    'num_cars': 2,
+    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 3,
+    'gamma': 1,
+    'd_threshold': 20
+}
 
 rideshare_graph_default_config = {
     'epLen': 5,
@@ -350,7 +369,6 @@ inventory_control_multiple_suppliers_modified_config = {
     'starting_state': None,
     'neg_inventory': True
 }
-
 
 
 epLen = 4
