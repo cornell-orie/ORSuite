@@ -22,10 +22,21 @@ class grid_searchAgent(Agent):
             epLen: (int) number of time steps to run the experiment for
 
         """
-        self.epLen = epLen
+
+        # TODO: Saving parameters like the epLen, dimension of the space
+        self.epLen = epLen 
         self.dim = dim
+
+        # Current bounds for the upper and lower estimates on where the maximum value is
         self.upper = np.ones((epLen, dim))
         self.lower = np.zeros((epLen, dim))
+
+        # Estimates obtained for the "perturbed" values
+        self.perturb_estimates = np.zeros(2*dim)
+        self.dim_index = 0
+
+        # Indicator of "where" we are in the process, i.e. selecting the midpoint, doing small perturbations, etc
+        self.eps = 1e-7
         self.select_midpoint = True
 
 
@@ -37,8 +48,22 @@ class grid_searchAgent(Agent):
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Adds newObs, the most recently observed state, to data
             adds the most recent call arrival, found in info['arrival'] to call_locs.'''
+        if self.select_midpoint: # If we selected the midpoint
+            self.midpoint_value = reward # Store value of midpoint estimate
+            self.select_midpoint = False # Switch to sampling the purturbed values
 
-        self.call_locs.append(info['arrival'])
+        else:
+            self.perturb_estimates[self.dim_index] = reward # stores the observed reward
+            self.dim_index += 1
+
+            if self.dim_index == 2*self.dim: # finished getting all the purturbed estimates
+                # TODO: Update the midpoint?
+                # Get max value from the dim_list
+                # Figure out how to cut the upper and lower estimates, and continue?
+                self.upper = self.upper / 2 # just doing something stupid here for now
+                self.dim_index = 0
+                self.select_midpoint = True
+
         return
 
     def update_policy(self, k):
@@ -54,5 +79,12 @@ class grid_searchAgent(Agent):
         if self.select_midpoint:
             action = (self.upper[step] + self.lower[step]) / 2
         else:
+            # One line calculation of purturbation I think?
+            # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
+            # so the sign switches from positive and negative
+            # 
+            p_location = np.zeros(self.dim)
+            p_location[int(np.floor(self.dim_index / 2))] = 1
+            perturbation = np.zeros(self.dim) + (-1)**(np.mod(self.dim_index, 2))*p_location
             action = (self.upper[step] + self.lower[step]) / 2
         return action
