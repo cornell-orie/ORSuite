@@ -175,8 +175,8 @@ rideshare_graph_simple_config = {
               (0, 2, {'travel_time': 10}),
               (1, 2, {'travel_time': 10})
               ],
-    'starting_state': [1, 0, 1],
-    'num_cars': 2,
+    'starting_state': [2, 2, 1],
+    'num_cars': 5,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,

@@ -74,7 +74,7 @@ class RideshareGraphEnvironment(gym.Env):
         self.max_dist = np.max(self.lengths.flatten())
         self.gamma = config['gamma']
         self.d_threshold = config['d_threshold']
-        self.action_space = spaces.Discrete(self.num_nodes)
+        self.action_space = spaces.MultiDiscrete([self.num_nodes])
         vec = [self.num_cars+1 for _ in range(
             self.num_nodes)] + [self.num_nodes, self.num_nodes]
         self.observation_space = spaces.MultiDiscrete(vec)
@@ -148,6 +148,7 @@ class RideshareGraphEnvironment(gym.Env):
 
            - A boolean indicating whether or not the model has reached the limit timestep.
         """
+
         assert self.action_space.contains(action)
 
         done = False

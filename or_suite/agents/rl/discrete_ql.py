@@ -7,7 +7,7 @@ from .. import Agent
 
 class DiscreteQl(Agent):
     """
-    Q-Learning algorithm  implemented for enviroments with discrete states and 
+    Q-Learning algorithm  implemented for enviroments with discrete states and
     actions using the metric induces by the l_inf norm
 
 
@@ -19,22 +19,18 @@ class DiscreteQl(Agent):
         state_action_dim: d_1 + d_2 dimensions of state and action space respectively
     """
 
-    def __init__(self, action, state, epLen, scaling, state_action_dim):
+    def __init__(self, action_space, observation_space, epLen, scaling):
 
-        self.state = np.resize(
-            state, (state_action_dim[0], len(state))).T
-        self.action = np.resize(
-            action, (state_action_dim[1], len(action))).T
+        self.state_space = observation_space
+        self.action_space = action_space
         self.epLen = epLen
         self.scaling = scaling
-        self.state_action_dim = state_action_dim
 
         # starts calculating total dimension for the matrix of estimates of Q Values
-        dim = [self.epLen]
-        dim += self.state_action_dim[0] * [len(state)]
-        dim += self.state_action_dim[1] * [len(action)]
+        dim = np.concatenate((
+            np.array([self.epLen]), self.state_space.nvec, self.action_space.nvec))
         self.matrix_dim = dim
-        self.qVals = np.ones(self.matrix_dim, dtype=np.float32) * self.epLen
+        self.qVals = np.ones(self.matrix_dim, dtype=np.float32)
         self.num_visits = np.zeros(self.matrix_dim, dtype=np.float32)
 
     def update_config(self, env, config):
@@ -50,7 +46,7 @@ class DiscreteQl(Agent):
         self.scaling = param
 
     def reset(self):
-        self.qVals = np.ones(self.matrix_dim, dtype=np.float32) * self.epLen
+        self.qVals = np.ones(self.matrix_dim, dtype=np.float32)
         self.num_visits = np.zeros(self.matrix_dim, dtype=np.float32)
 
         '''
@@ -60,27 +56,19 @@ class DiscreteQl(Agent):
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
 
-        state = self.state
-        action = self.action
-
-        dim = (timestep,) + tuple(state) + tuple(action)
-        self.num_visits[dim] += 1
-        t = self.num_visits[dim]
+        self.num_visits[timestep, obs, action] += 1
+        t = self.num_visits[timestep, obs, action]
         lr = (self.epLen + 1) / (self.epLen + t)
         bonus = self.scaling * np.sqrt(1 / t)
 
         if timestep == self.epLen-1:
             vFn = 0
         else:
-            vFn = np.max(self.qVals[(timestep+1,) + tuple(state)])
+            vFn = np.max(self.qVals[timestep+1, obs, action])
         vFn = min(self.epLen, vFn)
 
-        self.qVals[dim] = (1 - lr) * self.qVals[dim] + \
+        self.qVals[timestep, obs, action] = (1 - lr) * self.qVals[timestep, obs, action] + \
             lr * (reward + vFn + bonus)
-
-    def get_num_arms(self):
-        ''' Returns the number of arms'''
-        return self.epLen * len(self.state_net)**(self.state_action_dim[0]) * len(self.action_net)**(self.state_action_dim[1])
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
@@ -99,13 +87,13 @@ class DiscreteQl(Agent):
         '''
         # returns the discretized state location and takes action based on
         # maximum q value
-        state = self.state
-        qFn = self.qVals[(step,)+tuple(state)]
-        action = np.asarray(np.where(qFn == qFn.max()))
-        a = len(action[0])
-        index = np.random.choice(len(action[0]))
 
-        actions = ()
-        for val in action.T[index]:
-            actions += (self.action_net[:, 0][val],)
-        return np.asarray(actions)
+        a = np.append([step], state)
+        qFn = self.qVals[tuple(a)]
+        action = np.asarray(np.where(qFn == qFn.max()))
+        print(action)
+        index = np.random.choice(len(action[0]))
+        action = action[0, index]
+        action = [action]
+
+        return action

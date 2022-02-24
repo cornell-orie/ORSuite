@@ -64,4 +64,4 @@ class randomCarAgent(Agent):
 
     def pick_action(self, state, step):
         action = self.greedy(state, step)
-        return action
+        return [action]
