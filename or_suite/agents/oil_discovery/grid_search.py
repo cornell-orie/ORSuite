@@ -46,8 +46,9 @@ class grid_searchAgent(Agent):
         self.lower = np.zeros((self.epLen, self.dim))
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Adds newObs, the most recently observed state, to data
-            adds the most recent call arrival, found in info['arrival'] to call_locs.'''
+        ''' If no perturbations needed, update reward to be midpoint. Else, cut upper and lower
+            bounds based on higher rewards from perturbation. '''
+
         if self.select_midpoint[timestep]:  # If we selected the midpoint
             # Store value of midpoint estimate
             self.midpoint_value[timestep] = reward
@@ -61,11 +62,17 @@ class grid_searchAgent(Agent):
 
             # finished getting all the purturbed estimates
             if self.dim_index[timestep] == 2*self.dim:
-                # Get max value from the dim_list
-                # Figure out how to cut the upper and lower estimates, and continue?
+                for dim in range(self.dim):
+                    midpoint = (self.upper[timestep] +
+                                self.lower[timestep]) / 2
 
-                self.upper[timestep] = self.upper[timestep] / \
-                    2  # just doing something stupid here for now
+                    # if earlier perturbation has higher reward, move upper down
+                    if self.perturb_estimates[timestep, dim] > self.perturb_estimates[timestep, dim+1]:
+                        self.upper[timestep][dim] = midpoint
+                    # if lower perturbation has higher reward, move lower up
+                    else:
+                        self.lower[timestep][dim] = midpoint
+
                 self.dim_index[timestep] = 0
                 self.select_midpoint[timestep] = True
 
@@ -80,6 +87,9 @@ class grid_searchAgent(Agent):
         pass
 
     def pick_action(self, state, step):
+        ''' If upper and lower bounds are updated based on perturbed values, move agent to midpoint. 
+            Else, perturb area surrounding current midpoint. '''
+
         if self.select_midpoint[step]:
             action = (self.upper[step] + self.lower[step]) / 2
         else:
@@ -87,8 +97,9 @@ class grid_searchAgent(Agent):
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
             # so the sign switches from positive and negative
             p_location = np.zeros(self.dim)
-            p_location[int(np.floor(self.dim_index / 2))] = 1
+            p_location[int(np.floor(self.dim_index[step] / 2))] = 1
             perturbation = np.zeros(
                 self.dim) + (-1)**(np.mod(self.dim_index, 2))*p_location
-            action = (self.upper[step] + self.lower[step]) / 2 + perturbation
+
+            action = (self.upper[step] + self.lower[step]) / 2
         return action
