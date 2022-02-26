@@ -10,7 +10,7 @@ class grid_searchAgent(Agent):
     Methods:
         reset() : clears data and call_locs which contain data on what has occurred so far in the environment
         update_config() : (UNIMPLEMENTED)
-        pick_action(state, step) : TODO
+        pick_action(state, step) : TODO add documentation
 
     Attributes:
         epLen: (int) number of time steps to run the experiment for
@@ -23,7 +23,7 @@ class grid_searchAgent(Agent):
 
         """
 
-        # TODO: Saving parameters like the epLen, dimension of the space
+        # Saving parameters like the epLen, dimension of the space
         self.epLen = epLen 
         self.dim = dim
 
@@ -32,12 +32,13 @@ class grid_searchAgent(Agent):
         self.lower = np.zeros((epLen, dim))
 
         # Estimates obtained for the "perturbed" values
-        self.perturb_estimates = np.zeros(2*dim)
-        self.dim_index = 0
+        self.perturb_estimates = np.zeros(epLen, 2*dim) # TODO: needs to depend on epLEn
+        self.midpoint_value = np.zeros(epLen)
+        self.dim_index = [0 for _ in range(self.epLen)] # TODO: Need to keep track of which dimension you are checking for the different steps
 
         # Indicator of "where" we are in the process, i.e. selecting the midpoint, doing small perturbations, etc
         self.eps = 1e-7
-        self.select_midpoint = True
+        self.select_midpoint = [True for _ in range(self.epLen)]
 
 
     def reset(self):
@@ -48,21 +49,21 @@ class grid_searchAgent(Agent):
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Adds newObs, the most recently observed state, to data
             adds the most recent call arrival, found in info['arrival'] to call_locs.'''
-        if self.select_midpoint: # If we selected the midpoint
-            self.midpoint_value = reward # Store value of midpoint estimate
-            self.select_midpoint = False # Switch to sampling the purturbed values
+        if self.select_midpoint[timestep]: # If we selected the midpoint
+            self.midpoint_value[timestep] = reward # Store value of midpoint estimate
+            self.select_midpoint[timestep] = False # Switch to sampling the purturbed values
 
         else:
-            self.perturb_estimates[self.dim_index] = reward # stores the observed reward
-            self.dim_index += 1
+            self.perturb_estimates[timestep, self.dim_index] = reward # stores the observed reward
+            self.dim_index[timestep] += 1
 
-            if self.dim_index == 2*self.dim: # finished getting all the purturbed estimates
+            if self.dim_index[timestep] == 2*self.dim: # finished getting all the purturbed estimates
                 # TODO: Update the midpoint?
                 # Get max value from the dim_list
                 # Figure out how to cut the upper and lower estimates, and continue?
-                self.upper = self.upper / 2 # just doing something stupid here for now
-                self.dim_index = 0
-                self.select_midpoint = True
+                self.upper[timestep] = self.upper[timestep] / 2 # just doing something stupid here for now
+                self.dim_index[timestep] = 0
+                self.select_midpoint[timestep] = True
 
         return
 
@@ -76,7 +77,7 @@ class grid_searchAgent(Agent):
 
 
     def pick_action(self, state, step):
-        if self.select_midpoint:
+        if self.select_midpoint[step]:
             action = (self.upper[step] + self.lower[step]) / 2
         else:
             # One line calculation of purturbation I think?
