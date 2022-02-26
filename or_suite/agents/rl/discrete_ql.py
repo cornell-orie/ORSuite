@@ -10,7 +10,8 @@ class DiscreteQl(Agent):
     Q-Learning algorithm  implemented for enviroments with discrete states and
     actions using the metric induces by the l_inf norm
 
-
+    TODO: Documentation
+    
     Attributes:
         epLen: (int) number of steps per episode
         scaling: (float) scaling parameter for confidence intervals
@@ -30,7 +31,9 @@ class DiscreteQl(Agent):
         dim = np.concatenate((
             np.array([self.epLen]), self.state_space.nvec, self.action_space.nvec))
         self.matrix_dim = dim
-        self.qVals = np.ones(self.matrix_dim, dtype=np.float32)
+        self.qVals = self.epLen * np.ones(self.matrix_dim, dtype=np.float32) # TODO: Initialize with upper bound on max reward via H*max_one_step_reward
+                                                                # might need to normalize rewards in your rideshare environment code
+                                                                # but otherwise can just use ambulance, that one is already good.
         self.num_visits = np.zeros(self.matrix_dim, dtype=np.float32)
 
     def update_config(self, env, config):
@@ -46,7 +49,7 @@ class DiscreteQl(Agent):
         self.scaling = param
 
     def reset(self):
-        self.qVals = np.ones(self.matrix_dim, dtype=np.float32)
+        self.qVals = self.epLen * np.ones(self.matrix_dim, dtype=np.float32)
         self.num_visits = np.zeros(self.matrix_dim, dtype=np.float32)
 
         '''
@@ -64,7 +67,8 @@ class DiscreteQl(Agent):
         if timestep == self.epLen-1:
             vFn = 0
         else:
-            vFn = np.max(self.qVals[timestep+1, obs, action])
+            # vFn = np.max(self.qVals[timestep+1, obs, action]) # nopte this is wrong.
+            vFn = np.max(self.qVals[timestep+1, newObs, :])
         vFn = min(self.epLen, vFn)
 
         self.qVals[timestep, obs, action] = (1 - lr) * self.qVals[timestep, obs, action] + \
@@ -85,9 +89,10 @@ class DiscreteQl(Agent):
         Returns:
             int: action
         '''
-        # returns the discretized state location and takes action based on
+        # returns the state location and takes action based on
         # maximum q value
 
+        # TODO: Add documentation here for this
         a = np.append([step], state)
         qFn = self.qVals[tuple(a)]
         action = np.asarray(np.where(qFn == qFn.max()))
@@ -95,5 +100,4 @@ class DiscreteQl(Agent):
         index = np.random.choice(len(action[0]))
         action = action[0, index]
         action = [action]
-
         return action
