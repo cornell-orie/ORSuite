@@ -62,7 +62,8 @@ class grid_searchAgent(Agent):
 
             # finished getting all the purturbed estimates
             if self.dim_index[timestep] == 2*self.dim:
-                for dim in range(self.dim):
+                # 2 perturbations (forward and back) in each dimension
+                for dim in range(0, 2*self.dim, 2):
                     midpoint = (self.upper[timestep] +
                                 self.lower[timestep]) / 2
 
