@@ -319,7 +319,7 @@ oil_environment_default_config = {
     'epLen': 5,
     'dim': 1,
     'starting_state': np.asarray([0]),
-    'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-a))),
+    'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-(1/9*h)))),
     'cost_param': 0,
     'noise_variance': lambda x, a, h: 0
 

@@ -49,6 +49,10 @@ class grid_searchAgent(Agent):
         ''' If no perturbations needed, update reward to be midpoint. Else, cut upper and lower
             bounds based on higher rewards from perturbation. '''
 
+        if timestep % 50 == 0:
+            print("upper: ", self.upper.flatten())
+            print("lower: ", self.lower.flatten())
+
         if self.select_midpoint[timestep]:  # If we selected the midpoint
             # Store value of midpoint estimate
             self.midpoint_value[timestep] = reward
@@ -93,14 +97,26 @@ class grid_searchAgent(Agent):
 
         if self.select_midpoint[step]:
             action = (self.upper[step] + self.lower[step]) / 2
+            # print("mid", action)
         else:
             # One line calculation of perturbation I think?
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
             # so the sign switches from positive and negative
             p_location = np.zeros(self.dim)
             p_location[int(np.floor(self.dim_index[step] / 2))] = 1
+            perturbation = np.zeros(self.dim)
             perturbation = np.zeros(
-                self.dim) + (-1)**(np.mod(self.dim_index, 2))*p_location
+                self.dim) + (-1)**(np.mod(self.dim_index[step], 2))*p_location
+            # print("p_loc", p_location)
+            # print("dim", self.dim)
+            # print("weird", (-1)**(np.mod(self.dim_index[step], 2))*p_location)
+            # print("upper", self.upper[step])
+            # print("lower", self.lower[step])
+            # print("pert", perturbation)
+            # print("pert calc", perturbation * (self.upper[step] - self.lower[step])/2)
 
-            action = (self.upper[step] + self.lower[step]) / 2
+            # limit perturbation to distance from midpoint to upper or lower
+            action = (self.upper[step] + self.lower[step]) / 2 + \
+                (perturbation*(self.upper[step] - self.lower[step])/2)
+            # print("pert", action)
         return action
