@@ -49,11 +49,11 @@ class grid_searchAgent(Agent):
         ''' If no perturbations needed, update reward to be midpoint. Else, cut upper and lower
             bounds based on higher rewards from perturbation. '''
 
-        if timestep % 50 == 0:
-            print("upper: ", self.upper.flatten())
-            print("lower: ", self.lower.flatten())
+        print("upper: ", self.upper.flatten())
+        print("lower: ", self.lower.flatten())
 
-        if self.select_midpoint[timestep]:  # If we selected the midpoint
+        # If we selected the midpoint in prev step
+        if self.select_midpoint[timestep-1]:
             # Store value of midpoint estimate
             self.midpoint_value[timestep] = reward
             # Switch to sampling the purturbed values
@@ -66,17 +66,16 @@ class grid_searchAgent(Agent):
 
             # finished getting all the purturbed estimates
             if self.dim_index[timestep] == 2*self.dim:
+                print(self.dim_index)
                 # 2 perturbations (forward and back) in each dimension
                 for dim in range(0, 2*self.dim, 2):
                     midpoint = (self.upper[timestep] +
                                 self.lower[timestep]) / 2
-
-                    # if earlier perturbation has higher reward, move upper down
                     if self.perturb_estimates[timestep, dim] > self.perturb_estimates[timestep, dim+1]:
-                        self.upper[timestep][dim] = midpoint
-                    # if lower perturbation has higher reward, move lower up
-                    else:
+                        # if lower perturbation has higher reward, move lower up
                         self.lower[timestep][dim] = midpoint
+                    else:
+                        self.upper[timestep][dim] = midpoint
 
                 self.dim_index[timestep] = 0
                 self.select_midpoint[timestep] = True
@@ -104,7 +103,6 @@ class grid_searchAgent(Agent):
             # so the sign switches from positive and negative
             p_location = np.zeros(self.dim)
             p_location[int(np.floor(self.dim_index[step] / 2))] = 1
-            perturbation = np.zeros(self.dim)
             perturbation = np.zeros(
                 self.dim) + (-1)**(np.mod(self.dim_index[step], 2))*p_location
             # print("p_loc", p_location)
