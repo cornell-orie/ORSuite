@@ -53,7 +53,7 @@ class grid_searchAgent(Agent):
         print("lower: ", self.lower.flatten())
 
         # If we selected the midpoint in prev step
-        if self.select_midpoint[timestep-1]:
+        if self.select_midpoint[timestep]:
             # Store value of midpoint estimate
             self.midpoint_value[timestep] = reward
             # Switch to sampling the purturbed values
