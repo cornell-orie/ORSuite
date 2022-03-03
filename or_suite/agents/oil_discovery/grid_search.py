@@ -5,7 +5,7 @@ from .. import Agent
 
 class grid_searchAgent(Agent):
     """
-    Agents that uses a bisection-method heuristic algorithm to find location of most oil.  
+    Agents that uses a bisection-method heuristic algorithm to find location of most oil.
 
     Methods:
         reset() : clears data and call_locs which contain data on what has occurred so far in the environment
@@ -49,9 +49,6 @@ class grid_searchAgent(Agent):
         ''' If no perturbations needed, update reward to be midpoint. Else, cut upper and lower
             bounds based on higher rewards from perturbation. '''
 
-        print("upper: ", self.upper.flatten())
-        print("lower: ", self.lower.flatten())
-
         # If we selected the midpoint in prev step
         if self.select_midpoint[timestep]:
             # Store value of midpoint estimate
@@ -61,21 +58,39 @@ class grid_searchAgent(Agent):
 
         else:
             # stores the observed reward
-            self.perturb_estimates[timestep, self.dim_index[timestep]] = reward
+            # print()
+            # print("upper: ", self.upper.flatten())
+            # print("lower: ", self.lower.flatten())
+            # print("timestep", timestep)
+            # print("reward", reward)
+            # print("dim_ind", self.dim_index)
+            self.perturb_estimates[timestep,
+                                   self.dim_index[timestep]] = reward
             self.dim_index[timestep] += 1
 
-            # finished getting all the purturbed estimates
-            if self.dim_index[timestep] == 2*self.dim:
-                print(self.dim_index)
+            # print("pert estimates", self.perturb_estimates)
+            # print(self.dim_index)
+
+            if self.dim_index[timestep] > 0 and self.dim_index[timestep] % 2 == 0:
+                # print("pert estimates", self.perturb_estimates)
+                # print("upperl: ", self.upper.flatten())
+                # print("lowerl: ", self.lower.flatten())
+                # print()
                 # 2 perturbations (forward and back) in each dimension
-                for dim in range(0, 2*self.dim, 2):
-                    midpoint = (self.upper[timestep] +
-                                self.lower[timestep]) / 2
-                    if self.perturb_estimates[timestep, dim] > self.perturb_estimates[timestep, dim+1]:
-                        # if lower perturbation has higher reward, move lower up
-                        self.lower[timestep][dim] = midpoint
-                    else:
-                        self.upper[timestep][dim] = midpoint
+
+                midpoint = (self.upper[timestep] +
+                            self.lower[timestep]) / 2
+
+                # compare perturbation forward (self.dim_index[timestep]-2) with
+                # perturbation backwards (self.dim_index[timestep]-1) in each dimension
+                if self.perturb_estimates[timestep, self.dim_index[timestep]-2] \
+                        > self.perturb_estimates[timestep, self.dim_index[timestep]-1]:
+                    # if lower perturbation has higher reward, move lower up
+                    self.lower[timestep][(
+                        self.dim_index[timestep]-2)] = midpoint
+                else:
+                    self.upper[timestep][(
+                        self.dim_index[timestep]-2)] = midpoint
 
                 self.dim_index[timestep] = 0
                 self.select_midpoint[timestep] = True
@@ -91,12 +106,12 @@ class grid_searchAgent(Agent):
         pass
 
     def pick_action(self, state, step):
-        ''' If upper and lower bounds are updated based on perturbed values, move agent to midpoint. 
+        ''' If upper and lower bounds are updated based on perturbed values, move agent to midpoint.
             Else, perturb area surrounding current midpoint. '''
 
+        # print()
         if self.select_midpoint[step]:
             action = (self.upper[step] + self.lower[step]) / 2
-            # print("mid", action)
         else:
             # One line calculation of perturbation I think?
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
@@ -107,14 +122,17 @@ class grid_searchAgent(Agent):
                 self.dim) + (-1)**(np.mod(self.dim_index[step], 2))*p_location
             # print("p_loc", p_location)
             # print("dim", self.dim)
-            # print("weird", (-1)**(np.mod(self.dim_index[step], 2))*p_location)
+            # print("eq", (-1)**(np.mod(self.dim_index[step], 2))*p_location)
             # print("upper", self.upper[step])
             # print("lower", self.lower[step])
             # print("pert", perturbation)
-            # print("pert calc", perturbation * (self.upper[step] - self.lower[step])/2)
+            # print("pert calc", perturbation *
+            #   (self.upper[step] - self.lower[step])/2)
 
             # limit perturbation to distance from midpoint to upper or lower
             action = (self.upper[step] + self.lower[step]) / 2 + \
-                (perturbation*(self.upper[step] - self.lower[step])/2)
-            # print("pert", action)
+                (perturbation*(self.upper[step] -
+                 self.lower[step])/2)
+
+        # print("act", action)
         return action
