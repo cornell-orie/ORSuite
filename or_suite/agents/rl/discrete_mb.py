@@ -94,19 +94,19 @@ class DiscreteMB(Agent):
                 for state in itertools.product(*[np.arange(self.state_size[0]) for _ in range(self.state_space.shape[0])]):
                     for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_space.shape[0])]):
                         dim = np.append(np.append([h], state), action)
-                        if self.num_visits[dim] == 0:
-                            self.qVals[dim] = self.epLen
+                        if self.num_visits[tuple(dim)] == 0:
+                            self.qVals[tuple(dim)] = self.epLen
                         else:
                             if h == self.epLen - 1:
-                                self.qVals[dim] = min(
-                                    self.qVals[dim], self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]))
+                                self.qVals[tuple(dim)] = min(
+                                    self.qVals[tuple(dim)], self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]))
                             else:
                                 vEst = min(self.epLen, np.sum(np.multiply(self.vVals[(
-                                    h+1,)], self.pEst[dim] + self.alpha) / (np.sum(self.pEst[dim] + self.alpha))))
-                                self.qVals[dim] = min(
-                                    self.qVals[dim], self.epLen, self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]) + vEst)
-                    self.vVals[np.append([h], state)] = min(self.epLen,
-                                                            self.qVals[np.append([h], state)].max())
+                                    h+1,)], self.pEst[tuple(dim)] + self.alpha) / (np.sum(self.pEst[tuple(dim)] + self.alpha))))
+                                self.qVals[tuple(dim)] = min(
+                                    self.qVals[tuple(dim)], self.epLen, self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]) + vEst)
+                    self.vVals[tuple(np.append([h], state))] = min(self.epLen,
+                                                                   self.qVals[tuple(np.append([h], state))].max())
 
     def pick_action(self, state, step):
         '''
@@ -128,28 +128,31 @@ class DiscreteMB(Agent):
                 #     state), np.asarray(action))
                 dim = np.append(np.append([step], state), action)
                 if self.num_visits[tuple(dim)] == 0:
-                    self.qVals[dim] == 0
+                    self.qVals[tuple(dim)] == 0
                 else:
                     if step == self.epLen - 1:
-                        self.qVals[dim] = min(
-                            self.qVals[dim], self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]))
+                        self.qVals[tuple(dim)] = min(
+                            self.qVals[tuple(dim)], self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]))
                     else:
                         vEst = min(self.epLen, np.sum(np.multiply(self.vVals[(
-                            step+1,)], self.pEst[dim] + self.alpha) / (np.sum(self.pEst[dim] + self.alpha))))
-                        self.qVals[dim] = min(
-                            self.qVals[dim], self.epLen, self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]) + vEst)
+                            step+1,)], self.pEst[tuple(dim)] + self.alpha) / (np.sum(self.pEst[tuple(dim)] + self.alpha))))
+                        self.qVals[tuple(dim)] = min(
+                            self.qVals[tuple(dim)], self.epLen, self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]) + vEst)
 
-            self.vVals[np.append([step], state)] = min(self.epLen,
-                                                       self.qVals[np.append([step], state)].max())
+            self.vVals[tuple(np.append([step], state))] = min(self.epLen,
+                                                              self.qVals[tuple(np.append([step], state))].max())
 
         # state_discrete = np.argmin(
         #     (np.abs(np.asarray(self.state_net) - np.asarray(state))), axis=0)
-        qFn = self.qVals[np.append([step], state)]
+        qFn = self.qVals[tuple(np.append([step], state))]
         action = np.asarray(np.where(qFn == qFn.max()))
 
         index = np.random.choice(len(action[0]))
-        print(action.T[index])
-        actions = ()
-        for val in action.T[index]:
-            actions += (self.action_space[:, 0][val],)
-        return np.asarray(actions)
+       # print(action.T[index])
+        action = action[:len(self.state_size), index]
+        # print(action)
+        return action
+        # actions = ()
+        # for val in action.T[index]:
+        #     actions += (self.action_space[:, 0][val],)
+        # return np.asarray(actions)
