@@ -32,8 +32,8 @@ class DiscreteMB(Agent):
         self.state_space = state_space
 
         # sizes of action and state spaces
-        self.action_size = self.action_space.nvec[0]
-        self.state_size = self.state_space.nvec[0]
+        self.action_size = self.action_space.nvec
+        self.state_size = self.state_space.nvec
 
         # Matrix of size h*S*A
         self.qVals = np.ones([self.epLen] + self.state_size +
@@ -41,6 +41,7 @@ class DiscreteMB(Agent):
         # matrix of size h*S*A
         self.num_visits = np.zeros(
             [self.epLen] + self.state_size + self.action_size, dtype=np.float32)
+        print(self.num_visits)
         # matrix of size h*S
         self.vVals = np.ones([self.epLen] + self.state_size,
                              dtype=np.float32) * self.epLen
@@ -90,8 +91,8 @@ class DiscreteMB(Agent):
         # Update value estimates
         if self.flag:  # update estimates via full step updates
             for h in np.arange(self.epLen - 1, -1, -1):
-                for state in itertools.product(*[np.arange(self.state_size) for _ in range(self.state_size)]):
-                    for action in itertools.product(*[np.arange(self.action_size) for _ in range(self.action_size)]):
+                for state in itertools.product(*[np.arange(self.state_size[0]) for _ in range(self.state_size[0])]):
+                    for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_size[0])]):
                         dim = (h,) + state + action
                         if self.num_visits[dim] == 0:
                             self.qVals[dim] = self.epLen
@@ -122,7 +123,7 @@ class DiscreteMB(Agent):
         if self.flag == False:  # updates estimates via one step update
             # state_discrete = np.argmin(
             #     (np.abs(np.asarray(self.state_net) - np.asarray(state))), axis=0)
-            for action in itertools.product(*[np.arange(self.action_size) for _ in range(self.action_size)]):
+            for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_size[0])]):
                 dim = (step,) + tuple(state) + action
                 if self.num_visits[dim] == 0:
                     self.qVals[dim] == 0
