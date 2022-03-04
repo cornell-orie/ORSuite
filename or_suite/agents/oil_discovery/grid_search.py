@@ -109,9 +109,13 @@ class grid_searchAgent(Agent):
         ''' If upper and lower bounds are updated based on perturbed values, move agent to midpoint.
             Else, perturb area surrounding current midpoint. '''
 
+        # action taken at step h is used to maximize the step h+1 oil function
+        next_step = step+1 if step+1 < self.epLen else step
+
         # print()
         if self.select_midpoint[step]:
-            action = (self.upper[step] + self.lower[step]) / 2
+            # should be plus 1, add extra if statement to prevent index out of bounds
+            action = (self.upper[next_step] + self.lower[next_step]) / 2
         else:
             # One line calculation of perturbation I think?
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
@@ -130,9 +134,9 @@ class grid_searchAgent(Agent):
             #   (self.upper[step] - self.lower[step])/2)
 
             # limit perturbation to distance from midpoint to upper or lower
-            action = (self.upper[step] + self.lower[step]) / 2 + \
-                (perturbation*(self.upper[step] -
-                 self.lower[step])/2)
+            action = (self.upper[next_step] + self.lower[next_step]) / 2 + \
+                (perturbation*(self.upper[next_step] -
+                 self.lower[next_step])/4)
 
         # print("act", action)
         return action
