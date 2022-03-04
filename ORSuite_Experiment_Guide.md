@@ -27,7 +27,7 @@ The package installation is the same for all of the ORSuite experiments. The pac
 Most of the environments have simillar parameters. The overalpping parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
 
 ### Overlapping parameters include: 
-  - The parameter `epLen`, an int, represents the length of each episode 
+    - The parameter `epLen`, an int, represents the length of each episode 
     - `nEps` is an int representing the number of episodes. 
     - `numIters`, an int, is the number of iterations. 
     - `seed` allows random numbers to be generated.
