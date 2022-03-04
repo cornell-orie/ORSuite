@@ -36,37 +36,36 @@ class DiscreteMB(Agent):
         self.state_size = self.state_space.nvec
 
         # Matrix of size h*S*A
-        self.qVals = np.ones([self.epLen] + self.state_size +
-                             self.action_size, dtype=np.float32) * self.epLen
+        self.qVals = np.ones(np.append(np.array([self.epLen]), (self.state_size,
+                             self.action_size)), dtype=np.float32) * self.epLen
         # matrix of size h*S*A
-        self.num_visits = np.zeros(
-            [self.epLen] + self.state_size + self.action_size, dtype=np.float32)
-        print(self.num_visits)
+        self.num_visits = np.zeros(np.append(np.array([self.epLen]), (self.state_size,
+                                                                      self.action_size)), dtype=np.float32)
+
         # matrix of size h*S
-        self.vVals = np.ones([self.epLen] + self.state_size,
+        self.vVals = np.ones(np.append(np.array([self.epLen]), self.state_size),
                              dtype=np.float32) * self.epLen
         # matrix of size h*S*A
-        self.rEst = np.zeros([self.epLen] + self.state_size +
-                             self.action_size, dtype=np.float32)
+        self.rEst = np.zeros(np.append(np.array([self.epLen]), (self.state_size,
+                                                                self.action_size)), dtype=np.float32)
 
         # matrix of size h*S*A*S
-        self.pEst = np.zeros([self.epLen] + self.state_size + self.action_size+self.state_size,
+        self.pEst = np.zeros(np.append(np.array([self.epLen]), (self.state_size, self.action_size, self.state_size)),
                              dtype=np.float32)
 
+    def reset(self):  # TODO: reset to the way you initialize them
         '''
             Resets the agent by overwriting all of the estimates back to zero
         '''
-
-    def reset(self):  # TODO: reset to the way you initialize them
-        self.qVals = np.ones([self.epLen] + self.state_size +
-                             self.action_size, dtype=np.float32) * self.epLen
-        self.vVals = np.ones([self.epLen] + self.state_size,
+        self.qVals = np.ones(np.append(np.array([self.epLen]), (self.state_size,
+                                                                self.action_size)), dtype=np.float32) * self.epLen
+        self.vVals = np.ones(np.append(np.array([self.epLen]), self.state_size),
                              dtype=np.float32) * self.epLen
-        self.rEst = np.zeros([self.epLen] + self.state_size +
-                             self.action_size, dtype=np.float32)
-        self.num_visits = np.zeros(
-            [self.epLen] + self.state_size + self.action_size, dtype=np.float32)
-        self.pEst = np.zeros([self.epLen] + self.state_size + self.action_size+self.state_size,
+        self.rEst = np.zeros(np.append(np.array([self.epLen]), (self.state_size,
+                                                                self.action_size)), dtype=np.float32)
+        self.num_visits = np.zeros(np.append(np.array([self.epLen]), (self.state_size,
+                                                                      self.action_size)), dtype=np.float32)
+        self.pEst = np.zeros(np.append(np.array([self.epLen]), (self.state_size, self.action_size, self.state_size)),
                              dtype=np.float32)
 
     def update_parameters(self, param):
@@ -75,38 +74,39 @@ class DiscreteMB(Agent):
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
 
-        self.num_visits[timestep, obs, action] += 1
+        self.num_visits[np.append(np.append([timestep], obs), action)] += 1
 
-        self.pEst[timestep, obs, action, newObs] += 1
+        self.pEst[np.append(
+            np.append(np.append([timestep], obs), action), newObs)] += 1
 
         # timestep, obs, action, newObs
 
-        t = self.num_visits[timestep, obs, action]
+        t = self.num_visits[np.append(np.append([timestep], obs), action)]
 
-        self.rEst[timestep, obs, action] = (
-            (t - 1) * self.rEst[timestep, obs, action] + reward) / t
+        self.rEst[np.append(np.append([timestep], obs), action)] = (
+            (t - 1) * self.rEst[np.append(np.append([timestep], obs), action)] + reward) / t
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
         # Update value estimates
         if self.flag:  # update estimates via full step updates
             for h in np.arange(self.epLen - 1, -1, -1):
-                for state in itertools.product(*[np.arange(self.state_size[0]) for _ in range(self.state_size[0])]):
-                    for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_size[0])]):
-                        dim = (h,) + state + action
-                        if self.num_visits[dim] == 0:
-                            self.qVals[dim] = self.epLen
+                for state in itertools.product(*[np.arange(self.state_size[0]) for _ in range(self.state_space.shape[0])]):
+                    for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_space.shape[0])]):
+                        dim = np.append(np.append([h], state), action)
+                        if self.num_visits[tuple(dim)] == 0:
+                            self.qVals[tuple(dim)] = self.epLen
                         else:
                             if h == self.epLen - 1:
-                                self.qVals[dim] = min(
-                                    self.qVals[dim], self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]))
+                                self.qVals[tuple(dim)] = min(
+                                    self.qVals[tuple(dim)], self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]))
                             else:
                                 vEst = min(self.epLen, np.sum(np.multiply(self.vVals[(
-                                    h+1,)], self.pEst[dim] + self.alpha) / (np.sum(self.pEst[dim] + self.alpha))))
-                                self.qVals[dim] = min(
-                                    self.qVals[dim], self.epLen, self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]) + vEst)
-                    self.vVals[(h,) + state] = min(self.epLen,
-                                                   self.qVals[(h,) + state].max())
+                                    h+1,)], self.pEst[tuple(dim)] + self.alpha) / (np.sum(self.pEst[tuple(dim)] + self.alpha))))
+                                self.qVals[tuple(dim)] = min(
+                                    self.qVals[tuple(dim)], self.epLen, self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]) + vEst)
+                    self.vVals[tuple(np.append([h], state))] = min(self.epLen,
+                                                                   self.qVals[tuple(np.append([h], state))].max())
 
     def pick_action(self, state, step):
         '''
@@ -119,35 +119,40 @@ class DiscreteMB(Agent):
         Returns:
             int: action
         '''
-
         if self.flag == False:  # updates estimates via one step update
             # state_discrete = np.argmin(
             #     (np.abs(np.asarray(self.state_net) - np.asarray(state))), axis=0)
-            for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_size[0])]):
-                dim = (step,) + tuple(state) + action
-                if self.num_visits[dim] == 0:
-                    self.qVals[dim] == 0
+            for action in itertools.product(*[np.arange(self.action_size[0]) for _ in range(self.action_space.shape[0])]):
+               # dim = (step,) + tuple(state) + action
+                # dim = np.append(np.asarray([step]),  np.asarray(
+                #     state), np.asarray(action))
+                dim = np.append(np.append([step], state), action)
+                if self.num_visits[tuple(dim)] == 0:
+                    self.qVals[tuple(dim)] == 0
                 else:
                     if step == self.epLen - 1:
-                        self.qVals[dim] = min(
-                            self.qVals[dim], self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]))
+                        self.qVals[tuple(dim)] = min(
+                            self.qVals[tuple(dim)], self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]))
                     else:
                         vEst = min(self.epLen, np.sum(np.multiply(self.vVals[(
-                            step+1,)], self.pEst[dim] + self.alpha) / (np.sum(self.pEst[dim] + self.alpha))))
-                        self.qVals[dim] = min(
-                            self.qVals[dim], self.epLen, self.rEst[dim] + self.scaling / np.sqrt(self.num_visits[dim]) + vEst)
+                            step+1,)], self.pEst[tuple(dim)] + self.alpha) / (np.sum(self.pEst[tuple(dim)] + self.alpha))))
+                        self.qVals[tuple(dim)] = min(
+                            self.qVals[tuple(dim)], self.epLen, self.rEst[tuple(dim)] + self.scaling / np.sqrt(self.num_visits[tuple(dim)]) + vEst)
 
-            self.vVals[(step,)+tuple(state)] = min(self.epLen,
-                                                   self.qVals[(step,) + tuple(state)].max())
+            self.vVals[tuple(np.append([step], state))] = min(self.epLen,
+                                                              self.qVals[tuple(np.append([step], state))].max())
 
         # state_discrete = np.argmin(
         #     (np.abs(np.asarray(self.state_net) - np.asarray(state))), axis=0)
-        qFn = self.qVals[(step,)+tuple(state)]
+        qFn = self.qVals[tuple(np.append([step], state))]
         action = np.asarray(np.where(qFn == qFn.max()))
 
         index = np.random.choice(len(action[0]))
-
-        actions = ()
-        for val in action.T[index]:
-            actions += (self.action_space[:, 0][val],)
-        return np.asarray(actions)
+       # print(action.T[index])
+        action = action[:len(self.state_size), index]
+        # print(action)
+        return action
+        # actions = ()
+        # for val in action.T[index]:
+        #     actions += (self.action_space[:, 0][val],)
+        # return np.asarray(actions)
