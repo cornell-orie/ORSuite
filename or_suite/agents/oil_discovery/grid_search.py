@@ -82,9 +82,11 @@ class grid_searchAgent(Agent):
                 midpoint = (self.upper[timestep, bound_index] +
                             self.lower[timestep, bound_index]) / 2
 
-                loc = self.dim_index[timestep]-2
-                loc_l = self.dim_index[timestep]-1
-                if self.perturb_estimates[timestep, loc] > self.perturb_estimates[timestep, loc_l]:
+                # compare perturbation forward (self.dim_index[timestep]-2) with
+                # perturbation backwards (self.dim_index[timestep]-1) in each dimension
+                pert_f = self.dim_index[timestep]-2
+                pert_b = self.dim_index[timestep]-1
+                if self.perturb_estimates[timestep, pert_f] > self.perturb_estimates[timestep, pert_b]:
                     # if lower perturbation has higher reward, move lower up
                     self.lower[timestep, bound_index] = midpoint
                 else:
