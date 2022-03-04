@@ -136,7 +136,7 @@ class grid_searchAgent(Agent):
             # limit perturbation to distance from midpoint to upper or lower
             action = (self.upper[next_step] + self.lower[next_step]) / 2 + \
                 (perturbation*(self.upper[next_step] -
-                 self.lower[next_step])/4)
+                 self.lower[next_step])/2)
 
         # print("act", action)
         return action
