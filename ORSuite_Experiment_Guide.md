@@ -65,19 +65,17 @@ The agents section of the code specifies the algorithms used in the experiment. 
 Each experiment uses multiple agents. While many of the agents overlap, similar to the parameters each experiment has their own combination. 
 
 Common agents throughout different experiments include: 
-
-ambulance - metric: 
 - `SB PPO` is Proximal Policy Optimization. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
 - `AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
 - `AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
 - `Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
 - `Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
-- `Stable` is an agent that only moves ambulances when responding to an incoming call and not in between calls. This means the policy $\\pi$ chosen by the agent for any given state $X$ will be $\\pi_h(X) = X$
-- `Median` is an agent that takes a list of all past call arrivals sorted by arrival location, and partitions it into $k$ quantiles where $k$ is the number of ambulances. The algorithm then selects the middle data point in each quantile as the locations to station the ambulances. 
+
+Other agents are further specified within each experiment in "ORSuite/examples". 
 
 ## Running The Code and Generating Figures 
 
-After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. Some environments like the metric ambulance will also show MRT and RTV. 
+After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT and RTV. 
 
-
+After running the chart is a "Generating Figures" section, where line and radar plots will appear to show how each agent responds visually. 
