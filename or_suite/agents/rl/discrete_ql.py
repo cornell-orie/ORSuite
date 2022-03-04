@@ -1,4 +1,3 @@
-from sre_parse import State
 import numpy as np
 from .. import Agent
 
@@ -11,7 +10,7 @@ class DiscreteQl(Agent):
     actions using the metric induces by the l_inf norm
 
     TODO: Documentation
-    
+
     Attributes:
         epLen: (int) number of steps per episode
         scaling: (float) scaling parameter for confidence intervals
@@ -31,9 +30,13 @@ class DiscreteQl(Agent):
         dim = np.concatenate((
             np.array([self.epLen]), self.state_space.nvec, self.action_space.nvec))
         self.matrix_dim = dim
-        self.qVals = self.epLen * np.ones(self.matrix_dim, dtype=np.float32) # TODO: Initialize with upper bound on max reward via H*max_one_step_reward
-                                                                # might need to normalize rewards in your rideshare environment code
-                                                                # but otherwise can just use ambulance, that one is already good.
+        # TODO: Initialize with upper bound on max reward via H*max_one_step_reward
+        self.qVals = self.epLen * np.ones(self.matrix_dim, dtype=np.float32)
+        # Set max_reward as 1 assuming that the reward is normalized
+        max_reward = 1
+        self.qVals = self.epLen * max_reward * self.qVals
+        # might need to normalize rewards in your rideshare environment code
+        # but otherwise can just use ambulance, that one is already good.
         self.num_visits = np.zeros(self.matrix_dim, dtype=np.float32)
 
     def update_config(self, env, config):
@@ -93,8 +96,7 @@ class DiscreteQl(Agent):
         # maximum q value
 
         # TODO: Add documentation here for this
-        a = np.append([step], state)
-        qFn = self.qVals[tuple(a)]
+        qFn = self.qVals[tuple(np.append([step], state))]
         action = np.asarray(np.where(qFn == qFn.max()))
         print(action)
         index = np.random.choice(len(action[0]))

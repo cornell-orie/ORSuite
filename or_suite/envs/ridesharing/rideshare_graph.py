@@ -171,12 +171,15 @@ class RideshareGraphEnvironment(gym.Env):
                 self.fulfill_req(newState, action, sink)
                 reward = self.reward(self.fare, self.cost,
                                      dispatch_dist, service_dist)
+                reward = reward / \
+                    self.reward(self.fare, self.cost, 0, self.max_dist)
                 accepted = True
             else:
                 # print('decline service')
-                reward = self.reward_denied()
+                reward = self.reward_denied() / self.reward_fail(self.max_dist, self.cost)
         else:
-            reward = self.reward_fail(self.max_dist, self.cost)
+            reward = self.reward_fail(
+                self.max_dist, self.cost) / self.reward_fail(self.max_dist, self.cost)
             done = False
 
         # updating the state with a new rideshare request
