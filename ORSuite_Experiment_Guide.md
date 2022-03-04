@@ -48,15 +48,15 @@ Most of the environments have simillar parameters. The overalpping parameters ca
  - `state`, an int list, representing the current state of the environment 
  
 #### Inventory: 
-    - `lead_times`: array of ints representing the lead times of each supplier
-    - `demand_dist`: the random number sampled from the given distribution to be used to calculate the demand
-    - `supplier_costs`: array of ints representing the costs of each supplier
-    - `hold_cost`: The int holding cost.
-    - `backorder_cost`: The backorder holding cost.
-    - `max_inventory`: The maximum value (int) that can be held in inventory
-    - `max_order`: The maximum value (int) that can be ordered from each supplier
-    -  `starting_state`: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
-    - `neg_inventory`: A bool that says whether the on-hand inventory can be negative or not.
+   - `lead_times`: array of ints representing the lead times of each supplier
+   - `demand_dist`: the random number sampled from the given distribution to be used to calculate the demand
+   - `supplier_costs`: array of ints representing the costs of each supplier
+   - `hold_cost`: The int holding cost.
+   - `backorder_cost`: The backorder holding cost.
+   - `max_inventory`: The maximum value (int) that can be held in inventory
+   - `max_order`: The maximum value (int) that can be ordered from each supplier
+   -  `starting_state`: An int list containing enough indices for the sum of all the lead times, plus an additional index for the initial on-hand inventory.
+   - `neg_inventory`: A bool that says whether the on-hand inventory can be negative or not.
  
 
 ## Agents
