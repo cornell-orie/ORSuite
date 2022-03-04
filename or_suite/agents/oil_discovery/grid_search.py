@@ -82,9 +82,6 @@ class grid_searchAgent(Agent):
                 midpoint = (self.upper[timestep, bound_index] +
                             self.lower[timestep, bound_index]) / 2
 
-                loc = int(np.floor((self.dim_index[timestep]-1) / 2))
-                loc_l = int(np.floor(self.dim_index[timestep] / 2))
-
                 loc = self.dim_index[timestep]-2
                 loc_l = self.dim_index[timestep]-1
                 if self.perturb_estimates[timestep, loc] > self.perturb_estimates[timestep, loc_l]:
