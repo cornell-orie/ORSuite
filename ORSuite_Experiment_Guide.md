@@ -28,4 +28,7 @@ Each of the environments have different paramenters. Most of the experiments hav
 
 ## Agents
 
+We use specifying agents to compare the effectivness of each agent. They all use multiple agents. While many of the environments use the same agents, they each use a different combination of agents. 
+
+## Running The Code
 
