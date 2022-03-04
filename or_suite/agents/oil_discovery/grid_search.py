@@ -116,6 +116,8 @@ class grid_searchAgent(Agent):
         if self.select_midpoint[step]:
             # should be plus 1, add extra if statement to prevent index out of bounds
             action = (self.upper[next_step] + self.lower[next_step]) / 2
+
+            # print("act if", action)
         else:
             # One line calculation of perturbation I think?
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
@@ -124,6 +126,7 @@ class grid_searchAgent(Agent):
             p_location[int(np.floor(self.dim_index[step] / 2))] = 1
             perturbation = np.zeros(
                 self.dim) + (-1)**(np.mod(self.dim_index[step], 2))*p_location
+
             # print("p_loc", p_location)
             # print("dim", self.dim)
             # print("eq", (-1)**(np.mod(self.dim_index[step], 2))*p_location)
@@ -138,5 +141,6 @@ class grid_searchAgent(Agent):
                 (perturbation*(self.upper[next_step] -
                  self.lower[next_step])/4)
 
-        # print("act", action)
+            # print("act else", action)
+
         return action
