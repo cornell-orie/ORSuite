@@ -27,15 +27,15 @@ The package installation is the same for all of the ORSuite experiments. The pac
 Most of the environments have simillar parameters. The overalpping parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
 
 ### Overlapping parameters include: 
-    - The parameter `epLen`, an int, represents the length of each episode 
-    - `nEps` is an int representing the number of episodes. 
-    - `numIters`, an int, is the number of iterations. 
-    - `seed` allows random numbers to be generated.
-    - `dirPath`, a string, is the location where the data files are stored.
-    - `deBug`, a bool, prints information to the command line when set true. 
-    - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true. 
-    - `render` renders the algorithm when set to true.
-    - `pickle` is a bool that saves the information to a pickle file when set to true.
+   - The parameter `epLen`, an int, represents the length of each episode 
+   - `nEps` is an int representing the number of episodes. 
+   - `numIters`, an int, is the number of iterations. 
+   - `seed` allows random numbers to be generated.
+   - `dirPath`, a string, is the location where the data files are stored.
+   - `deBug`, a bool, prints information to the command line when set true. 
+   - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true. 
+   - `render` renders the algorithm when set to true.
+   - `pickle` is a bool that saves the information to a pickle file when set to true.
  
  ### Environmental specific parameters: 
  Below are extra parameters that specified environments have. 
