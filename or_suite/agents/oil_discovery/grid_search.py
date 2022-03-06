@@ -5,15 +5,24 @@ from .. import Agent
 
 class grid_searchAgent(Agent):
     """
-    Agents that uses a bisection-method heuristic algorithm to find location of most oil.
+    Agent that uses a bisection-method heuristic algorithm to find location of most oil. 
 
     Methods:
-        reset() : clears data and call_locs which contain data on what has occurred so far in the environment
+        reset() : resets bounds of agent to reflect upper and lower bounds of metric space
         update_config() : (UNIMPLEMENTED)
-        pick_action(state, step) : If upper and lower bounds set, move agent to midpoint. Else, perturb location.
+        update_obs(obs, action, reward, newObs, timestep, info) : record reward of current midpoint 
+            or move bounds in direction of higher reward
+        pick_action(state, step) : move agent to midpoint or perturb current dimension
 
     Attributes:
         epLen: (int) number of time steps to run the experiment for
+        dim: (int) dimension of metric space for agent and environment
+        upper: (float list list) matrix containing upper bounds of agent at each step in dimension
+        lower: (float list list) matrix contianing lower bounds of agent at each step in dimension
+        perturb_estimates: (float list list) matrix containing estimated rewards from perturbation in each dimension
+        midpoint_value: (float list) list containing midpoint of agent at each step
+        dim_index: (int list) list looping through various dimensions during perturbation
+        select_midpoint: (bool list) list recording whether to take midpoint or perturb at given step
     """
 
     def __init__(self, epLen, dim=1):
@@ -37,18 +46,19 @@ class grid_searchAgent(Agent):
         self.dim_index = [0 for _ in range(self.epLen)]
 
         # Indicator of "where" we are in the process, i.e. selecting the midpoint, doing small perturbations, etc
-        self.eps = 1e-7
         self.select_midpoint = [True for _ in range(self.epLen)]
 
     def reset(self):
-        # Resets data and call_locs arrays to be empty
+        # Resets upper to array of ones, lower to array of zeros
         self.upper = np.ones((self.epLen, self.dim))
         self.lower = np.zeros((self.epLen, self.dim))
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        ''' If no perturbations needed, update reward to be midpoint. Else, cut upper and lower
-            bounds based on higher rewards from perturbation. '''
-
+        """
+        If no perturbations needed, update reward to be value at midpoint. 
+        Else, adjust upper or lower bound in the direction of higher 
+        reward as determined by the perturbation step.
+        """
         # If we selected the midpoint in prev step
         if self.select_midpoint[timestep]:
             # Store value of midpoint estimate
@@ -56,45 +66,29 @@ class grid_searchAgent(Agent):
             # Switch to sampling the purturbed values
             self.select_midpoint[timestep] = False
         else:
-            # stores the observed reward
-            # print()
-            # print("upper: ", self.upper)
-            # print("lower: ", self.lower)
-            # print("timestep", timestep)
-            # print("reward", reward)
-            # print("dim_ind", self.dim_index)
-            self.perturb_estimates[timestep,
-                                   self.dim_index[timestep]] = reward
+            self.perturb_estimates[timestep, self.dim_index[timestep]] = reward
             self.dim_index[timestep] += 1
-            # print("pert estimates", self.perturb_estimates)
-            # print(self.dim_index)
 
             if self.dim_index[timestep] > 0 and self.dim_index[timestep] % 2 == 0:
-                # print("pert estimates", self.perturb_estimates)
-                # print("upperl: ", self.upper.flatten())
-                # print("lowerl: ", self.lower.flatten())
-                # print()
-                # 2 perturbations (forward and back) in each dimension
-
                 # corresponding index of upper/lower bound matrix given self.dim_indx[timestep]
                 bound_index = int(self.dim_index[timestep]/2 - 1)
-                # print("bound_i", bound_index)
                 midpoint = (self.upper[timestep, bound_index] +
                             self.lower[timestep, bound_index]) / 2
 
-                # compare perturbation forward (self.dim_index[timestep]-2) with
-                # perturbation backwards (self.dim_index[timestep]-1) in each dimension
+                # compare pert forward with pert backwards in dimension of timestep
                 pert_f = self.dim_index[timestep]-2
                 pert_b = self.dim_index[timestep]-1
                 if self.perturb_estimates[timestep, pert_f] > self.perturb_estimates[timestep, pert_b]:
-                    # if lower perturbation has higher reward, move lower up
+                    # if lower perturbation has higher reward, move lower bound up
                     self.lower[timestep, bound_index] = midpoint
                 else:
                     self.upper[timestep, bound_index] = midpoint
 
+                # reset dim_index once perturbations completed in every dimension
                 if self.dim_index[timestep] == 2*self.dim:
                     self.dim_index[timestep] = 0
                 self.select_midpoint[timestep] = True
+
         return
 
     def update_policy(self, k):
@@ -106,41 +100,26 @@ class grid_searchAgent(Agent):
         pass
 
     def pick_action(self, state, step):
-        ''' If upper and lower bounds are updated based on perturbed values, move agent to midpoint.
-            Else, perturb area surrounding current midpoint. '''
+        """ 
+        If upper and lower bounds are updated based on perturbed values, move agent to midpoint.
+        Else, perturb dimension by factor equal to half the distance from each bound to midpoint. 
+        """
 
         # action taken at step h is used to maximize the step h+1 oil function
         next_step = step+1 if step+1 < self.epLen else step
 
-        # print()
         if self.select_midpoint[step]:
-            # should be plus 1, add extra if statement to prevent index out of bounds
             action = (self.upper[next_step] + self.lower[next_step]) / 2
-
-            # print("act if", action)
         else:
-            # One line calculation of perturbation I think?
             # Gets the dimension index, mods it by 2 to get a 0,1 value, takes (-1) to the power
             # so the sign switches from positive and negative
             p_location = np.zeros(self.dim)
             p_location[int(np.floor(self.dim_index[step] / 2))] = 1
             perturbation = np.zeros(
                 self.dim) + (-1)**(np.mod(self.dim_index[step], 2))*p_location
-
-            # print("p_loc", p_location)
-            # print("dim", self.dim)
-            # print("eq", (-1)**(np.mod(self.dim_index[step], 2))*p_location)
-            # print("upper", self.upper[step])
-            # print("lower", self.lower[step])
-            # print("pert", perturbation)
-            # print("pert calc", perturbation *
-            #   (self.upper[step] - self.lower[step])/2)
-
-            # limit perturbation to midpoint of midpoint
+            # perturb distance of 1/4 * width of dimension
             action = (self.upper[next_step] + self.lower[next_step]) / 2 + \
                 (perturbation*(self.upper[next_step] -
-                 self.lower[next_step])/(2*self.dim))
-
-            # print("act else", action)
+                 self.lower[next_step])/(4))
 
         return action
