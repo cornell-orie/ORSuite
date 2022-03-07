@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import sys
 from .. import Agent
 
@@ -106,7 +107,11 @@ class grid_searchAgent(Agent):
         """
 
         # action taken at step h is used to maximize the step h+1 oil function
-        next_step = step+1 if step+1 < self.epLen else step
+        if step+1 < self.epLen:
+            next_step = step+1
+        # if last step, move agent to random location
+        else:
+            return np.random.rand(self.dim)
 
         if self.select_midpoint[step]:
             action = (self.upper[next_step] + self.lower[next_step]) / 2
