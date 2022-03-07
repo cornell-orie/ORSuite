@@ -71,7 +71,7 @@ class DiscreteQl(Agent):
             vFn = 0
         else:
             # vFn = np.max(self.qVals[timestep+1, obs, action]) # nopte this is wrong.
-            vFn = np.max(self.qVals[timestep+1, newObs, :])
+            vFn = np.max(self.qVals[timestep+1, newObs])
         vFn = min(self.epLen, vFn)
 
         self.qVals[timestep, obs, action] = (1 - lr) * self.qVals[timestep, obs, action] + \
@@ -96,10 +96,13 @@ class DiscreteQl(Agent):
         # maximum q value
 
         # TODO: Add documentation here for this
+        # print(self.qVals.shape)
+        # print(step, state)
+        # qFn = self.qVals[step, state, :]
         qFn = self.qVals[tuple(np.append([step], state))]
+        # print(qFn.shape)
         action = np.asarray(np.where(qFn == qFn.max()))
-        print(action)
         index = np.random.choice(len(action[0]))
-        action = action[0, index]
-        action = [action]
+        action = action[:, index]
+        # print(action)
         return action
