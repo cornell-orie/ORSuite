@@ -159,6 +159,10 @@ class RideshareGraphEnvironment(gym.Env):
         dispatch_dist = self.lengths[action, source]
         service_dist = self.lengths[source, sink]
 
+        reward_range = self.reward(
+            self.fare, self.cost, 0, self.max_dist) - self.reward_fail(self.max_dist, self.cost)
+        max_fail_reward = self.reward_fail(self.max_dist, self.cost)
+
         # If there is a car at the location the agent chose
         if newState[action] > 0:
             exp = np.exp(self.gamma*(dispatch_dist-self.d_threshold))
@@ -171,15 +175,14 @@ class RideshareGraphEnvironment(gym.Env):
                 self.fulfill_req(newState, action, sink)
                 reward = self.reward(self.fare, self.cost,
                                      dispatch_dist, service_dist)
-                reward = reward / \
-                    self.reward(self.fare, self.cost, 0, self.max_dist)
+                reward = (reward - max_fail_reward) / reward_range
                 accepted = True
             else:
                 # print('decline service')
-                reward = self.reward_denied() / self.reward_fail(self.max_dist, self.cost)
+                reward = (self.reward_denied() -
+                          max_fail_reward) / reward_range
         else:
-            reward = self.reward_fail(
-                self.max_dist, self.cost) / self.reward_fail(self.max_dist, self.cost)
+            reward = 0
             done = False
 
         # updating the state with a new rideshare request
