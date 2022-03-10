@@ -106,3 +106,6 @@ class DiscreteQl(Agent):
         action = action[:, index]
         # print(action)
         return action
+
+    def update_parameters(self, param):
+        self.scaling = param
