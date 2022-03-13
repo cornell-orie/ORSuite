@@ -15,6 +15,7 @@ This guide will go through how to read and run experiments made by ORSuite.
 
 ## Package Installation
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
+
    -`import or_suite`
    -`import numpy as np` open source Python library 
    - `import copy` creates a shallow and deep copy of a given object
