@@ -21,7 +21,7 @@ The package installation is the same for all of the ORSuite experiments. The pac
    - `import copy` creates a shallow and deep copy of a given object
    - `import os` provides functions for working with operating systems
    - `from stable_baselines3.common.monitor import Monitor`
-   - `from stable_baselines3 import PPO`
+   - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy should be not too far form the old policy
    - `from stable_baselines3.ppo import MlpPolicy`
    - `from stable_baselines3.common.env_util import make_vec_env`
    - `from stable_baselines3.common.evaluation import evaluate_policy`
