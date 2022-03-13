@@ -16,8 +16,8 @@ This guide will go through how to read and run experiments made by ORSuite.
 ## Package Installation
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
 
-   -`import or_suite` open source with environments created by ORSuite
-   -`import numpy as np` open source Python library that aids in scientific computation
+   - `import or_suite` open source with environments created by ORSuite
+   -` import numpy as np` open source Python library that aids in scientific computation
    - `import copy` creates a shallow and deep copy of a given object
    - `import os` provides functions for working with operating systems
    - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
