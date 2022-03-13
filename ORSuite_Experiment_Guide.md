@@ -15,22 +15,17 @@ This guide will go through how to read and run experiments made by ORSuite.
 
 ## Package Installation
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
-```
-    -> import or_suite
-    -> import numpy as np
-      -open source Python library 
-    -> import copy
-      - creates a shallow and deep copy of a given object
-    -> import os
-      - provides functions for working with operating systems
-    -> from stable_baselines3.common.monitor import Monitor
-    -> from stable_baselines3 import PPO
-    -> from stable_baselines3.ppo import MlpPolicy
-    -> from stable_baselines3.common.env_util import make_vec_env
-    -> from stable_baselines3.common.evaluation import evaluate_policy
-    -> import pandas as pd
-      - brings pandas data analysis library into current environment 
-```
+    -> `import or_suite`
+    -> `import numpy as np` open source Python library 
+    -> `import copy` creates a shallow and deep copy of a given object
+    -> `import os` provides functions for working with operating systems
+    -> `from stable_baselines3.common.monitor import Monitor`
+    -> `from stable_baselines3 import PPO`
+    -> `from stable_baselines3.ppo import MlpPolicy`
+    -> `from stable_baselines3.common.env_util import make_vec_env`
+    -> `from stable_baselines3.common.evaluation import evaluate_policy`
+    -> `import pandas as pd` brings pandas data analysis library into current environment 
+
 ## Experimental Parameters
 
 ### Overlapping parameters include: 
