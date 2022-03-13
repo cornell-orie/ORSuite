@@ -30,6 +30,8 @@ The package installation is the same for all of the ORSuite experiments. The pac
 ## Experimental Parameters
 
 Most of the environments have simillar parameters. The overalpping parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
+
+
 The specific configuration of the parameters for each of the environments can be found in `or_suite/envs/env_configs.py`.
 In order to make an environment you do `Gym.env('Name', env_config)`. 
  
