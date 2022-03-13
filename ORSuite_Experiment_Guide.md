@@ -20,7 +20,7 @@ The package installation is the same for all of the ORSuite experiments. The pac
    -`import numpy as np` open source Python library 
    - `import copy` creates a shallow and deep copy of a given object
    - `import os` provides functions for working with operating systems
-   - `from stable_baselines3.common.monitor import Monitor`
+   - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
    - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
    - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
    - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vecotrized environemnt)
