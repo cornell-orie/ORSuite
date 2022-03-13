@@ -16,15 +16,15 @@ This guide will go through how to read and run experiments made by ORSuite.
 ## Package Installation
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
 
-   -`import or_suite`
-   -`import numpy as np` open source Python library 
+   -`import or_suite` open source with environments created by ORSuite
+   -`import numpy as np` open source Python library that aids in scientific computation
    - `import copy` creates a shallow and deep copy of a given object
    - `import os` provides functions for working with operating systems
    - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
    - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
    - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
    - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vecotrized environemnt)
-   - `from stable_baselines3.common.evaluation import evaluate_policy`
+   - `from stable_baselines3.common.evaluation import evaluate_policy` evaluates the agent and the reward
    - `import pandas as pd` brings pandas data analysis library into current environment 
 
 ## Experimental Parameters
