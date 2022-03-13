@@ -54,13 +54,8 @@ In order to make an environment you type `Gym.env('Name', env_config)`.
 The agents section of the code specifies the algorithms used in the experiment. These agents are later ran against each other to see which ones are most effective for the simulation. 
 Each experiment uses multiple agents. While many of the agents overlap, similar to the parameters each experiment has their own combination. 
 
-Common agents throughout different experiments include: 
-- `SB PPO` is Proximal Policy Optimization. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.
+A common agents throughout different experiments is:
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
-- `AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
-- `AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
-- `Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
-- `Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
 
 Other agents are further specified within each experiment in "ORSuite/examples". 
 
