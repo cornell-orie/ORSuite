@@ -17,6 +17,7 @@ This guide will go through how to read and run experiments made by ORSuite.
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
 ```
     -> import or_suite
+      - dsakjf
     -> import numpy as np
     -> import copy
     -> import os
