@@ -15,31 +15,31 @@ This guide will go through how to read and run experiments made by ORSuite.
 
 ## Package Installation
 The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
-```
-    -> `import or_suite`
-    -> `import numpy as np` open source Python library 
-    -> `import copy` creates a shallow and deep copy of a given object
-    -> `import os` provides functions for working with operating systems
-    -> `from stable_baselines3.common.monitor import Monitor`
-    -> `from stable_baselines3 import PPO`
-    -> `from stable_baselines3.ppo import MlpPolicy`
-    -> `from stable_baselines3.common.env_util import make_vec_env`
-    -> `from stable_baselines3.common.evaluation import evaluate_policy`
-    -> `import pandas as pd` brings pandas data analysis library into current environment 
- ```
+
+    - `import or_suite`
+    - `import numpy as np` open source Python library 
+    - `import copy` creates a shallow and deep copy of a given object
+    - `import os` provides functions for working with operating systems
+    - `from stable_baselines3.common.monitor import Monitor`
+    - `from stable_baselines3 import PPO`
+    - `from stable_baselines3.ppo import MlpPolicy`
+    - `from stable_baselines3.common.env_util import make_vec_env`
+    - `from stable_baselines3.common.evaluation import evaluate_policy`
+    - `import pandas as pd` brings pandas data analysis library into current environment 
+
 
 ## Experimental Parameters
 
 ### Overlapping parameters include: 
-   - The parameter `epLen`, an int, represents the length of each episode 
-   - `nEps` is an int representing the number of episodes. 
-   - `numIters`, an int, is the number of iterations. 
-   - `seed` allows random numbers to be generated.
-   - `dirPath`, a string, is the location where the data files are stored.
-   - `deBug`, a bool, prints information to the command line when set true. 
-   - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true. 
-   - `render` renders the algorithm when set to true.
-   - `pickle` is a bool that saves the information to a pickle file when set to true.
+   - `epLen`, an int, represents the length of each episode 
+   - `nEps`, an int, represents the number of episodes
+   - `numIters`, an int, is the number of iterations
+   - `seed` allows random numbers to be generated
+   - `dirPath`, a string, is the location where the data files are stored
+   - `deBug`, a bool, prints information to the command line when set true 
+   - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true
+   - `render` renders the algorithm when set to true
+   - `pickle`, a bool, saves the information to a pickle file when set to true
  
  ### Environmental specific parameters: 
  
