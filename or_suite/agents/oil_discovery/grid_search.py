@@ -6,7 +6,8 @@ from .. import Agent
 
 class grid_searchAgent(Agent):
     """
-    Agent that uses a bisection-method heuristic algorithm to find location of most oil. 
+    Agent that uses a bisection-method heuristic algorithm to the find location with 
+    the highest probability of discovering oil.
 
     Methods:
         reset() : resets bounds of agent to reflect upper and lower bounds of metric space
