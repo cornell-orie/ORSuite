@@ -7,7 +7,7 @@ from .. import Agent
 class grid_searchAgent(Agent):
     """
     Agent that uses a bisection-method heuristic algorithm to the find location with 
-    the highest probability of discovering oil.
+    the highest probability of discovering oil. 
 
     Methods:
         reset() : resets bounds of agent to reflect upper and lower bounds of metric space
@@ -59,7 +59,9 @@ class grid_searchAgent(Agent):
         """
         If no perturbations needed, update reward to be value at midpoint. 
         Else, adjust upper or lower bound in the direction of higher 
-        reward as determined by the perturbation step.
+        reward as determined by the perturbation step. Agent loops across
+        each dimension separately, and updates estimated midpoint after each
+        loop.
         """
         # If we selected the midpoint in prev step
         if self.select_midpoint[timestep]:
