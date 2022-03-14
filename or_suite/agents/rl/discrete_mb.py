@@ -72,17 +72,23 @@ class DiscreteMB(Agent):
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
         '''Add observation to records'''
+        # print(
+        #     f'Adding on: {timestep}, state: {obs}, action: {action}, reward: {reward}, newObs: {newObs}')
+        dim = tuple(np.append(np.append([timestep], obs), action))
+        self.num_visits[dim] += 1
 
-        self.num_visits[timestep, obs, action] += 1
-
-        self.pEst[timestep, obs, action, newObs] += 1
+        new_obs_dim = tuple(
+            np.append(np.append(np.append([timestep], obs), action), newObs))
+        self.pEst[new_obs_dim] += 1
 
         # timestep, obs, action, newObs
 
-        t = self.num_visits[timestep, obs, action]
+        t = self.num_visits[dim]
 
-        self.rEst[timestep, obs, action] = (
-            (t - 1) * self.rEst[timestep, obs, action] + reward) / t
+        self.rEst[dim] = (
+            (t - 1) * self.rEst[dim] + reward) / t
+
+        # print(self.num_visits[dim], self.pEst[dim], self.rEst[dim])
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
