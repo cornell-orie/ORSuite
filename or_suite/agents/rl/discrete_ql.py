@@ -95,14 +95,8 @@ class DiscreteQl(Agent):
         # returns the state location and takes action based on
         # maximum q value
 
-        # TODO: Add documentation here for this
-        # print(self.qVals.shape)
-        # print(step, state)
-        # qFn = self.qVals[step, state, :]
         qFn = self.qVals[tuple(np.append([step], state))]
-        # print(qFn.shape)
         action = np.asarray(np.where(qFn == qFn.max()))
         index = np.random.choice(len(action[0]))
         action = action[:, index]
-        # print(action)
         return action

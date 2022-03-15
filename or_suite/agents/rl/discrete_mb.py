@@ -53,6 +53,7 @@ class DiscreteMB(Agent):
         self.pEst = np.zeros(np.concatenate((
             np.array([self.epLen]), self.state_size, self.action_size, self.state_size)),
             dtype=np.float32)
+        print(self.pEst.shape)
 
     def reset(self):  # TODO: reset to the way you initialize them
         '''

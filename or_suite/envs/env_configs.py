@@ -171,8 +171,8 @@ rideshare_graph_ny_config = {
 }
 rideshare_graph_simple_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 10}),
-              (0, 2, {'travel_time': 10}),
+    'edges': [(0, 1, {'travel_time': 100}),
+              (0, 2, {'travel_time': 1}),
               (1, 2, {'travel_time': 10})
               ],
     'starting_state': [2, 2, 1],
@@ -191,11 +191,11 @@ rideshare_graph_simple_config = {
 
 rideshare_graph_default_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
-              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
-              (1, 3, {'travel_time': 10}), (2, 3, {'travel_time': 10})],
-    'starting_state': [2, 3, 3, 2],
-    'num_cars': 10,
+    'edges': [(0, 1, {'travel_time': 1}), (0, 2, {'travel_time': 100}),
+              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 20}),
+              (1, 3, {'travel_time': 1}), (2, 3, {'travel_time': 70})],
+    'starting_state': [1, 1, 1, 0],
+    'num_cars': 3,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,
@@ -210,13 +210,12 @@ rideshare_graph_default_config = {
 
 rideshare_graph_2cities_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
-              (0, 3, {'travel_time': 10}), (0, 4, {'travel_time': 50}),
-              (4, 5, {'travel_time': 10}), (4, 6, {'travel_time': 10})],
-    'starting_state': [0, 0, 3, 0, 3, 3, 0],
-    'num_cars': 9,
-    'request_dist': lambda step, num_nodes: np.array([np.random.randint(0, 4), np.random.randint(4, 7)]) if np.random.random() > 1/2
-    else np.array([np.random.randint(4, 7), np.random.randint(0, 4)]),
+    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}), (0, 3, {'travel_time': 50}),
+              (3, 4, {'travel_time': 10}), (3, 5, {'travel_time': 10})],
+    'starting_state': [0, 0, 1, 0, 1, 1],
+    'num_cars': 3,
+    'request_dist': lambda step, num_nodes: np.array([np.random.randint(0, 3), np.random.randint(3, 6)]) if np.random.random() > 1/2
+    else np.array([np.random.randint(3, 6), np.random.randint(0, 3)]),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,
     'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
