@@ -53,7 +53,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
         # Action space will be choosing Kxn-dimensional allocation matrix (represented as a vector)
         self.action_space = spaces.Box(low=0, high=max(self.budget),
-                                       shape=(self.num_commodities*self.num_types,), dtype=np.float32)
+                                       shape=(self.num_types,self.num_commodities), dtype=np.float32)
         # First K entries of observation space is the remaining budget, next is the number of each type at the location
         self.observation_space = spaces.Box(low=0, high=np.inf,
                                             shape=(self.num_commodities+self.num_types,), dtype=np.float32)
@@ -135,7 +135,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.state = np.concatenate([new_budget, new_type])
 
         self.action_space = spaces.Box(low=0, high=max(new_budget),
-                                       shape=(self.num_commodities*self.num_types,), dtype=np.float32)
+                                       shape=(self.num_types,self.num_commodities), dtype=np.float32)
 
         self.timestep += 1
 
