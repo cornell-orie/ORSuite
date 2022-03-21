@@ -102,3 +102,8 @@ Once the algorithms are run, the figures are created. Each of the environments w
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
 </p>
+
+<!-- Line -->
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/MetricLinePlot.jpg" width="50%">
+</p>
