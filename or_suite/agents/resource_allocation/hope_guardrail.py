@@ -172,4 +172,10 @@ class hopeguardrailAgent(Agent):
             + (1 - budget_required) * (1 - budget_index) * \
             np.array([budget_remaining / np.sum(sizes)])
 
+        # prevent non-negative values
+        allocation = [list(map(lambda x: max(x, 0.), values))
+                      for values in allocation]
+        # previously went out of bounds when allocation became negative
+        print("allocation \n", allocation)
+
         return allocation
