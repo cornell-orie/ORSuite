@@ -83,3 +83,17 @@ Afterwards there are if/elif/else statements to check to see what the current ag
 
 Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears. 
 An example of this table is: 
+
+```
+  Algorithm    Reward      Time    Space       MRT       RTV
+0    Random -1.671218  6.935870 -5053.90 -0.326093 -0.050874
+1    Stable -1.032668  7.530278 -4283.30 -0.285655 -0.064205
+2    Median -0.875958  6.638060 -5044.62 -0.212675 -0.043899
+3     AdaQL -1.113290  6.449667 -4905.76 -0.265052 -0.041170
+4     AdaMB -1.113290  6.590761 -4596.32 -0.265052 -0.041170
+5   Unif QL -2.137630  6.591951 -4620.32 -0.430012 -0.089006
+6   Unif MB -2.299622  6.210666 -4620.32 -0.454634 -0.091324
+```
+
+Once the algorithms are run, the figures are created. Each of the environments will create three line plots and one radar plot to show how the difference in agents. 
+
