@@ -100,5 +100,5 @@ Once the algorithms are run, the figures are created. Each of the environments w
 
 <!-- Radar -->
 <p align="center">
-   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpeg" width="50%">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric" width="50%">
 </p>
