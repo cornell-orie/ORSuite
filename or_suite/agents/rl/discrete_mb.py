@@ -15,10 +15,16 @@ class DiscreteMB(Agent):
         scaling: (float) scaling parameter for confidence intervals
         action_space: (MultiDiscrete) the action space
         state_space: (MultiDiscrete) the state space
-        action_net: (list) of a discretization of action space
-        state_net: (list) of a discretization of the state space
+        action_size: (list) representing the size of the action sapce
+        state_size: (list) representing the size of the state sapce
         alpha: (float) parameter for prior on transition kernel
         flag: (bool) for whether to do full step updates or not
+        matrix_dim: (tuple) a concatenation of epLen, state_size, and action_size used to create the estimate arrays of the appropriate size
+        qVals: (list) The Q-value estimates for each episode, state, action tuple
+        num_visits: (list) The number of times that each episode, state, action tuple has been visited
+        vVals: (list) The value function values for every step, state pair
+        rEst: (list) Estimates of the reward for a step, state, action tuple
+        pEst: (list) Estimates of the number of times that each step, state, action, new_state tuple is considered
     """
 
     def __init__(self, action_space, state_space, epLen, scaling, alpha, flag):
@@ -53,11 +59,11 @@ class DiscreteMB(Agent):
         self.pEst = np.zeros(np.concatenate((
             np.array([self.epLen]), self.state_size, self.action_size, self.state_size)),
             dtype=np.float32)
-        print(self.pEst.shape)
+        # print(self.pEst.shape)
 
     def reset(self):  # TODO: reset to the way you initialize them
         '''
-            Resets the agent by overwriting all of the estimates back to zero
+            Resets the agent by overwriting all of the estimates back to initial values
         '''
         self.qVals = np.ones(self.matrix_dim, dtype=np.float32) * self.epLen
         self.vVals = np.ones(np.append(np.array([self.epLen]), self.state_size),
@@ -69,10 +75,21 @@ class DiscreteMB(Agent):
             dtype=np.float32)
 
     def update_parameters(self, param):
+        """Update the scaling parameter.
+        Args:
+            param: (int) The new scaling value to use"""
         self.scaling = param
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Add observation to records'''
+        '''Add observation to records
+
+        Args:
+            obs: (list) The current state
+            action: (list) The action taken 
+            reward: (int) The calculated reward
+            newObs: (list) The next observed state
+            timestep: (int) The current timestep
+        '''
         # print(
         #     f'Adding on: {timestep}, state: {obs}, action: {action}, reward: {reward}, newObs: {newObs}')
         dim = tuple(np.append(np.append([timestep], obs), action))
@@ -119,10 +136,10 @@ class DiscreteMB(Agent):
 
         Args:
             state: int - current state
-            timestep: int - timestep *within* episode
+            step: int - timestep *within* episode
 
         Returns:
-            int: action
+            list: action
         '''
         if self.flag == False:  # updates estimates via one step update
             # state_discrete = np.argmin(
