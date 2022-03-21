@@ -64,3 +64,22 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT and RTV. 
 
 After running the chart is a "Generating Figures" section, where line and radar plots will appear to show how each agent responds visually. 
+
+Example: 
+When running each of the algorithms they all start with empty lists for each of the paths. 
+```
+path_list_line = []
+algo_list_line = []
+path_list_radar = []
+algo_list_radar = []
+
+```
+Afterwards there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. Checking to see whether the SB PPO agent is present would look like: 
+
+```
+    if agent == 'SB PPO':
+        or_suite.utils.run_single_sb_algo(mon_env, agents[agent], DEFAULT_SETTINGS)
+```
+
+Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears. 
+An example of this table is: 
