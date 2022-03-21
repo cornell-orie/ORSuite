@@ -98,11 +98,15 @@ An example of this table is:
 Once the algorithms are run, the figures are created. Each of the environments will create three line plots and one radar plot to show how the difference in agents. 
 
 
+## Radar Plot
+The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. 
 <!-- Radar -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
 </p>
 
+## Line Plot
+The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed usage for each episode. 
 <!-- Line -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/MetricLinePlot.jpg" width="50%">
