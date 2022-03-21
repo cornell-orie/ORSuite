@@ -97,3 +97,8 @@ An example of this table is:
 
 Once the algorithms are run, the figures are created. Each of the environments will create three line plots and one radar plot to show how the difference in agents. 
 
+
+<!-- Radar -->
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpeg" width="50%">
+</p>
