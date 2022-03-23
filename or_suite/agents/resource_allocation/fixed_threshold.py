@@ -20,7 +20,7 @@ class fixedThresholdAgent(Agent):
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
         self.budget_remaining = np.copy(self.env_config['init_budget'])
-        # print('Starting Budget: ' + str(self.current_budget))
+        #print('Starting Budget: ' + str(self.current_budget))
 
         self.epLen = epLen
         self.data = []
@@ -35,7 +35,7 @@ class fixedThresholdAgent(Agent):
         """
         Creates a generic solver to solve the offline resource allocation problem
 
-        Args:
+        Args: 
             num_types: number of types
             num_resources: number of resources
         Returns:
@@ -63,7 +63,6 @@ class fixedThresholdAgent(Agent):
             budget.value = true_budget
             prob.solve()
             return prob.value, np.around(x.value, 5)
-
         return prob, solver
 
     def get_lower_upper_sol(self, init_sizes):
@@ -85,10 +84,10 @@ class fixedThresholdAgent(Agent):
             (1 + np.max(np.sqrt(conf_bnd) / future_size))
         _, lower_sol = self.solver(lower_exp_size, weights, budget)
 
-        # c = (1 / (n**(1/2)))*(1 +  np.max(np.sqrt(mean_size*n) / future_size)) -  np.max(np.sqrt(mean_size*n) / future_size)
+        #c = (1 / (n**(1/2)))*(1 +  np.max(np.sqrt(mean_size*n) / future_size)) -  np.max(np.sqrt(mean_size*n) / future_size)
         # print(c)
-        # upper_exp_size_12 = future_size*(1 - c)
-        # _, upper_sol_12 = solver(upper_exp_size_12, weights, budget)
+        #upper_exp_size_12 = future_size*(1 - c)
+        #_, upper_sol_12 = solver(upper_exp_size_12, weights, budget)
         # print('lower sol: ' + str(lower_sol))
         return lower_sol
 
@@ -97,7 +96,7 @@ class fixedThresholdAgent(Agent):
         Monte Carlo Method for estimating Expectation of type distribution using N realizations
         Only need to run this once to get expectations for all locations
 
-        Returns:
+        Returns: 
             rel_exp_endowments - matrix containing expected proportion of endowments for location t
         """
         num_types = self.env_config['weight_matrix'].shape[0]
@@ -119,8 +118,7 @@ class fixedThresholdAgent(Agent):
 
     def reset(self):
         # resets data matrix to be empty
-        self.current_budget = np.copy(self.env_config['init_budget'])
-
+        self.budget_remaining = np.copy(self.env_config['init_budget'])
         self.data = []
 
     def update_config(self, env, config):
@@ -135,14 +133,17 @@ class fixedThresholdAgent(Agent):
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.budget_remaining = np.copy(self.env_config['init_budget'])
         self.greedy = self.greedy
 
-    def pick_action(self, state, step):
+    def greedy(self, state, timestep, epsilon=0):
         '''
         Select action according to function
         '''
         # print("State:%s"%state)
+        if self.budget_remaining == 0:
+            pass
+
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
 
@@ -153,25 +154,23 @@ class fixedThresholdAgent(Agent):
             print(self.lower_sol)
 
         lower_thresh = self.lower_sol
-        # print(lower_thresh.shape)
+
         resource_index = budget_remaining - \
             np.matmul(sizes, self.lower_sol) > 0
-        # prints out boolean matrix, where True=1, False=0
-        print("resource_index \n", resource_index)
-        # lower tresh always = allocation until last step, and they never change
-        print("lower tresh \n", lower_thresh)
+
         allocation = resource_index * lower_thresh + \
             (1 - resource_index) * \
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
-        # this part says divide the remaining amount by the number of people (should be size[]) for that time step.
 
         # prevent non-negative values
         allocation = [list(map(lambda x: max(x, 0.), values))
                       for values in allocation]
-        print("allocation \n", allocation)  # always printing the same matrix
-        self.budget_remaining -= budget_remaining - \
+
+        self.budget_remaining = budget_remaining - \
             np.matmul(sizes, allocation)
-        # becomes negative rather quickly
-        print("budget remaining \n", self.budget_remaining)
 
         return allocation
+
+    def pick_action(self, state, step):
+        action = self.greedy(state, step)
+        return action

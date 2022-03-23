@@ -16,10 +16,11 @@ class equalAllocationAgent(Agent):
             data: all data observed so far
         """
         self.env_config = env_config
+
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
-        self.current_budget = np.copy(self.env_config['init_budget'])
 
+        self.current_budget = np.copy(self.env_config['init_budget'])
         #print('Starting Budget: ' + str(self.current_budget))
         self.epLen = epLen
         self.data = []
@@ -31,7 +32,6 @@ class equalAllocationAgent(Agent):
         """
         Monte Carlo Method for estimating Expectation of type distribution using N realizations
         Only need to run this once to get expectations for all locations
-
         Returns: rel_exp_endowments: matrix containing expected proportion of endowments for location t
         """
         num_types = self.env_config['weight_matrix'].shape[0]
@@ -67,7 +67,7 @@ class equalAllocationAgent(Agent):
         self.current_budget = np.copy(self.env_config['init_budget'])
         self.greedy = self.greedy
 
-    def pick_action(self, state, step):
+    def greedy(self, state, timestep, epsilon=0):
         '''
         Select action according to function
         '''
@@ -87,4 +87,8 @@ class equalAllocationAgent(Agent):
         self.current_budget = list(
             map(lambda x: max(x, 0.), self.current_budget))
 
+        return action
+
+    def pick_action(self, state, step):
+        action = self.greedy(state, step)
         return action

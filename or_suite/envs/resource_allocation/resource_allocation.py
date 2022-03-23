@@ -53,7 +53,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
         # Action space will be choosing Kxn-dimensional allocation matrix (represented as a vector)
         self.action_space = spaces.Box(low=0, high=max(self.budget),
-                                       shape=(self.num_types,self.num_commodities), dtype=np.float32)
+                                       shape=(self.num_types, self.num_commodities), dtype=np.float32)
         # First K entries of observation space is the remaining budget, next is the number of each type at the location
         self.observation_space = spaces.Box(low=0, high=np.inf,
                                             shape=(self.num_commodities+self.num_types,), dtype=np.float32)
@@ -88,7 +88,8 @@ class ResourceAllocationEnvironment(gym.Env):
 
             info: dict; any additional information.
         """
-        if isinstance(action, np.ndarray): action = action.astype(np.float32)
+        if isinstance(action, np.ndarray):
+            action = action.astype(np.float32)
         assert self.action_space.contains(action)
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
@@ -115,13 +116,12 @@ class ResourceAllocationEnvironment(gym.Env):
             )
 
             # updates the budget by the old budget and the allocation given
-            new_budget = old_budget-np.matmul(old_type, allocation)
-
             if self.timestep != self.epLen - 1:
+                new_budget = old_budget-np.matmul(old_type, allocation)
                 done = False
             else:
+                new_budget = self.budget
                 done = True
-
         else:  # algorithm is allocating more than the budget, output a negative infinity reward
             print('Out of Budget!')
             reward = -np.inf
@@ -135,10 +135,9 @@ class ResourceAllocationEnvironment(gym.Env):
         self.state = np.concatenate([new_budget, new_type])
 
         self.action_space = spaces.Box(low=0, high=max(new_budget),
-                                       shape=(self.num_types,self.num_commodities), dtype=np.float32)
+                                       shape=(self.num_types, self.num_commodities), dtype=np.float32)
 
         self.timestep += 1
-
         return self.state, reward,  done, info
 
     def render(self, mode='console'):
