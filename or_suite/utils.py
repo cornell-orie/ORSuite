@@ -194,6 +194,7 @@ def generate_cvxpy_solve(num_types, num_resources):
 
 
 def delta_EFFICIENCY(traj, env_config):
+    print(traj)
     num_iter = traj[-1]['iter']+1
     num_eps = traj[-1]['episode']+1
     num_steps = traj[-1]['step']+1
