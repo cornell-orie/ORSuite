@@ -117,7 +117,10 @@ class ResourceAllocationEnvironment(gym.Env):
 
             # updates the budget by the old budget and the allocation given
             if self.timestep != self.epLen - 1:
-                new_budget = old_budget-np.matmul(old_type, allocation)
+                # temp budget in case of rounding errors
+                new_budget_temp = old_budget-np.matmul(old_type, allocation)
+
+                new_budget = list(map(lambda x: max(x, 0.), new_budget_temp))
                 done = False
             else:
                 new_budget = self.budget

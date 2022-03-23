@@ -158,7 +158,8 @@ class hopeguardrailAgent(Agent):
             self.lower_sol, self.upper_sol = self.get_lower_upper_sol(sizes)
             self.first_allocation_done = True
             print('Lower and Upper Solutions:')
-            print(self.lower_sol, self.upper_sol)
+            print(self.lower_sol)
+            print(self.upper_sol)
 
         conf_bnd = np.sqrt(np.max(self.var_endowments, axis=1)
                            * np.mean(self.exp_endowments, axis=1)*num_remaining)
@@ -173,7 +174,7 @@ class hopeguardrailAgent(Agent):
             np.array([budget_remaining / np.sum(sizes)])
 
         # prevent non-negative values
-        allocation = [list(map(lambda x: max(x, 0.), values))
-                      for values in allocation]
+        allocation = np.array([list(map(lambda x: max(x, 0.), values))
+                              for values in allocation])
 
         return allocation

@@ -141,7 +141,7 @@ class fixedThresholdAgent(Agent):
         Select action according to function
         '''
         # print("State:%s"%state)
-        if self.budget_remaining == 0:
+        if np.all(self.budget_remaining == 0):
             pass
 
         budget_remaining = state[:self.num_resources]
@@ -163,8 +163,8 @@ class fixedThresholdAgent(Agent):
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
         # prevent non-negative values
-        allocation = [list(map(lambda x: max(x, 0.), values))
-                      for values in allocation]
+        allocation = np.array([list(map(lambda x: max(x, 0.), values))
+                               for values in allocation])
 
         self.budget_remaining = budget_remaining - \
             np.matmul(sizes, allocation)
