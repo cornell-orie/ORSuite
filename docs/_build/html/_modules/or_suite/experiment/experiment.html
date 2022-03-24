@@ -242,9 +242,9 @@
 <span class="sd">            Runs the simulations between an environment and an algorithm</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Running experiment&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Running experiment&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
         <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -329,11 +329,11 @@
 
                 <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Experiment complete&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span></div>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Experiment complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
     <span class="c1"># Saves the data to the file location provided to the algorithm</span>
 <div class="viewcode-block" id="Experiment.save_data"><a class="viewcode-back" href="../../../experiment_file.html#or_suite.experiment.experiment.Experiment.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -344,9 +344,9 @@
 <span class="sd">                dataframe corresponding to the saved data</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saving data&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Saving data&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deBug</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -395,9 +395,9 @@
                 <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">qVals</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
                 <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data save complete&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Data save complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
         <span class="k">return</span> <span class="n">dt</span></div></div>
 </pre></div>

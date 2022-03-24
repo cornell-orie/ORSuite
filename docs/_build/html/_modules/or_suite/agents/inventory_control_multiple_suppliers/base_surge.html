@@ -204,8 +204,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">S</span></div>
 
-        <span class="c1"># S is the goal inventory level</span>
-
 <div class="viewcode-block" id="base_surgeAgent.update_config"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file</span>
 
@@ -213,19 +211,11 @@
 <span class="sd">            env: The environment being used.</span>
 <span class="sd">            config: The dictionary of values used to set up the environment.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
-        <span class="n">lead_times</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;lead_times&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;neg_inventory&#39;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_inventory&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_order</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_order&#39;</span><span class="p">]</span></div>
-
-        <span class="c1"># Doesn&#39;t include longest lead time (assuming lead times sorted in non-decreasing order)</span>
-
-        <span class="c1"># TODO: Figure out problem with action not being part of observation space</span>
-        <span class="c1"># Set up tests for 1 and 2 suppliers</span>
-        <span class="c1"># Run Stable Baselines (uncomment SB line)</span>
-        <span class="c1"># Look into linear programming solvers ( CVXPY, PuLP, or others)</span>
 
 <div class="viewcode-block" id="base_surgeAgent.pick_action"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Select an action based upon the observation.</span>
@@ -241,13 +231,10 @@
         <span class="n">inventory</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span>
 
         <span class="n">order_amount</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_order</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">-</span> <span class="n">inventory</span><span class="p">))</span>
-        <span class="c1"># print(</span>
-        <span class="c1">#     f&#39;Current order_amount: {order_amount} and inventory {inventory}&#39;)</span>
+        <span class="c1"># TODO: Max(0, asdf) important? Is it ever realized?</span>
+        <span class="c1"># adjust for the stuff which is currently coming in from previous lead time step?</span>
 
-        <span class="c1"># order_amount = min(self.max_order, min(</span>
-        <span class="c1">#     self.offset - 1, max(0, self.S - inventory)))</span>
         <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="p">[</span><span class="n">order_amount</span><span class="p">])</span>
-        <span class="c1"># action = [self.r, order_amount]</span>
         <span class="k">return</span> <span class="n">action</span></div>
 
 <div class="viewcode-block" id="base_surgeAgent.update_parameters"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
@@ -256,8 +243,8 @@
 <span class="sd">        Args:</span>
 <span class="sd">            param: A list of the form [r, S] where r is a list of integers and S is an integer.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div></div>
+        <span class="c1">#print(self.r, self.S)</span>
 </pre></div>
 
            </div>

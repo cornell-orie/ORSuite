@@ -252,9 +252,9 @@
 <span class="sd">            Runs the simulations between an environment and an algorithm</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Running experiment&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Running experiment&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
         <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">traj_index</span> <span class="o">=</span> <span class="mi">0</span>
@@ -265,9 +265,9 @@
         <span class="n">memory</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># Running an experiment</span>
-
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;New Experiment Run&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_iters</span><span class="p">):</span>  <span class="c1"># loops over all the iterations</span>
-
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Iteration: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>  <span class="c1"># starts timer for memory information</span>
 
             <span class="c1"># learns over all of the episodes</span>
@@ -282,6 +282,8 @@
 
             <span class="n">memory</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="p">[</span><span class="n">current</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">)])</span>
 
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_episode_rewards</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_episode_rewards</span><span class="p">()))</span>
         <span class="c1"># rewards are kept cumulatively so we save it out of the loop</span>
         <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_episode_rewards</span><span class="p">())</span>
 
@@ -291,20 +293,20 @@
                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig_times</span><span class="p">))]</span>
 
         <span class="c1"># Combining data in dataframe</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">episodes</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">times</span><span class="p">))</span>
+        <span class="c1"># print(episodes)</span>
+        <span class="c1"># print(iterations)</span>
+        <span class="c1"># print(rewards)</span>
+        <span class="c1"># print(memory)</span>
+        <span class="c1"># print(np.log(times))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;episode&#39;</span><span class="p">:</span> <span class="n">episodes</span><span class="p">,</span>
                                   <span class="s1">&#39;iteration&#39;</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
                                   <span class="s1">&#39;epReward&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span>
                                   <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">times</span><span class="p">),</span>
-                                  <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="n">memory</span><span class="p">})</span>
+                                  <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="n">memory</span><span class="p">})</span></div>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Experiment complete&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span></div>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Experiment complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
     <span class="c1"># Saves the data to the file location provided to the algorithm</span>
 <div class="viewcode-block" id="SB_Experiment.save_data"><a class="viewcode-back" href="../../../sb_experiment_file.html#or_suite.experiment.sb_experiment.SB_Experiment.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -314,11 +316,11 @@
 <span class="sd">            Returns: dataframe corresponding to the saved data</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saving data&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Saving data&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># print(self.data)</span>
 
         <span class="n">dir_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dirPath</span>
 
@@ -340,9 +342,9 @@
             <span class="n">dt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">data_filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                       <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.5f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data save complete&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************************************************&#39;</span><span class="p">)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Data save complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
 
         <span class="k">return</span> <span class="n">dt</span></div></div>
 </pre></div>
