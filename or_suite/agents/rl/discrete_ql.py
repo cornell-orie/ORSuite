@@ -14,9 +14,13 @@ class DiscreteQl(Agent):
     Attributes:
         epLen: (int) number of steps per episode
         scaling: (float) scaling parameter for confidence intervals
-        action_net: (list) of a discretization of action space
-        state_net: (list) of a discretization of the state space
-        state_action_dim: d_1 + d_2 dimensions of state and action space respectively
+        action_space: (MultiDiscrete) the action space
+        state_space: (MultiDiscrete) the state space
+        action_size: (list) representing the size of the action sapce
+        state_size: (list) representing the size of the state sapce
+        matrix_dim: (tuple) a concatenation of epLen, state_size, and action_size used to create the estimate arrays of the appropriate size
+        qVals: (list) The Q-value estimates for each episode, state, action tuple
+        num_visits: (list) The number of times that each episode, state, action tuple has been visited
     """
 
     def __init__(self, action_space, observation_space, epLen, scaling):
@@ -30,7 +34,7 @@ class DiscreteQl(Agent):
         dim = np.concatenate((
             np.array([self.epLen]), self.state_space.nvec, self.action_space.nvec))
         self.matrix_dim = dim
-        # TODO: Initialize with upper bound on max reward via H*max_one_step_reward
+        # Initialize with upper bound on max reward via H*max_one_step_reward
         self.qVals = self.epLen * np.ones(self.matrix_dim, dtype=np.float32)
         # Set max_reward as 1 assuming that the reward is normalized
         max_reward = 1
@@ -45,10 +49,13 @@ class DiscreteQl(Agent):
         pass
 
         '''
-            Resets the agent by overwriting all of the estimates back to zero
+            Resets the agent by overwriting all of the estimates back to initial values
         '''
 
     def update_parameters(self, param):
+        """Update the scaling parameter.
+        Args:
+            param: (float) The new scaling value to use"""
         self.scaling = param
 
     def reset(self):
@@ -60,7 +67,15 @@ class DiscreteQl(Agent):
         '''
 
     def update_obs(self, obs, action, reward, newObs, timestep, info):
-        '''Add observation to records'''
+        '''Add observation to records
+
+        Args:
+            obs: (list) The current state
+            action: (list) The action taken 
+            reward: (int) The calculated reward
+            newObs: (list) The next observed state
+            timestep: (int) The current timestep
+        '''
 
         self.num_visits[timestep, obs, action] += 1
         t = self.num_visits[timestep, obs, action]
@@ -70,7 +85,6 @@ class DiscreteQl(Agent):
         if timestep == self.epLen-1:
             vFn = 0
         else:
-            # vFn = np.max(self.qVals[timestep+1, obs, action]) # nopte this is wrong.
             vFn = np.max(self.qVals[timestep+1, newObs])
         vFn = min(self.epLen, vFn)
 
@@ -90,7 +104,7 @@ class DiscreteQl(Agent):
             timestep: int - timestep *within* episode
 
         Returns:
-            int: action
+            list: action
         '''
         # returns the state location and takes action based on
         # maximum q value
