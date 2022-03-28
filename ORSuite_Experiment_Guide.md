@@ -73,7 +73,6 @@ path_list_line = []
 algo_list_line = []
 path_list_radar = []
 algo_list_radar = []
-
 ```
 Afterwards there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. Checking to see whether the SB PPO agent is present would look like: 
 
@@ -100,7 +99,7 @@ Once the algorithms are run, the figures are created. Each of the environments w
 
 
 ### Radar Plot
-The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. 
+The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. The larger the surface area covered by the plot, the better the algorithm performs across a wider range of metrics.
 <!-- Radar -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
