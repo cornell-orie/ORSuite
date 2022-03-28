@@ -59,7 +59,7 @@ agents = { #'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen)
 'discreteql' : or_suite.agents.rl.discrete_ql.DiscreteQl(action_space, observation_space, epLen, scaling_list[0])
 }
 
-#param_list = [list(p) for p in it.product(np.linspace(0,1,4),repeat = len(starting_state))]
+param_list = [list(p) for p in it.product(np.linspace(0,1,4),repeat = len(starting_state))]
 
 path_list_line = []
 algo_list_line = []
