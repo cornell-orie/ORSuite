@@ -165,7 +165,7 @@ rideshare_graph_ny_config = {
     'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
     'fare': 6.385456638089008,
     'cost': 1,
-    'velocity': 0.36049478338631713,
+    'velocity': 0.011959030558032642,
     'gamma': 1,
     'd_threshold': 4.700448825133434
 }
@@ -333,6 +333,7 @@ rideshare_graph_0_3_rides_config = {
     'd_threshold': 3
 }
 
+
 oil_environment_default_config = {
     'epLen': 5,
     'dim': 1,
@@ -340,7 +341,15 @@ oil_environment_default_config = {
     'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-a))),
     'cost_param': 0,
     'noise_variance': lambda x, a, h: 0
+}
 
+oil_environment_binary_config = {
+    'epLen': 5,
+    'dim': 1,
+    'starting_state': np.asarray([0]),
+    'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-(1/9*h)))),
+    'cost_param': 0,
+    'noise_variance': lambda x, a, h: 0
 }
 
 inventory_control_multiple_suppliers_default_config = {

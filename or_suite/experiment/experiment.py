@@ -134,6 +134,7 @@ class Experiment(object):
                                   'reward': reward,
                                   'newState': newState,
                                   'info': info}
+
                         self.trajectory.append(record)
 
                     oldState = newState
