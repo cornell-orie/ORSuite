@@ -62,6 +62,10 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 
 ## Running The Code and Generating Figures 
 
+There are two types of experiment files: 
+- `sb`, runs a simulation with STABLE BASELINES ALGORITHM using parameters `self`, `env`, `model`, and `dict`
+- a normal experiment file, runs a simulation with any algorithm using parameters `self`, `env`, `agent`, and `dict`
+
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT and RTV. 
 
 After running the chart is a "Generating Figures" section, where line and radar plots will appear to show how each agent responds visually. 
