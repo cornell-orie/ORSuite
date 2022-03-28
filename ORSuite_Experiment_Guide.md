@@ -24,7 +24,7 @@ The package installation is the same for all of the ORSuite experiments. The pac
    - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
    - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
    - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
-   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vecotrized environemnt)
+   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vectorized environment)
    - `from stable_baselines3.common.evaluation import evaluate_policy` evaluates the agent and the reward
    - `import pandas as pd` brings pandas data analysis library into current environment 
 
@@ -53,7 +53,7 @@ In order to make an environment you type `Gym.env('Name', env_config)`.
 ## Agents
 
 The agents section of the code specifies the algorithms used in the experiment. These agents are later ran against each other to see which ones are most effective for the simulation. 
-Each experiment uses multiple agents. While many of the agents overlap, similar to the parameters each experiment has their own combination. 
+Each experiment uses multiple agents. Many of the agents overlap between environments, but they each have a unique set. 
 
 A common agents throughout different experiments is:
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
