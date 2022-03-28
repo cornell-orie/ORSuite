@@ -1,20 +1,20 @@
-# ORSuite Experiment Guide
 <!-- Logo -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/ORSuite.svg" width="50%">
 </p>
+# ORSuite Experiment Guide
 
 ORSuite is a collection of environments, agents, and instrumentation, aimed at providing researchers in computer science and operations research reinforcement learning implementation of various problems and models arising in operations research. These experiments are made up of several componets including:
 
 - importing packages
-- specifying environment
+- specifying the environment
 - selecting algorithms
 - running experiment/generating figures
 
 This guide will go through how to read and run experiments made by ORSuite. 
 
 ## Package Installation
-The package installation is the same for all of the ORSuite experiments. The packages below imports several algorithms that help run the algorithms that are created in the experiment. 
+The package installation is the same for all of the ORSuite experiments. The packages below import several modules that help run the algorithms created in the experiment. 
 
    - `import or_suite` open source with environments created by ORSuite
    -` import numpy as np` open source Python library that aids in scientific computation
