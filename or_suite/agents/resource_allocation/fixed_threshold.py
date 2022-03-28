@@ -134,12 +134,8 @@ class fixedThresholdAgent(Agent):
     def update_policy(self, k):
         '''Update internal policy based upon records'''
         self.budget_remaining = np.copy(self.env_config['init_budget'])
-        self.greedy = self.greedy
 
-    def greedy(self, state, timestep, epsilon=0):
-        '''
-        Select action according to function
-        '''
+    def pick_action(self, state, step):
         # print("State:%s"%state)
         if np.all(self.budget_remaining == 0):
             pass
@@ -158,19 +154,15 @@ class fixedThresholdAgent(Agent):
         resource_index = budget_remaining - \
             np.matmul(sizes, self.lower_sol) > 0
 
-        allocation = resource_index * lower_thresh + \
+        action = resource_index * lower_thresh + \
             (1 - resource_index) * \
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
         # prevent non-negative values
-        allocation = np.array([list(map(lambda x: max(x, 0.), values))
-                               for values in allocation])
+        action = np.array([list(map(lambda x: max(x, 0.), values))
+                           for values in action])
 
         self.budget_remaining = budget_remaining - \
-            np.matmul(sizes, allocation)
+            np.matmul(sizes, action)
 
-        return allocation
-
-    def pick_action(self, state, step):
-        action = self.greedy(state, step)
         return action

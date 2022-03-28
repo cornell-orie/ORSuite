@@ -65,20 +65,15 @@ class equalAllocationAgent(Agent):
     def update_policy(self, k):
         '''Update internal policy based upon records'''
         self.current_budget = np.copy(self.env_config['init_budget'])
-        self.greedy = self.greedy
 
-    def greedy(self, state, timestep, epsilon=0):
-        '''
-        Select action according to function
-        '''
-
+    def pick_action(self, state, step):
         num_types = self.env_config['weight_matrix'].shape[0]
         sizes = state[self.num_resources:]
         action = np.zeros((num_types, self.num_resources))
 
         for typ in range(num_types):
             action[typ, :] = (self.current_budget/sizes[typ]) * (self.rel_exp_endowments[typ,
-                                                                                         timestep] / np.sum(self.rel_exp_endowments))
+                                                                                         step] / np.sum(self.rel_exp_endowments))
 
         self.current_budget -= np.sum([action[typ, :] * sizes[typ]
                                       for typ in range(num_types)])
@@ -86,9 +81,4 @@ class equalAllocationAgent(Agent):
         # prevent negative budget due to rounding
         self.current_budget = list(
             map(lambda x: max(x, 0.), self.current_budget))
-
-        return action
-
-    def pick_action(self, state, step):
-        action = self.greedy(state, step)
         return action
