@@ -1,12 +1,12 @@
-"""Sequential Resource Allocation Problem for n locations with K commodities. 
+"""Sequential Resource Allocation Problem for n locations with K commodities.
 
-Currently reward is Nash Social Welfare but in the future will integrate more options 
+Currently reward is Nash Social Welfare but in the future will integrate more options
 to determine a fair allocation."""
 
 import numpy as np
 import gym
 from gym import spaces
-#import math
+# import math
 from .. import env_configs
 
 
@@ -112,8 +112,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
             reward = (1/np.sum(old_type))*sum(
                 [old_type[theta]*np.log(self.utility_function(allocation[theta, :],
-                                        self.weight_matrix[theta, :])) for theta in range(self.num_types)]
-            )
+                                        self.weight_matrix[theta, :])) for theta in range(self.num_types)])
 
             # updates the budget by the old budget and the allocation given
             if self.timestep != self.epLen - 1:

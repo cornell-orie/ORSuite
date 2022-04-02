@@ -73,7 +73,7 @@ class equalAllocationAgent(Agent):
 
         for typ in range(num_types):
             action[typ, :] = (self.current_budget/sizes[typ]) * (self.rel_exp_endowments[typ,
-                                                                                         step] / np.sum(self.rel_exp_endowments))
+                                                                                         step] / np.sum(self.rel_exp_endowments[typ, step:]))
 
         self.current_budget -= np.sum([action[typ, :] * sizes[typ]
                                       for typ in range(num_types)])
@@ -81,4 +81,5 @@ class equalAllocationAgent(Agent):
         # prevent negative budget due to rounding
         self.current_budget = list(
             map(lambda x: max(x, 0.), self.current_budget))
+
         return action

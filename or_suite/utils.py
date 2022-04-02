@@ -289,7 +289,7 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
                     for theta2 in range(num_types):
                         for t2 in range(num_steps):
                             max_envy = max(max_envy, utility_function(
-                                X_alg[t2, theta2], weight_matrix[theta1]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1]))
+                                X_alg[t2, theta2], weight_matrix[theta2]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1]))
 
             final_avg_envy[ep] += max_envy
 

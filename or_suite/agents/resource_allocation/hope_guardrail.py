@@ -85,8 +85,6 @@ class hopeguardrailAgent(Agent):
         conf_bnd = np.sqrt(np.max(self.var_endowments, axis=1)
                            * np.mean(self.exp_endowments, axis=1)*(n-1))
 
-        # print(future_size)
-
         lower_exp_size = future_size * \
             (1 + np.max(np.sqrt(conf_bnd) / future_size))
         _, lower_sol = self.solver(lower_exp_size, weights, budget)
@@ -96,7 +94,23 @@ class hopeguardrailAgent(Agent):
         # print('Scaling Constant')
         # print(c)
         upper_exp_size = future_size*(1 - c)
+
         _, upper_sol = self.solver(upper_exp_size, weights, budget)
+
+        # print("---------------")
+
+        # print("budget", budget)
+        # print("weight matrix", weights)
+        # print("lower exp size", lower_exp_size)
+        # print("thresh_lower", lower_sol)
+        # print("sum thresh_lower along axis 0", np.sum(lower_sol, axis=0))
+        # print("sum thresh_lower along axis 1", np.sum(lower_sol, axis=1))
+        # print("divcla", budget/lower_exp_size)
+        # print("upper exp size", upper_exp_size)
+        # print("thresh_upper", upper_sol)
+        # print("sum thresh_upper along axis 0", np.sum(upper_sol, axis=0))
+        # print("sum thresh_upper along axis 1", np.sum(upper_sol, axis=1))
+        # print("divcla", budget/upper_exp_size)
 
         # print(lower_exp_size)
         # print(upper_exp_size)
@@ -115,8 +129,6 @@ class hopeguardrailAgent(Agent):
         exp_size = np.zeros((num_types, self.env_config['num_rounds']))
         var_size = np.zeros((num_types, self.env_config['num_rounds']))
 
-        # print(num_types)
-        # print(self.env_config['num_rounds'])
         for t in range(self.env_config['num_rounds']):
             cur_list = []
             for _ in range(N):
@@ -125,7 +137,7 @@ class hopeguardrailAgent(Agent):
                 cur_list.append(obs_size)
             exp_size[:, t] = (1/N)*exp_size[:, t]
             var_size[:, t] = np.var(np.asarray(cur_list), axis=0)
-        # print(exp_size)
+
         return exp_size, var_size
 
     def reset(self):
@@ -166,15 +178,23 @@ class hopeguardrailAgent(Agent):
 
         budget_required = budget_remaining - np.matmul(sizes, self.upper_sol) - np.matmul(
             np.sum(self.exp_endowments[:, (step+1):], axis=1) + conf_bnd, self.lower_sol) > 0
-        budget_index = budget_remaining - np.matmul(sizes, self.lower_sol) > 0
+        # print("bud req", budget_required)
 
+        budget_index = budget_remaining - np.matmul(sizes, self.lower_sol) > 0
+        # print("bud ind", budget_index)
+
+        # print("fl", budget_required * self.upper_sol)
+        # print("sl", (1 - budget_required) * budget_index * self.lower_sol)
+        # print("tl", (1 - budget_required) * (1 - budget_index) * np.array([budget_remaining / np.sum(sizes)]))
         allocation = budget_required * self.upper_sol \
-            + (1 - budget_required)*budget_index*self.lower_sol \
+            + (1 - budget_required) * budget_index * self.lower_sol \
             + (1 - budget_required) * (1 - budget_index) * \
             np.array([budget_remaining / np.sum(sizes)])
 
         # prevent non-negative values
         allocation = np.array([list(map(lambda x: max(x, 0.), values))
                               for values in allocation])
+
+        # print("allocation guardrail", allocation)
 
         return allocation
