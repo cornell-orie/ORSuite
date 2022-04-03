@@ -82,4 +82,11 @@ class equalAllocationAgent(Agent):
         self.current_budget = list(
             map(lambda x: max(x, 0.), self.current_budget))
 
+        # prevent distribution beyond max limit of state (offset in calculation due to rounding)
+        max_state = np.amax(state)
+        for r in range(len(action)):
+            for c in range(len(action[r, :])):
+                if action[r, c] > max_state:
+                    action[r, c] = max_state
+
         return action
