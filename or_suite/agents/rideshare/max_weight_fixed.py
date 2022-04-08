@@ -60,7 +60,6 @@ class maxWeightFixedAgent(Agent):
 
     def update_policy(self, h):
         '''Update internal policy based upon records'''
-        self.greedy = self.greedy
         return
 
     def greedy(self, state, epsilon=0):
@@ -77,7 +76,7 @@ class maxWeightFixedAgent(Agent):
 
     def pick_action(self, state, step):
         action = self.greedy(state)
-        return [action]
+        return action
 
     def update_parameters(self, param):
         self.alpha = param

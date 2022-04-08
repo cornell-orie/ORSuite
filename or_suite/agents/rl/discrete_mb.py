@@ -1,4 +1,5 @@
 import numpy as np
+from gym import spaces
 from .. import Agent
 import itertools
 
@@ -34,7 +35,14 @@ class DiscreteMB(Agent):
         self.alpha = alpha
         self.flag = flag
         # TODO: Get actual state and action spaces
-        self.action_space = action_space
+        if isinstance(action_space, spaces.Discrete):
+            self.action_space = spaces.MultiDiscrete(
+                nvec=np.array([action_space.n]))
+            self.multiAction = False
+        else:
+            self.action_space = action_space
+            self.multiAction = True
+
         self.state_space = state_space
 
         # sizes of action and state spaces
@@ -174,6 +182,9 @@ class DiscreteMB(Agent):
         action = action[:, index]
         #action = action[:len(self.state_size), index]
         # print(action)
+
+        if not self.multiAction:
+            action = action[0]
         return action
 
         # actions = ()
