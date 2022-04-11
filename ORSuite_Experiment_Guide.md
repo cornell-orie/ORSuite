@@ -25,8 +25,8 @@ from stable_baselines3.common.monitor import Monitor #  monitor wrapper for Gym 
 from stable_baselines3 import PPO # uses clipping so that after an update, the new policy will not be not too far form the old policy
 from stable_baselines3.ppo import MlpPolicy # the policy model used in PPO
 from stable_baselines3.common.env_util import make_vec_env # stacks multiple different environments into one (vectorized environment)
-from stable_baselines3.common.evaluation import evaluate_policy # brings pandas data analysis library into current environment 
-import pandas as pd
+from stable_baselines3.common.evaluation import evaluate_policy # evaluates the agent and the reward
+import pandas as pd # brings pandas data analysis library into current environment
 ```
 
 ## Experimental Parameters
