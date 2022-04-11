@@ -15,18 +15,31 @@ ORSuite is a collection of environments, agents, and instrumentation, aimed at p
 This guide will go through how to read and run experiments made by ORSuite. 
 
 ## Package Installation
-The package installation is the same for all of the ORSuite experiments. The packages below import several modules that help run the algorithms created in the experiment. 
+In this section we import the modules required to run experiments within the ORSuite package.
+```
+import or_suite
+import numpy as np
+import copy
+import os
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3 import PPO
+from stable_baselines3.ppo import MlpPolicy
+from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.evaluation import evaluate_policy
+import pandas as pd
 
-   - `import or_suite` open source with environments created by ORSuite
+```
+   - `import or_suite` current package used 
    - `import numpy as np` open source Python library that aids in scientific computation
    - `import copy` creates a shallow and deep copy of a given object
    - `import os` provides functions for working with operating systems
    - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
    - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
    - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
-   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vectorized environment)
+   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environments into one (vectorized environment)
    - `from stable_baselines3.common.evaluation import evaluate_policy` evaluates the agent and the reward
    - `import pandas as pd` brings pandas data analysis library into current environment 
+
 
 ## Experimental Parameters
 
@@ -53,7 +66,6 @@ In order to make an environment you type `Gym.env('Name', env_config)`.
 ## Agents
 
 The agents section of the code specifies the algorithms used in the experiment. These agents are later ran against each other to see which ones are most effective for the simulation. 
-Each experiment uses multiple agents. Many of the agents overlap between environments, but they each have a unique set. 
 
 A common agents throughout different experiments is:
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
@@ -63,12 +75,12 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 ## Running The Code and Generating Figures 
 
 There are two types of experiment files: 
-- an sb experiment file, runs a simulation with salble baselines algorithm using parameters `self`, `env`, `model`, and `dict`
+- an sb experiment file, runs a simulation with stable baselines algorithm using parameters `self`, `env`, `model`, and `dict`
 - a normal experiment file, runs a simulation with any algorithm using parameters `self`, `env`, `agent`, and `dict`
 
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT and RTV. 
 
-After running the chart is a "Generating Figures" section, where line and radar plots will appear to show how each agent responds visually. 
+Following the chart, line and radar plots will appear to show how each agent responds visually. 
 
 Example: 
 When running each of the algorithms they all start with empty lists for each of the paths. 
