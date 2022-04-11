@@ -42,22 +42,24 @@ import pandas as pd
 
 
 ## Experimental Parameters
+Next we specify the set of parameters for running an experiment. These include both "experiment" parameters and "environment" parameters. The experiment parameters are: 
 
-### Overlapping parameters include: 
-   - `epLen`, an int, represents the length of each episode 
-   - `nEps`, an int, represents the number of episodes
-   - `numIters`, an int, is the number of iterations
-   - `seed` allows random numbers to be generated
-   - `dirPath`, a string, is the location where the data files are stored
-   - `deBug`, a bool, prints information to the command line when set true 
-   - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true
-   - `render` renders the algorithm when set to true
-   - `pickle`, a bool, saves the information to a pickle file when set to true
+```
+DEFAULT_SETTINGS = {'seed': 1, #allows random numbers to be generated
+                    'recFreq': 1, 
+                    'dirPath': '../data/ambulance/', #a  string, is the location where the data files are stored
+                    'deBug': False, # prints information to the command line when set true 
+                    'nEps': nEps, # represents the number of episodes
+                    'numIters': numIters, 
+                    'saveTrajectory': True, # save trajectory for calculating additional metrics
+                    'epLen' : 5, # represents the length of each episode 
+                    'render': False, # renders the algorithm when set to true
+                    'pickle': False # indicator for pickling final information
+                    }
+ ```
+The experimental parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
  
  ### Environmental specific parameters: 
- 
-Most of the environments have simillar parameters. The overalpping parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
-
 The specific configuration of the parameters for each of the environments can be found in `or_suite/envs/env_configs.py`.
 
 In order to make an environment you type `Gym.env('Name', env_config)`. 
@@ -71,6 +73,19 @@ A common agents throughout different experiments is:
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
 
 Other agents are further specified within each experiment in "ORSuite/examples". 
+
+An example of the agents are: 
+```
+agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
+'Random': or_suite.agents.rl.random.randomAgent(),
+'Stable': or_suite.agents.ambulance.stable.stableAgent(CONFIG['epLen']),
+'Median': or_suite.agents.ambulance.median.medianAgent(CONFIG['epLen']),
+'AdaQL': or_suite.agents.rl.ada_ql.AdaptiveDiscretizationQL(epLen, scaling_list[0], True, num_ambulance*2),
+'AdaMB': or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB(epLen, scaling_list[0], 0, 2, True, True, num_ambulance, num_ambulance),
+'Unif QL': or_suite.agents.rl.enet_ql.eNetQL(action_net, state_net, epLen, scaling_list[0], (num_ambulance,num_ambulance)),
+'Unif MB': or_suite.agents.rl.enet_mb.eNetMB(action_net, state_net, epLen, scaling_list[0], (num_ambulance,num_ambulance), 0, False),
+}
+```
 
 ## Running The Code and Generating Figures 
 
@@ -116,6 +131,13 @@ Once the algorithms are run, the figures are created. Each of the environments w
 
 ### Radar Plot
 The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. The larger the surface area covered by the plot, the better the algorithm performs across a wider range of metrics.
+
+This is an example of the code for a radar plot with a width of 600 and a height of 450. 
+```
+figureRadarPlot = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
+IFrame("../figures/" + figureRadarPlot, width=600, height=450)
+```
+
 <!-- Radar -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
@@ -123,6 +145,12 @@ The radar plot below shows the agents (color coded in the box on the right) with
 
 ### Line Plot
 The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed usage for each episode. 
+Here is an example of how to write the code for a line plot. 
+```
+from IPython.display import IFrame
+figureLinePlot = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_line_plot'+'.pdf'
+IFrame("../figures/" + figureLinePlot, width=600, height=280)
+```
 <!-- Line -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/MetricLinePlot.jpg" width="50%">
