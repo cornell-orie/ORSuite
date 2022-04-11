@@ -1,6 +1,6 @@
 <!-- Logo -->
 <p align="center">
-   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/ORSuite.svg" width="50%">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/images/main/ORSuite.svg" width="50%">
 </p>
 
 # ORSuite Experiment Guide
