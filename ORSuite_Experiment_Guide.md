@@ -17,37 +17,25 @@ This guide will go through how to read and run experiments made by ORSuite.
 ## Package Installation
 In this section we import the modules required to run experiments within the ORSuite package.
 ```
-import or_suite
-import numpy as np
-import copy
-import os
-from stable_baselines3.common.monitor import Monitor
-from stable_baselines3 import PPO
-from stable_baselines3.ppo import MlpPolicy
-from stable_baselines3.common.env_util import make_vec_env
-from stable_baselines3.common.evaluation import evaluate_policy
+import or_suite # current package used 
+import numpy as np # open source Python library that aids in scientific computation
+import copy # creates a shallow and deep copy of a given object
+import os # provides functions for working with operating systems
+from stable_baselines3.common.monitor import Monitor #  monitor wrapper for Gym environments, used to know the episode length, time and other data
+from stable_baselines3 import PPO # uses clipping so that after an update, the new policy will not be not too far form the old policy
+from stable_baselines3.ppo import MlpPolicy # the policy model used in PPO
+from stable_baselines3.common.env_util import make_vec_env # stacks multiple different environments into one (vectorized environment)
+from stable_baselines3.common.evaluation import evaluate_policy # brings pandas data analysis library into current environment 
 import pandas as pd
-
 ```
-   - `import or_suite` current package used 
-   - `import numpy as np` open source Python library that aids in scientific computation
-   - `import copy` creates a shallow and deep copy of a given object
-   - `import os` provides functions for working with operating systems
-   - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
-   - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
-   - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
-   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environments into one (vectorized environment)
-   - `from stable_baselines3.common.evaluation import evaluate_policy` evaluates the agent and the reward
-   - `import pandas as pd` brings pandas data analysis library into current environment 
-
 
 ## Experimental Parameters
 Next we specify the set of parameters for running an experiment. These include both "experiment" parameters and "environment" parameters. The experiment parameters are: 
 
 ```
-DEFAULT_SETTINGS = {'seed': 1, #allows random numbers to be generated
+DEFAULT_SETTINGS = {'seed': 1, # allows random numbers to be generated
                     'recFreq': 1, 
-                    'dirPath': '../data/ambulance/', #a  string, is the location where the data files are stored
+                    'dirPath': '../data/ambulance/', # a string, is the location where the data files are stored
                     'deBug': False, # prints information to the command line when set true 
                     'nEps': nEps, # represents the number of episodes
                     'numIters': numIters, 
@@ -74,7 +62,7 @@ A common agents throughout different experiments is:
 
 Other agents are further specified within each experiment in "ORSuite/examples". 
 
-An example of the agents are: 
+Specifying the agents in the code looks like: 
 ```
 agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
 'Random': or_suite.agents.rl.random.randomAgent(),
@@ -105,11 +93,31 @@ algo_list_line = []
 path_list_radar = []
 algo_list_radar = []
 ```
-Afterwards there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. Checking to see whether the SB PPO agent is present would look like: 
-
+Then there is a for loop that loops over the agents, setting the location to the current location of the object. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. 
 ```
+for agent in agents:
+    print(agent)
+    DEFAULT_SETTINGS['dirPath'] = '../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'/
     if agent == 'SB PPO':
         or_suite.utils.run_single_sb_algo(mon_env, agents[agent], DEFAULT_SETTINGS)
+    elif agent == 'AdaQL' or agent == 'Unif QL' or agent == 'AdaMB' or agent == 'Unif MB':
+        or_suite.utils.run_single_algo_tune(ambulance_env, agents[agent], scaling_list, DEFAULT_SETTINGS)
+    else:
+        or_suite.utils.run_single_algo(ambulance_env, agents[agent], DEFAULT_SETTINGS)
+
+    path_list_line.append('../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__))
+    algo_list_line.append(str(agent))
+    if agent != 'SB PPO':
+        path_list_radar.append('../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__))
+        algo_list_radar.append(str(agent))
+```
+If there are additional metrics involved (like MRT and RVT) then in order to calculate that one would do: 
+```
+additional_metric = {'MRT': lambda traj : or_suite.utils.mean_response_time(traj, lambda x, y : np.abs(x-y)), 'RTV': lambda traj : or_suite.utils.response_time_variance(traj, lambda x, y : np.abs(x-y))}
+fig_name = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
+or_suite.plots.plot_radar_plots(path_list_radar, algo_list_radar,
+fig_path, fig_name,
+additional_metric
 ```
 
 Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears. 
