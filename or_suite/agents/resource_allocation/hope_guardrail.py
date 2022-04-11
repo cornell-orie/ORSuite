@@ -28,7 +28,7 @@ class hopeguardrailAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 5
+        self.conf_const = 1
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -87,11 +87,11 @@ class hopeguardrailAgent(Agent):
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
 
         lower_exp_size = future_size * \
-            (1 + np.max(np.sqrt(conf_bnd) / future_size))
+            (1 + np.max(conf_bnd / future_size))
         _, lower_sol = self.solver(lower_exp_size, weights, budget)
 
-        c = (1 / (n**(self.scale)))*(1 + np.max(np.sqrt(conf_bnd) /
-                                                future_size)) - np.max(np.sqrt(conf_bnd) / future_size)
+        c = (1 / (n**(self.scale)))*(1 + np.max(conf_bnd /
+                                                future_size)) - np.max(conf_bnd / future_size)
         # print('Scaling Constant')
         # print(c)
         upper_exp_size = future_size*(1 - c)

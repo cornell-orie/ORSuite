@@ -82,7 +82,7 @@ class fixedThresholdAgent(Agent):
         # print(future_size)
 
         lower_exp_size = future_size * \
-            (1 + np.max(np.sqrt(conf_bnd) / future_size))
+            (1 + np.max(conf_bnd / future_size))
         _, lower_sol = self.solver(lower_exp_size, weights, budget)
 
         #c = (1 / (n**(1/2)))*(1 +  np.max(np.sqrt(mean_size*n) / future_size)) -  np.max(np.sqrt(mean_size*n) / future_size)
