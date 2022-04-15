@@ -1,6 +1,6 @@
 <!-- Logo -->
 <p align="center">
-   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/ORSuite.svg" width="50%">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/ORSuite.svg" width="50%">
 </p>
 
 # ORSuite Experiment Guide
@@ -15,36 +15,39 @@ ORSuite is a collection of environments, agents, and instrumentation, aimed at p
 This guide will go through how to read and run experiments made by ORSuite. 
 
 ## Package Installation
-The package installation is the same for all of the ORSuite experiments. The packages below import several modules that help run the algorithms created in the experiment. 
-
-   - `import or_suite` open source with environments created by ORSuite
-   - `import numpy as np` open source Python library that aids in scientific computation
-   - `import copy` creates a shallow and deep copy of a given object
-   - `import os` provides functions for working with operating systems
-   - `from stable_baselines3.common.monitor import Monitor` a monitor wrapper for Gym environments, used to know the episode length, time and other data
-   - `from stable_baselines3 import PPO` uses clipping so that after an update, the new policy will not be not too far form the old policy
-   - `from stable_baselines3.ppo import MlpPolicy` the policy model used in PPO
-   - `from stable_baselines3.common.env_util import make_vec_env` stacks multiple different environemnts into one (vectorized environment)
-   - `from stable_baselines3.common.evaluation import evaluate_policy` evaluates the agent and the reward
-   - `import pandas as pd` brings pandas data analysis library into current environment 
+In this section we import the modules required to run experiments within the ORSuite package.
+```
+import or_suite # current package used 
+import numpy as np # open source Python library that aids in scientific computation
+import copy # creates a shallow and deep copy of a given object
+import os # provides functions for working with operating systems
+from stable_baselines3.common.monitor import Monitor #  monitor wrapper for Gym environments, used to know the episode length, time and other data
+from stable_baselines3 import PPO # uses clipping so that after an update, the new policy will not be not too far form the old policy
+from stable_baselines3.ppo import MlpPolicy # the policy model used in PPO
+from stable_baselines3.common.env_util import make_vec_env # stacks multiple different environments into one (vectorized environment)
+from stable_baselines3.common.evaluation import evaluate_policy # evaluates the agent and the reward
+import pandas as pd # brings pandas data analysis library into current environment
+```
 
 ## Experimental Parameters
+Next we specify the set of parameters for running an experiment. These include both "experiment" parameters and "environment" parameters. The experiment parameters are: 
 
-### Overlapping parameters include: 
-   - `epLen`, an int, represents the length of each episode 
-   - `nEps`, an int, represents the number of episodes
-   - `numIters`, an int, is the number of iterations
-   - `seed` allows random numbers to be generated
-   - `dirPath`, a string, is the location where the data files are stored
-   - `deBug`, a bool, prints information to the command line when set true 
-   - `save_trajectory`, a bool, saves the trajectory information of the ambulance when set to true
-   - `render` renders the algorithm when set to true
-   - `pickle`, a bool, saves the information to a pickle file when set to true
+```
+DEFAULT_SETTINGS = {'seed': 1, # allows random numbers to be generated
+                    'recFreq': 1, 
+                    'dirPath': '../data/ambulance/', # a string, is the location where the data files are stored
+                    'deBug': False, # prints information to the command line when set true 
+                    'nEps': nEps, # represents the number of episodes
+                    'numIters': numIters, 
+                    'saveTrajectory': True, # save trajectory for calculating additional metrics
+                    'epLen' : 5, # represents the length of each episode 
+                    'render': False, # renders the algorithm when set to true
+                    'pickle': False # indicator for pickling final information
+                    }
+ ```
+The experimental parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
  
  ### Environmental specific parameters: 
- 
-Most of the environments have simillar parameters. The overalpping parameters can be found in the attributes section of `or_suite/experiment/experiment.py`. 
-
 The specific configuration of the parameters for each of the environments can be found in `or_suite/envs/env_configs.py`.
 
 In order to make an environment you type `Gym.env('Name', env_config)`. 
@@ -53,22 +56,34 @@ In order to make an environment you type `Gym.env('Name', env_config)`.
 ## Agents
 
 The agents section of the code specifies the algorithms used in the experiment. These agents are later ran against each other to see which ones are most effective for the simulation. 
-Each experiment uses multiple agents. Many of the agents overlap between environments, but they each have a unique set. 
 
 A common agents throughout different experiments is:
 - `Random` implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.
 
 Other agents are further specified within each experiment in "ORSuite/examples". 
 
+Specifying the agents in the code looks like: 
+```
+agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
+'Random': or_suite.agents.rl.random.randomAgent(),
+'Stable': or_suite.agents.ambulance.stable.stableAgent(CONFIG['epLen']),
+'Median': or_suite.agents.ambulance.median.medianAgent(CONFIG['epLen']),
+'AdaQL': or_suite.agents.rl.ada_ql.AdaptiveDiscretizationQL(epLen, scaling_list[0], True, num_ambulance*2),
+'AdaMB': or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB(epLen, scaling_list[0], 0, 2, True, True, num_ambulance, num_ambulance),
+'Unif QL': or_suite.agents.rl.enet_ql.eNetQL(action_net, state_net, epLen, scaling_list[0], (num_ambulance,num_ambulance)),
+'Unif MB': or_suite.agents.rl.enet_mb.eNetMB(action_net, state_net, epLen, scaling_list[0], (num_ambulance,num_ambulance), 0, False),
+}
+```
+
 ## Running The Code and Generating Figures 
 
 There are two types of experiment files: 
-- an sb experiment file, runs a simulation with salble baselines algorithm using parameters `self`, `env`, `model`, and `dict`
+- an sb experiment file, runs a simulation with stable baselines algorithm using parameters `self`, `env`, `model`, and `dict`
 - a normal experiment file, runs a simulation with any algorithm using parameters `self`, `env`, `agent`, and `dict`
 
-After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT and RTV. 
+After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT (mean response time) and RTV (response time variance). 
 
-After running the chart is a "Generating Figures" section, where line and radar plots will appear to show how each agent responds visually. 
+Following the chart, line and radar plots will appear to show how each agent responds visually. 
 
 Example: 
 When running each of the algorithms they all start with empty lists for each of the paths. 
@@ -78,11 +93,31 @@ algo_list_line = []
 path_list_radar = []
 algo_list_radar = []
 ```
-Afterwards there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. Checking to see whether the SB PPO agent is present would look like: 
-
+Then there is a for loop that loops over the agents. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. 
 ```
+for agent in agents:
+    print(agent)
+    DEFAULT_SETTINGS['dirPath'] = '../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'/
     if agent == 'SB PPO':
         or_suite.utils.run_single_sb_algo(mon_env, agents[agent], DEFAULT_SETTINGS)
+    elif agent == 'AdaQL' or agent == 'Unif QL' or agent == 'AdaMB' or agent == 'Unif MB':
+        or_suite.utils.run_single_algo_tune(ambulance_env, agents[agent], scaling_list, DEFAULT_SETTINGS)
+    else:
+        or_suite.utils.run_single_algo(ambulance_env, agents[agent], DEFAULT_SETTINGS)
+
+    path_list_line.append('../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__))
+    algo_list_line.append(str(agent))
+    if agent != 'SB PPO':
+        path_list_radar.append('../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__))
+        algo_list_radar.append(str(agent))
+```
+Additional metrics (like MRT and RVT) are called with traj, lambda, x and y: 
+```
+additional_metric = {'MRT': lambda traj : or_suite.utils.mean_response_time(traj, lambda x, y : np.abs(x-y)), 'RTV': lambda traj : or_suite.utils.response_time_variance(traj, lambda x, y : np.abs(x-y))}
+fig_name = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
+or_suite.plots.plot_radar_plots(path_list_radar, algo_list_radar,
+fig_path, fig_name,
+additional_metric
 ```
 
 Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears. 
@@ -104,6 +139,13 @@ Once the algorithms are run, the figures are created. Each of the environments w
 
 ### Radar Plot
 The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. The larger the surface area covered by the plot, the better the algorithm performs across a wider range of metrics.
+
+This is an example of the code for a radar plot with a width of 600 and a height of 450. 
+```
+figureRadarPlot = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
+IFrame("../figures/" + figureRadarPlot, width=600, height=450)
+```
+
 <!-- Radar -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
@@ -111,6 +153,12 @@ The radar plot below shows the agents (color coded in the box on the right) with
 
 ### Line Plot
 The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed usage for each episode. 
+Here is an example of how to write the code for a line plot. 
+```
+from IPython.display import IFrame
+figureLinePlot = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_line_plot'+'.pdf'
+IFrame("../figures/" + figureLinePlot, width=600, height=280)
+```
 <!-- Line -->
 <p align="center">
    <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/MetricLinePlot.jpg" width="50%">
