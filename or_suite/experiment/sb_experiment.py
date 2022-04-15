@@ -110,8 +110,8 @@ class SB_Experiment(object):
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
 
-        print(self.env.get_episode_rewards())
-        print(len(self.env.get_episode_rewards()))
+        # print(self.env.get_episode_rewards())
+        # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
         rewards = np.append(rewards, self.env.get_episode_rewards())
 
@@ -126,6 +126,10 @@ class SB_Experiment(object):
         # print(rewards)
         # print(memory)
         # print(np.log(times))
+
+        print(len(episodes), len(iterations), len(
+            rewards), len(times), len(memory))
+
         self.data = pd.DataFrame({'episode': episodes,
                                   'iteration': iterations,
                                   'epReward': rewards,
