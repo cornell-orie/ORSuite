@@ -121,7 +121,7 @@ path_list_radar = []
 algo_list_radar = []
 ```
 Then there is a for loop that loops over the agents. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. 
-The `dirPath` parameter allows each environment to follow its own direction and therefore create their own radar and line plots. So the agents, num_ambulance, aplpha, and arrival_dist.__name__ are all unique to each path. 
+The `dirPath` parameter allows each environment to follow its own direction and therefore create their own radar and line plots. So the `agent`, `num_ambulance`, `aplpha`, and `arrival_dist.__name__` are all unique to each path. 
 ```
 for agent in agents:
     print(agent)
