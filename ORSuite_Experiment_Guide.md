@@ -77,7 +77,7 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 
 `Median` is an agent that takes a list of all past call arrivals sorted by arrival location, and partitions it into *k* quantiles where *k* is the number of ambulances. The algorithm then selects the middle data point in each quantile as the locations to station the ambulances.
 
-`Stable` is an agent that only moves ambulances when responding to an incoming call and not in between calls. This means the policy π chosen by the agent for any given state *𝐗* will be $\\pi_h(X) = X$
+`Stable` is an agent that only moves ambulances when responding to an incoming call and not in between calls. 
 
 `SB PPO` is Proximal Policy Optimization. This agent comes from stable_baselines_3. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.
 
@@ -105,8 +105,8 @@ agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
 ## Running The Code and Generating Figures 
 
 There are two types of experiment files: 
-- an sb experiment file, runs a simulation with stable baselines algorithm using parameters `self`, `env`, `model`, and `dict`
-- a normal experiment file, runs a simulation with any algorithm using parameters `self`, `env`, `agent`, and `dict`
+- an sb experiment file, runs a simulation between an arbitrary openAI Gym environment and a STABLE BASELINES ALGORITHM, saving a dataset of (reward, time, space) complexity across each episode, and optionally saves trajectory information. Ir uses parameters `self`, `env`, `model`, and `dict. 
+- a normal experiment file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters `self`, `env`, `agent`, and `dict`. 
 
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT (mean response time) and RTV (response time variance). 
 
@@ -138,13 +138,26 @@ for agent in agents:
         path_list_radar.append('../data/ambulance_metric_'+str(agent)+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__))
         algo_list_radar.append(str(agent))
 ```
-Additional metrics (like MRT and RVT) are called with traj, lambda, x and y: 
+Additional metrics (like MRT and RVT) can be added in `or_suite/utils.py`: 
+```
+def mean_response_time(traj, dist):
+    mrt = 0
+    for i in range(len(traj)):
+        cur_data = traj[i]
+        mrt += (-1) * \
+            np.min(
+                dist(np.array(cur_data['action']), cur_data['info']['arrival']))
+    return mrt / len(traj)
+ ```
+ 
+Then, the additional metrics are called by using the definition made earlier, and inserting the parameters traj, lambda, x and y. To insert the additional metrics in the figure, fig_name is redefined with `additional_metric` inserted as a parameter for `or_suite.plots.plot_radar_plots`. 
 ```
 additional_metric = {'MRT': lambda traj : or_suite.utils.mean_response_time(traj, lambda x, y : np.abs(x-y)), 'RTV': lambda traj : or_suite.utils.response_time_variance(traj, lambda x, y : np.abs(x-y))}
+
 fig_name = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
 or_suite.plots.plot_radar_plots(path_list_radar, algo_list_radar,
 fig_path, fig_name,
-additional_metric
+additional_metric)
 ```
 
 Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears. 
@@ -167,7 +180,6 @@ Once the algorithms are run, the figures are created. Each of the environments w
 ### Radar Plot
 The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. The larger the surface area covered by the plot, the better the algorithm performs across a wider range of metrics.
 
-This is an example of the code for a radar plot with a width of 600 and a height of 450. 
 ```
 figureRadarPlot = 'ambulance_metric'+'_'+str(num_ambulance)+'_'+str(alpha)+'_'+str(arrival_dist.__name__)+'_radar_plot'+'.pdf'
 IFrame("../figures/" + figureRadarPlot, width=600, height=450)
