@@ -58,7 +58,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
             [round(max(self.budget)) for _ in range(self.num_commodities*self.num_types)])
         # First K entries of observation space is the remaining budget, next is the number of each type at the location
         self.observation_space = spaces.MultiDiscrete(
-            [np.inf for _ in range(self.num_commodities+self.num_types)])
+            [round(max(self.budget)) for _ in range(self.num_commodities+self.num_types)])
 
     def reset(self):
         """
@@ -90,6 +90,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
 
             info: dict; any additional information.
         """
+        assert self.action_space.contains(action)
 
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
