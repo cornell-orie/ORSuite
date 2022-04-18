@@ -106,7 +106,7 @@ agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
 
 There are two types of experiment files: 
 - an sb experiment file, runs a simulation between an arbitrary openAI Gym environment and a STABLE BASELINES ALGORITHM, saving a dataset of (reward, time, space) complexity across each episode, and optionally saves trajectory information. Ir uses parameters `self`, `env`, `model`, and `dict. 
-- a normal experiment file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters `self`, `env`, `agent`, and `dict`. 
+- a normal experiment file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters `self`, `env`, `agent`, and `dict` . 
 
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT (mean response time) and RTV (response time variance). 
 
