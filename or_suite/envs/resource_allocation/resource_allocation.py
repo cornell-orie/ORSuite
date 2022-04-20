@@ -106,10 +106,10 @@ class ResourceAllocationEnvironment(gym.Env):
         # print('Budget: ' + str(old_budget))
         # print('Types: ' + str(old_type))
 
-        # print('New Budget: ' + str(old_budget-np.matmul(old_type, allocation)))
+        # print ('New Budget: ' + str(old_budget-np.matmul(old_type, allocation)))
 
         if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
-
+            done = True
             reward = (1/np.sum(old_type))*sum(
                 [old_type[theta]*np.log(self.utility_function(allocation[theta, :],
                                         self.weight_matrix[theta, :])) for theta in range(self.num_types)])
@@ -117,10 +117,13 @@ class ResourceAllocationEnvironment(gym.Env):
             # updates the budget by the old budget and the allocation given
             if self.timestep != self.epLen - 1:
                 # temp budget in case of rounding errors
-                new_budget_temp = old_budget-np.matmul(old_type, allocation)
+                new_budget = old_budget-np.matmul(old_type, allocation)
 
-                new_budget = list(map(lambda x: max(x, 0.), new_budget_temp))
+                # new_budget = list(
+                #     map(lambda x: max(x, .0005), new_budget))
+
                 done = False
+
             else:
                 new_budget = self.budget
                 done = True
@@ -140,6 +143,7 @@ class ResourceAllocationEnvironment(gym.Env):
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
 
         self.timestep += 1
+
         return self.state, reward,  done, info
 
     def render(self, mode='console'):

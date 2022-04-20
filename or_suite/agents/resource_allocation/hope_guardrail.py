@@ -28,7 +28,7 @@ class hopeguardrailAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 1
+        self.conf_const = 2
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -192,9 +192,9 @@ class hopeguardrailAgent(Agent):
             + (1 - budget_required) * (1 - budget_index) * \
             np.array([budget_remaining / np.sum(sizes)])
 
-        # prevent non-negative values
-        allocation = np.array([list(map(lambda x: max(x, 0.), values))
-                              for values in allocation])
+        # changing values below .0005 up so that no -.inf is given if allocation = 0 when taking log
+        allocation = np.array([list(map(lambda x: max(x, .0005), values))
+                               for values in allocation])
 
         # print("allocation guardrail", allocation)
 

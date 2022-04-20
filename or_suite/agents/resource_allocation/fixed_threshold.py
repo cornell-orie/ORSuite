@@ -25,7 +25,7 @@ class fixedThresholdAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 5
+        self.conf_const = 2
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -160,7 +160,7 @@ class fixedThresholdAgent(Agent):
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
         # prevent non-negative values
-        action = np.array([list(map(lambda x: max(x, 0.), values))
+        action = np.array([list(map(lambda x: max(x, .0005), values))
                            for values in action])
 
         self.budget_remaining = budget_remaining - \

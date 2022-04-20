@@ -193,6 +193,58 @@ def generate_cvxpy_solve(num_types, num_resources):
     return prob, solver
 
 
+def times_out_of_budget(traj, env_config):
+    # num_iter = [row['iter'] for row in traj]
+    # num_eps = [row['episode'] for row in traj]
+    # num_steps = [row['step'] for row in traj]
+
+    num_iter = traj[-1]['iter']+1
+    num_eps = traj[-1]['episode']+1
+    num_steps = traj[-1]['step']+1
+    num_types, num_commodities = traj[-1]['action'].shape
+
+    times_out_budget = 0
+    traj_index = 0
+    print("traj len", len(traj))
+    for iter_num in range(num_iter):
+        # print(iter_num)
+        for ep in range(num_eps):
+            # print(ep)
+            budget = np.copy(env_config['init_budget'])
+            for step in range(num_steps):
+                if traj_index >= len(traj):
+                    print()
+                    print(len(traj))
+                    print(traj[traj_index-1])
+                    print(traj_index)
+                    print(times_out_budget)
+                    break
+
+                cur_dict = traj[traj_index]
+                old_budget = cur_dict['oldState'][:num_commodities]
+                old_type = cur_dict['oldState'][num_commodities:]
+                allocation = cur_dict['action']
+
+                if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
+                    # updates the budget by the old budget and the allocation given
+                    if traj_index != ep - 1:
+                        # temp budget in case of rounding errors
+                        budget = old_budget-np.matmul(old_type, allocation)
+
+                    else:
+                        budget = budget
+                else:  # algorithm is allocating more than the budget, output a negative infinity reward
+                    budget = old_budget
+                    times_out_budget += 1
+
+                traj_index += 1
+
+    print("times out of budget", times_out_budget)
+    print("num_iter", num_iter)
+
+    return times_out_budget/num_iter
+
+
 def delta_EFFICIENCY(traj, env_config):
     num_iter = traj[-1]['iter']+1
     num_eps = traj[-1]['episode']+1
