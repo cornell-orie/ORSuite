@@ -212,14 +212,6 @@ def times_out_of_budget(traj, env_config):
             # print(ep)
             budget = np.copy(env_config['init_budget'])
             for step in range(num_steps):
-                if traj_index >= len(traj):
-                    print()
-                    print(len(traj))
-                    print(traj[traj_index-1])
-                    print(traj_index)
-                    print(times_out_budget)
-                    break
-
                 cur_dict = traj[traj_index]
                 old_budget = cur_dict['oldState'][:num_commodities]
                 old_type = cur_dict['oldState'][num_commodities:]

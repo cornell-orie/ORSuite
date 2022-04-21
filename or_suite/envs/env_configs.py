@@ -25,6 +25,48 @@ resource_allocation_simple_config = {'K': 1,
                                      'type_dist': lambda i: np.array([2])
                                      }
 
+
+weights_fbst = np.asarray(
+    [[3.9, 3.0, 2.8, 2.7, .1], [3.9, 3.0, .1, 2.7, .1], [3.9, 3.0, 2.8, 2.7, 1.9]])
+sum_of_rows = weights_fbst.sum(axis=1)
+weights_fbst = weights_fbst / sum_of_rows[:, np.newaxis]
+
+'''
+ASK SEAN FOR DIST_TYPES = []
+dist_types = np.asarray([.25, .3, 1-.25-.3])
+
+def get_dictionary(n):
+    max_n = 70
+    def arrival_dist(i):
+        index = np.random.choice(max_n, n, replace=False)
+        mean_size = np.asarray([dist_types * data_weights[index].to_numpy()[j] for j in range(n)])
+        stdev_size = np.asarray([(dist_types**2) * data_weights[index].to_numpy()[j] for j in range(n)])
+        return np.maximum(1, np.random.normal(mean_size, stdev_size))[i]
+
+    dictionary = {'K': 5,
+                                   'num_rounds': n,
+                                   'weight_matrix': weights_fbst,
+                                   'init_budget': np.array([20.]),
+                                   'utility_function': lambda x, theta: x,
+                                   'type_dist': lambda i: arrival_dist(i),
+                                   }
+    return dictionary
+             
+
+
+
+
+'''
+
+
+resource_allocation_fbst_config = {'K': 5,
+                                   'num_rounds':  # TODO: ,
+                                   'weight_matrix': weights_fbst,
+                                   'init_budget': np.array([20.]),
+                                   'utility_function': lambda x, theta: x,
+                                   'type_dist': lambda i: np.array([2])
+                                   }
+
 resource_allocation_simple_poisson_config = {'K': 1,
                                              'num_rounds': 10,
                                              'weight_matrix': np.array([[1]]),
@@ -350,7 +392,6 @@ inventory_control_multiple_suppliers_modified_config = {
     'starting_state': None,
     'neg_inventory': True
 }
-
 
 
 epLen = 4

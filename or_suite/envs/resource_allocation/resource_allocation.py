@@ -129,8 +129,8 @@ class ResourceAllocationEnvironment(gym.Env):
                 done = True
         else:  # algorithm is allocating more than the budget, output a negative infinity reward
             print('Out of Budget!')
-            reward = -np.inf
-            done = True
+            reward = -100
+            done = False
             new_budget = old_budget
 
         new_type = self.type_dist(self.timestep)
