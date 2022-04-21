@@ -30,12 +30,12 @@ class TrajectoryCallback(BaseCallback):
 
     def _on_step(self) -> bool:
         reward = self.locals["rewards"][0]
-        action = self.locals["actions"]
-        info = self.locals["infos"]
-        next_state = self.locals["new_obs"]
+        action = self.locals["actions"][0]
+        info = self.locals["infos"][0]
+        next_state = self.locals["new_obs"][0]
         # if in initial state, have environment's starting state be the previous state
         prev_state = self.trajectory[-1]["newState"] if not len(
-            self.trajectory) == 0 else self.locals["env"].get_attr("starting_state")
+            self.trajectory) == 0 else self.locals["env"].get_attr("starting_state")[0]
 
         # Total number of steps in an episode
         num_steps = self.locals["n_rollout_steps"]

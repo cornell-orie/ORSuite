@@ -120,7 +120,6 @@ class SB_Experiment(object):
             memory = np.append(memory, [current for _ in range(self.nEps)])
 
         self.trajectory = self.callback.trajectory
-        print(self.trajectory)
 
         print(self.env.get_episode_rewards())
         print(len(self.env.get_episode_rewards()))
