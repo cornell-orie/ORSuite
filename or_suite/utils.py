@@ -194,10 +194,6 @@ def generate_cvxpy_solve(num_types, num_resources):
 
 
 def times_out_of_budget(traj, env_config):
-    # num_iter = [row['iter'] for row in traj]
-    # num_eps = [row['episode'] for row in traj]
-    # num_steps = [row['step'] for row in traj]
-
     num_iter = traj[-1]['iter']+1
     num_eps = traj[-1]['episode']+1
     num_steps = traj[-1]['step']+1
@@ -207,9 +203,7 @@ def times_out_of_budget(traj, env_config):
     traj_index = 0
     print("traj len", len(traj))
     for iter_num in range(num_iter):
-        # print(iter_num)
         for ep in range(num_eps):
-            # print(ep)
             budget = np.copy(env_config['init_budget'])
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
@@ -230,9 +224,6 @@ def times_out_of_budget(traj, env_config):
                     times_out_budget += 1
 
                 traj_index += 1
-
-    print("times out of budget", times_out_budget)
-    print("num_iter", num_iter)
 
     return times_out_budget/num_iter
 

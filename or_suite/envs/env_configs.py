@@ -46,26 +46,21 @@ def get_dictionary(n):
     dictionary = {'K': 5,
                                    'num_rounds': n,
                                    'weight_matrix': weights_fbst,
-                                   'init_budget': np.array([20.]),
-                                   'utility_function': lambda x, theta: x,
+                                   'init_budget': np.array([20.]), # LOOK AT MY CODE TO DO
+                                   'utility_function': lambda x, theta: x, # TAKE UTILITY FUNCTIONS FROM OTHER SETUP WHICH ARE LINEAR
                                    'type_dist': lambda i: arrival_dist(i),
                                    }
     return dictionary
-             
-
-
-
-
 '''
 
 
-resource_allocation_fbst_config = {'K': 5,
-                                   'num_rounds':  # TODO: ,
-                                   'weight_matrix': weights_fbst,
-                                   'init_budget': np.array([20.]),
-                                   'utility_function': lambda x, theta: x,
-                                   'type_dist': lambda i: np.array([2])
-                                   }
+# resource_allocation_fbst_config = {'K': 5,
+#                                    'num_rounds':  # TODO: ,
+#                                    'weight_matrix': weights_fbst,
+#                                    'init_budget': np.array([20.]),
+#                                    'utility_function': lambda x, theta: x,
+#                                    'type_dist': lambda i: np.array([2])
+#                                    }
 
 resource_allocation_simple_poisson_config = {'K': 1,
                                              'num_rounds': 10,
