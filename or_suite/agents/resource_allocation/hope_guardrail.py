@@ -166,8 +166,15 @@ class hopeguardrailAgent(Agent):
     def pick_action(self, state, step):
         ''' 
         Returns allocation of resources based on calculated upper and lower solutions 
-        '''
 
+        Args: 
+            state : vector with first K entries denoting remaining budget, 
+                    and remaining n entires denoting the number of people of each type that appear
+            step : timestep
+
+        Returns: matrix where each row is a K-dimensional vector denoting how 
+                much of each commodity is given to each type
+        '''
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step

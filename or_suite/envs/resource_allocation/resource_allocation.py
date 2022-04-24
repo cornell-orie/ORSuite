@@ -16,8 +16,7 @@ from .. import env_configs
 class ResourceAllocationEnvironment(gym.Env):
     """Custom Environment that follows gym interface.
 
-
-
+    This is a simple resource allocation environment modeling a fair online allocation 
 
      Methods:
         get_config() : Returns the config dictionary used to initialize the environment.
@@ -41,6 +40,7 @@ class ResourceAllocationEnvironment(gym.Env):
                             with the remaining spaces filled by the number of each type at each location.
 
     """
+
     metadata = {'render.modes': ['human']}
 
     def __init__(self, config=env_configs.resource_allocation_default_config):

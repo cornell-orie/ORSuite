@@ -10,30 +10,28 @@ class equalAllocationAgent(Agent):
 
     Methods:
         get_expected_endowments(N=1000) : MCM for estimating Expectation of type distribution using N realizations.
-        reset() : resets bounds of agent to reflect upper and lower bounds of metric space.
+        reset() : Resets bounds of agent to reflect upper and lower bounds of metric space.
         update_config(env, config) : Updates environment configuration dictionary.
         update_obs(obs, action, reward, newObs, timestep, info) : Add observation to records.
         update_policy(k) : Update internal policy based upon records.
-        pick_action(state, step) : move agent to midpoint or perturb current dimension
+        pick_action(state, step) : Move agent to midpoint or perturb current dimension
 
     Attributes:
-        epLen: (int) number of time steps to run the experiment for
-        dim: (int) dimension of metric space for agent and environment
-        upper: (float list list) matrix containing upper bounds of agent at each step in dimension
-        lower: (float list list) matrix contianing lower bounds of agent at each step in dimension
-        perturb_estimates: (float list list) matrix containing estimated rewards from perturbation in each dimension
-        midpoint_value: (float list) list containing midpoint of agent at each step
-        dim_index: (int list) list looping through various dimensions during perturbation
-        select_midpoint: (bool list) list recording whether to take midpoint or perturb at given step
+        num_types (int) : Number of types
+        num_resources (int) : Number of commodities
+        current_budget (int) : Amount of each commodity the principal begins with.
+        epLen (int) : Number of locations (also the length of an episode).
+        data (list) : All data observed so far
+        rel_exp_endowments (matrix) : Matrix containing expected proportion of endowments for location t
     """
 
     def __init__(self, epLen, env_config):
         """
+        Initialize equal_allocation agent
+
         Args:
             epLen: number of steps
-            func: function used to decide action
             env_config: parameters used in initialization of environment
-            data: all data observed so far
         """
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
@@ -83,6 +81,14 @@ class equalAllocationAgent(Agent):
         Returns allocation of resources based on budget times expectation of type 
         distribution at current step divided by summation of expectation of type
         distribution over all future steps
+
+        Args: 
+            state : vector with first K entries denoting remaining budget, 
+                    and remaining n entires denoting the number of people of each type that appear
+            step : timestep
+
+        Returns: matrix where each row is a K-dimensional vector denoting how 
+            much of each commodity is given to each type
         '''
         num_types = self.env_config['weight_matrix'].shape[0]
         sizes = state[self.num_resources:]

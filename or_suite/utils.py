@@ -201,7 +201,6 @@ def times_out_of_budget(traj, env_config):
 
     times_out_budget = 0
     traj_index = 0
-    print("traj len", len(traj))
     for iter_num in range(num_iter):
         for ep in range(num_eps):
             budget = np.copy(env_config['init_budget'])

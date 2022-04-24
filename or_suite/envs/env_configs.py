@@ -3,11 +3,12 @@
 File containing default configurations for the various environments implemented in ORSuite.
 
 """
-
 import numpy as np
+import pandas as pd
 import os
 import re
 import ast
+
 
 resource_allocation_default_config = {'K': 2,
                                       'num_rounds': 10,
@@ -26,41 +27,47 @@ resource_allocation_simple_config = {'K': 1,
                                      }
 
 
+# config with data from MFP Regular Sites
+script_dir = os.path.dirname(__file__)
+rel_path = './resource_allocation/resource_data/'
+resource_file = open(os.path.join(script_dir, rel_path+'MFP.csv'), "r")
+df = pd.read_csv(resource_file)
+resource_file.close()
+
+data_weights = df['Average Demand per Visit']
+
 weights_fbst = np.asarray(
     [[3.9, 3.0, 2.8, 2.7, .1], [3.9, 3.0, .1, 2.7, .1], [3.9, 3.0, 2.8, 2.7, 1.9]])
 sum_of_rows = weights_fbst.sum(axis=1)
 weights_fbst = weights_fbst / sum_of_rows[:, np.newaxis]
-
-'''
-ASK SEAN FOR DIST_TYPES = []
 dist_types = np.asarray([.25, .3, 1-.25-.3])
 
-def get_dictionary(n):
+
+def resource_allocation_foodbank_config(n):
     max_n = 70
+    assert n <= max_n
+
+    # would factoring out the index so that it is in resource_allocation work?
     def arrival_dist(i):
         index = np.random.choice(max_n, n, replace=False)
-        mean_size = np.asarray([dist_types * data_weights[index].to_numpy()[j] for j in range(n)])
-        stdev_size = np.asarray([(dist_types**2) * data_weights[index].to_numpy()[j] for j in range(n)])
+        mean_size = np.asarray(
+            [dist_types * data_weights[index].to_numpy()[j] for j in range(n)])
+        stdev_size = np.asarray(
+            [(dist_types**2) * data_weights[index].to_numpy()[j] for j in range(n)])
         return np.maximum(1, np.random.normal(mean_size, stdev_size))[i]
 
-    dictionary = {'K': 5,
-                                   'num_rounds': n,
-                                   'weight_matrix': weights_fbst,
-                                   'init_budget': np.array([20.]), # LOOK AT MY CODE TO DO
-                                   'utility_function': lambda x, theta: x, # TAKE UTILITY FUNCTIONS FROM OTHER SETUP WHICH ARE LINEAR
-                                   'type_dist': lambda i: arrival_dist(i),
-                                   }
-    return dictionary
-'''
+    fb_dictionary = {'K': 5,
+                     'num_rounds': n,
+                     'weight_matrix': weights_fbst,
+                     # np.random.choice here diff from type_dist
+                     'init_budget': np.asarray([np.sum(np.asarray(
+                         [dist_types * data_weights[np.random.choice(max_n, n, replace=False)].to_numpy()[j] for j in range(n)]))]*5),
+                     'utility_function': lambda x, theta: np.dot(x, theta),
+                     'type_dist': lambda i: arrival_dist(i)
+                     }
 
+    return fb_dictionary
 
-# resource_allocation_fbst_config = {'K': 5,
-#                                    'num_rounds':  # TODO: ,
-#                                    'weight_matrix': weights_fbst,
-#                                    'init_budget': np.array([20.]),
-#                                    'utility_function': lambda x, theta: x,
-#                                    'type_dist': lambda i: np.array([2])
-#                                    }
 
 resource_allocation_simple_poisson_config = {'K': 1,
                                              'num_rounds': 10,
