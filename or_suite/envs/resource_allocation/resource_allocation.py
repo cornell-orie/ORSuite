@@ -112,7 +112,7 @@ class ResourceAllocationEnvironment(gym.Env):
         # determines if the allocation is valid, i.e. algorithm is able to allocate the allocation
         # to each of the types, based on the number of people of each type
         if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
-            done = True
+
             reward = (1/np.sum(old_type))*sum(
                 [old_type[theta]*np.log(self.utility_function(allocation[theta, :],
                                         self.weight_matrix[theta, :])) for theta in range(self.num_types)])
