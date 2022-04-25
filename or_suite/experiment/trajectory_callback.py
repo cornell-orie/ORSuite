@@ -30,7 +30,7 @@ class TrajectoryCallback(BaseCallback):
 
     def _on_step(self) -> bool:
         reward = self.locals["rewards"][0]
-        action = self.locals["actions"][0]
+        action = self.locals["clipped_actions"][0]
         info = self.locals["infos"][0]
         next_state = self.locals["new_obs"][0]
         # if in initial state, have environment's starting state be the previous state
