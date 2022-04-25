@@ -14,7 +14,9 @@ ORSuite is a collection of environments, agents, and instrumentation, aimed at p
 
 This guide will go through how to read and run experiments made by ORSuite. 
 
-This guide follows the ambulance environment model. The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances. For more information on the example see `examples/ambulance_metric_environment.ipynb`.
+This guide follows the ambulance environment model. The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances. 
+
+For more information on the example see `examples/ambulance_metric_environment.ipynb`.
 For more information on the environment see `or_suite/envs/ambulance/ambulance_metric.py`.
 
 ## Package Installation
