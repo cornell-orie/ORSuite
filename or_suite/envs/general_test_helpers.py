@@ -16,7 +16,7 @@ def starting_timestep(env):
 def valid_starting_state(env):
     if not env.observation_space.contains(env.state):
         print("Error for starting_state")
-        print("Observation Space: " + env.observation_space)
+        print("Observation Space: " + env.observation_space.shape)
         print("Starting state: " + env.state)
 
     assert env.observation_space.contains(
