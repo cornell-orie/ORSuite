@@ -5,9 +5,6 @@
 
 # ORSuite Experiment Guide
 
-This guide follows the ambulance environment model. For more information on the example see `examples/ambulance_metric_environment.ipynb`.
-For more information on the environment see `or_suite/envs/ambulance/ambulance_metric.py`.
-
 ORSuite is a collection of environments, agents, and instrumentation, aimed at providing researchers in computer science and operations research reinforcement learning implementation of various problems and models arising in operations research. These experiments are made up of several componets including:
 
 - importing packages
@@ -16,6 +13,9 @@ ORSuite is a collection of environments, agents, and instrumentation, aimed at p
 - running experiment/generating figures
 
 This guide will go through how to read and run experiments made by ORSuite. 
+
+This guide follows the ambulance environment model. The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances. For more information on the example see `examples/ambulance_metric_environment.ipynb`.
+For more information on the environment see `or_suite/envs/ambulance/ambulance_metric.py`.
 
 ## Package Installation
 In this section we import the modules required to run experiments within the ORSuite package.
@@ -57,12 +57,12 @@ In order to make an environment you type `Gym.env('Name', env_config)`.
 The specific configuration of the parameters for each of the environments can be found in `or_suite/envs/env_configs.py`.
 In `or_suite/envs/env_configs.py`, each environment has customizable parameters you can create and set. For the ambulance example the cooresponding parameters are written as: 
 ```
-ambulance_metric_default_config = {'epLen': 5,
-                                   'arrival_dist': lambda x: np.random.beta(5, 2),
-                                   'alpha': 0.25,
-                                   'starting_state': np.array([0.0]),
-                                   'num_ambulance': 1,
-                                   'norm': 1
+ambulance_metric_default_config = {'epLen': 5, # number of time steps to run the experiment for
+                                   'arrival_dist': lambda x: np.random.beta(5, 2), # the arrival distribution for calls over the space [0,1]
+                                   'alpha': 0.25, # controls the proportional difference between the cost to move ambulances in between calls and the cost to move the ambulance to respond to a call
+                                   'starting_state': np.array([0.0]), # list containing the starting locations for each ambulance
+                                   'num_ambulance': 1, # represents the number of ambulances in the system
+                                   'norm': 1 # representing the norm to use to calculate distances; in most cases it should probably be set to 1
                                    }
 ```
 
@@ -81,13 +81,13 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 
 `SB PPO` is Proximal Policy Optimization. This agent comes from stable_baselines_3. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.
 
-`AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
+`AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the $\ell_{\infty}$ norm.
 
-`AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
+`AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the  $\ell_{\infty}$ norm.
 
-`Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
+`Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the $\ell_{\infty}$ norm.
 
-`Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
+`Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the $\ell_{\infty}$ norm.
 
 Specifying the agents in the code looks like: 
 ```
