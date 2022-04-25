@@ -105,14 +105,14 @@ agents = { 'SB PPO': PPO(MlpPolicy, mon_env, gamma=1, verbose=0, n_steps=epLen),
 ## Running The Code and Generating Figures 
 
 There are two types of experiment files: 
-- an sb experiment file, runs a simulation between an arbitrary openAI Gym environment and a STABLE BASELINES ALGORITHM, saving a dataset of (reward, time, space) complexity across each episode, and optionally saves trajectory information. Ir uses parameters `self`, `env`, `model`, and `dict` . 
-- a normal experiment file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters `self`, `env`, `agent`, and `dict` . 
+- an `sb_experiment` file, runs a simulation between an arbitrary openAI Gym environment and a stable baselines algorithm, saving a dataset of (reward, time, space) complexity across each episode, and optionally saves trajectory information. It uses parameters `self`, `env`, `model`, and `dict` . 
+- a `normal experiment` file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters `self`, `env`, `agent`, and `dict` . 
 
 After running the "Running Algorithm" section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT (mean response time) and RTV (response time variance). 
 
 Following the chart, line and radar plots will appear to show how each agent responds visually. 
 
-Example: 
+### Example: 
 When running each of the algorithms they all start with empty lists for each of the paths. 
 ```
 path_list_line = []
@@ -120,8 +120,8 @@ algo_list_line = []
 path_list_radar = []
 algo_list_radar = []
 ```
-Then there is a for loop that loops over the agents. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is. If the current agent is equal to the one specified, then the code will run the cooresponding algorithm. 
-The `dirPath` parameter allows each environment to follow its own direction and therefore create their own radar and line plots. So the `agent`, `num_ambulance`, `aplpha`, and `arrival_dist.__name__` are all unique to each path. 
+Then there is a for loop that loops over the agents. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is. 
+The `dirPath` parameter allows each environment to follow its own direction and therefore create their own radar and line plots. It allows the algorithms to be represented as distinct paths so that the data files don't overwrite one another. We store them in a list so that the plots all refer to the correct data files
 ```
 for agent in agents:
     print(agent)
@@ -192,7 +192,7 @@ IFrame("../figures/" + figureRadarPlot, width=600, height=450)
 </p>
 
 ### Line Plot
-The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed usage for each episode. 
+The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed memory usage (B).  
 Here is an example of how to write the code for a line plot. 
 ```
 from IPython.display import IFrame
