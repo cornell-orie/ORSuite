@@ -121,8 +121,8 @@ class SB_Experiment(object):
 
         self.trajectory = self.callback.trajectory
 
-        print(self.env.get_episode_rewards())
-        print(len(self.env.get_episode_rewards()))
+        # print(self.env.get_episode_rewards())
+        # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
         rewards = np.append(rewards, self.env.get_episode_rewards())
 
