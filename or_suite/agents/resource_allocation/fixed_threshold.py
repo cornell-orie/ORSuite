@@ -3,25 +3,52 @@ import cvxpy as cp
 from .. import Agent
 
 
-''' Agent which implements several heuristic algorithms'''
-
-
 class fixedThresholdAgent(Agent):
+    """ 
+    Fixed Guardrail provides lower thresholds on budget distribution
+    calculated by solving the primal-dual paradigm of Eisenberg-Gale Convex Progam
+
+    Methods:
+        generate_cvxpy_solver() : Creates a generic solver to solve the offline resource allocation problem.
+        get_lower_upper_sol(init_size) : Uses solver to get the lower threshold on budget distribution
+        get_expected_endowments(N=1000) : MCM for estimating Expectation of type distribution using N realizations.
+        reset() : resets bounds of agent to reflect upper and lower bounds of metric space.
+        update_config(env, config) : Updates environment configuration dictionary.
+        update_obs(obs, action, reward, newObs, timestep, info) : Add observation to records.
+        update_policy(k) : Update internal policy based upon records.
+        pick_action(state, step) : move agent to midpoint or perturb current dimension
+
+    Attributes:
+        num_types (int) : Number of types
+        num_resources (int) : Number of commodities
+        budget_remaining (int) : Amount of each commodity the principal begins with.
+        scale (int) : Hyperparameter to be used in calculating threshold 
+        epLen (int) : Number of locations (also the length of an episode).
+        data (list) : All data observed so far
+        first_allocation_done (bool) : Flag that if false, gets upper and lower thresh
+        conf_const (int) : Hyperparameter for confidence bound
+        exp_endowments (list) : Matrix containing expected proportion of endowments for location t
+        var_endowments (list) : Matrix describing variance of exp_endowments
+        prob (cvxpy object) : CVXPY problem object
+        solver (lambda function) : Function that solves the problem given data
+        lower_sol (np.array) : Matrix of lower threshold 
+        upper_sol (np.array) : Matrix of upper threshold
+    """
 
     def __init__(self, epLen, env_config):
         '''
+        Initialize fixed_threshold agent
+
         Args:
             epLen: number of steps
-            func: function used to decide action
             env_config: parameters used in initialization of environment
-            data: all data observed so far
+            scale: hyperparameter to be used in calculating threshold 
         '''
+
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
         self.budget_remaining = np.copy(self.env_config['init_budget'])
-        #print('Starting Budget: ' + str(self.current_budget))
-
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
@@ -29,16 +56,11 @@ class fixedThresholdAgent(Agent):
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
-        # print("R")
-        # print(self.rel_exp_endowments)
 
     def generate_cvxpy_solver(self):
         """
         Creates a generic solver to solve the offline resource allocation problem
 
-        Args: 
-            num_types: number of types
-            num_resources: number of resources
         Returns:
             prob - CVXPY problem object
             solver - function that solves the problem given data
@@ -68,7 +90,7 @@ class fixedThresholdAgent(Agent):
 
     def get_lower_upper_sol(self, init_sizes):
         """
-        uses solver to get the lower and upper
+        Uses solver to get the lower threshold
         """
         budget = self.env_config['init_budget']
         weights = self.env_config['weight_matrix']
@@ -79,17 +101,10 @@ class fixedThresholdAgent(Agent):
         conf_bnd = self.conf_const * np.sqrt(np.max(self.var_endowments, axis=1)
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
 
-        # print(future_size)
-
         lower_exp_size = future_size * \
             (1 + np.max(conf_bnd / future_size))
         _, lower_sol = self.solver(lower_exp_size, weights, budget)
 
-        #c = (1 / (n**(1/2)))*(1 +  np.max(np.sqrt(mean_size*n) / future_size)) -  np.max(np.sqrt(mean_size*n) / future_size)
-        # print(c)
-        #upper_exp_size_12 = future_size*(1 - c)
-        #_, upper_sol_12 = solver(upper_exp_size_12, weights, budget)
-        # print('lower sol: ' + str(lower_sol))
         return lower_sol
 
     def get_expected_endowments(self, N=1000):
@@ -104,8 +119,6 @@ class fixedThresholdAgent(Agent):
         exp_size = np.zeros((num_types, self.env_config['num_rounds']))
         var_size = np.zeros((num_types, self.env_config['num_rounds']))
 
-        # print(num_types)
-        # print(self.env_config['num_rounds'])
         for t in range(self.env_config['num_rounds']):
             cur_list = []
             for _ in range(N):
@@ -114,11 +127,11 @@ class fixedThresholdAgent(Agent):
                 cur_list.append(obs_size)
             exp_size[:, t] = (1/N)*exp_size[:, t]
             var_size[:, t] = np.var(np.asarray(cur_list), axis=0)
-        # print(exp_size)
+
         return exp_size, var_size
 
     def reset(self):
-        # resets data matrix to be empty
+        ''' Resets data matrix to be empty '''
         self.budget_remaining = np.copy(self.env_config['init_budget'])
         self.data = []
 
@@ -137,7 +150,17 @@ class fixedThresholdAgent(Agent):
         self.budget_remaining = np.copy(self.env_config['init_budget'])
 
     def pick_action(self, state, step):
-        # print("State:%s"%state)
+        ''' 
+        Returns allocation of resources based on calculated upper and lower solutions 
+
+        Args: 
+            state : vector with first K entries denoting remaining budget, 
+                    and remaining n entires denoting the number of people of each type that appears
+            step : timestep
+
+        Returns: 
+            matrix where each row is a K-dimensional vector denoting how much of each commodity is given to each type
+        '''
         if np.all(self.budget_remaining == 0):
             pass
 
@@ -160,7 +183,7 @@ class fixedThresholdAgent(Agent):
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
         # prevent non-negative values
-        action = np.array([list(map(lambda x: max(x, 0.), values))
+        action = np.array([list(map(lambda x: max(x, .0005), values))
                            for values in action])
 
         self.budget_remaining = budget_remaining - \

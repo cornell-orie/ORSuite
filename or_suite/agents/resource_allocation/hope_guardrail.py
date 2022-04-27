@@ -3,18 +3,46 @@ import cvxpy as cp
 from .. import Agent
 
 
-''' Agent which implements several heuristic algorithms'''
-
-
 class hopeguardrailAgent(Agent):
+    """ 
+    Hope Guardrail provides upper and lower thresholds on budget distribution
+    calculated by solving the primal-dual paradigm of Eisenberg-Gale Convex Progam
+
+    Methods:
+        generate_cvxpy_solver() : Creates a generic solver to solve the offline resource allocation problem.
+        get_lower_upper_sol(init_size) : Uses solver to get the lower and upper "guardrails" on budget distribution
+        get_expected_endowments(N=1000) : MCM for estimating Expectation of type distribution using N realizations.
+        reset() : resets bounds of agent to reflect upper and lower bounds of metric space.
+        update_config(env, config) : Updates environment configuration dictionary.
+        update_obs(obs, action, reward, newObs, timestep, info) : Add observation to records.
+        update_policy(k) : Update internal policy based upon records.
+        pick_action(state, step) : move agent to midpoint or perturb current dimension
+
+    Attributes:
+        num_types (int) : Number of types
+        num_resources (int) : Number of commodities
+        budget_remaining (int) : Amount of each commodity the principal begins with.
+        scale (int) : Hyperparameter to be used in calculating threshold 
+        epLen (int) : Number of locations (also the length of an episode).
+        data (list) : All data observed so far
+        first_allocation_done (bool) : Flag that if false, gets upper and lower thresh
+        conf_const (int) : Hyperparameter for confidence bound
+        exp_endowments (list) : Matrix containing expected proportion of endowments for location t
+        var_endowments (list) : Matrix describing variance of exp_endowments
+        prob (cvxpy object) : CVXPY problem object
+        solver (lambda function) : Function that solves the problem given data
+        lower_sol (np.array) : Matrix of lower threshold 
+        upper_sol (np.array) : Matrix of upper threshold
+    """
 
     def __init__(self, epLen, env_config, scale):
         '''
+        Initialize hope_guardrail agent
+
         Args:
             epLen: number of steps
-            func: function used to decide action
             env_config: parameters used in initialization of environment
-            data: all data observed so far
+            scale: hyperparameter to be used in calculating threshold 
         '''
 
         self.env_config = env_config
@@ -22,13 +50,10 @@ class hopeguardrailAgent(Agent):
         self.num_resources = self.env_config['weight_matrix'].shape[1]
         self.budget_remaining = np.copy(self.env_config['init_budget'])
         self.scale = scale
-
-        #print('Starting Budget: ' + str(self.current_budget))
-
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 1
+        self.conf_const = 5
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -36,16 +61,10 @@ class hopeguardrailAgent(Agent):
         print('Mean and variance endomwnets:')
         print(self.exp_endowments, self.var_endowments)
 
-        # print("R")
-        # print(self.rel_exp_endowments)
-
     def generate_cvxpy_solver(self):
         """
         Creates a generic solver to solve the offline resource allocation problem
 
-        Args: 
-            num_types: number of types
-            num_resources: number of resources
         Returns:
             prob - CVXPY problem object
             solver - function that solves the problem given data
@@ -75,7 +94,10 @@ class hopeguardrailAgent(Agent):
 
     def get_lower_upper_sol(self, init_sizes):
         """
-        Uses solver to get the lower and upper
+        Uses solver to get the lower and upper "guardrails" on budget distribution
+
+        Args:
+            init_sizes (list) : vector containing the number of each type at each location
         """
         budget = self.env_config['init_budget']
         weights = self.env_config['weight_matrix']
@@ -92,30 +114,11 @@ class hopeguardrailAgent(Agent):
 
         c = (1 / (n**(self.scale)))*(1 + np.max(conf_bnd /
                                                 future_size)) - np.max(conf_bnd / future_size)
-        # print('Scaling Constant')
-        # print(c)
+
         upper_exp_size = future_size*(1 - c)
 
         _, upper_sol = self.solver(upper_exp_size, weights, budget)
 
-        # print("---------------")
-
-        # print("budget", budget)
-        # print("weight matrix", weights)
-        # print("lower exp size", lower_exp_size)
-        # print("thresh_lower", lower_sol)
-        # print("sum thresh_lower along axis 0", np.sum(lower_sol, axis=0))
-        # print("sum thresh_lower along axis 1", np.sum(lower_sol, axis=1))
-        # print("divcla", budget/lower_exp_size)
-        # print("upper exp size", upper_exp_size)
-        # print("thresh_upper", upper_sol)
-        # print("sum thresh_upper along axis 0", np.sum(upper_sol, axis=0))
-        # print("sum thresh_upper along axis 1", np.sum(upper_sol, axis=1))
-        # print("divcla", budget/upper_exp_size)
-
-        # print(lower_exp_size)
-        # print(upper_exp_size)
-        # print(budget)
         return lower_sol, upper_sol
 
     def get_expected_endowments(self, N=1000):
@@ -142,9 +145,8 @@ class hopeguardrailAgent(Agent):
         return exp_size, var_size
 
     def reset(self):
-        # resets data matrix to be empty
+        ''' Resets data matrix to be empty '''
         self.current_budget = np.copy(self.env_config['init_budget'])
-
         self.data = []
 
     def update_config(self, env, config):
@@ -162,7 +164,17 @@ class hopeguardrailAgent(Agent):
         self.current_budget = np.copy(self.env_config['init_budget'])
 
     def pick_action(self, state, step):
+        ''' 
+        Returns allocation of resources based on calculated upper and lower solutions 
 
+        Args: 
+            state : vector with first K entries denoting remaining budget, 
+                    and remaining n entires denoting the number of people of each type that appear
+            step : timestep
+
+        Returns: matrix where each row is a K-dimensional vector denoting how 
+                much of each commodity is given to each type
+        '''
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step
@@ -179,23 +191,16 @@ class hopeguardrailAgent(Agent):
 
         budget_required = budget_remaining - np.matmul(sizes, self.upper_sol) - np.matmul(
             np.sum(self.exp_endowments[:, (step+1):], axis=1) + conf_bnd, self.lower_sol) > 0
-        # print("bud req", budget_required)
 
         budget_index = budget_remaining - np.matmul(sizes, self.lower_sol) > 0
-        # print("bud ind", budget_index)
 
-        # print("fl", budget_required * self.upper_sol)
-        # print("sl", (1 - budget_required) * budget_index * self.lower_sol)
-        # print("tl", (1 - budget_required) * (1 - budget_index) * np.array([budget_remaining / np.sum(sizes)]))
         allocation = budget_required * self.upper_sol \
             + (1 - budget_required) * budget_index * self.lower_sol \
             + (1 - budget_required) * (1 - budget_index) * \
             np.array([budget_remaining / np.sum(sizes)])
 
-        # prevent non-negative values
-        allocation = np.array([list(map(lambda x: max(x, 0.), values))
-                              for values in allocation])
-
-        # print("allocation guardrail", allocation)
+        # changing values below .0005 up so that no -.inf is given if allocation = 0 when taking log
+        allocation = np.array([list(map(lambda x: max(x, .0005), values))
+                               for values in allocation])
 
         return allocation
