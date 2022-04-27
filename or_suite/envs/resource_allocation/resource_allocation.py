@@ -45,7 +45,7 @@ class ResourceAllocationEnvironment(gym.Env):
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.starting_state = np.concatenate(
-            [config['init_budget'], self.type_dist(0)])
+            [config['init_budget'], self.type_dist(0)]).astype(np.float32)
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.state = self.starting_state
@@ -134,7 +134,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
         info = {'type': new_type}
 
-        self.state = np.concatenate([new_budget, new_type])
+        self.state = np.concatenate([new_budget, new_type]).astype(np.float32)
 
         self.action_space = spaces.Box(low=0, high=max(new_budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
