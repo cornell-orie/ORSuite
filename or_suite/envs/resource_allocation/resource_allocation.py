@@ -81,7 +81,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.timestep = 0
         self.state = self.starting_state
 
-        self.config = env_configs.resource_allocation_foodbank_config(50)
+        self.config = self.config
         self.weight_matrix = self.config['weight_matrix']
         self.num_types = self.config['weight_matrix'].shape[0]
         self.num_commodities = self.config['K']
@@ -89,6 +89,11 @@ class ResourceAllocationEnvironment(gym.Env):
         self.budget = self.config['init_budget']
         self.type_dist = self.config['type_dist']
         self.utility_function = self.config['utility_function']
+
+        self.action_space = spaces.Box(low=0, high=max(self.budget),
+                                       shape=(self.num_types, self.num_commodities), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=np.inf,
+                                            shape=(self.num_commodities+self.num_types,), dtype=np.float32)
 
         return self.starting_state
 
@@ -128,6 +133,7 @@ class ResourceAllocationEnvironment(gym.Env):
             reward = (1/np.sum(old_type))*sum(
                 [old_type[theta]*np.log(self.utility_function(allocation[theta, :],
                                         self.weight_matrix[theta, :])) for theta in range(self.num_types)])
+            reward = reward[0]
 
             # updates the budget by the old budget and the allocation given
             if self.timestep != self.epLen - 1:
@@ -155,7 +161,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.timestep += 1
 
-        return self.state, reward,  done, info
+        return self.state, float(reward),  done, info
 
     def render(self, mode='console'):
         if mode != 'console':
