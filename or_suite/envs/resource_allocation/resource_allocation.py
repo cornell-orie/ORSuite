@@ -78,6 +78,16 @@ class ResourceAllocationEnvironment(gym.Env):
         # Initialize the timestep
         self.timestep = 0
         self.state = self.starting_state
+
+        self.config = env_configs.resource_allocation_foodbank_config(50)
+        self.weight_matrix = self.config['weight_matrix']
+        self.num_types = self.config['weight_matrix'].shape[0]
+        self.num_commodities = self.config['K']
+        self.epLen = self.config['num_rounds']
+        self.budget = self.config['init_budget']
+        self.type_dist = self.config['type_dist']
+        self.utility_function = self.config['utility_function']
+
         return self.starting_state
 
     def get_config(self):

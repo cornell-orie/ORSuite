@@ -43,30 +43,53 @@ weights_fbst = weights_fbst / sum_of_rows[:, np.newaxis]
 dist_types = np.asarray([.25, .3, 1-.25-.3])
 
 
+class FoodbankAllocationDistribution(object):
+    """Class object to preserve state of randomness 
+    within length of episode for resource allocation"""
+
+    def __init__(self, n):
+        self.epLen = n
+        self.max_n = 70
+
+        self.index = np.zeros(self.epLen)
+        self.mean_size = np.zeros(self.epLen)
+        self.stdev_size = np.zeros(self.epLen)
+
+        self.reset_index()
+
+    def reset_index(self):
+        self.index = np.random.choice(self.max_n, self.epLen, replace=False)
+        self.mean_size = np.asarray(
+            [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
+        self.stdev_size = np.asarray(
+            [(dist_types**2) * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
+
+    def get_type_distribution(self, i):
+        if i == 0:  # beginning of episode, so reset
+            self.reset_index
+
+        return np.maximum(1, np.random.normal(self.mean_size, self.stdev_size))[i]
+
+    def get_budget(self):
+        return np.asarray([np.sum(np.asarray(
+            [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)]))]*5)
+
+
 def resource_allocation_foodbank_config(n):
     max_n = 70
     assert n <= max_n
 
-    # would factoring out the index so that it is in resource_allocation work?
-    def arrival_dist(i):
-        index = np.random.choice(max_n, n, replace=False)
-        mean_size = np.asarray(
-            [dist_types * data_weights[index].to_numpy()[j] for j in range(n)])
-        stdev_size = np.asarray(
-            [(dist_types**2) * data_weights[index].to_numpy()[j] for j in range(n)])
-        return np.maximum(1, np.random.normal(mean_size, stdev_size))[i]
+    foodbank_allocation_distribution = FoodbankAllocationDistribution(n)
 
-    fb_dictionary = {'K': 5,
-                     'num_rounds': n,
-                     'weight_matrix': weights_fbst,
-                     # np.random.choice here diff from type_dist
-                     'init_budget': np.asarray([np.sum(np.asarray(
-                         [dist_types * data_weights[np.random.choice(max_n, n, replace=False)].to_numpy()[j] for j in range(n)]))]*5),
-                     'utility_function': lambda x, theta: np.dot(x, theta),
-                     'type_dist': lambda i: arrival_dist(i)
-                     }
+    foodbank_dictionary = {'K': 5,
+                           'num_rounds': n,
+                           'weight_matrix': weights_fbst,
+                           'init_budget': foodbank_allocation_distribution.get_budget(),
+                           'utility_function': lambda x, theta: np.dot(x, theta),
+                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i)
+                           }
 
-    return fb_dictionary
+    return foodbank_dictionary
 
 
 resource_allocation_simple_poisson_config = {'K': 1,
