@@ -91,6 +91,10 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
             info: dict; any additional information.
         """
         assert self.action_space.contains(action)
+        
+        # assert that each element of action is int
+        for a in action:
+            assert type(a) == int
 
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
