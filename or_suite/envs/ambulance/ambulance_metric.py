@@ -7,7 +7,7 @@ by picking a location to station the ambulance.  Then a patient arrives and the 
 most go and serve the arrival, paying a cost of travel.
 """
 
-import rendering
+#import rendering
 import pyglet
 import time
 import numpy as np
