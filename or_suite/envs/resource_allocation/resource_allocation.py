@@ -46,7 +46,7 @@ class ResourceAllocationEnvironment(gym.Env):
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.starting_state = np.concatenate(
-            [config['init_budget'], self.type_dist(0)])
+            [config['init_budget'], self.type_dist(0)], dtype=np.float32)
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.state = self.starting_state

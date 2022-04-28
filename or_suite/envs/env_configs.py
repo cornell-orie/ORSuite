@@ -40,7 +40,7 @@ resource_allocation_simple_poisson_config = {'K': 1,
 ambulance_metric_default_config = {'epLen': 5,
                                    'arrival_dist': lambda x: np.random.beta(5, 2),
                                    'alpha': 0.25,
-                                   'starting_state': np.array([0.0]),
+                                   'starting_state': np.array([0.0], dtype=np.float32),
                                    'num_ambulance': 1,
                                    'norm': 1
                                    }
@@ -340,7 +340,7 @@ rideshare_graph_0_3_rides_config = {
 oil_environment_default_config = {
     'epLen': 5,
     'dim': 1,
-    'starting_state': np.asarray([0]),
+    'starting_state': np.asarray([0], dtype=np.float32),
     'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-a))),
     'cost_param': 0,
     'noise_variance': lambda x, a, h: 0
@@ -349,7 +349,7 @@ oil_environment_default_config = {
 oil_environment_binary_config = {
     'epLen': 5,
     'dim': 1,
-    'starting_state': np.asarray([0]),
+    'starting_state': np.asarray([0], dtype=np.float32),
     'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-(1/9*h)))),
     'cost_param': 0,
     'noise_variance': lambda x, a, h: 0

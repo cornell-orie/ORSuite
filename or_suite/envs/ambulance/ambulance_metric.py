@@ -7,6 +7,7 @@ by picking a location to station the ambulance.  Then a patient arrives and the 
 most go and serve the arrival, paying a cost of travel.
 """
 
+import rendering
 import pyglet
 import time
 import numpy as np
@@ -21,7 +22,6 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 renderdir = os.path.dirname(currentdir)
 sys.path.append(renderdir)
-import rendering
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 
@@ -113,7 +113,8 @@ class AmbulanceEnvironment(gym.Env):
 
             done: A bool flag indicating the end of the episode.
         """
-        if isinstance(action, np.ndarray): action = action.astype(np.float32)
+        if isinstance(action, np.ndarray):
+            action = action.astype(np.float32)
         assert self.action_space.contains(action)
 
         old_state = np.array(self.state)
