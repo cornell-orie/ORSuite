@@ -14,7 +14,8 @@ resource_allocation_default_config = {'K': 2,
                                       'weight_matrix': np.array([[1, 2], [.3, 9], [1, 1]]),
                                       'init_budget': 10*np.ones(2),
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
-                                      'utility_function': lambda x, theta: np.dot(x, theta)
+                                      'utility_function': lambda x, theta: np.dot(x, theta),
+                                      'MAX_VAL': 1000
                                       }
 
 resource_allocation_simple_config = {'K': 1,
@@ -22,7 +23,8 @@ resource_allocation_simple_config = {'K': 1,
                                      'weight_matrix': np.array([[1]]),
                                      'init_budget': np.array([20.]),
                                      'utility_function': lambda x, theta: x,
-                                     'type_dist': lambda i: np.array([2])
+                                     'type_dist': lambda i: np.array([2]),
+                                     'MAX_VAL': 1000
                                      }
 
 resource_allocation_simple_poisson_config = {'K': 1,
@@ -30,7 +32,8 @@ resource_allocation_simple_poisson_config = {'K': 1,
                                              'weight_matrix': np.array([[1]]),
                                              'init_budget': np.array([20.]),
                                              'utility_function': lambda x, theta: x,
-                                             'type_dist': lambda i: [1+np.random.poisson(lam=1)]
+                                             'type_dist': lambda i: [1+np.random.poisson(lam=1)],
+                                             'MAX_VAL': 1000
                                              }
 
 

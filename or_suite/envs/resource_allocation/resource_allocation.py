@@ -40,6 +40,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.budget = config['init_budget']
         self.type_dist = config['type_dist']
         self.utility_function = config['utility_function']
+        self.MAX_VAL = config['MAX_VAL']
         # print(config['init_budget'])
         # print(self.type_dist(0))
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
@@ -55,7 +56,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.action_space = spaces.Box(low=0, high=max(self.budget),
                                        shape=(self.num_commodities*self.num_types,), dtype=np.float32)
         # First K entries of observation space is the remaining budget, next is the number of each type at the location
-        self.observation_space = spaces.Box(low=0, high=np.inf,
+        self.observation_space = spaces.Box(low=0, high=np.append(self.budget, [self.MAX_VAL]*self.num_types),
                                             shape=(self.num_commodities+self.num_types,), dtype=np.float32)
 
     def reset(self):
@@ -88,7 +89,8 @@ class ResourceAllocationEnvironment(gym.Env):
 
             info: dict; any additional information.
         """
-        if isinstance(action, np.ndarray): action = action.astype(np.float32)
+        if isinstance(action, np.ndarray):
+            action = action.astype(np.float32)
         assert self.action_space.contains(action)
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
