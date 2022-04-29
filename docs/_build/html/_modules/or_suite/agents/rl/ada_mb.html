@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.agents.rl.ada_mb &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.agents.rl.ada_mb</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.agents.rl.ada_mb</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">from</span> <span class="nn">or_suite.agents.rl.utils.tree_model_based</span> <span class="kn">import</span> <span class="n">MBTree</span><span class="p">,</span> <span class="n">MBNode</span>
+
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB">[docs]</a><span class="k">class</span> <span class="nc">AdaptiveDiscretizationMB</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adaptive model-based Q-Learning algorithm  implemented for enviroments</span>
+<span class="sd">    with continuous states and actions using the metric induces by the l_inf norm.</span>
+
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        epLen: (int) number of steps per episode</span>
+<span class="sd">        scaling: (float) scaling parameter for confidence intervals</span>
+<span class="sd">        inherit_flag: (bool) boolean of whether to inherit estimates</span>
+<span class="sd">        dim: (int) dimension of R^d the state_action space is represented in</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB.__init__"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epLen</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">split_threshold</span><span class="p">,</span> <span class="n">inherit_flag</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            epLen: number of steps per episode</span>
+<span class="sd">            numIters: total number of iterations</span>
+<span class="sd">            scaling: scaling parameter for UCB term</span>
+<span class="sd">            alpha: parameter to add a prior to the transition kernels</span>
+<span class="sd">            inherit_flag: boolean on whether to inherit when making children nodes</span>
+<span class="sd">            flag: boolean of full (true) or one-step updates (false)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="n">epLen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">=</span> <span class="n">scaling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_threshold</span> <span class="o">=</span> <span class="n">split_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inherit_flag</span> <span class="o">=</span> <span class="n">inherit_flag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flag</span> <span class="o">=</span> <span class="n">flag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">state_dim</span> <span class="o">+</span> <span class="n">action_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_dim</span> <span class="o">=</span> <span class="n">state_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span> <span class="o">=</span> <span class="n">action_dim</span>
+
+        <span class="c1"># List of tree&#39;s, one for each step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Makes a new partition for each step and adds it to the list of trees</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epLen</span><span class="p">):</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">MBTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">=</span> <span class="n">param</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Resets the agent by setting all parameters back to zero</span>
+        <span class="c1"># List of tree&#39;s, one for each step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Makes a new partition for each step and adds it to the list of trees</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">):</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">MBTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB.update_config"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file.&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1"># Gets the number of arms for each tree and adds them together</span>
+
+    <span class="k">def</span> <span class="nf">get_num_arms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">total_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">:</span>
+            <span class="n">total_size</span> <span class="o">+=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_number_of_active_balls</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">total_size</span>
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB.update_obs"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB.update_obs">[docs]</a>    <span class="k">def</span> <span class="nf">update_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">newObs</span><span class="p">,</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Add observation to records.&#39;&#39;&#39;</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="p">]</span>
+
+        <span class="c1"># Gets the active ball by finding the argmax of Q values of relevant</span>
+        <span class="n">active_node</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_active_ball</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="c1"># Increments the number of visits</span>
+        <span class="n">active_node</span><span class="o">.</span><span class="n">num_visits</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">active_node</span><span class="o">.</span><span class="n">num_visits</span>
+
+        <span class="c1"># Update empirical estimate of average reward for that node</span>
+        <span class="n">active_node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">=</span> <span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">active_node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">+</span> <span class="n">reward</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span>
+
+        <span class="c1"># If it is not the last timestep - updates the empirical estimate</span>
+        <span class="c1"># of the transition kernel based on the induced state partition at the next step</span>
+        <span class="k">if</span> <span class="n">timestep</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+
+            <span class="n">next_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">new_obs_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">next_tree</span><span class="o">.</span><span class="n">state_leaves</span><span class="p">)</span> <span class="o">-</span> <span class="n">newObs</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">active_node</span><span class="o">.</span><span class="n">pEst</span><span class="p">[</span><span class="n">new_obs_loc</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>  <span class="c1"># we are doing one-step updates for the estimates</span>
+            <span class="k">if</span> <span class="n">timestep</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># q value estimate at last step is straightforward</span>
+                <span class="n">active_node</span><span class="o">.</span><span class="n">qVal</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                    <span class="n">active_node</span><span class="o">.</span><span class="n">qVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">active_node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">active_node</span><span class="o">.</span><span class="n">num_visits</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise we need to add on an additional estimate of the value function at the next step using transition kernel</span>
+                <span class="n">next_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">vEst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">active_node</span><span class="o">.</span><span class="n">pEst</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">active_node</span><span class="o">.</span><span class="n">pEst</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">next_tree</span><span class="o">.</span><span class="n">state_leaves</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">),</span> <span class="n">next_tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">)</span>
+                <span class="n">active_node</span><span class="o">.</span><span class="n">qVal</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">active_node</span><span class="o">.</span><span class="n">qVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">active_node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">+</span>
+                                       <span class="n">vEst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">active_node</span><span class="o">.</span><span class="n">num_visits</span><span class="p">))</span>
+            <span class="c1"># Update estimate of value function  for state leaves</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">state_val</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">state_leaves</span><span class="p">:</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">qMax</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_active_ball</span><span class="p">(</span><span class="n">state_val</span><span class="p">)</span>
+                <span class="n">tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">qMax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="sd">&#39;&#39;&#39;Determines if it is time to split the current ball.&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">split_threshold</span> <span class="o">*</span> <span class="n">active_node</span><span class="o">.</span><span class="n">depth</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="n">timestep</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tr_split_node</span><span class="p">(</span>
+                    <span class="n">active_node</span><span class="p">,</span> <span class="n">timestep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inherit_flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tr_split_node</span><span class="p">(</span>
+                    <span class="n">active_node</span><span class="p">,</span> <span class="n">timestep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inherit_flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB.update_policy"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB.update_policy">[docs]</a>    <span class="k">def</span> <span class="nf">update_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Update internal policy based upon records.&#39;&#39;&#39;</span>
+
+        <span class="c1"># Solves the empirical Bellman equations</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>  <span class="c1"># Only done if we are doing full-step updates</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+                <span class="c1"># Gets the current tree for this specific time step</span>
+                <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">h</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">leaves</span><span class="p">:</span>
+                    <span class="c1"># If the node has not been visited before - set its Q Value</span>
+                    <span class="c1"># to be optimistic</span>
+                    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">num_visits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">node</span><span class="o">.</span><span class="n">qVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Otherwise solve for the Q Values with the bonus term</span>
+
+                        <span class="c1"># If h == H then the value function for the next step is zero</span>
+                        <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">node</span><span class="o">.</span><span class="n">qVal</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                                <span class="n">node</span><span class="o">.</span><span class="n">qVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num_visits</span><span class="p">))</span>
+
+                        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Gets the next tree to estimate the transition kernel</span>
+                            <span class="n">next_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">h</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="n">vEst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pEst</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pEst</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">next_tree</span><span class="o">.</span><span class="n">state_leaves</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">),</span> <span class="n">next_tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">)</span>
+                            <span class="n">node</span><span class="o">.</span><span class="n">qVal</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                                <span class="n">node</span><span class="o">.</span><span class="n">qVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">rEst</span> <span class="o">+</span> <span class="n">vEst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num_visits</span><span class="p">))</span>
+
+                <span class="c1"># After updating the Q Value for each node - computes the estimate of the value function</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">state_val</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">state_leaves</span><span class="p">:</span>
+                    <span class="n">_</span><span class="p">,</span> <span class="n">qMax</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_active_ball</span><span class="p">(</span><span class="n">state_val</span><span class="p">)</span>
+                    <span class="n">tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">qMax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">vEst</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AdaptiveDiscretizationMB.pick_action"><a class="viewcode-back" href="../../../../ada_mb.html#or_suite.agents.rl.ada_mb.AdaptiveDiscretizationMB.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">timestep</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Select action according to a greedy policy.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state: int - current state</span>
+<span class="sd">            timestep: int - timestep *within* episode</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: action</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Considers the partition of the space for the current timestep</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_list</span><span class="p">[</span><span class="n">timestep</span><span class="p">]</span>
+
+        <span class="c1"># Gets the selected ball</span>
+        <span class="n">active_node</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_active_ball</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="c1"># Picks an action uniformly in that ball</span>
+        <span class="n">action_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+            <span class="n">active_node</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">action_dim</span><span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">active_node</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">action_dim</span><span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">action</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

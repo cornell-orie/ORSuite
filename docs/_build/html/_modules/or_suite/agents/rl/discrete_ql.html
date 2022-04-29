@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.agents.rl.discrete_ql &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.agents.rl.discrete_ql</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.agents.rl.discrete_ql</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">from</span> <span class="nn">gym</span> <span class="kn">import</span> <span class="n">spaces</span>
+
+<span class="sd">&#39;&#39;&#39; epsilon Net agent &#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="DiscreteQl"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl">[docs]</a><span class="k">class</span> <span class="nc">DiscreteQl</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Q-Learning algorithm  implemented for enviroments with discrete states and</span>
+<span class="sd">    actions using the metric induces by the l_inf norm</span>
+
+<span class="sd">    TODO: Documentation</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        epLen: (int) number of steps per episode</span>
+<span class="sd">        scaling: (float) scaling parameter for confidence intervals</span>
+<span class="sd">        action_space: (MultiDiscrete) the action space</span>
+<span class="sd">        state_space: (MultiDiscrete) the state space</span>
+<span class="sd">        action_size: (list) representing the size of the action sapce</span>
+<span class="sd">        state_size: (list) representing the size of the state sapce</span>
+<span class="sd">        matrix_dim: (tuple) a concatenation of epLen, state_size, and action_size used to create the estimate arrays of the appropriate size</span>
+<span class="sd">        qVals: (list) The Q-value estimates for each episode, state, action tuple</span>
+<span class="sd">        num_visits: (list) The number of times that each episode, state, action tuple has been visited</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscreteQl.__init__"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_space</span><span class="p">,</span> <span class="n">observation_space</span><span class="p">,</span> <span class="n">epLen</span><span class="p">,</span> <span class="n">scaling</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">observation_space</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action_space</span><span class="p">,</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span>
+                <span class="n">nvec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multiAction</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">action_space</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multiAction</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="n">epLen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">=</span> <span class="n">scaling</span>
+
+        <span class="c1"># starts calculating total dimension for the matrix of estimates of Q Values</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">nvec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">nvec</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">matrix_dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="c1"># Initialize with upper bound on max reward via H*max_one_step_reward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="c1"># Set max_reward as 1 assuming that the reward is normalized</span>
+        <span class="n">max_reward</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">*</span> <span class="n">max_reward</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span>
+        <span class="c1"># might need to normalize rewards in your rideshare environment code</span>
+        <span class="c1"># but otherwise can just use ambulance, that one is already good.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_visits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiscreteQl.update_config"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">environment</span> <span class="o">=</span> <span class="n">env</span>
+        <span class="k">pass</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Resets the agent by overwriting all of the estimates back to initial values</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+<div class="viewcode-block" id="DiscreteQl.update_parameters"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.update_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the scaling parameter.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            param: (float) The new scaling value to use&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">=</span> <span class="n">param</span></div>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_visits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Adds the observation to records by using the update formula</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="DiscreteQl.update_obs"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.update_obs">[docs]</a>    <span class="k">def</span> <span class="nf">update_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">newObs</span><span class="p">,</span> <span class="n">timestep</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Add observation to records</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obs: (list) The current state</span>
+<span class="sd">            action: (list) The action taken </span>
+<span class="sd">            reward: (int) The calculated reward</span>
+<span class="sd">            newObs: (list) The next observed state</span>
+<span class="sd">            timestep: (int) The current timestep</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiAction</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="p">[</span><span class="n">action</span><span class="p">]</span>
+
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">timestep</span><span class="p">],</span> <span class="n">obs</span><span class="p">),</span> <span class="n">action</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_visits</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_visits</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">bonus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">timestep</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">vFn</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vFn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qVals</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">timestep</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">newObs</span><span class="p">)])</span>
+        <span class="n">vFn</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">,</span> <span class="n">vFn</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lr</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">+</span> \
+            <span class="n">lr</span> <span class="o">*</span> <span class="p">(</span><span class="n">reward</span> <span class="o">+</span> <span class="n">vFn</span> <span class="o">+</span> <span class="n">bonus</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiscreteQl.update_policy"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.update_policy">[docs]</a>    <span class="k">def</span> <span class="nf">update_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Update internal policy based upon records&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DiscreteQl.pick_action"><a class="viewcode-back" href="../../../../discrete_ql.html#or_suite.agents.rl.discrete_ql.DiscreteQl.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Select action according to a greedy policy</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state: int - current state</span>
+<span class="sd">            timestep: int - timestep *within* episode</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: action</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># returns the state location and takes action based on</span>
+        <span class="c1"># maximum q value</span>
+
+        <span class="n">qFn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qVals</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">step</span><span class="p">],</span> <span class="n">state</span><span class="p">))]</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">qFn</span> <span class="o">==</span> <span class="n">qFn</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="p">[:,</span> <span class="n">index</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiAction</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">action</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Vaccine Allocation Problem &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Resource Allocation" href="resource_allocation_readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Vaccine Allocation Problem</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#groups-with-finite-action-and-finite-state-spaces">4 Groups with Finite Action and Finite State Spaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reinforcement-learning-problem-setup">Reinforcement Learning Problem Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disease-dynamics">Disease Dynamics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#heuristic-agents">Heuristic Agents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The Vaccine Allocation Problem</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/vaccine_allocation_readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">dynamics_model_4groups</span> <span class="kn">import</span> <span class="n">dynamics_model</span>
+</pre></div>
+</div>
+<div class="section" id="the-vaccine-allocation-problem">
+<h1>The Vaccine Allocation Problem<a class="headerlink" href="#the-vaccine-allocation-problem" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>Given a limited number of available vaccines and a population undergoing
+an epidemic, how do we distribute vaccines to the population in a way
+that achieves some goal (like minimizing death or maximizing the
+potential for herd immunity)? The vaccine allocation or allotment
+problem considers the question: If we divide the population into
+different groups or risk classes, is there an <em>optimal</em> way to allocate
+the vaccines across these groups so that we minimize infections, deaths
+or hospitalizations? We approach this problem from a reinforcement
+learning perspective.</p>
+</div>
+<div class="section" id="groups-with-finite-action-and-finite-state-spaces">
+<h2>4 Groups with Finite Action and Finite State Spaces<a class="headerlink" href="#groups-with-finite-action-and-finite-state-spaces" title="Permalink to this headline">¶</a></h2>
+<p>The file <code class="docutils literal notranslate"><span class="pre">vacc_4groups.py</span></code> contains an implemenation of an RL
+environment for the vaccine allotment problem with 4 possible risk
+groups, a finite action space, and a finite state space. In this
+problem, we consider a scenario where the agent chooses a <em>priority
+order</em> of the 4 risk groups. This means that vaccines are allocated in a
+particular order until there are no more vaccines. In other words,
+vaccines are given to eligbile recipients of priority group #1 until
+there are no eligible recipients left or the vaccine supply is
+exhausted. If there are vaccines left after all eligible people priority
+group #1 are vaccinated, then priority group #2 can be vaccinated and so
+on.</p>
+<div class="section" id="reinforcement-learning-problem-setup">
+<h3>Reinforcement Learning Problem Setup<a class="headerlink" href="#reinforcement-learning-problem-setup" title="Permalink to this headline">¶</a></h3>
+<p><strong>Markov Decision Process (MDP)</strong></p>
+<p>At each time step <span class="math notranslate nohighlight">\(t\)</span> in the RL environement, we have a population
+of size <span class="math notranslate nohighlight">\(P\)</span> split into four classes <span class="math notranslate nohighlight">\(C_1^t, C_2^t, C_3^t\)</span>
+and <span class="math notranslate nohighlight">\(C_4^t\)</span>. Here, <span class="math notranslate nohighlight">\(C_i^t\)</span> denotes the size of class
+<span class="math notranslate nohighlight">\(i\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>We further split each class <span class="math notranslate nohighlight">\(C_i\)</span> into two groups: susceptbile
+<span class="math notranslate nohighlight">\((S_i^t)\)</span> and asymptomatically infected <span class="math notranslate nohighlight">\((A_i^t)\)</span>. We keep
+track of the aggregate totals of symptomatically infected individuals,
+both mild (<span class="math notranslate nohighlight">\(I^t\)</span>) and requiring hospitalization (<span class="math notranslate nohighlight">\(H^t\)</span>).</p>
+<p>For each time period <span class="math notranslate nohighlight">\(t\)</span>, we also keep track of <em>new</em> infections
+that have occurred since time step <span class="math notranslate nohighlight">\(t-1\)</span>. We define this as</p>
+<div class="math notranslate nohighlight">
+\[N^t \equiv \left(I^{t} + H^{t} + \sum_{i=1}^{4} A_i^t\right) - \left(I^{t-1} + H^{t-1} + \sum_{i=1}^{4} A_i^{t-1}\right).\]</div>
+<p>In other words, we take the total number of infections at time
+<span class="math notranslate nohighlight">\(t\)</span> and subtract the total number of infections from time
+<span class="math notranslate nohighlight">\(t-1\)</span> to determine how many infections are <em>new</em>.</p>
+<p>We form the MDP
+<span class="math notranslate nohighlight">\((\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{R})\)</span> where + The
+<strong>state space</strong> <span class="math notranslate nohighlight">\(\mathcal{S}\)</span> is defined as
+<span class="math notranslate nohighlight">\(\mathcal{S} := [P]^{11}\)</span> with
+<span class="math notranslate nohighlight">\([P] := \{0, 1, 2, \ldots, P\}\)</span>. Recall that <span class="math notranslate nohighlight">\(P\)</span> is the
+total population size. Each tuple in the space is of the form</p>
+<div class="math notranslate nohighlight">
+\[\left(S_1^t, S_2^t, S_3^t, S_4^t, A_1^t, A_2^t, A_3^t, A_4^t, I^t, H^t, N^t\right),\]</div>
+<p>and thus tells us how many people are suceptible, infected and to
+which group they belong (if applicable) at time step <span class="math notranslate nohighlight">\(t\)</span>. + The
+<strong>action space</strong> is defined by</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{A} := \{a|a = \text{ a permutation of the numbers 1, 2, 3, 4} \quad \text{or} \quad a = \text{ an empty list }\}\]</div>
+<p>where a permuation of <span class="math notranslate nohighlight">\(\{1,2,3,4\}\)</span> defines a priority order of
+the 4 classes and an empty list defines “no priority order,” aka random
+vaccination. + The <strong>transition dynamics</strong> <span class="math notranslate nohighlight">\(\mathcal{T}\)</span> are given
+by the transitions in the continuous time Markov chain (CTMC) specified
+below. &gt; The state space of the CTMC is almost exactly the same as the
+MDP. The state space in this case is also <span class="math notranslate nohighlight">\([P]^{11}\)</span>, but in this
+case a state at a time <span class="math notranslate nohighlight">\(t\)</span> is of the form</p>
+<div class="math notranslate nohighlight">
+\[\left(S_1^t, S_2^t, S_3^t, S_4^t, A_1^t, A_2^t, A_3^t, A_4^t, I^t, H^t, R^t\right).\]</div>
+<p>The difference being that instead of the <span class="math notranslate nohighlight">\(N^t\)</span> term in the state
+space of the MDP, we have an <span class="math notranslate nohighlight">\(R^t\)</span> term, where <span class="math notranslate nohighlight">\(R^t\)</span> denotes
+the number of recovered individuals at a given time <span class="math notranslate nohighlight">\(t\)</span>. Recovered
+individuals include anyone who has been vaccinated and anyone who has
+recovered from infection. &gt; &gt; The initial state
+<span class="math notranslate nohighlight">\((S_1^0, S_2^0, S_3^0, S_4^0, A_1^0, A_2^0, A_3^0, A_4^0, I^0, H^0, R^0)\)</span>
+is specified as an initial condition by the user. &gt; &gt; All events in this
+CTMC are implemented as independent Poisson processes. For example, the
+times between meetings for all the groups (i.e. an interaction between
+group <span class="math notranslate nohighlight">\(i\)</span> and group <span class="math notranslate nohighlight">\(j\)</span>) are given by Poisson processes with
+rates specified by the user. In this case, we must specify a
+<span class="math notranslate nohighlight">\(4 \times 4\)</span> <em>contact</em> matrix <span class="math notranslate nohighlight">\(\Lambda\)</span> where the
+<span class="math notranslate nohighlight">\((i,j)\)</span>th component corresponds to the meeting rate between the
+<span class="math notranslate nohighlight">\(i\)</span>th and <span class="math notranslate nohighlight">\(j\)</span>th groups. &gt; &gt; Only infectious meetings are
+calculated, meaning we only keep track of meetings between infected
+individuals and susceptible individuals. Each rate is a rate between two
+people, so we have to scale the meeting rates by the number of people in
+each class. This means that the rates change over time. Once a person in
+class <span class="math notranslate nohighlight">\(i\)</span> has been infected, they have probability <span class="math notranslate nohighlight">\(p_i\)</span> of
+developing symptoms. If a person in class <span class="math notranslate nohighlight">\(i\)</span> develops symptoms,
+they have probability <span class="math notranslate nohighlight">\(h_i\)</span> of those symptoms requiring
+hospitalization. &gt; &gt; There is also a recovery rate <span class="math notranslate nohighlight">\(\beta\)</span> and a
+vaccination rate <span class="math notranslate nohighlight">\(\gamma\)</span>. The vaccination rate corresponds to the
+average number of people that can be vaccinated per day and remains
+constant. However, the recovery rate is scaled by the number of people
+who are infected and thus changes over time. &gt; &gt; Each individual Poisson
+process has an associated exponetial random variable “clock” with the
+same rate as the Poisson process. This gives us a collection of
+exponential timers. The minimum of several independent exponential
+random variables is also an exponential random variable, but with a rate
+equal to the sum of all the rates of the independent exponential random
+variables. Therefore, to calculate the time of the next event, we sum up
+the meeting, recovery, and vaccination rates and pass this sum as the
+rate of an exponential random variable.</p>
+<ul class="simple">
+<li><p>The <strong>reward</strong> (or <em>cost</em>, in this case) <span class="math notranslate nohighlight">\(\mathcal{R}\)</span> recieved
+after transitioning from state <span class="math notranslate nohighlight">\(s\)</span> to state <span class="math notranslate nohighlight">\(s'\)</span> due to
+an action <span class="math notranslate nohighlight">\(a\)</span> is equal to negative one times the total number
+of infections in state <span class="math notranslate nohighlight">\(s'\)</span> minus the total number of
+infections at state <span class="math notranslate nohighlight">\(s\)</span>, aka the new infections that occurred
+during this transition. If <span class="math notranslate nohighlight">\(s = s_{t-1}\)</span> is the state at time
+<span class="math notranslate nohighlight">\(t-1\)</span> and <span class="math notranslate nohighlight">\(s' = s'_t\)</span> is the state at time <span class="math notranslate nohighlight">\(t\)</span>,
+then <span class="math notranslate nohighlight">\(\mathcal{R}_a(s,s') = -N^t\)</span>.</p></li>
+</ul>
+<p><strong>Model Assumptions</strong> The total population is kept constant throughout
+the entire time horizon. There are precisely 4 risk classes, with the
+first class corresponding to medical workers. Vaccines are administered
+by priority group. The first priority group is vaccinated until there
+are either no more eligible vaccination candidates or there are no more
+vaccines. If vaccines remain, the next priority group is vaccinated and
+so on. Asymptomatic individuals are never vaccinated. &gt;For details about
+the assumptions made in implementing the SIR disease dynamics model,
+please refer to the section titled <strong>Disease Dynamics</strong> below.</p>
+<p><strong>State Space</strong></p>
+<p>The state space for this environment is discrete, consisting of tuples
+of integer values representing certain population stats. &gt; In this case,
+an element of the state space looks like</p>
+<div class="math notranslate nohighlight">
+\[(S_1, S_2, S_3, S_4, A_1, A_2, A_3, A_4, I, H, N) \in \{0,1,2,...,\text{P}\}^{11}\]</div>
+<p>where &gt; + <span class="math notranslate nohighlight">\(P =\)</span> the total population size &gt; +
+<span class="math notranslate nohighlight">\(S_1,S_2,S_3,S_4 =\)</span> the total # of susceptible people in groups 1,
+2, 3 and 4, resp &gt; + <span class="math notranslate nohighlight">\(A_1,A_2,A_3,A_4 =\)</span> the total # of
+asymptomatically infected people in groups 1, 2, 3 and 4, resp &gt; +
+<span class="math notranslate nohighlight">\(I =\)</span> total # of mild symptomatic infections &gt; + <span class="math notranslate nohighlight">\(H =\)</span> total
+# of hospitalized infections and &gt; + <span class="math notranslate nohighlight">\(N =\)</span> total # of NEW
+infections (includes asymptomatic and symptomatic) that occurred.</p>
+<p><strong>Action Space</strong></p>
+<p>The action space for this environment is finite, consisting of 25
+possible actions. An action in this space is choosing a priority order.
+A valid priority order is either (1) no priority order, aka vaccinate
+susceptible people in the population randomly, or (2) a permuation of
+<span class="math notranslate nohighlight">\(\{1, 2, 3, 4\}\)</span>. &gt; This is represented in <code class="docutils literal notranslate"><span class="pre">vacc_4groups.py</span></code> as
+<span class="math notranslate nohighlight">\(A =\{0, 1, 2, ..., 24\}\)</span>, where each number maps to a particular
+action. In the file, an action is represented by a number
+<span class="math notranslate nohighlight">\(i \in A\)</span> where the corresponding action is at index <span class="math notranslate nohighlight">\(i\)</span> of
+the list <code class="docutils literal notranslate"><span class="pre">all_priority_orders</span></code>. 0 corresponds to <code class="docutils literal notranslate"><span class="pre">[]</span></code>, which means
+no priority order. The list is below:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_priority_orders</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">],[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">],[</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">],[</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">],[</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">,</span><span class="s2">&quot;c1&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><strong>Reward</strong></p>
+<p>The reward, or cost, is precisely equal to (negative) the number of
+<em>new</em> infections that occurred in this step. By maximizing this
+quantity, we minimize the number of new infections.</p>
+<p><strong>Transitions</strong></p>
+<p>Transistions between states are governed by the disease dynamics
+implemented in <code class="docutils literal notranslate"><span class="pre">dynamics_model_4groups.py</span></code> file and described below
+under the section <strong>Disease Dynamics</strong>. In short, the current state and
+action are fed to the function <code class="docutils literal notranslate"><span class="pre">dynamics_model</span></code> imported from the
+aforementioned file. This function then returns the new state as well as
+some additional information that can be used to plot the population
+dynamics.</p>
+<p><strong>Environment</strong></p>
+<p>The following functions are part of the RL environment implentation
+found in the file <code class="docutils literal notranslate"><span class="pre">vacc_4groups.py</span></code>. &gt; <code class="docutils literal notranslate"><span class="pre">init</span></code> initializes an
+instance of the VaccineEnvironment class; takes in a parameter
+<code class="docutils literal notranslate"><span class="pre">config</span></code>, a dictionary of values used for different purposes
+throughout the environment. The dictionary <code class="docutils literal notranslate"><span class="pre">config</span></code> should contain the
+following keys and corresponding values: &gt; + <code class="docutils literal notranslate"><span class="pre">'eplen'</span></code>: number of time
+steps &gt; + <code class="docutils literal notranslate"><span class="pre">'starting_state'</span></code>: np.array of initial population group
+sizes, in the order described above under the <strong>State Space</strong> section.
+Note that at index 10 we have <span class="math notranslate nohighlight">\(N\)</span>, the number of new infections in
+this time period. This should be set to 0 since new infections are
+defined by the current state <em>and</em> a previous state. When we initialize,
+there is no previous state. &gt; + <code class="docutils literal notranslate"><span class="pre">'parameters'</span></code>: dictionary of
+parameter values to pass to dynamics model including information such as
+contact rates, length of a time step (in days), starting priority order,
+etc. More information about these can be found in the section titled
+<strong>Disease Dynamics</strong> below, under the subsection <strong>How to use
+``dynamics_model_4groups.py``</strong>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> parameters = {&#39;contact_matrix&#39;: np.array([[0.0001, 0.0001, 0.00003, 0.00003, 0, 0.0001], [0, 0.0001, 0.00005, 0.0001, 0, 0], [0, 0, 0.00003, 0.00003, 0, 0], [0, 0, 0, 0.00003, 0, 0]]), &#39;P&#39;: np.array([0.15, 0.15, 0.7, 0.2]), &#39;H&#39;: np.array([0.2, 0.2, 0.8, 0.3]), &#39;beta&#39;: 1/7, &#39;gamma&#39;: 100, &#39;vaccines&#39;: 500, &#39;priority&#39;: [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;], &#39;time_step&#39;: 7}
+
+ initial_conditions = np.array([1990, 1990, 1990, 1990, 10, 10, 10, 10, 0, 0, 0])
+
+ # example of what the config dictionary should look like
+ config = {&#39;epLen&#39;: 6, &#39;starting_state&#39;: initial_conditions, &#39;parameters&#39;: parameters}
+
+
+``reset`` returns the environment to its original state
+
+``step(action)`` takes an action from the agent and returns the state
+of the system after this action is taken + action: an integer between
+0 and 24 corresponding to the index of the ``all_priority_orders``
+list that corresponds to the chosen priority order; i.e. the action
+is found via ``all_priority_orders[action]`` &gt; + e.g. “no priority
+order” would be action :math:`=0`, since
+``all_priority_orders[0] = &quot;[]&quot;`` &gt; +
+e.g. “:math:`C_1, C_2, C_3, C_4`” would be action :math:`=1` since
+``all_priority_orders[1] = [&quot;c1&quot;,&quot;c2&quot;,&quot;c3&quot;,&quot;c4&quot;]&quot;``
+
+The function ``step(action)`` returns + ``newState``: np.array of
+integers representing the new state (see state space description
+above) + ``reward``: integer value equal to the number of new
+infections that occurred in this step and multiplied by :math:`-1` +
+``done``: either 0 or 1; flag for the end of the episode + ``info``:
+dictionary of information we can use to plot ``disease`` dynamics for
+this step
+
+``render`` is currently unimplemented
+
+``close`` is currently unimplemented
+</pre></div>
+</div>
+</div>
+<div class="section" id="disease-dynamics">
+<h3>Disease Dynamics<a class="headerlink" href="#disease-dynamics" title="Permalink to this headline">¶</a></h3>
+<p>Consider a population of <span class="math notranslate nohighlight">\(P\)</span> individuals split into four risk
+classes: medical workers (<span class="math notranslate nohighlight">\(C_1\)</span>), non-medical essential workers
+(<span class="math notranslate nohighlight">\(C_2\)</span>), high risk individuals (<span class="math notranslate nohighlight">\(C_3\)</span>) and everyone else
+(<span class="math notranslate nohighlight">\(C_4\)</span>). Each risk class is further subdivided into five groups:
+1. susceptible to the disease (but not infected) 2. asymptomatically
+infected 3. infected with mild symptoms, 4. infected with severe
+symptoms (assumed to require hospitalization) 5. recovered or vaccinated
+or otherwise immune</p>
+<p>We keep track of the susceptible people in each class <span class="math notranslate nohighlight">\((S_i)\)</span> and
+the asymptomatically infected individuals in each class <span class="math notranslate nohighlight">\((A_i)\)</span>.
+However, we only keep aggregate totals of people infected with mild
+symptoms <span class="math notranslate nohighlight">\((I)\)</span>, people who are hospitalized <span class="math notranslate nohighlight">\((H)\)</span> and those
+who have recovered <span class="math notranslate nohighlight">\((R)\)</span>.</p>
+<p><strong>Assumptions</strong></p>
+<p>In forming the SIR compartmental model, we have made the following
+assumptions. 1. There are no births, deaths or immigration. 2. People
+who are infected with mild symptoms perfectly quarantine, and hence do
+no interact with others in the population. 3. People who are infected
+with severe symptoms are hospitalized and only interact with medical
+workers. 4. Vaccines are only administered to susceptible individuals
+(i.e. infected or recovered individuals are ineligible). 5. Recovery is
+permanent, i.e. once someone has recovered from infection they are
+immune to infection.</p>
+<p><strong>Model Details/Approach</strong></p>
+<p>The model is implemented as a continuous time Markov chain, where events
+such as infection, recovery and vaccination are modeled as independent
+Poisson processes. &gt; Contact, or meeting, rates within and between
+classes are defined by a <span class="math notranslate nohighlight">\(4 \times 4\)</span> matrix, where the
+<span class="math notranslate nohighlight">\((i,j)\)</span>th entry is the contact rate between class <span class="math notranslate nohighlight">\(i\)</span> and
+class <span class="math notranslate nohighlight">\(j\)</span>. We only account for infectious meetings, by which we
+mean that when an infected person “contacts” a susceptible person, the
+susceptible person will get infected. Hence, the contact rate is really
+the rate of contact AND infection. Also, these meeting rates are the
+rate between two people and hence must be scaled by the total number of
+people in each group. As a consequence, these rates change over time. &gt;
+&gt; People from class <span class="math notranslate nohighlight">\(i\)</span> who are infected have probability
+<span class="math notranslate nohighlight">\(p_i\)</span> of that infection being symptomatic. If someone in class
+<span class="math notranslate nohighlight">\(i\)</span> is symptomatically infected, they have probability <span class="math notranslate nohighlight">\(h_i\)</span>
+of the symptoms being severe and thus requiring hospitalization. &gt; &gt; The
+recovery rate <span class="math notranslate nohighlight">\(\beta\)</span> is also scaled by the number of people that
+are infected and hence changes over time. &gt; The vaccination rate
+<span class="math notranslate nohighlight">\(\gamma\)</span> remains constant since the number of available vaccines
+does not depend on the state of the Markov chain.</p>
+<p>Note that the contact matrix <span class="math notranslate nohighlight">\(\Lambda\)</span>, the probabilities
+<span class="math notranslate nohighlight">\(p_i\)</span> and <span class="math notranslate nohighlight">\(h_i\)</span> for <span class="math notranslate nohighlight">\(i=1,2,3,4\)</span>, the recovery rate
+<span class="math notranslate nohighlight">\(\beta\)</span>, and the vaccination rate must all be specified by the
+user.</p>
+<p><strong>How to use the ``dynamics_model_4groups.py`` file</strong></p>
+<p>There are three functions inside this file, but the only one the user
+ever needs to call is <code class="docutils literal notranslate"><span class="pre">dynamics_model</span></code>, which takes the following
+inputs: a dictionary called <code class="docutils literal notranslate"><span class="pre">parameters</span></code> and a numpy array called
+<code class="docutils literal notranslate"><span class="pre">population</span></code>.</p>
+<p><strong>Input</strong>: a dictionary containing the following key and values &gt;
+<code class="docutils literal notranslate"><span class="pre">'contact_matrix'</span></code>: (np.array) contact rates matrix between
+asymptomatic and susceptible people in classes (avg per day); should
+have shape=() &gt; &gt; <code class="docutils literal notranslate"><span class="pre">P</span></code>: (np.array) <span class="math notranslate nohighlight">\([p_1, p_2, p_3, p_4]\)</span>
+probabilities of becoming symptomatic if infected for classes 1, 2, 3,
+and 4, resp. &gt; &gt; <code class="docutils literal notranslate"><span class="pre">H</span></code>: (np.array) <span class="math notranslate nohighlight">\([h_1, h_2, h_3, h_4]\)</span>
+probabilities of being hospitalized if symptomatic for each class &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'gamma'</span></code>: (float) vaccination rate (average number of vaccines you
+can administer per day) &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'beta'</span></code>: (float) recovery rate (per day)
+&gt; &gt; <code class="docutils literal notranslate"><span class="pre">'priority_order'</span></code>: list representing the priority order &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'vaccines'</span></code>: number of available vaccines (for one entire step in the
+RL environment) &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'time_step'</span></code>: number of DAYS you want the
+simulation to run (if time_step &lt; 0, runs until disease-free state) &gt; &gt;
+This is different from the the number of steps in the RL environment.
+When you call <code class="docutils literal notranslate"><span class="pre">dynamics_model</span></code>, it will run for however many “days”
+you specify. So, for example, if one step in the environment translates
+to taking an action, seeing what happens for one week and collecting the
+reward at the end of the week, <code class="docutils literal notranslate"><span class="pre">time_step</span></code> would be set to 7. Then,
+every step in the RL environment corresponds to one week in the disease
+dynamics simulation.</p>
+<p><strong>Input</strong>: a numpy array of population group sizes &gt; at index 0: the
+current number of susceptible people in group 1 <span class="math notranslate nohighlight">\((S_1)\)</span> &gt; &gt; at
+index 1: the current number of susceptible people in group 2
+<span class="math notranslate nohighlight">\((S_2)\)</span> &gt; &gt; at index 2: the current number of susceptible people
+in group 3 <span class="math notranslate nohighlight">\((S_3)\)</span> &gt; &gt; at index 3: the current number of
+susceptible people in group 4 <span class="math notranslate nohighlight">\((S_4)\)</span> &gt; &gt; at index 4: the current
+number of asymptomatically infected people in group 1 <span class="math notranslate nohighlight">\((A_1)\)</span> &gt; &gt;
+at index 5: the current number of asymptomatically infected people in
+group 2 <span class="math notranslate nohighlight">\((A_2)\)</span> &gt; &gt; at index 6: the current number of
+asymptomatically infected people in group 3 <span class="math notranslate nohighlight">\((A_3)\)</span> &gt; &gt; at index
+7: the current number of asymptomatically infected people in group 4
+<span class="math notranslate nohighlight">\((A_4)\)</span> &gt; &gt; at index 8: the total number of people who are
+symptomatic with mild symptoms <span class="math notranslate nohighlight">\((I)\)</span> &gt; &gt; at index 9: the total
+number of people who are symptomatic with severe symptoms <span class="math notranslate nohighlight">\((H)\)</span> &gt;
+&gt; at index 10: 0, technically a placeholder. Below are examples of both
+these inputs.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;contact_matrix&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.00005</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;vaccines&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">],</span> <span class="s1">&#39;time_step&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">population</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">dynamics_model</span></code> outputs the (new) RL state at the end of
+the simulation and some additional information that can be used to plot
+the population dynamics that occurred in this step.</p>
+<p><strong>Output</strong>: <code class="docutils literal notranslate"><span class="pre">newState</span></code> is a numpy array with updated population
+counts; &gt; For information about what is in each index, look at the
+description of the input <code class="docutils literal notranslate"><span class="pre">population</span></code> above. The only difference is
+that now index 10 holds important information: the number of infections
+that occurred during the simulation, aka “new infections” <span class="math notranslate nohighlight">\((N)\)</span>.</p>
+<p><strong>Output</strong>: <code class="docutils literal notranslate"><span class="pre">output_dictionary</span></code> is a dictionary with the following
+keys (and values) that can be used to create plots of the disease
+dynamics that occurred in this simulation &gt; <code class="docutils literal notranslate"><span class="pre">'clock</span> <span class="pre">times'</span></code>: array of
+clock times over simulation &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c1</span> <span class="pre">asymptomatic'</span></code>: array of class 1
+asymptomatic people for each clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c2</span> <span class="pre">asymptomatic'</span></code>: array
+of class 2 asymptomatic people for each clock time &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'c3</span> <span class="pre">asymptomatic'</span></code>: array of class 3 asymptomatic people for each
+clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c4</span> <span class="pre">asymptomatic'</span></code>: array of class 4 asymptomatic
+people for each clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'mild</span> <span class="pre">symptomatic</span> <span class="pre">array'</span></code>: array of
+aggregate mild symptomatic infections for each clock time &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'hospitalized</span> <span class="pre">array'</span></code>: array of aggregate hospitalized infections for
+each clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c1</span> <span class="pre">susceptible'</span></code>: array of class 1 susceptible
+people for each clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c2</span> <span class="pre">susceptible'</span></code>: array of class 2
+susceptible people for each clock time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'c3</span> <span class="pre">susceptible'</span></code>: array
+of class 3 susceptible people for each clock time &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'c4</span> <span class="pre">susceptible'</span></code>: array of class 4 susceptible people for each clock
+time &gt; &gt; <code class="docutils literal notranslate"><span class="pre">'recovered'</span></code>: array of aggregate recovered people for each
+clock time (will include symptomatic but not hospitalized) &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'total</span> <span class="pre">infected'</span></code>: total # of people infected by the end of the
+simulation (includes people that were already infected) &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'total</span> <span class="pre">hospitalized'</span></code>: total # of people hospitalized throughout
+simualation (includes people that were already hospitalized) &gt; &gt;
+<code class="docutils literal notranslate"><span class="pre">'vaccines'</span></code>: # of vaccines left</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of a call to this function</span>
+<span class="n">newState</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">dynamics_model</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">population</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">We</span><span class="s1">&#39;ve reached vaccination event number 0.0</span>
+<span class="n">We</span><span class="s1">&#39;ve reached vaccination event number 100.0</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of the output newState</span>
+<span class="n">newState</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mi">1766</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1989</span><span class="p">,</span> <span class="mi">1989</span><span class="p">,</span>   <span class="mi">27</span><span class="p">,</span>   <span class="mi">13</span><span class="p">,</span>    <span class="mi">6</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>   <span class="mi">36</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of the keys in the output info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_keys</span><span class="p">([</span><span class="s1">&#39;clock times&#39;</span><span class="p">,</span> <span class="s1">&#39;c1 asymptomatic&#39;</span><span class="p">,</span> <span class="s1">&#39;c2 asymptomatic&#39;</span><span class="p">,</span> <span class="s1">&#39;c3 asymptomatic&#39;</span><span class="p">,</span> <span class="s1">&#39;c4 asymptomatic&#39;</span><span class="p">,</span> <span class="s1">&#39;mild symptomatic&#39;</span><span class="p">,</span> <span class="s1">&#39;hospitalized&#39;</span><span class="p">,</span> <span class="s1">&#39;c1 susceptible&#39;</span><span class="p">,</span> <span class="s1">&#39;c2 susceptible&#39;</span><span class="p">,</span> <span class="s1">&#39;c3 susceptible&#39;</span><span class="p">,</span> <span class="s1">&#39;c4 susceptible&#39;</span><span class="p">,</span> <span class="s1">&#39;recovered&#39;</span><span class="p">,</span> <span class="s1">&#39;total infected&#39;</span><span class="p">,</span> <span class="s1">&#39;total hospitalized&#39;</span><span class="p">,</span> <span class="s1">&#39;total recovered&#39;</span><span class="p">,</span> <span class="s1">&#39;vaccines&#39;</span><span class="p">,</span> <span class="s1">&#39;event counts&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of what you can plot using the info dictionary</span>
+<span class="c1"># adapted from code by Cornell University students Mohammad Kamil (mk848), Carrie Rucker (cmr284), Jacob Shusko (jws383), Kevin Van Vorst (kpv23)</span>
+
+<span class="n">clocks</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;clock times&#39;</span><span class="p">]</span>
+<span class="n">c1_A</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;c1 asymptomatic&#39;</span><span class="p">]</span>
+<span class="n">c2_A</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;c2 asymptomatic&#39;</span><span class="p">]</span>
+<span class="n">c3_A</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;c3 asymptomatic&#39;</span><span class="p">]</span>
+<span class="n">c4_A</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;c4 asymptomatic&#39;</span><span class="p">]</span>
+
+<span class="n">figsizex</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">figsizey</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">xlabelsize</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">ylabelsize</span> <span class="o">=</span> <span class="n">xlabelsize</span>
+<span class="n">titlesize</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figsizex</span><span class="p">,</span><span class="n">figsizey</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clocks</span><span class="p">,</span> <span class="n">c1_A</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Class 1 Asymptomatic&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clocks</span><span class="p">,</span> <span class="n">c2_A</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Class 2 Asymptomatic&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clocks</span><span class="p">,</span> <span class="n">c3_A</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Class 3 Asymptomatic&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clocks</span><span class="p">,</span> <span class="n">c4_A</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Class 4 Asymptomatic&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Asymptomatically Infected People&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">ylabelsize</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Clock Iterations (days)&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">xlabelsize</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number of Infected People per Class over Time&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">titlesize</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/vaccine_allocation_readme_16_0.png" src="_images/vaccine_allocation_readme_16_0.png" />
+</div>
+<div class="section" id="heuristic-agents">
+<h3>Heuristic Agents<a class="headerlink" href="#heuristic-agents" title="Permalink to this headline">¶</a></h3>
+<p>We currently have a single heuristic agent implemented. This algorithm
+picks a fixed priority order over the different classes and allocates
+according to that priority order.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="resource_allocation_readme.html" class="btn btn-neutral float-left" title="Resource Allocation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

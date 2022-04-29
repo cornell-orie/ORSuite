@@ -1,0 +1,624 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.envs.vaccine_allotment.dynamics_model_4groups &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.envs.vaccine_allotment.dynamics_model_4groups</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.envs.vaccine_allotment.dynamics_model_4groups</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Adapted from code by Cornell University students Mohammad Kamil (mk848), Carrie Rucker (cmr284), Jacob Shusko (jws383), Kevin Van Vorst (kpv23).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#import random</span>
+<span class="n">master_seed</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="dynamics_model"><a class="viewcode-back" href="../../../../dynamics_model.html#or_suite.envs.vaccine_allotment.dynamics_model_4groups.dynamics_model">[docs]</a><span class="k">def</span> <span class="nf">dynamics_model</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">population</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to run SIR disease dynamics for 4 groups.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        params: (dict) a dictionary containing the following keys and values:</span>
+
+<span class="sd">            - contact_matrix: (np.array of floats) Contact rates between susceptible people in each class and the infected people.</span>
+
+<span class="sd">            - P: (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.</span>
+
+<span class="sd">            - H: (np.array of floats) H = [h1 h2 h3 h4] where hi = Prob(hospitalized | symptomatic) for a person in class i.</span>
+
+<span class="sd">            - beta: (float) Recovery rate.</span>
+
+<span class="sd">            - gamma: (int) Vaccination rate.</span>
+
+<span class="sd">            - vaccines: The (int) number of vaccine available for this time period.</span>
+
+<span class="sd">            - priority: The (list of chars) vaccination priority order of the four groups.</span>
+
+<span class="sd">            - time_step: The (float) number of units of time you want the simulation to run for e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.</span>
+
+<span class="sd">        population : (np.array of ints) The starting state [S1 S2 S3 S4 A1 A2 A3 A4 I H R].</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array of ints, dict: </span>
+<span class="sd">        newState: the final state [S1 S2 S3 S4 A1 A2 A3 A4 I H N]. Note that instead of returning the final number of recovered people R, we return N, the number of infections that occurred.</span>
+
+<span class="sd">        output_dictionary : A (dict) dictionary containing the following keys and values:</span>
+
+<span class="sd">            - clock times: List of the times that each event happened.</span>
+
+<span class="sd">            - c1 asymptomatic: List of counts of A1 for each time in clks.</span>
+
+<span class="sd">            - c2 asymptomatic: List of counts of A2 for each time in clks.</span>
+
+<span class="sd">            - c3 asymptomatic: List of counts of A3 for each time in clks.</span>
+
+<span class="sd">            - c4 asymptomatic: List of counts of A4 for each time in clks.</span>
+
+<span class="sd">            - mild symptomatic: List of counts of I for each time in clks.</span>
+
+<span class="sd">            - hospitalized: List of counts of H for each time in clks.</span>
+
+<span class="sd">            - c1 susceptible: List of counts of S1 for each time in clks.</span>
+
+<span class="sd">            - c2 susceptible: List of counts of S2 for each time in clks.</span>
+
+<span class="sd">            - c3 susceptible: List of counts of S3 for each time in clks.</span>
+
+<span class="sd">            - c4 susceptible: List of counts of S4 for each time in clks.</span>
+
+<span class="sd">            - recovered: List of counts of R for each time in clks.</span>
+
+<span class="sd">            - total infected: int - Total number of infected (including those that were already infected).</span>
+
+<span class="sd">            - total hospitalized: int - Total number of hospitalized individuals (including those that were already hospitalized).</span>
+
+<span class="sd">            - vaccines: int - Total number of vaccines left.</span>
+
+<span class="sd">            - event counts: np.array - Contains the counts for the number of times each of the 22 events occurred.</span>
+
+
+<span class="sd">    Typical usage example:</span>
+<span class="sd">        newState, info = dynamics_model(parameters, population)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># extract arguments from params dictionary</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span>
+    <span class="n">LAMBDA</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;contact_matrix&#39;</span><span class="p">]</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;priority&#39;</span><span class="p">]</span>
+    <span class="n">vaccines</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;vaccines&#39;</span><span class="p">]</span>
+    <span class="n">time_step</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;time_step&#39;</span><span class="p">]</span>
+
+    <span class="c1"># output tracking</span>
+    <span class="n">clks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c1_Ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">c2_Ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">c3_Ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+    <span class="n">c4_Ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+    <span class="n">c1_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+    <span class="n">c2_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">5</span><span class="p">]]</span>
+    <span class="n">c3_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">6</span><span class="p">]]</span>
+    <span class="n">c4_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">7</span><span class="p">]]</span>
+    <span class="n">Is_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">8</span><span class="p">]]</span>
+    <span class="n">Hs_infs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">9</span><span class="p">]]</span>
+    <span class="n">Rs</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="mi">10</span><span class="p">]]</span>
+
+    <span class="c1"># first priority group</span>
+    <span class="c1"># if priority list is empty, the policy is random vaccination</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priority</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">priority_group</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">priority</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">priority</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">randomFlag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># to begin, assume all groups are eligible; lose eligbility if no susceptible people left in that group</span>
+        <span class="n">eligible_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">eligible_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eligible_list</span><span class="p">)</span>
+        <span class="n">priority_group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">eligible_array</span><span class="p">)</span>
+        <span class="n">randomFlag</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># possible state changes</span>
+    <span class="c1"># each key correponds to the index of an event in rates and has a value [i,j]</span>
+    <span class="c1"># the state change is state[i]-- and state[j]++</span>
+    <span class="n">state_changes</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+                     <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+                     <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mi">10</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="mi">11</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+                     <span class="mi">12</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">13</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">14</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">15</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                     <span class="mi">16</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">17</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">18</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">19</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                     <span class="mi">20</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="mi">21</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+
+    <span class="c1"># rates for all 22 events</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,))</span>
+
+    <span class="c1"># counts for each of the 22 events</span>
+    <span class="n">event_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,))</span>
+
+    <span class="c1"># compute the probabilities associated with each of the 12 infection rates</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+    <span class="n">probs</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">P</span>
+    <span class="n">probs</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">probs</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+
+    <span class="c1"># compute the rates for the 12 infection events</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span> <span class="n">LAMBDA</span><span class="p">)</span>
+    <span class="n">inf_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">inf_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">inf_rates</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">rates</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">inf_rates</span><span class="p">)</span>
+
+    <span class="c1"># compute the rates for the 6 recovery events</span>
+    <span class="n">rates</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+
+    <span class="c1"># compute the rates for the vaccination events</span>
+    <span class="n">rates</span><span class="p">[</span><span class="n">priority_group</span> <span class="o">+</span> <span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span>
+
+    <span class="c1"># flag - if true, we have not run out of vaccines or people to vaccinate yet</span>
+    <span class="c1">#      - if false, either there are no vaccines left or no people to vaccinate</span>
+    <span class="c1"># once set to False, it remains False</span>
+    <span class="n">vaccFlag</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">rate_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+
+    <span class="c1"># exponential timer</span>
+    <span class="n">nxt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">rate_sum</span><span class="p">)</span>
+    <span class="n">clk</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># maximum number of vaccination events that we want to happen</span>
+    <span class="n">max_vacc_events</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">*</span><span class="n">time_step</span>
+
+    <span class="c1"># We will simulate the Markov chain until we&#39;ve reached max_vacc_events vaccination events</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">event_counts</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">max_vacc_events</span><span class="p">:</span>
+        <span class="n">clk</span> <span class="o">+=</span> <span class="n">nxt</span>
+
+        <span class="c1"># get the index of the event that is happening</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">rates</span><span class="o">/</span><span class="n">rate_sum</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># if this is a vaccination event, call vacc_update</span>
+        <span class="c1"># otherwise, simple state change</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">22</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">randomFlag</span><span class="p">:</span>
+                <span class="n">state</span><span class="p">,</span> <span class="n">event_counts</span><span class="p">,</span> <span class="n">priority_group</span><span class="p">,</span> <span class="n">eligible_list</span><span class="p">,</span> <span class="n">vaccines</span> <span class="o">=</span> <span class="n">rand_vacc_update</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span>
+                                                                                                <span class="n">changes</span><span class="o">=</span><span class="n">state_changes</span><span class="p">,</span>
+                                                                                                <span class="n">group</span><span class="o">=</span><span class="n">priority_group</span><span class="p">,</span>
+                                                                                                <span class="n">eligible</span><span class="o">=</span><span class="n">eligible_list</span><span class="p">,</span>
+                                                                                                <span class="n">vaccines</span><span class="o">=</span><span class="n">vaccines</span><span class="p">,</span>
+                                                                                                <span class="n">count</span><span class="o">=</span><span class="n">event_counts</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">state</span><span class="p">,</span> <span class="n">event_counts</span><span class="p">,</span> <span class="n">vaccFlag</span><span class="p">,</span> <span class="n">priority_group</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">vaccines</span> <span class="o">=</span> <span class="n">vacc_update</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span>
+                                                                                                <span class="n">changes</span><span class="o">=</span><span class="n">state_changes</span><span class="p">,</span>
+                                                                                                <span class="n">ind</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                                                                                                <span class="n">count</span><span class="o">=</span><span class="n">event_counts</span><span class="p">,</span>
+                                                                                                <span class="n">flag</span><span class="o">=</span><span class="n">vaccFlag</span><span class="p">,</span>
+                                                                                                <span class="n">group</span><span class="o">=</span><span class="n">priority_group</span><span class="p">,</span>
+                                                                                                <span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">,</span>
+                                                                                                <span class="n">vaccines</span><span class="o">=</span><span class="n">vaccines</span><span class="p">)</span>
+            <span class="c1"># update vaccination rate</span>
+            <span class="n">rates</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">22</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,))</span>
+            <span class="n">rates</span><span class="p">[</span><span class="n">priority_group</span><span class="o">+</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span>
+
+            <span class="c1"># for testing</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">event_counts</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span> <span class="o">%</span> <span class="n">gamma</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; We&#39;ve reached vaccination event number &quot;</span> <span class="o">+</span>
+                      <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">event_counts</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">22</span><span class="p">])))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">state_changes</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">state_changes</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">event_counts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># for debugging: we should never have negative numbers in a state!</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">state</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;Accepted negative state change&#39;</span>
+
+        <span class="c1"># update infection and recovery rates</span>
+        <span class="c1"># 12 infection events</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span> <span class="n">LAMBDA</span><span class="p">)</span>
+        <span class="n">inf_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+        <span class="n">inf_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">inf_rates</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">rates</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">inf_rates</span><span class="p">)</span>
+
+        <span class="c1"># 6 recovery events</span>
+        <span class="n">rates</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+
+        <span class="n">rate_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+
+        <span class="c1"># TODO: not sure if this conditional is necessary</span>
+        <span class="k">if</span> <span class="n">rate_sum</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nxt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">rate_sum</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The sum of the rates is less than or equal to zero!&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+        <span class="c1"># output tracking</span>
+        <span class="n">clks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span>
+        <span class="n">c1_Ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">c2_Ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">c3_Ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">c4_Ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">c1_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">c2_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">c3_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">c4_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">Is_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+        <span class="n">Hs_infs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+        <span class="n">Rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+
+        <span class="c1"># if there are no more infected individuals, the simulation should end</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">11</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reached a disease-free state on day &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clk</span><span class="p">))</span>
+
+    <span class="n">new_infections</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">event_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
+    <span class="n">total_infected</span> <span class="o">=</span> <span class="n">new_infections</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">population</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">total_hospitalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">event_counts</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">]])</span> <span class="o">+</span> <span class="n">population</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+    <span class="n">total_recovered</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+    <span class="n">newState</span> <span class="o">=</span> <span class="n">state</span>
+    <span class="n">newState</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_infections</span>  <span class="c1"># return new infections instead of recovered</span>
+
+    <span class="n">output_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;clock times&#39;</span><span class="p">:</span> <span class="n">clks</span><span class="p">,</span> <span class="s1">&#39;c1 asymptomatic&#39;</span><span class="p">:</span> <span class="n">c1_infs</span><span class="p">,</span> <span class="s1">&#39;c2 asymptomatic&#39;</span><span class="p">:</span> <span class="n">c2_infs</span><span class="p">,</span> <span class="s1">&#39;c3 asymptomatic&#39;</span><span class="p">:</span> <span class="n">c3_infs</span><span class="p">,</span>
+                         <span class="s1">&#39;c4 asymptomatic&#39;</span><span class="p">:</span> <span class="n">c4_infs</span><span class="p">,</span> <span class="s1">&#39;mild symptomatic&#39;</span><span class="p">:</span> <span class="n">Is_infs</span><span class="p">,</span> <span class="s1">&#39;hospitalized&#39;</span><span class="p">:</span> <span class="n">Hs_infs</span><span class="p">,</span> <span class="s1">&#39;c1 susceptible&#39;</span><span class="p">:</span> <span class="n">c1_Ss</span><span class="p">,</span>
+                         <span class="s1">&#39;c2 susceptible&#39;</span><span class="p">:</span> <span class="n">c2_Ss</span><span class="p">,</span> <span class="s1">&#39;c3 susceptible&#39;</span><span class="p">:</span> <span class="n">c3_Ss</span><span class="p">,</span> <span class="s1">&#39;c4 susceptible&#39;</span><span class="p">:</span> <span class="n">c4_Ss</span><span class="p">,</span> <span class="s1">&#39;recovered&#39;</span><span class="p">:</span> <span class="n">Rs</span><span class="p">,</span> <span class="s1">&#39;total infected&#39;</span><span class="p">:</span> <span class="n">total_infected</span><span class="p">,</span>
+                         <span class="s1">&#39;total hospitalized&#39;</span><span class="p">:</span> <span class="n">total_hospitalized</span><span class="p">,</span> <span class="s1">&#39;total recovered&#39;</span><span class="p">:</span> <span class="n">total_recovered</span><span class="p">,</span> <span class="s1">&#39;vaccines&#39;</span><span class="p">:</span> <span class="n">vaccines</span><span class="p">,</span> <span class="s1">&#39;event counts&#39;</span><span class="p">:</span> <span class="n">event_counts</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">newState</span><span class="p">,</span> <span class="n">output_dictionary</span></div>
+
+
+<div class="viewcode-block" id="vacc_update"><a class="viewcode-back" href="../../../../dynamics_model.html#or_suite.envs.vaccine_allotment.dynamics_model_4groups.vacc_update">[docs]</a><span class="k">def</span> <span class="nf">vacc_update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">changes</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">vaccines</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs a vaccination according to the priority order and updates the environment accordingly.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        state : np.array -</span>
+<span class="sd">            The state of the environment when the function is called.</span>
+<span class="sd">        changes : dict -</span>
+<span class="sd">            Possible state changes [i,j] where the change is state[i]--, state[j]++</span>
+<span class="sd">        ind : int -</span>
+<span class="sd">            The index corresponding the current vaccination event.</span>
+<span class="sd">        count : np.array -</span>
+<span class="sd">            Counts of all the events.</span>
+<span class="sd">        flag : boolean -</span>
+<span class="sd">            If true, we have vaccines and people to vaccinate</span>
+<span class="sd">            if false, either there are no vaccines left or no people to vaccinate.</span>
+<span class="sd">        group : int -</span>
+<span class="sd">            Current priority group; always either 0, 1, 2 or 3.</span>
+<span class="sd">        priority : List of strings,</span>
+<span class="sd">            priority order list.</span>
+<span class="sd">        vaccines : int -</span>
+<span class="sd">            Vaccine count.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array, int, boolean, int, list of strings, int:</span>
+<span class="sd">        newState : Updated state.</span>
+
+<span class="sd">        count : Updated event counts.</span>
+
+<span class="sd">        flag : Updated flag for if we should continue to vaccinate.</span>
+
+<span class="sd">        group : Updated priority group.</span>
+
+<span class="sd">        priority : Updated priority list.</span>
+
+<span class="sd">        vaccines : Updated vaccine count.</span>
+
+
+<span class="sd">    Notes:</span>
+<span class="sd">        This function should only ever be called from inside dynamics model. </span>
+<span class="sd">        The vaccination events correspond to indices 18, 19, 20 and 21 in count and changes.</span>
+<span class="sd">        We increment the event counter even if we technically did not vaccinate anyone. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">newState</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="c1"># if flag, up until now there have been vaccines and people to vaccinate</span>
+    <span class="c1"># otherwise, increment event counter and exit function</span>
+    <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+        <span class="c1"># if there are still vaccines, proceeed with vaccination.</span>
+        <span class="c1"># otherwise, set flag to false and increment event counter</span>
+        <span class="k">if</span> <span class="n">vaccines</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">newState</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">newState</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">vaccines</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="c1"># while state change was invalid (i.e. we have negative people), undo change &amp; try again</span>
+            <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">newState</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">newState</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                <span class="n">vaccines</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># if there are still priority groups left, choose next group &amp; proceed with vaccination</span>
+                <span class="c1"># otherwise set flag to false; exits for loop</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priority</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">group</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">priority</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="n">priority</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">newState</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">newState</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">vaccines</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># increment event counter</span>
+            <span class="n">count</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">count</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">newState</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">vaccines</span></div>
+
+
+<div class="viewcode-block" id="rand_vacc_update"><a class="viewcode-back" href="../../../../dynamics_model.html#or_suite.envs.vaccine_allotment.dynamics_model_4groups.rand_vacc_update">[docs]</a><span class="k">def</span> <span class="nf">rand_vacc_update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">changes</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">eligible</span><span class="p">,</span> <span class="n">vaccines</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs a random vaccination and updates the environment accordingly. </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        state : np.array -</span>
+<span class="sd">            The state of the environment when the function is called.</span>
+<span class="sd">        changes : dict -</span>
+<span class="sd">            Possible state changes [i,j] where the change is state[i]--, state[j]++</span>
+<span class="sd">        group : int -</span>
+<span class="sd">            Current priority group.</span>
+<span class="sd">        eligible : List of ints,</span>
+<span class="sd">            groups that are still eligible for vaccination.</span>
+<span class="sd">        vaccines : int -</span>
+<span class="sd">            Current number of available vaccines.</span>
+<span class="sd">        count : np.array -</span>
+<span class="sd">            Counts of all the events.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array, int, int, list of ints, int:</span>
+<span class="sd">        state : Updated state.</span>
+
+<span class="sd">        count : Updated event count.</span>
+
+<span class="sd">        group : Updated priority group.</span>
+
+<span class="sd">        eligible : Updated eligible list.</span>
+
+<span class="sd">        vaccines : Updated vaccine count.</span>
+
+
+<span class="sd">    Notes:</span>
+<span class="sd">        This function should only ever be called from inside dynamics model. </span>
+<span class="sd">        The vaccination events correspond to indices 18, 19, 20 and 21 in count and changes.</span>
+<span class="sd">        We increment the event counter even if we technically did not vaccinate anyone. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># if there are still people to vaccinate and vaccines left, proceed with vaccination</span>
+    <span class="c1"># otherwise increment event counter and exit function</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eligible</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vaccines</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">vaccines</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="c1"># while state change was invalid (i.e. we have negative people), undo change &amp; try again</span>
+        <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">state</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">vaccines</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># current group has no one left to vaccinate so remove from eligibilty list</span>
+            <span class="n">eligible</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+            <span class="c1"># if there are still eligible groups, choose new priority group and proceed with vaccination</span>
+            <span class="c1"># otherwise will exit while loop</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eligible</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">eligible_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eligible</span><span class="p">)</span>
+                <span class="n">group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">eligible_array</span><span class="p">)</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">changes</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">vaccines</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="c1"># increment event counter accordingly and choose new priority group if possible</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eligible</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">eligible_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eligible</span><span class="p">)</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">eligible_array</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">group</span><span class="o">+</span><span class="mi">18</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">eligible</span><span class="p">,</span> <span class="n">vaccines</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

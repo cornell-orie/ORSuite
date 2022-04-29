@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.experiment.sb_experiment &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.experiment.sb_experiment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.experiment.sb_experiment</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.common.monitor</span> <span class="kn">import</span> <span class="n">Monitor</span>
+<span class="kn">from</span> <span class="nn">or_suite.experiment.trajectory_callback</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="SB_Experiment"><a class="viewcode-back" href="../../../sb_experiment_file.html#or_suite.experiment.sb_experiment.SB_Experiment">[docs]</a><span class="k">class</span> <span class="nc">SB_Experiment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optional instrumentation for running an experiment.</span>
+
+<span class="sd">    Runs a simulation between an arbitrary openAI Gym environment and a STABLE BASELINES ALGORITHM, saving a dataset of (reward, time, space) complexity across each episode,</span>
+<span class="sd">    and optionally saves trajectory information.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        seed: random seed set to allow reproducibility</span>
+<span class="sd">        dirPath: (string) location to store the data files</span>
+<span class="sd">        nEps: (int) number of episodes for the simulation</span>
+<span class="sd">        deBug: (bool) boolean, when set to true causes the algorithm to print information to the command line</span>
+<span class="sd">        env: (openAI env) the environment to run the simulations on</span>
+<span class="sd">        epLen: (int) the length of each episode</span>
+<span class="sd">        numIters: (int) the number of iterations of (nEps, epLen) pairs to iterate over with the environment</span>
+<span class="sd">        save_trajectory: (bool) boolean, when set to true saves the entire trajectory information</span>
+<span class="sd">        render_flag: (bool) boolean, when set to true renders the simulations</span>
+<span class="sd">        model: (stable baselines algorithm) an algorithm to run the experiments with</span>
+<span class="sd">        data: (np.array) an array saving the metrics along the sample paths (rewards, time, space)</span>
+<span class="sd">        trajectory_data: (list) a list saving the trajectory information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SB_Experiment.__init__"><a class="viewcode-back" href="../../../sb_experiment_file.html#or_suite.experiment.sb_experiment.SB_Experiment.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            env: (openAI env) the environment to run the simulations on</span>
+<span class="sd">            model: (stable baseilnes algorithm) an algorithm to run the experiments with</span>
+<span class="sd">            dict: a dictionary containing the arguments to send for the experiment, including:</span>
+
+<span class="sd">                - dirPath: (string) location to store the data files</span>
+
+<span class="sd">                - nEps: (int) number of episodes for the simulation</span>
+
+<span class="sd">                - deBug: (bool) boolean, when set to true causes the algorithm to print information to the command line</span>
+
+<span class="sd">                - env: (openAI env) the environment to run the simulations on</span>
+
+<span class="sd">                - epLen: (int) the length of each episode</span>
+
+<span class="sd">                - numIters: (int) the number of iterations of (nEps, epLen) pairs to iterate over with the environment</span>
+
+<span class="sd">                - save_trajectory: (bool) boolean, when set to true saves the entire trajectory information</span>
+<span class="sd">                            TODO: Feature not implemented</span>
+
+<span class="sd">                - render: (bool) boolean, when set to true renders the simulations </span>
+<span class="sd">                            TODO: Feature not implemeneted</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dirPath</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;dirPath&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deBug</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;deBug&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nEps</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;nEps&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;epLen&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_iters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;numIters&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_trajectory</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;saveTrajectory&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render_flag</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;render&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="c1"># print(&#39;epLen: &#39; + str(self.epLen))</span>
+
+        <span class="c1"># if trajectory should be saved, save it in list and make callback</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_trajectory</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">TrajectoryCallback</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span></div>
+
+    <span class="c1"># Runs the experiment</span>
+<div class="viewcode-block" id="SB_Experiment.run"><a class="viewcode-back" href="../../../sb_experiment_file.html#or_suite.experiment.sb_experiment.SB_Experiment.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Runs the simulations between an environment and an algorithm</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Running experiment&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">traj_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">episodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iterations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">memory</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Running an experiment</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;New Experiment Run&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_iters</span><span class="p">):</span>  <span class="c1"># loops over all the iterations</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Iteration: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>  <span class="c1"># starts timer for memory information</span>
+
+            <span class="c1"># learns over all of the episodes</span>
+            <span class="c1"># if trajectory is to be saved, use callback</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_trajectory</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">total_timesteps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">*</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">total_timesteps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">update_iter</span><span class="p">()</span>
+
+            <span class="n">current</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()</span>  <span class="c1"># collects memory information</span>
+            <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+            <span class="c1"># appends data to dataset</span>
+            <span class="n">episodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episodes</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">))</span>
+            <span class="n">iterations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">)])</span>
+
+            <span class="n">memory</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="p">[</span><span class="n">current</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nEps</span><span class="p">)])</span>
+        
+        <span class="c1">#save trajectory info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">trajectory</span>
+        
+        <span class="c1"># print(self.env.get_episode_rewards())</span>
+        <span class="c1"># print(len(self.env.get_episode_rewards()))</span>
+        <span class="c1"># rewards are kept cumulatively so we save it out of the loop</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_episode_rewards</span><span class="p">())</span>
+
+        <span class="c1"># Times are calculated cumulatively so need to calculate the per iteration time complexity</span>
+        <span class="n">orig_times</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_episode_times</span><span class="p">()</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">orig_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">orig_times</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig_times</span><span class="p">))]</span>
+
+        <span class="c1"># Combining data in dataframe</span>
+        <span class="c1"># print(episodes)</span>
+        <span class="c1"># print(iterations)</span>
+        <span class="c1"># print(rewards)</span>
+        <span class="c1"># print(memory)</span>
+        <span class="c1"># print(np.log(times))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">episodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterations</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">rewards</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">memory</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;episode&#39;</span><span class="p">:</span> <span class="n">episodes</span><span class="p">,</span>
+                                  <span class="s1">&#39;iteration&#39;</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
+                                  <span class="s1">&#39;epReward&#39;</span><span class="p">:</span> <span class="n">rewards</span><span class="p">,</span>
+                                  <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">times</span><span class="p">),</span>
+                                  <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="n">memory</span><span class="p">})</span></div>
+
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Experiment complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+
+    <span class="c1"># Saves the data to the file location provided to the algorithm</span>
+<div class="viewcode-block" id="SB_Experiment.save_data"><a class="viewcode-back" href="../../../sb_experiment_file.html#or_suite.experiment.sb_experiment.SB_Experiment.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Saves the acquired dataset to the noted location</span>
+
+<span class="sd">            Returns: dataframe corresponding to the saved data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Saving data&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+
+        <span class="c1"># print(self.data)</span>
+
+        <span class="n">dir_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dirPath</span>
+
+        <span class="n">data_loc</span> <span class="o">=</span> <span class="s1">&#39;data.csv&#39;</span>
+        <span class="n">traj_loc</span> <span class="o">=</span> <span class="s1">&#39;trajectory.obj&#39;</span>
+
+        <span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[(</span><span class="n">dt</span><span class="o">.</span><span class="n">T</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()]</span>
+
+        <span class="n">data_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">data_loc</span><span class="p">)</span>
+        <span class="n">traj_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">traj_loc</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Writing to file &#39;</span> <span class="o">+</span> <span class="n">dir_path</span> <span class="o">+</span> <span class="n">data_loc</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+            <span class="n">dt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">data_filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.5f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_trajectory</span><span class="p">:</span>  <span class="c1"># saves trajectory to filename</span>
+                <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">traj_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+                <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+            <span class="n">dt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">data_filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.5f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_trajectory</span><span class="p">:</span>  <span class="c1"># saves trajectory to filename</span>
+                <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">traj_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+                <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+        <span class="c1"># print(&#39;Data save complete&#39;)</span>
+        <span class="c1"># print(&#39;**************************************************&#39;)</span>
+
+        <span class="k">return</span> <span class="n">dt</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

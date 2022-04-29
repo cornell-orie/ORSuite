@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Ridesharing &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Vaccine Allotment Environments" href="vaccine.html" />
+    <link rel="prev" title="Resource Allocation" href="resource_allocation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="envs.html">Environments</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="airline_revenue.html">Airline Revenue Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ambulance.html">Ambulance Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite_armed.html">Finite Armed Bandit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_control.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil.html">Oil Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">Resource Allocation Environments</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ridesharing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vaccine.html">Vaccine Allotment Environments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="envs.html">Environments</a> &raquo;</li>
+        
+      <li>Ridesharing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/rideshare.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.envs.ridesharing.rideshare_graph">
+<span id="ridesharing"></span><h1>Ridesharing<a class="headerlink" href="#module-or_suite.envs.ridesharing.rideshare_graph" title="Permalink to this headline">¶</a></h1>
+<p>Implementation of an RL environment in a discrete graph space.</p>
+<p>A ridesharing environment over a simple graph. An agent interacts through the
+environment by choosing a non-zero node to service a given rideshare request.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.envs.ridesharing.rideshare_graph.</span></span><span class="sig-name descname"><span class="pre">RideshareGraphEnvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">config={'cost':</span> <span class="pre">1,</span> <span class="pre">'d_threshold':</span> <span class="pre">20,</span> <span class="pre">'edges':</span> <span class="pre">[(0,</span> <span class="pre">1,</span> <span class="pre">{'travel_time':</span> <span class="pre">1}),</span> <span class="pre">(0,</span> <span class="pre">2,</span> <span class="pre">{'travel_time':</span> <span class="pre">100}),</span> <span class="pre">(0,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">10}),</span> <span class="pre">(1,</span> <span class="pre">2,</span> <span class="pre">{'travel_time':</span> <span class="pre">20}),</span> <span class="pre">(1,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">1}),</span> <span class="pre">(2,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">70})],</span> <span class="pre">'epLen':</span> <span class="pre">5,</span> <span class="pre">'fare':</span> <span class="pre">3,</span> <span class="pre">'gamma':</span> <span class="pre">1,</span> <span class="pre">'num_cars':</span> <span class="pre">3,</span> <span class="pre">'request_dist':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward_denied':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward_fail':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'starting_state':</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">'travel_time':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'velocity':</span> <span class="pre">3}</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom Rideshare Graph Environment that follows gym interface.</p>
+<p>This is a simple env where the requests are uniformly distributed across
+nodes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary containing the initial configuration of the
+rideshare graph environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer representing the total number of time steps.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.graph">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object containing nodes and edges; each edge has a travel time.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.num_nodes">
+<span class="sig-name descname"><span class="pre">num_nodes</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.num_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer count of the number of nodes in the graph.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.starting_state">
+<span class="sig-name descname"><span class="pre">starting_state</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.starting_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector representing the initial state of the
+environment; the first K elements represent the number of cars
+at each node, and the final 2 elements represent the current
+request that needs to be satisfied, i.e. node i to node j.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector representing the state of the environment; the first K
+elements represent the number of cars at each node, and the final 2
+elements represent the current request that needs to be satisfied,
+i.e. node i to node j.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.timestep" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer representing the current timestep of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.num_cars">
+<span class="sig-name descname"><span class="pre">num_cars</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.num_cars" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer representing the number of cars in the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.lengths">
+<span class="sig-name descname"><span class="pre">lengths</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.lengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>A 2-dimensional symmetric array containing the distances
+between each pair of nodes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.request_dist">
+<span class="sig-name descname"><span class="pre">request_dist</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.request_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector consisting of the distribution used for selecting
+nodes when generating requests.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reward">
+<span class="sig-name descname"><span class="pre">reward</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>A lambda function to generate the reward.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reward_fail">
+<span class="sig-name descname"><span class="pre">reward_fail</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reward_fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>A lambda function to generate the reward when the RL
+agent fails; i.e. when a request is not satisfied.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.action_space">
+<span class="sig-name descname"><span class="pre">action_space</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.action_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>A discrete set of values the action can have; in this case
+the action space is an integer within {0..K-1}.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.observation_space">
+<span class="sig-name descname"><span class="pre">observation_space</span></span><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.observation_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>A multidiscrete that represents all possible values
+of the state; i.e. all possible values for the amount of cars at
+each node and all possible nodes for any request.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">config={'cost':</span> <span class="pre">1,</span> <span class="pre">'d_threshold':</span> <span class="pre">20,</span> <span class="pre">'edges':</span> <span class="pre">[(0,</span> <span class="pre">1,</span> <span class="pre">{'travel_time':</span> <span class="pre">1}),</span> <span class="pre">(0,</span> <span class="pre">2,</span> <span class="pre">{'travel_time':</span> <span class="pre">100}),</span> <span class="pre">(0,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">10}),</span> <span class="pre">(1,</span> <span class="pre">2,</span> <span class="pre">{'travel_time':</span> <span class="pre">20}),</span> <span class="pre">(1,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">1}),</span> <span class="pre">(2,</span> <span class="pre">3,</span> <span class="pre">{'travel_time':</span> <span class="pre">70})],</span> <span class="pre">'epLen':</span> <span class="pre">5,</span> <span class="pre">'fare':</span> <span class="pre">3,</span> <span class="pre">'gamma':</span> <span class="pre">1,</span> <span class="pre">'num_cars':</span> <span class="pre">3,</span> <span class="pre">'request_dist':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward_denied':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'reward_fail':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'starting_state':</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">'travel_time':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'velocity':</span> <span class="pre">3}</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inits RideshareGraphEnvironment with the given configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – A dictionary containing the initial configuration of the
+rideshare graph environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.find_lengths">
+<span class="sig-name descname"><span class="pre">find_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.find_lengths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.find_lengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the lengths between each pair of nodes in [graph].</p>
+<p>Given a graph, find_lengths first calculates the pairwise shortest distance
+between all the nodes, which is stored in a (symmetric) matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> – An object containing nodes and edges; each edge has a travel
+time.</p></li>
+<li><p><strong>num_nodes</strong> – An integer representing the number of nodes in the graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A 2-dimensional symmetric array containing the distances between
+each pair of nodes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.fulfill_req">
+<span class="sig-name descname"><span class="pre">fulfill_req</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispatch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sink</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.fulfill_req"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.fulfill_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state to represent a car moving from source to sink.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dispatch</strong> – An integer representing the dispatched node for the rideshare
+request.</p></li>
+<li><p><strong>sink</strong> – An integer representing the destination node of the rideshare
+request.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the configuration for the current environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reinitializes variables and returns the starting state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/ridesharing/rideshare_graph.html#RideshareGraphEnvironment.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move one step in the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> – An Integer representing the node selected by the agent to
+service the request.</p>
+</dd>
+</dl>
+<p>Returns: A 3-tuple consisting of the following elements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>An updated representation of the state, including updated car locations resulting from the previous dispatch and a new ride request,</p></li>
+<li><p>An integer reward value based on the action,</p></li>
+<li><p>A boolean indicating whether or not the model has reached the limit timestep.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="vaccine.html" class="btn btn-neutral float-right" title="Vaccine Allotment Environments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="resource_allocation.html" class="btn btn-neutral float-left" title="Resource Allocation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Revenue Management &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Ambulance Routing Problem" href="ambulance_routing_readme.html" />
+    <link rel="prev" title="Stable Baselines Experiment" href="sb_experiment_file.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Revenue Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-assumptions">Model Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dynamics">Dynamics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#state-space">State Space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action-space">Action Space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reward">Reward</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transitions">Transitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-parameters">Configuration Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#heuristic-agents">Heuristic Agents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Revenue Management</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/airline_revenue_readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="revenue-management">
+<h1>Revenue Management<a class="headerlink" href="#revenue-management" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>Online revenue management (also known as online stochastic bin packing)
+considers managing different available resources consumed by different
+classes of customers in order to maximize revenue. In this environment,
+we model multiple types of resources with some initial availability. At
+each iteration, the algorithm designer decides in the current time step
+whether or not to accept customers from a given class. One customer of a
+given class comes and arrives to the system, if the agent decides to
+fulfill their request, they utilize some amount of the different
+resources and provide an amount of revenue. At a high level, then, the
+goal of the agent is to chose which types of customers to accept at
+every iteration in order to maximize the total revenue. This requires
+planning for the scarce resources and ensuring that the agent does not
+allocate to individuals who will exhaust the remaining resources.</p>
+</div>
+<div class="section" id="model-assumptions">
+<h2>Model Assumptions<a class="headerlink" href="#model-assumptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Customers who are denied are not allowed to purchase resources later
+even if those resources are available. This did not extend to
+customer classes, though. A customer may be allowed to purchase
+resources even if another customer of the same class was denied at an
+earlier (or later) timestep.</p></li>
+</ul>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dynamics">
+<h3>Dynamics<a class="headerlink" href="#dynamics" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="state-space">
+<h4>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h4>
+<p>The state space is the set of all possible available seats for every
+flight into and out of each location up to the full capacities. <span class="math notranslate nohighlight">\(S = [0, B_1] \times [0, B_2] \times ... \times [0, B_k]\)</span> where <span class="math notranslate nohighlight">\(B_i\)</span> is the maximum availability
+of resource type <span class="math notranslate nohighlight">\(i\)</span> is the number of resource types.</p>
+</div>
+<div class="section" id="action-space">
+<h4>Action Space<a class="headerlink" href="#action-space" title="Permalink to this headline">¶</a></h4>
+<p>The action space is all possible binary vectors of length <span class="math notranslate nohighlight">\(n\)</span> which
+tells you whether a customer class is accepted or declined by the
+company, where n is the number of customer classes. <span class="math notranslate nohighlight">\(A = {{0, 1}}^n\)</span></p>
+</div>
+<div class="section" id="reward">
+<h4>Reward<a class="headerlink" href="#reward" title="Permalink to this headline">¶</a></h4>
+<p>The one-step reward is the revenue gained from selling resources to the
+customer class that arrives. If resources are not sold (because the
+customer is denied or the resources desired are not available), then the
+reward is zero.</p>
+</div>
+<div class="section" id="transitions">
+<h4>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline">¶</a></h4>
+<dl class="simple">
+<dt>Given an arrival <span class="math notranslate nohighlight">\(P_t\)</span> of type <span class="math notranslate nohighlight">\(j_t \in [n]\)</span> or <span class="math notranslate nohighlight">\(\emptyset\)</span>:</dt><dd><ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\emptyset\)</span> then <span class="math notranslate nohighlight">\(S_{t+1} = S_t\)</span> with <span class="math notranslate nohighlight">\(reward = 0\)</span>, indicating that no arrivals occured and so the agent receives no revenue</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(j_t\)</span>:</p>
+<ul>
+<li><p>if <span class="math notranslate nohighlight">\(a_{j_t} = 0\)</span> (i.e. algorithm refuses to allocate to that type of customer) then <span class="math notranslate nohighlight">\(S_{t+1} = S_t\)</span> with <span class="math notranslate nohighlight">\(reward = 0\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(a_{j_t} = 1\)</span> and <span class="math notranslate nohighlight">\(S_t - A_{j_t}^T ≥ 0\)</span> (i.e. budget for resources to satisfy the request) then <span class="math notranslate nohighlight">\(S_{t + 1} = S_t - A_{j_t}^T\)</span> with <span class="math notranslate nohighlight">\(reward = f_{j_t}\)</span></p></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+<p>At each time step a customer may or may not arrive. If no customer
+arrives, then the next state is the same as the current state and the
+reward is zero. If a customer does arrive they can either be accepted or
+rejected according to the action taken for the timestep (the action is
+determined before the arrival of the customer). If the customer is
+rejected, the next state is the same as the current state and the reward
+is zero. If the customer is accepted, the resources that they wish to
+purchase may or may not be available. If they are not available, then
+the next state is the same as the current state and the reward is zero.
+If they are available, then the resources purchased are subtracted from
+the current number available for the next state and the reward is the
+value determined when initializing the environment for the class of
+customer that arrived.</p>
+</div>
+<div class="section" id="configuration-parameters">
+<h4>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epLen</span></code>: The int number of time steps to run the experiment for.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code>: The float array representing the revenue per class.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A</span></code>: The 2-D float array representing the resource consumption.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starting_state</span></code>: The float array representing the number of
+available resources of each type.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P</span></code>: The float array representing the distribution over arrivals.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="heuristic-agents">
+<h2>Heuristic Agents<a class="headerlink" href="#heuristic-agents" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ambulance_routing_readme.html" class="btn btn-neutral float-right" title="The Ambulance Routing Problem" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sb_experiment_file.html" class="btn btn-neutral float-left" title="Stable Baselines Experiment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

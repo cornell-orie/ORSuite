@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Dynamics Model 4 Groups &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Vaccine 4 Groups" href="vacc4_groups.html" />
+    <link rel="prev" title="Vaccine Allotment Environments" href="vaccine.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="envs.html">Environments</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="airline_revenue.html">Airline Revenue Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ambulance.html">Ambulance Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite_armed.html">Finite Armed Bandit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_control.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil.html">Oil Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">Resource Allocation Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rideshare.html">Ridesharing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="vaccine.html">Vaccine Allotment Environments</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dynamics Model 4 Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vacc4_groups.html">Vaccine 4 Groups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="envs.html">Environments</a> &raquo;</li>
+        
+          <li><a href="vaccine.html">Vaccine Allotment Environments</a> &raquo;</li>
+        
+      <li>Dynamics Model 4 Groups</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/dynamics_model.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.envs.vaccine_allotment.dynamics_model_4groups">
+<span id="dynamics-model-4-groups"></span><h1>Dynamics Model 4 Groups<a class="headerlink" href="#module-or_suite.envs.vaccine_allotment.dynamics_model_4groups" title="Permalink to this headline">¶</a></h1>
+<p>Adapted from code by Cornell University students Mohammad Kamil (mk848), Carrie Rucker (cmr284), Jacob Shusko (jws383), Kevin Van Vorst (kpv23).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.dynamics_model_4groups.dynamics_model">
+<span class="sig-prename descclassname"><span class="pre">or_suite.envs.vaccine_allotment.dynamics_model_4groups.</span></span><span class="sig-name descname"><span class="pre">dynamics_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/dynamics_model_4groups.html#dynamics_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.dynamics_model_4groups.dynamics_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to run SIR disease dynamics for 4 groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> – <p>(dict) a dictionary containing the following keys and values:</p>
+<ul>
+<li><p>contact_matrix: (np.array of floats) Contact rates between susceptible people in each class and the infected people.</p></li>
+<li><p>P: (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.</p></li>
+<li><p>H: (np.array of floats) H = [h1 h2 h3 h4] where hi = Prob(hospitalized | symptomatic) for a person in class i.</p></li>
+<li><p>beta: (float) Recovery rate.</p></li>
+<li><p>gamma: (int) Vaccination rate.</p></li>
+<li><p>vaccines: The (int) number of vaccine available for this time period.</p></li>
+<li><p>priority: The (list of chars) vaccination priority order of the four groups.</p></li>
+<li><p>time_step: The (float) number of units of time you want the simulation to run for e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.</p></li>
+</ul>
+</p></li>
+<li><p><strong>population</strong> – (np.array of ints) The starting state [S1 S2 S3 S4 A1 A2 A3 A4 I H R].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>newState: the final state [S1 S2 S3 S4 A1 A2 A3 A4 I H N]. Note that instead of returning the final number of recovered people R, we return N, the number of infections that occurred.</p>
+<p>output_dictionary : A (dict) dictionary containing the following keys and values:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>clock times: List of the times that each event happened.</p></li>
+<li><p>c1 asymptomatic: List of counts of A1 for each time in clks.</p></li>
+<li><p>c2 asymptomatic: List of counts of A2 for each time in clks.</p></li>
+<li><p>c3 asymptomatic: List of counts of A3 for each time in clks.</p></li>
+<li><p>c4 asymptomatic: List of counts of A4 for each time in clks.</p></li>
+<li><p>mild symptomatic: List of counts of I for each time in clks.</p></li>
+<li><p>hospitalized: List of counts of H for each time in clks.</p></li>
+<li><p>c1 susceptible: List of counts of S1 for each time in clks.</p></li>
+<li><p>c2 susceptible: List of counts of S2 for each time in clks.</p></li>
+<li><p>c3 susceptible: List of counts of S3 for each time in clks.</p></li>
+<li><p>c4 susceptible: List of counts of S4 for each time in clks.</p></li>
+<li><p>recovered: List of counts of R for each time in clks.</p></li>
+<li><p>total infected: int - Total number of infected (including those that were already infected).</p></li>
+<li><p>total hospitalized: int - Total number of hospitalized individuals (including those that were already hospitalized).</p></li>
+<li><p>vaccines: int - Total number of vaccines left.</p></li>
+<li><p>event counts: np.array - Contains the counts for the number of times each of the 22 events occurred.</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array of ints, dict</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Typical usage example:</dt><dd><p>newState, info = dynamics_model(parameters, population)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.dynamics_model_4groups.rand_vacc_update">
+<span class="sig-prename descclassname"><span class="pre">or_suite.envs.vaccine_allotment.dynamics_model_4groups.</span></span><span class="sig-name descname"><span class="pre">rand_vacc_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eligible</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vaccines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/dynamics_model_4groups.html#rand_vacc_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.dynamics_model_4groups.rand_vacc_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a random vaccination and updates the environment accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – np.array -
+The state of the environment when the function is called.</p></li>
+<li><p><strong>changes</strong> – dict -
+Possible state changes [i,j] where the change is state[i]–, state[j]++</p></li>
+<li><p><strong>group</strong> – int -
+Current priority group.</p></li>
+<li><p><strong>eligible</strong> – List of ints,
+groups that are still eligible for vaccination.</p></li>
+<li><p><strong>vaccines</strong> – int -
+Current number of available vaccines.</p></li>
+<li><p><strong>count</strong> – np.array -
+Counts of all the events.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>state : Updated state.</p>
+<p>count : Updated event count.</p>
+<p>group : Updated priority group.</p>
+<p>eligible : Updated eligible list.</p>
+<p>vaccines : Updated vaccine count.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, int, int, list of ints, int</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function should only ever be called from inside dynamics model.
+The vaccination events correspond to indices 18, 19, 20 and 21 in count and changes.
+We increment the event counter even if we technically did not vaccinate anyone.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.dynamics_model_4groups.vacc_update">
+<span class="sig-prename descclassname"><span class="pre">or_suite.envs.vaccine_allotment.dynamics_model_4groups.</span></span><span class="sig-name descname"><span class="pre">vacc_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vaccines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/dynamics_model_4groups.html#vacc_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.dynamics_model_4groups.vacc_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a vaccination according to the priority order and updates the environment accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – np.array -
+The state of the environment when the function is called.</p></li>
+<li><p><strong>changes</strong> – dict -
+Possible state changes [i,j] where the change is state[i]–, state[j]++</p></li>
+<li><p><strong>ind</strong> – int -
+The index corresponding the current vaccination event.</p></li>
+<li><p><strong>count</strong> – np.array -
+Counts of all the events.</p></li>
+<li><p><strong>flag</strong> – boolean -
+If true, we have vaccines and people to vaccinate
+if false, either there are no vaccines left or no people to vaccinate.</p></li>
+<li><p><strong>group</strong> – int -
+Current priority group; always either 0, 1, 2 or 3.</p></li>
+<li><p><strong>priority</strong> – List of strings,
+priority order list.</p></li>
+<li><p><strong>vaccines</strong> – int -
+Vaccine count.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>newState : Updated state.</p>
+<p>count : Updated event counts.</p>
+<p>flag : Updated flag for if we should continue to vaccinate.</p>
+<p>group : Updated priority group.</p>
+<p>priority : Updated priority list.</p>
+<p>vaccines : Updated vaccine count.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, int, boolean, int, list of strings, int</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function should only ever be called from inside dynamics model.
+The vaccination events correspond to indices 18, 19, 20 and 21 in count and changes.
+We increment the event counter even if we technically did not vaccinate anyone.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="vacc4_groups.html" class="btn btn-neutral float-right" title="Vaccine 4 Groups" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="vaccine.html" class="btn btn-neutral float-left" title="Vaccine Allotment Environments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

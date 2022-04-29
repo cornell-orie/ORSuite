@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ORSuite Experiment Guide &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Environments" href="envs.html" />
+    <link rel="prev" title="ORSuite Contribution Guide" href="contribution_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ORSuite Experiment Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#package-installation">Package Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experimental-parameters">Experimental Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environmental-specific-parameters">Environmental specific parameters:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-code-and-generating-figures">Running The Code and Generating Figures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#radar-plot">Radar Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#line-plot">Line Plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>ORSuite Experiment Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/experiment_guide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p><span class="raw-html-m2r"><!-- Logo --></span></p>
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/ORSuite.svg" width="50%">
+</p><div class="section" id="orsuite-experiment-guide">
+<h1>ORSuite Experiment Guide<a class="headerlink" href="#orsuite-experiment-guide" title="Permalink to this headline">¶</a></h1>
+<p>ORSuite is a collection of environments, agents, and instrumentation, aimed at providing researchers in computer science and operations research reinforcement learning implementation of various problems and models arising in operations research. These experiments are made up of several componets including:</p>
+<ul class="simple">
+<li><p>importing packages</p></li>
+<li><p>specifying the environment</p></li>
+<li><p>selecting algorithms</p></li>
+<li><p>running experiment/generating figures</p></li>
+</ul>
+<p>This guide will go through how to read and run experiments made by ORSuite.</p>
+<p>This guide follows the ambulance environment model. The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances.</p>
+<p>For more information on the example see <code class="docutils literal notranslate"><span class="pre">examples/ambulance_metric_environment.ipynb</span></code>.
+For more information on the environment see <code class="docutils literal notranslate"><span class="pre">or_suite/envs/ambulance/ambulance_metric.py</span></code>.</p>
+<div class="section" id="package-installation">
+<h2>Package Installation<a class="headerlink" href="#package-installation" title="Permalink to this headline">¶</a></h2>
+<p>In this section we import the modules required to run experiments within the ORSuite package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">or_suite</span> <span class="c1"># current package used</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># open source Python library that aids in scientific computation</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="c1"># creates a shallow and deep copy of a given object</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="c1"># provides functions for working with operating systems</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.common.monitor</span> <span class="kn">import</span> <span class="n">Monitor</span> <span class="c1">#  monitor wrapper for Gym environments, used to know the episode length, time and other data</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3</span> <span class="kn">import</span> <span class="n">PPO</span> <span class="c1"># uses clipping so that after an update, the new policy will not be not too far form the old policy</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.ppo</span> <span class="kn">import</span> <span class="n">MlpPolicy</span> <span class="c1"># the policy model used in PPO</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.common.env_util</span> <span class="kn">import</span> <span class="n">make_vec_env</span> <span class="c1"># stacks multiple different environments into one (vectorized environment)</span>
+<span class="kn">from</span> <span class="nn">stable_baselines3.common.evaluation</span> <span class="kn">import</span> <span class="n">evaluate_policy</span> <span class="c1"># evaluates the agent and the reward</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># brings pandas data analysis library into current environment</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="experimental-parameters">
+<h2>Experimental Parameters<a class="headerlink" href="#experimental-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Next we specify the set of parameters for running an experiment. These include both “experiment” parameters and “environment” parameters. The experiment parameters are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEFAULT_SETTINGS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1"># allows random numbers to be generated</span>
+                    <span class="s1">&#39;recFreq&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1"># frequency for saving cumulative H-step rewards per episodes in the dataframe</span>
+                    <span class="s1">&#39;dirPath&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/ambulance/&#39;</span><span class="p">,</span> <span class="c1"># a string, is the location where the data files are stored</span>
+                    <span class="s1">&#39;deBug&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># prints information to the command line when set true</span>
+                    <span class="s1">&#39;nEps&#39;</span><span class="p">:</span> <span class="n">nEps</span><span class="p">,</span> <span class="c1"># represents the number of episodes</span>
+                    <span class="s1">&#39;numIters&#39;</span><span class="p">:</span> <span class="n">numIters</span><span class="p">,</span> <span class="c1"># # the number of iterations of (nEps, epLen) pairs to iterate over with the environment</span>
+                    <span class="s1">&#39;saveTrajectory&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># save trajectory for calculating additional metrics</span>
+                    <span class="s1">&#39;epLen&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="c1"># represents the length of each episode</span>
+                    <span class="s1">&#39;render&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># renders the algorithm when set to true</span>
+                    <span class="s1">&#39;pickle&#39;</span><span class="p">:</span> <span class="kc">False</span> <span class="c1"># indicator for pickling final information</span>
+                    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The experimental parameters can be found in the attributes section of <code class="docutils literal notranslate"><span class="pre">or_suite/experiment/experiment.py</span></code>.</p>
+<div class="section" id="environmental-specific-parameters">
+<h3>Environmental specific parameters:<a class="headerlink" href="#environmental-specific-parameters" title="Permalink to this headline">¶</a></h3>
+<p>In order to make an environment you type <code class="docutils literal notranslate"><span class="pre">Gym.env('Name',</span> <span class="pre">env_config)</span></code>.</p>
+<p>The specific configuration of the parameters for each of the environments can be found in <code class="docutils literal notranslate"><span class="pre">or_suite/envs/env_configs.py</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">or_suite/envs/env_configs.py</span></code>, each environment has customizable parameters you can create and set. For the ambulance example the cooresponding parameters are written as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ambulance_metric_default_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;epLen&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="c1"># number of time steps to run the experiment for</span>
+                                   <span class="s1">&#39;arrival_dist&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="c1"># the arrival distribution for calls over the space [0,1]</span>
+                                   <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="c1"># controls the proportional difference between the cost to move ambulances in between calls and the cost to move the ambulance to respond to a call</span>
+                                   <span class="s1">&#39;starting_state&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span> <span class="c1"># list containing the starting locations for each ambulance</span>
+                                   <span class="s1">&#39;num_ambulance&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1"># represents the number of ambulances in the system</span>
+                                   <span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="c1"># representing the norm to use to calculate distances; in most cases it should probably be set to 1</span>
+                                   <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="agents">
+<h2>Agents<a class="headerlink" href="#agents" title="Permalink to this headline">¶</a></h2>
+<p>The agents section of the code specifies the algorithms used in the experiment. These agents are later ran against each other to see which ones are most effective for the simulation. Each of the agents have different parameters. To check all the agent files in the ambulance example with varying parameters see <code class="docutils literal notranslate"><span class="pre">or_suite/agents/ambulance</span></code>.</p>
+<p>A common agents throughout different experiments is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Random</span></code> implements the randomized RL algorithm, which selects an action uniformly at random from the action space. In particular, the algorithm stores an internal copy of the environment’s action space and samples uniformly at random from it.</p></li>
+</ul>
+<p>Other agents are further specified within each experiment in “ORSuite/examples”.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Median</span></code> is an agent that takes a list of all past call arrivals sorted by arrival location, and partitions it into <em>k</em> quantiles where <em>k</em> is the number of ambulances. The algorithm then selects the middle data point in each quantile as the locations to station the ambulances.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Stable</span></code> is an agent that only moves ambulances when responding to an incoming call and not in between calls.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SB</span> <span class="pre">PPO</span></code> is Proximal Policy Optimization. This agent comes from stable_baselines_3. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AdaQL</span></code> is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the $ell_{infty}$ norm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AdaMB</span></code> is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the  $ell_{infty}$ norm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Unif</span> <span class="pre">QL</span></code> is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the $ell_{infty}$ norm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Unif</span> <span class="pre">MB</span></code> is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the $ell_{infty}$ norm.</p>
+<p>Specifying the agents in the code looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">agents</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;SB PPO&#39;</span><span class="p">:</span> <span class="n">PPO</span><span class="p">(</span><span class="n">MlpPolicy</span><span class="p">,</span> <span class="n">mon_env</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">epLen</span><span class="p">),</span>
+<span class="s1">&#39;Random&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">rl</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randomAgent</span><span class="p">(),</span>
+<span class="s1">&#39;Stable&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">ambulance</span><span class="o">.</span><span class="n">stable</span><span class="o">.</span><span class="n">stableAgent</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;epLen&#39;</span><span class="p">]),</span>
+<span class="s1">&#39;Median&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">ambulance</span><span class="o">.</span><span class="n">median</span><span class="o">.</span><span class="n">medianAgent</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;epLen&#39;</span><span class="p">]),</span>
+<span class="s1">&#39;AdaQL&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">rl</span><span class="o">.</span><span class="n">ada_ql</span><span class="o">.</span><span class="n">AdaptiveDiscretizationQL</span><span class="p">(</span><span class="n">epLen</span><span class="p">,</span> <span class="n">scaling_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span> <span class="n">num_ambulance</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span>
+<span class="s1">&#39;AdaMB&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">rl</span><span class="o">.</span><span class="n">ada_mb</span><span class="o">.</span><span class="n">AdaptiveDiscretizationMB</span><span class="p">(</span><span class="n">epLen</span><span class="p">,</span> <span class="n">scaling_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">num_ambulance</span><span class="p">,</span> <span class="n">num_ambulance</span><span class="p">),</span>
+<span class="s1">&#39;Unif QL&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">rl</span><span class="o">.</span><span class="n">enet_ql</span><span class="o">.</span><span class="n">eNetQL</span><span class="p">(</span><span class="n">action_net</span><span class="p">,</span> <span class="n">state_net</span><span class="p">,</span> <span class="n">epLen</span><span class="p">,</span> <span class="n">scaling_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">num_ambulance</span><span class="p">,</span><span class="n">num_ambulance</span><span class="p">)),</span>
+<span class="s1">&#39;Unif MB&#39;</span><span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">rl</span><span class="o">.</span><span class="n">enet_mb</span><span class="o">.</span><span class="n">eNetMB</span><span class="p">(</span><span class="n">action_net</span><span class="p">,</span> <span class="n">state_net</span><span class="p">,</span> <span class="n">epLen</span><span class="p">,</span> <span class="n">scaling_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">num_ambulance</span><span class="p">,</span><span class="n">num_ambulance</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-code-and-generating-figures">
+<h2>Running The Code and Generating Figures<a class="headerlink" href="#running-the-code-and-generating-figures" title="Permalink to this headline">¶</a></h2>
+<p>There are two types of experiment files:</p>
+<ul class="simple">
+<li><p>an <code class="docutils literal notranslate"><span class="pre">sb_experiment</span></code> file, runs a simulation between an arbitrary openAI Gym environment and a stable baselines algorithm, saving a dataset of (reward, time, space) complexity across each episode, and optionally saves trajectory information. It uses parameters <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">env</span></code>, <code class="docutils literal notranslate"><span class="pre">model</span></code>, and <code class="docutils literal notranslate"><span class="pre">dict</span></code> .</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">normal</span> <span class="pre">experiment</span></code> file, runs a simulation between an arbitrary openAI Gym environment and an algorithm, saving a dataset of (reward, time, space) complexity across each episode and optionally saves trajectory information. It uses parameters <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">env</span></code>, <code class="docutils literal notranslate"><span class="pre">agent</span></code>, and <code class="docutils literal notranslate"><span class="pre">dict</span></code> .</p></li>
+</ul>
+<p>After running the “Running Algorithm” section, the experiment will run and the agents/algorithms will show up in a chart. This chart will show all of the agents running against each other, with their reward, time and space. With this information one can see which agents are ideal for their goal. Some environments like the metric ambulance will also show MRT (mean response time) and RTV (response time variance).</p>
+<p>Following the chart, line and radar plots will appear to show how each agent responds visually.</p>
+<div class="section" id="example">
+<h3>Example:<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>When running each of the algorithms they all start with empty lists for each of the paths.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path_list_line</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">algo_list_line</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">path_list_radar</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">algo_list_radar</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Then there is a for loop that loops over the agents. Within this for loop, there are if/elif/else statements to check to see what the current agent at use is.
+The <code class="docutils literal notranslate"><span class="pre">dirPath</span></code> parameter allows each environment to follow its own direction and therefore create their own radar and line plots. It allows the algorithms to be represented as distinct paths so that the data files don’t overwrite one another. We store them in a list so that the plots all refer to the correct data files</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+    <span class="n">DEFAULT_SETTINGS</span><span class="p">[</span><span class="s1">&#39;dirPath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;../data/ambulance_metric_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;/</span>
+    <span class="k">if</span> <span class="n">agent</span> <span class="o">==</span> <span class="s1">&#39;SB PPO&#39;</span><span class="p">:</span>
+        <span class="n">or_suite</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">run_single_sb_algo</span><span class="p">(</span><span class="n">mon_env</span><span class="p">,</span> <span class="n">agents</span><span class="p">[</span><span class="n">agent</span><span class="p">],</span> <span class="n">DEFAULT_SETTINGS</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">agent</span> <span class="o">==</span> <span class="s1">&#39;AdaQL&#39;</span> <span class="ow">or</span> <span class="n">agent</span> <span class="o">==</span> <span class="s1">&#39;Unif QL&#39;</span> <span class="ow">or</span> <span class="n">agent</span> <span class="o">==</span> <span class="s1">&#39;AdaMB&#39;</span> <span class="ow">or</span> <span class="n">agent</span> <span class="o">==</span> <span class="s1">&#39;Unif MB&#39;</span><span class="p">:</span>
+        <span class="n">or_suite</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">run_single_algo_tune</span><span class="p">(</span><span class="n">ambulance_env</span><span class="p">,</span> <span class="n">agents</span><span class="p">[</span><span class="n">agent</span><span class="p">],</span> <span class="n">scaling_list</span><span class="p">,</span> <span class="n">DEFAULT_SETTINGS</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">or_suite</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">run_single_algo</span><span class="p">(</span><span class="n">ambulance_env</span><span class="p">,</span> <span class="n">agents</span><span class="p">[</span><span class="n">agent</span><span class="p">],</span> <span class="n">DEFAULT_SETTINGS</span><span class="p">)</span>
+
+    <span class="n">path_list_line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../data/ambulance_metric_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+    <span class="n">algo_list_line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">agent</span> <span class="o">!=</span> <span class="s1">&#39;SB PPO&#39;</span><span class="p">:</span>
+        <span class="n">path_list_radar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../data/ambulance_metric_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+        <span class="n">algo_list_radar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">agent</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Additional metrics (like MRT and RVT) can be added in <code class="docutils literal notranslate"><span class="pre">or_suite/utils.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mean_response_time</span><span class="p">(</span><span class="n">traj</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+    <span class="n">mrt</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">traj</span><span class="p">)):</span>
+        <span class="n">cur_data</span> <span class="o">=</span> <span class="n">traj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">mrt</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                <span class="n">dist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cur_data</span><span class="p">[</span><span class="s1">&#39;action&#39;</span><span class="p">]),</span> <span class="n">cur_data</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;arrival&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">mrt</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">traj</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, the additional metrics are called by using the definition made earlier, and inserting the parameters traj, lambda, x and y. To insert the additional metrics in the figure, fig_name is redefined with <code class="docutils literal notranslate"><span class="pre">additional_metric</span></code> inserted as a parameter for <code class="docutils literal notranslate"><span class="pre">or_suite.plots.plot_radar_plots</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">additional_metric</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MRT&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">traj</span> <span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">mean_response_time</span><span class="p">(</span><span class="n">traj</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)),</span> <span class="s1">&#39;RTV&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">traj</span> <span class="p">:</span> <span class="n">or_suite</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">response_time_variance</span><span class="p">(</span><span class="n">traj</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">))}</span>
+
+<span class="n">fig_name</span> <span class="o">=</span> <span class="s1">&#39;ambulance_metric&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_radar_plot&#39;</span><span class="o">+</span><span class="s1">&#39;.pdf&#39;</span>
+<span class="n">or_suite</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">plot_radar_plots</span><span class="p">(</span><span class="n">path_list_radar</span><span class="p">,</span> <span class="n">algo_list_radar</span><span class="p">,</span>
+<span class="n">fig_path</span><span class="p">,</span> <span class="n">fig_name</span><span class="p">,</span>
+<span class="n">additional_metric</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Afterwards, a table of agents with each of their rewards, time, space, and for some environments MRT and RTV appears.
+An example of this table is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Algorithm</span>    <span class="n">Reward</span>      <span class="n">Time</span>    <span class="n">Space</span>       <span class="n">MRT</span>       <span class="n">RTV</span>
+<span class="mi">0</span>    <span class="n">Random</span> <span class="o">-</span><span class="mf">1.671218</span>  <span class="mf">6.935870</span> <span class="o">-</span><span class="mf">5053.90</span> <span class="o">-</span><span class="mf">0.326093</span> <span class="o">-</span><span class="mf">0.050874</span>
+<span class="mi">1</span>    <span class="n">Stable</span> <span class="o">-</span><span class="mf">1.032668</span>  <span class="mf">7.530278</span> <span class="o">-</span><span class="mf">4283.30</span> <span class="o">-</span><span class="mf">0.285655</span> <span class="o">-</span><span class="mf">0.064205</span>
+<span class="mi">2</span>    <span class="n">Median</span> <span class="o">-</span><span class="mf">0.875958</span>  <span class="mf">6.638060</span> <span class="o">-</span><span class="mf">5044.62</span> <span class="o">-</span><span class="mf">0.212675</span> <span class="o">-</span><span class="mf">0.043899</span>
+<span class="mi">3</span>     <span class="n">AdaQL</span> <span class="o">-</span><span class="mf">1.113290</span>  <span class="mf">6.449667</span> <span class="o">-</span><span class="mf">4905.76</span> <span class="o">-</span><span class="mf">0.265052</span> <span class="o">-</span><span class="mf">0.041170</span>
+<span class="mi">4</span>     <span class="n">AdaMB</span> <span class="o">-</span><span class="mf">1.113290</span>  <span class="mf">6.590761</span> <span class="o">-</span><span class="mf">4596.32</span> <span class="o">-</span><span class="mf">0.265052</span> <span class="o">-</span><span class="mf">0.041170</span>
+<span class="mi">5</span>   <span class="n">Unif</span> <span class="n">QL</span> <span class="o">-</span><span class="mf">2.137630</span>  <span class="mf">6.591951</span> <span class="o">-</span><span class="mf">4620.32</span> <span class="o">-</span><span class="mf">0.430012</span> <span class="o">-</span><span class="mf">0.089006</span>
+<span class="mi">6</span>   <span class="n">Unif</span> <span class="n">MB</span> <span class="o">-</span><span class="mf">2.299622</span>  <span class="mf">6.210666</span> <span class="o">-</span><span class="mf">4620.32</span> <span class="o">-</span><span class="mf">0.454634</span> <span class="o">-</span><span class="mf">0.091324</span>
+</pre></div>
+</div>
+<p>Once the algorithms are run, the figures are created. Each of the environments will create three line plots and one radar plot to show how the difference in agents.</p>
+</div>
+<div class="section" id="radar-plot">
+<h3>Radar Plot<a class="headerlink" href="#radar-plot" title="Permalink to this headline">¶</a></h3>
+<p>The radar plot below shows the agents (color coded in the box on the right) with the variables the agents are tested against on each end of the radar plot. The larger the surface area covered by the plot, the better the algorithm performs across a wider range of metrics.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">figureRadarPlot</span> <span class="o">=</span> <span class="s1">&#39;ambulance_metric&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_radar_plot&#39;</span><span class="o">+</span><span class="s1">&#39;.pdf&#39;</span>
+<span class="n">IFrame</span><span class="p">(</span><span class="s2">&quot;../figures/&quot;</span> <span class="o">+</span> <span class="n">figureRadarPlot</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><span class="raw-html-m2r"><!-- Radar --></span></p>
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/radarplotmetric.jpg" width="50%">
+</p></div>
+<div class="section" id="line-plot">
+<h3>Line Plot<a class="headerlink" href="#line-plot" title="Permalink to this headline">¶</a></h3>
+<p>The line plots also have all of the agents color coded in a box on the right. The first plot shows the reward of each agent. The second one shows the obersved time used on a log scale, and the third shows the observed memory usage (B).<span class="raw-html-m2r"><br></span>
+Here is an example of how to write the code for a line plot.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
+<span class="n">figureLinePlot</span> <span class="o">=</span> <span class="s1">&#39;ambulance_metric&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">num_ambulance</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">arrival_dist</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_line_plot&#39;</span><span class="o">+</span><span class="s1">&#39;.pdf&#39;</span>
+<span class="n">IFrame</span><span class="p">(</span><span class="s2">&quot;../figures/&quot;</span> <span class="o">+</span> <span class="n">figureLinePlot</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">280</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><span class="raw-html-m2r"><!-- Line --></span></p>
+<p align="center">
+   <img src="https://raw.githubusercontent.com/cornell-orie/ORSuite/main/images/MetricLinePlot.jpg" width="50%">
+</p></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="envs.html" class="btn btn-neutral float-right" title="Environments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="contribution_guide.html" class="btn btn-neutral float-left" title="ORSuite Contribution Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

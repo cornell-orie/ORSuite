@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Stable Agent &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inventory Control Agents" href="inventory_agents.html" />
+    <link rel="prev" title="Mode Graph Agent" href="mode_graph.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="agents.html">Agents</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ambulance_agent.html">Ambulance Agents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="command_line.html">Command Line Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="median_graph.html">Median Graph Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="median_sklearn.html">Median sklearn Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="median.html">Median Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mode_graph.html">Mode Graph Agent</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Stable Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_agents.html">Inventory Control Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil_discovery_agent.html">Oil Discovery Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_allocation_agent.html">Resource Allocation Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revenue_management_agents.html">Revenue Management Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rl_agent.html">RL Agents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="agents.html">Agents</a> &raquo;</li>
+        
+          <li><a href="ambulance_agent.html">Ambulance Agents</a> &raquo;</li>
+        
+      <li>Stable Agent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/stable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.agents.ambulance.stable">
+<span id="stable-agent"></span><h1>Stable Agent<a class="headerlink" href="#module-or_suite.agents.ambulance.stable" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.ambulance.stable.</span></span><span class="sig-name descname"><span class="pre">stableAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agent that implements a stable heuristic algorithm for use with either ambulance environment</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>clears data and call_locs which contain data on what has occurred so far in the environment</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(UNIMPLEMENTED)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.pick_action">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.pick_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>the action chosen is the most recently obesrved state
+of the environment</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) number of time steps to run the experiment for</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int list list or float list list) a list of all the states of the environment observed so far</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epLen</strong> – number of time steps</p></li>
+<li><p><strong>data</strong> – all data observed so far</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.update_obs">
+<span class="sig-name descname"><span class="pre">update_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newObs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent.update_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.update_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add observation to records.</p>
+<p>Adds newObs, the most recently observed state, to data. Adds the most recent call arrival, found in info[‘arrival’] to call_locs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.stable.stableAgent.update_policy">
+<span class="sig-name descname"><span class="pre">update_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/stable.html#stableAgent.update_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.stable.stableAgent.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update internal policy based upon records</p>
+<p>Not used, because a greedy algorithm does not have a policy.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="inventory_agents.html" class="btn btn-neutral float-right" title="Inventory Control Agents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mode_graph.html" class="btn btn-neutral float-left" title="Mode Graph Agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Resource Allocation &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Vaccine Allocation Problem" href="vaccine_allocation_readme.html" />
+    <link rel="prev" title="The Oil Discovery Problem" href="oil_discovery_readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Resource Allocation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dynamics">Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-assumptions">Model Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#heuristic-agents">Heuristic Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#equal-allocation">Equal Allocation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Resource Allocation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/resource_allocation_readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="resource-allocation">
+<h1>Resource Allocation<a class="headerlink" href="#resource-allocation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The Food Bank of the Southern Tier (FBST) is a member of Feeding
+America, focused on providing food security for people with limited
+financial resources, and serves six counties and nearly 4,000 square
+miles in the New York. Under normal operations (non COVID times), the
+Mobile Food Pantry program is among the main activities of the FBST. The
+goal of the service is to make nutritious and healthy food more
+accessible to people in underserved communities. Even in areas where
+other agencies provide assistance, clients may not always have access to
+food due to limited public transportation options, or because those
+agencies are only open hours or days per work.</p>
+<p>The Mobile Food Pantry provides food directly to clients at various
+distribution locations. In 2019 they serviced 70 regular sites, with 722
+visits across all of them. When the truck arrives at a distribution
+site, volunteers lay out the food on tables. The clients can then shop,
+choosing items that they need. A typical mobile food pantry visit lasts
+two hours and provides 200 to 250 families with nutritious food to help
+them make ends meet. The goal of this project is to understand: <em>What is
+a fair allocation here, and how can it be computed</em>?</p>
+<p>In <em>offline</em> problems where demands for all locations are known to the
+principal, there are many well-studied notions of fair allocation of
+limited resources. A relevant notion in our context is that a fair
+allocation is one satisfying three desiderata: * <em>Pareto-efficiency</em>:
+for any location to benefit, another must be hurt * <em>Envy-freeness</em>: no
+location prefers an allocation received by another * <em>Proportionality</em>:
+each location prefers the allocation received versus equal allocation</p>
+<p>This definition draws its importance from the fact that in many
+allocation settings it is known to be achievable. In particular, when
+goods are divisible, then for a large class of utility functions, an
+allocation satisfying both is easily computed (via a convex program) by
+maximizing the Nash Social Welfare (NSW) objective with respect to the
+allocation.</p>
+<p>Many practical settings, however, operate more akin to the FBST mobile
+food pantry, in that the principal makes allocation decisions <em>online</em>,
+and has the additional question of <em>scheduling</em> which location to
+provide food drop-offs and when. This project will take on extending the
+notion of fairness to these resource allocation problems, and assessing
+the efficacy of Reinforcement Learning algorithms on giving a fair
+allocation online.</p>
+</div>
+<div class="section" id="dynamics">
+<h2>Dynamics<a class="headerlink" href="#dynamics" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Consider a principle that wants to find an allocation of <span class="math notranslate nohighlight">\(K\)</span>
+commodities with initial budget <span class="math notranslate nohighlight">\(B\)</span> and set of possible types
+<span class="math notranslate nohighlight">\(\Theta\)</span> over <span class="math notranslate nohighlight">\(n\)</span> locations each with an endowment
+distribution of <span class="math notranslate nohighlight">\(\mathcal{F}_i\)</span>. We consider the MDP formed by
+this sequential allocation problem a 5-tuple
+<span class="math notranslate nohighlight">\((\mathcal{S}, \mathcal{A}, \mathcal{T}, R, \mathcal{H})\)</span></p>
+<ul>
+<li><p>Our state space
+<span class="math notranslate nohighlight">\(\mathcal{S} := \{(b,N)|b \in \mathbb{R}_+^{k},N \in \mathbb{R}_+^{|\Theta|}\}\)</span>
+where <span class="math notranslate nohighlight">\(b\)</span> is a vector of all remaining budget for commodity
+<span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(N\)</span> is a vector of the number of people of
+each type present. Our initial state <span class="math notranslate nohighlight">\(S_0 = (B,N_0)\)</span>, where
+<span class="math notranslate nohighlight">\(B\)</span> is the full pre-planned budget and
+<span class="math notranslate nohighlight">\(N_0 \sim \mathcal{F}_0\)</span></p></li>
+<li><p>Actions correspond to the allocation we make to agent <span class="math notranslate nohighlight">\(i\)</span>.
+We will split this allocation across all the types, leading to a
+matrix of allocation vectors. Formally the action-space in state
+<span class="math notranslate nohighlight">\(i\)</span> is defined as
+<span class="math notranslate nohighlight">\(A_i := \{X \in \mathbb{R}_+^{|\Theta| \times K}|\sum_{\theta \in \Theta}N_{\theta}X_{\theta} \leq b\}\)</span>
+where <span class="math notranslate nohighlight">\(b\)</span> is the current budget vector.</p></li>
+<li><p>Our reward-space <span class="math notranslate nohighlight">\(R\)</span> is the Nash Social Welfare: while in
+state <span class="math notranslate nohighlight">\(s\)</span> and taking action <span class="math notranslate nohighlight">\(a\)</span>, we have
+<span class="math notranslate nohighlight">\(R(s,a) = \sum_{\theta \in \Theta} N_\theta \log u(X_{\theta},\theta) \rangle\)</span>
+where
+<span class="math notranslate nohighlight">\(u: \mathbb{R}^{|\Theta| \times K} \times \mathbb{R}^k \to \mathbb{R}_+\)</span>
+is a utility function for the agents.</p></li>
+<li><p>Transitions. Given state <span class="math notranslate nohighlight">\((b,N_i) \in \mathcal{S}\)</span> and
+action <span class="math notranslate nohighlight">\(X \in \mathcal{A}\)</span>. we have our new state
+<span class="math notranslate nohighlight">\(s_{i+1} = (b-\sum_{\theta}N_{\theta}X_{\theta},N_{i+1})\)</span>
+where <span class="math notranslate nohighlight">\(N_{i+1} \sim \mathcal{F}_{i+1}\)</span></p></li>
+<li><p>Each episode will have the same number of steps as there are
+locations. Thus <span class="math notranslate nohighlight">\(\mathcal{H}=n\)</span></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="model-assumptions">
+<h2>Model Assumptions<a class="headerlink" href="#model-assumptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>We also primarily focus on utility functions that are linear, where
+the latent individual type is characterized by a vector of
+preferences over each of the different resources. Here again, we
+believe that our techniques extend to more general homothetic
+preferences, but for ease of notation (and given the richness of
+linear utilities), choose to focus on these.</p></li>
+<li><p>We assume that our resources aredivisible, in that allocations can
+take values inRK+.In our particular regimes of interest where we
+scale the number of rounds and budgets, this is easyto relax to
+integer allocations with vanishing loss in performance.</p></li>
+<li><p>The assumption that latent types are finite is common in
+decision-making settings, as in practice, the set of possible types
+is approximated from historical data.</p></li>
+<li><p>One limiting assumption is that in the online setting, the principal
+only knows the number of individuals from one location at a time. In
+reality the principal could have some additional information about
+future locations, e.g. via calling ahead, that could be incorporated
+in decidingan allocation. Our algorithmic approach naturally
+incorporates such additional information.</p></li>
+</ul>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p>
+<p>Returns the environment to it’s original state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">step(action)</span></code></p>
+<p>Takes in the action from the agent and returns the state of the system
+of the next arrival.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">action</span></code>: A matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{|\Theta| \times K}\)</span>
+where each row is a <span class="math notranslate nohighlight">\(K\)</span>-dimensional vector denoting how much of
+each commodity is given to each type. This information is encoded in
+AIGym’s <code class="docutils literal notranslate"><span class="pre">spaces.Box(...)</span></code> feature</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: A tuple <span class="math notranslate nohighlight">\((b,N)\)</span> where <span class="math notranslate nohighlight">\(b \in \mathbb{R}^K\)</span> is
+a vector denoting remaining budget and
+<span class="math notranslate nohighlight">\(N \in \mathbb{R}^{|\Theta|}\)</span> is a vector denoting the number
+of people of each type <span class="math notranslate nohighlight">\(\theta\)</span> that appear</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reward</span></code>: the reward is currently defined as the Nash Social
+Welfare: While in state <span class="math notranslate nohighlight">\(s\)</span> and taking action <span class="math notranslate nohighlight">\(a\)</span>, we
+have
+<span class="math notranslate nohighlight">\(R(s,a) = \sum_{\theta \in \Theta} N_\theta \log u(X_{\theta},\theta) \rangle\)</span>
+where <span class="math notranslate nohighlight">\(u: \mathbb{R}^k \times \mathbb{R}^k \to \mathbb{R}_+\)</span> is
+the individual utility function</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pContinue</span></code>: information on whether or not the episode should
+continue</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">info</span></code>: a dictionary containing the type of the newest location</p>
+<ul>
+<li><p>Ex. <code class="docutils literal notranslate"><span class="pre">{'type':</span> <span class="pre">np.array([1,2,3])}</span></code> if the newest location has
+type of <span class="math notranslate nohighlight">\([1,2,3]\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">render</span></code></p>
+<p>Currently unimplemented</p>
+<p><code class="docutils literal notranslate"><span class="pre">close</span></code></p>
+<p>Currently unimplemented</p>
+<p><code class="docutils literal notranslate"><span class="pre">make_resource_allocationEnvMDP(config)</span></code></p>
+<p>Creates an instance of the environment according a <code class="docutils literal notranslate"><span class="pre">config</span></code> dictionary</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">K</span></code>: number of commodities available</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_agents</span></code>: number of locations to visit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weight_matrix</span></code>: A matrix
+<span class="math notranslate nohighlight">\(W \in \mathbb{R}^{|\Theta| \times K}\)</span> where each row denotes a
+possible type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_budget</span></code>: vector <span class="math notranslate nohighlight">\(B \in \mathbb{R}^K\)</span> indicating the
+initial budget for all commodities</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type_dist</span></code>: a function
+<span class="math notranslate nohighlight">\(\mathcal{F}: \mathbb{N} \rightarrow \Delta(\mathbb{R}^{|\Theta|})\)</span>
+where <span class="math notranslate nohighlight">\(\mathcal{F}_i\)</span> gives the distribution of the number of
+people of each type at location <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">u</span></code>: the utility function
+<span class="math notranslate nohighlight">\(u: \mathbb{R}^{|\Theta| \times K} \times \mathbb{R}^{|\Theta|} \to \mathbb{R}_+\)</span>
+where
+<span class="math notranslate nohighlight">\(u(X,N) = \sum_{\theta \in \Theta} N_\theta \log \langle X_{\theta},W_{\theta} \rangle\)</span>
+where <span class="math notranslate nohighlight">\(W\)</span> is our previously defined weight matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starting_state</span></code>: a tuple of <code class="docutils literal notranslate"><span class="pre">(init_budget,</span> <span class="pre">type_dist(0))</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="heuristic-agents">
+<h2>Heuristic Agents<a class="headerlink" href="#heuristic-agents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="equal-allocation">
+<h3>Equal Allocation<a class="headerlink" href="#equal-allocation" title="Permalink to this headline">¶</a></h3>
+<p>On a high level, the equal allocation agent will subdivide the initial
+budget equally among all <span class="math notranslate nohighlight">\(n\)</span> locations. Each location-specific
+allocation will be further subdivided (so as to create the matrix of
+allocation) by relative proportion of the types present at location
+<span class="math notranslate nohighlight">\(i\)</span>. More formally, our allocation
+<span class="math notranslate nohighlight">\(X_{i,\theta} \in \mathbb{R}^k\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[X_{i,\theta} = B\left( \frac{\mathbb{E}\left[N_{i,\theta}\right]}{\sum_{i,\theta}\mathbb{E}\left[N_{i,\theta}\right]}\right)\]</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="vaccine_allocation_readme.html" class="btn btn-neutral float-right" title="The Vaccine Allocation Problem" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="oil_discovery_readme.html" class="btn btn-neutral float-left" title="The Oil Discovery Problem" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
