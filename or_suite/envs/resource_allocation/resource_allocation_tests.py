@@ -16,8 +16,8 @@ env = gym.make('Resource-v0', config=CONFIG)
 
 def test_initial_state():
     for i in range(len(env.starting_state)):
-        assert type(
-            env.starting_state[i]) == np.float64, "Starting state array does not type int"
+        assert type(env.starting_state[i]) == np.float64 or type(
+            env.starting_state[i]) == np.float32, "Starting state array does not type int"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -28,6 +28,7 @@ def test_initial_state():
 
 
 def test_step():
+    env.reset()
     newState, reward, done, info = env.step([0, .3, 0, .2, 0, .4])
 
     # Test if new state is part of observation space

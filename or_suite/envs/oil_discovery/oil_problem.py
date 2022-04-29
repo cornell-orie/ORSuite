@@ -75,7 +75,8 @@ class OilEnvironment(gym.Env):
 
             done: 0/1; the flag for end of the episode.
         """
-        if isinstance(action, np.ndarray): action = action.astype(np.float32)
+        if isinstance(action, np.ndarray):
+            action = action.astype(np.float32)
         assert self.action_space.contains(action)
         # print('state: ' + str(self.state))
         # print('action: ' + str(action))
@@ -84,7 +85,7 @@ class OilEnvironment(gym.Env):
         # print('reward: ' + str(reward))
 
         newState = np.minimum(1, np.maximum(0, action + np.random.normal([0 for _ in range(
-            self.dim)], np.sqrt(self.noise_variance(self.state, action, self.timestep)))))
+            self.dim)], np.sqrt(self.noise_variance(self.state, action, self.timestep)))), dtype=np.float32)
 
         # newState = min(1, max(0, action + np.random.normal(0, np.sqrt(self.noise_variance(self.state, action, self.timestep)))))
         # newState = action

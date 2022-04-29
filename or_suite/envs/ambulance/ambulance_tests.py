@@ -17,8 +17,8 @@ env2 = gym.make('Ambulance-v1', config=GRAPH_CONFIG)
 
 def test_initial_state():
     for i in range(len(env.starting_state)):
-        assert type(
-            env.starting_state[i]) == np.float64, "Starting state array does not have all float values"
+        assert type(env.starting_state[i]) == np.float64 or type(
+            env.starting_state[i]) == np.float32, "Starting state array does not have all float values"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -30,6 +30,7 @@ def test_initial_state():
 
 def test_step():
     np.random.seed(10)
+    env.reset()
     newState, reward, done, info = env.step([0.8])
 
     # Test if new state is part of observation space
@@ -37,7 +38,8 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Test to see if returned reward is a float
-    assert type(reward) == np.float64, "Reward is not a float"
+    assert type(reward) == np.float64 or type(
+        reward) == np.float32, "Reward is not a float"
 
     # Check value of reward
     difference = abs(reward - (-0.239874875))
@@ -91,6 +93,7 @@ def test_initial_state_graph():
 
 def test_step_graph():
     np.random.seed(10)
+    env2.reset()
     newState, reward, done, info = env2.step([2, 1])
 
     # Test if new state is part of observation space

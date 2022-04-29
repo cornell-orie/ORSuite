@@ -118,9 +118,10 @@ class SB_Experiment(object):
             iterations = np.append(iterations, [i for _ in range(self.nEps)])
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
-
+        
+        #save trajectory info
         self.trajectory = self.callback.trajectory
-
+        
         # print(self.env.get_episode_rewards())
         # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
@@ -137,6 +138,10 @@ class SB_Experiment(object):
         # print(rewards)
         # print(memory)
         # print(np.log(times))
+
+        print(len(episodes), len(iterations), len(
+            rewards), len(times), len(memory))
+
         self.data = pd.DataFrame({'episode': episodes,
                                   'iteration': iterations,
                                   'epReward': rewards,

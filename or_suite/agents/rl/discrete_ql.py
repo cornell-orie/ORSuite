@@ -1,5 +1,6 @@
 import numpy as np
 from .. import Agent
+from gym import spaces
 
 ''' epsilon Net agent '''
 
@@ -26,7 +27,14 @@ class DiscreteQl(Agent):
     def __init__(self, action_space, observation_space, epLen, scaling):
 
         self.state_space = observation_space
-        self.action_space = action_space
+        if isinstance(action_space, spaces.Discrete):
+            self.action_space = spaces.MultiDiscrete(
+                nvec=np.array([action_space.n]))
+            self.multiAction = False
+        else:
+            self.action_space = action_space
+            self.multiAction = True
+
         self.epLen = epLen
         self.scaling = scaling
 
@@ -76,19 +84,23 @@ class DiscreteQl(Agent):
             newObs: (list) The next observed state
             timestep: (int) The current timestep
         '''
+        if not self.multiAction:
+            action = [action]
 
-        self.num_visits[timestep, obs, action] += 1
-        t = self.num_visits[timestep, obs, action]
+        dim = tuple(np.append(np.append([timestep], obs), action))
+
+        self.num_visits[dim] += 1
+        t = self.num_visits[dim]
         lr = (self.epLen + 1) / (self.epLen + t)
         bonus = self.scaling * np.sqrt(1 / t)
 
         if timestep == self.epLen-1:
             vFn = 0
         else:
-            vFn = np.max(self.qVals[timestep+1, newObs])
+            vFn = np.max(self.qVals[np.append([timestep+1], newObs)])
         vFn = min(self.epLen, vFn)
 
-        self.qVals[timestep, obs, action] = (1 - lr) * self.qVals[timestep, obs, action] + \
+        self.qVals[dim] = (1 - lr) * self.qVals[dim] + \
             lr * (reward + vFn + bonus)
 
     def update_policy(self, k):
@@ -113,4 +125,7 @@ class DiscreteQl(Agent):
         action = np.asarray(np.where(qFn == qFn.max()))
         index = np.random.choice(len(action[0]))
         action = action[:, index]
+
+        if not self.multiAction:
+            action = action[0]
         return action
