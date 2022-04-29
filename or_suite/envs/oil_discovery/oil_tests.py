@@ -27,6 +27,7 @@ def test_initial_state():
 
 def test_step():
     np.random.seed(10)
+    env.reset()
     newState, reward, done, info = env.step([0])
 
     # Test if new state is part of observation space

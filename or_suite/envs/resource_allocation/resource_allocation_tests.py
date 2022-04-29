@@ -28,6 +28,7 @@ def test_initial_state():
 
 
 def test_step():
+    env.reset()
     newState, reward, done, info = env.step([0, .3, 0, .2, 0, .4])
 
     # Test if new state is part of observation space
