@@ -6,6 +6,7 @@ import numpy as np
 import pickle
 import os
 from stable_baselines3.common.monitor import Monitor
+from or_suite.experiment.trajectory_callback import *
 
 
 class SB_Experiment(object):
@@ -69,8 +70,10 @@ class SB_Experiment(object):
         self.model = model
         # print('epLen: ' + str(self.epLen))
 
+        # if trajectory should be saved, save it in list and make callback
         if self.save_trajectory:
             self.trajectory = []
+            self.callback = TrajectoryCallback(verbose=0)
 
         np.random.seed(self.seed)
 
@@ -99,7 +102,13 @@ class SB_Experiment(object):
             tracemalloc.start()  # starts timer for memory information
 
             # learns over all of the episodes
-            self.model.learn(total_timesteps=self.epLen*self.nEps)
+            # if trajectory is to be saved, use callback
+            if self.save_trajectory:
+                self.model.learn(total_timesteps=self.epLen *
+                                 self.nEps, callback=self.callback)
+            else:
+                self.model.learn(total_timesteps=self.epLen*self.nEps)
+            self.callback.update_iter()
 
             current, _ = tracemalloc.get_traced_memory()  # collects memory information
             tracemalloc.stop()
@@ -109,7 +118,10 @@ class SB_Experiment(object):
             iterations = np.append(iterations, [i for _ in range(self.nEps)])
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
-
+        
+        #save trajectory info
+        self.trajectory = self.callback.trajectory
+        
         # print(self.env.get_episode_rewards())
         # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
@@ -157,22 +169,32 @@ class SB_Experiment(object):
         dir_path = self.dirPath
 
         data_loc = 'data.csv'
+        traj_loc = 'trajectory.obj'
 
         dt = self.data
         dt = dt[(dt.T != 0).any()]
 
         data_filename = os.path.join(dir_path, data_loc)
+        traj_filename = os.path.join(dir_path, traj_loc)
 
         print('Writing to file ' + dir_path + data_loc)
 
         if os.path.exists(dir_path):
             dt.to_csv(data_filename, index=False,
                       float_format='%.5f', mode='w')
+            if self.save_trajectory:  # saves trajectory to filename
+                outfile = open(traj_filename, 'wb')
+                pickle.dump(self.trajectory, outfile)
+                outfile.close()
 
         else:
             os.makedirs(dir_path)
             dt.to_csv(data_filename, index=False,
                       float_format='%.5f', mode='w')
+            if self.save_trajectory:  # saves trajectory to filename
+                outfile = open(traj_filename, 'wb')
+                pickle.dump(self.trajectory, outfile)
+                outfile.close()
 
         # print('**************************************************')
         # print('Data save complete')
