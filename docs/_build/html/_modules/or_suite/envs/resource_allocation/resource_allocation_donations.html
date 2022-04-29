@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.envs.resource_allocation.resource_allocation_donations &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.envs.resource_allocation.resource_allocation_donations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.envs.resource_allocation.resource_allocation_donations</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Sequential Resource Allocation Problem for n locations with K commodities with Donations. </span>
+<span class="sd">Currently reward is Nash Social Welfare but in the future will integrate more options </span>
+<span class="sd">to determine a fair allocation &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">from</span> <span class="nn">gym</span> <span class="kn">import</span> <span class="n">spaces</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">env_configs</span>
+<span class="kn">from</span> <span class="nn">.resource_allocation</span> <span class="kn">import</span> <span class="n">ResourceAllocationEnvironment</span>
+
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment">[docs]</a><span class="k">class</span> <span class="nc">ResourceAllocationDonationsEnvironment</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom Environment that follows gym interface.&quot;&quot;&quot;</span>
+    <span class="c1"># Because of google colab, we cannot implement the GUI (&#39;human&#39; render mode)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;render.modes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;human&#39;</span><span class="p">]}</span>
+    <span class="c1"># Define constants for clearer code</span>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.__init__"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">env_configs</span><span class="o">.</span><span class="n">resource_allocation_default_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the Sequential Resource Allocation Environment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            weight_matrix: Weights predefining the commodity needs for each type, every row is a type vector.</span>
+<span class="sd">            K: Number of commodities.</span>
+<span class="sd">            num_rounds: Number of locations (also the length of an episode).</span>
+<span class="sd">            init_budget: Amount of each commodity the principal begins with.</span>
+<span class="sd">            type_dist: Function determining the number of people of each type at a location.</span>
+<span class="sd">            u: Utility function, given an allocation x and a type theta, u(x,theta) is how good the fit is.</span>
+
+<span class="sd">            donation_size_dist: Distribution of donation sizes whenever there is one.</span>
+<span class="sd">            donation_schedule: List detailing the timesteps in which donations are received.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResourceAllocationEnvironment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_matrix</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;weight_matrix&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_types</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;weight_matrix&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_rounds&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">budget</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;init_budget&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type_dist</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;type_dist&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utility_function</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;utility_function&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">donation_size_dist</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;donation_size_dist&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">donation_schedule</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;set_donation_schedule&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;init_budget&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_dist</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+        <span class="c1"># print(np.concatenate([config[&#39;init_budget&#39;],self.type_dist(0)]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Action space will be choosing Kxn-dimensional allocation matrix (represented as a vector)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">budget</span><span class="p">),</span>
+                                       <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_types</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="c1"># First K entries of observation space is the remaining budget, next is the number of each type at the location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">num_types</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.reset"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Important: the observation must be a numpy array</span>
+<span class="sd">        Returns: np.array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize the timestep</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span></div>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.get_config"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.get_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns: the environment config (dict).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span></div>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.step"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move one step in the environment</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            action: A matrix; the chosen action (each row how much to allocate to prev location).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            double, int, 0/1, dict:</span>
+<span class="sd">            reward: double; the reward.</span>
+
+<span class="sd">            newState: int; the new state.</span>
+
+<span class="sd">            done: 0/1; the flag for end of the episode.</span>
+
+<span class="sd">            info: dict; any additional information. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># subdividing state of (b,N) into the two components</span>
+        <span class="n">old_budget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="p">]</span>
+        <span class="n">old_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="p">:]</span>
+
+        <span class="c1"># reshaping the allocation into a matrix</span>
+        <span class="n">allocation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">action</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="p">))</span>
+
+        <span class="c1"># determines if the allocation is valid, i.e. algorithm is able to allocate the allocation</span>
+        <span class="c1"># to each of the types, based on the number of people of each type</span>
+
+        <span class="c1"># print(&#39;Allocation: &#39; + str(allocation))</span>
+        <span class="c1"># print(&#39;Budget: &#39; + str(old_budget))</span>
+        <span class="c1"># print(&#39;Types: &#39; + str(old_type))</span>
+
+        <span class="c1"># print(&#39;New Budget: &#39; + str(old_budget-np.matmul(old_type, allocation)))</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">old_budget</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">old_type</span><span class="p">,</span> <span class="n">allocation</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">.0005</span><span class="p">:</span>
+
+            <span class="n">reward</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">old_type</span><span class="p">))</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">old_type</span><span class="p">[</span><span class="n">theta</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_function</span><span class="p">(</span><span class="n">allocation</span><span class="p">[</span><span class="n">theta</span><span class="p">,</span> <span class="p">:],</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">weight_matrix</span><span class="p">[</span><span class="n">theta</span><span class="p">,</span> <span class="p">:]))</span> <span class="k">for</span> <span class="n">theta</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_types</span><span class="p">)]</span>
+            <span class="p">)</span>
+
+            <span class="c1"># updates the budget by the old budget and the allocation given</span>
+            <span class="n">new_budget</span> <span class="o">=</span> <span class="n">old_budget</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">old_type</span><span class="p">,</span> <span class="n">allocation</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># algorithm is allocating more than the budget, output a negative infinity reward</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Out of Budget!&#39;</span><span class="p">)</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">new_budget</span> <span class="o">=</span> <span class="n">old_budget</span>
+
+        <span class="n">new_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span>
+
+        <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">new_type</span><span class="p">}</span>
+
+        <span class="n">donation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">donation_schedule</span><span class="p">:</span>
+            <span class="n">donation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">donation_size_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">new_budget</span><span class="o">+</span><span class="n">donation</span><span class="p">,</span> <span class="n">new_type</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">new_budget</span><span class="p">),</span>
+                                       <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_commodities</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_types</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span>  <span class="n">done</span><span class="p">,</span> <span class="n">info</span></div>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.render"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;console&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s1">&#39;console&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ResourceAllocationDonationsEnvironment.close"><a class="viewcode-back" href="../../../../resource_allocation_donations.html#or_suite.envs.resource_allocation.resource_allocation_donations.ResourceAllocationDonationsEnvironment.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

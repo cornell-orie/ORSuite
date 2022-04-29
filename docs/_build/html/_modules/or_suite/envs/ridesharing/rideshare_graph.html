@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.envs.ridesharing.rideshare_graph &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.envs.ridesharing.rideshare_graph</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.envs.ridesharing.rideshare_graph</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Implementation of an RL environment in a discrete graph space.</span>
+
+<span class="sd">A ridesharing environment over a simple graph. An agent interacts through the</span>
+<span class="sd">environment by choosing a non-zero node to service a given rideshare request.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">default_rng</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">from</span> <span class="nn">gym</span> <span class="kn">import</span> <span class="n">spaces</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">env_configs</span>
+
+
+<div class="viewcode-block" id="RideshareGraphEnvironment"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment">[docs]</a><span class="k">class</span> <span class="nc">RideshareGraphEnvironment</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom Rideshare Graph Environment that follows gym interface.</span>
+
+<span class="sd">    This is a simple env where the requests are uniformly distributed across </span>
+<span class="sd">    nodes.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        config: A dictionary containing the initial configuration of the </span>
+<span class="sd">            rideshare graph environment.</span>
+<span class="sd">        epLen: An integer representing the total number of time steps.</span>
+<span class="sd">        graph: An object containing nodes and edges; each edge has a travel time.</span>
+<span class="sd">        num_nodes: An integer count of the number of nodes in the graph.</span>
+<span class="sd">        starting_state: A vector representing the initial state of the </span>
+<span class="sd">            environment; the first K elements represent the number of cars</span>
+<span class="sd">            at each node, and the final 2 elements represent the current </span>
+<span class="sd">            request that needs to be satisfied, i.e. node i to node j.</span>
+<span class="sd">        state: A vector representing the state of the environment; the first K </span>
+<span class="sd">            elements represent the number of cars at each node, and the final 2 </span>
+<span class="sd">            elements represent the current request that needs to be satisfied, </span>
+<span class="sd">            i.e. node i to node j.</span>
+<span class="sd">        timestep: An integer representing the current timestep of the model.</span>
+<span class="sd">        num_cars: An integer representing the number of cars in the model.</span>
+<span class="sd">        lengths: A 2-dimensional symmetric array containing the distances </span>
+<span class="sd">            between each pair of nodes.</span>
+<span class="sd">        request_dist: A vector consisting of the distribution used for selecting</span>
+<span class="sd">            nodes when generating requests.</span>
+<span class="sd">        reward: A lambda function to generate the reward.</span>
+<span class="sd">        reward_fail: A lambda function to generate the reward when the RL</span>
+<span class="sd">            agent fails; i.e. when a request is not satisfied.</span>
+<span class="sd">        action_space: A discrete set of values the action can have; in this case</span>
+<span class="sd">            the action space is an integer within {0..K-1}.</span>
+<span class="sd">        observation_space: A multidiscrete that represents all possible values</span>
+<span class="sd">            of the state; i.e. all possible values for the amount of cars at </span>
+<span class="sd">            each node and all possible nodes for any request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.__init__"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">env_configs</span><span class="o">.</span><span class="n">rideshare_graph_default_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Inits RideshareGraphEnvironment with the given configuration.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config:</span>
+<span class="sd">                A dictionary containing the initial configuration of the </span>
+<span class="sd">                rideshare graph environment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;epLen&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_cars</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_cars&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_lengths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_dist</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;request_dist&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;reward&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_denied</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;reward_denied&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_fail</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;reward_fail&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;cost&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fare</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;fare&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lengths</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_threshold</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;d_threshold&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_cars</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;starting_state&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_dist</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span></div>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.reset"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reinitializes variables and returns the starting state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span></div>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.get_config"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.get_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the configuration for the current environment.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span></div>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.fulfill_req"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.fulfill_req">[docs]</a>    <span class="k">def</span> <span class="nf">fulfill_req</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">dispatch</span><span class="p">,</span> <span class="n">sink</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the state to represent a car moving from source to sink.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dispatch:</span>
+<span class="sd">                An integer representing the dispatched node for the rideshare </span>
+<span class="sd">                request.</span>
+<span class="sd">            sink:</span>
+<span class="sd">                An integer representing the destination node of the rideshare</span>
+<span class="sd">                request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">dispatch</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">sink</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.find_lengths"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.find_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">find_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the lengths between each pair of nodes in [graph].</span>
+
+<span class="sd">        Given a graph, find_lengths first calculates the pairwise shortest distance </span>
+<span class="sd">        between all the nodes, which is stored in a (symmetric) matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            graph:</span>
+<span class="sd">                An object containing nodes and edges; each edge has a travel </span>
+<span class="sd">                time.</span>
+<span class="sd">            num_nodes:</span>
+<span class="sd">                An integer representing the number of nodes in the graph.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A 2-dimensional symmetric array containing the distances between</span>
+<span class="sd">            each pair of nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dict_lengths</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">all_pairs_dijkstra_path_length</span><span class="p">(</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;travel_time&#39;</span><span class="p">))</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+                <span class="n">lengths</span><span class="p">[</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_lengths</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="n">node2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">lengths</span></div>
+
+<div class="viewcode-block" id="RideshareGraphEnvironment.step"><a class="viewcode-back" href="../../../../rideshare.html#or_suite.envs.ridesharing.rideshare_graph.RideshareGraphEnvironment.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move one step in the environment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            action:</span>
+<span class="sd">                An Integer representing the node selected by the agent to </span>
+<span class="sd">                service the request.</span>
+
+<span class="sd">        Returns: A 3-tuple consisting of the following elements:</span>
+
+<span class="sd">           - An updated representation of the state, including updated car locations resulting from the previous dispatch and a new ride request,</span>
+
+<span class="sd">           - An integer reward value based on the action,</span>
+
+<span class="sd">           - A boolean indicating whether or not the model has reached the limit timestep.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">accepted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">sink</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">newState</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">dispatch_dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lengths</span><span class="p">[</span><span class="n">action</span><span class="p">,</span> <span class="n">source</span><span class="p">]</span>
+        <span class="n">service_dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lengths</span><span class="p">[</span><span class="n">source</span><span class="p">,</span> <span class="n">sink</span><span class="p">]</span>
+
+        <span class="n">reward_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fare</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dist</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_fail</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+        <span class="n">max_fail_reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_fail</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+
+        <span class="c1"># If there is a car at the location the agent chose</span>
+        <span class="k">if</span> <span class="n">newState</span><span class="p">[</span><span class="n">action</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="o">*</span><span class="p">(</span><span class="n">dispatch_dist</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">d_threshold</span><span class="p">))</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">)</span>
+            <span class="n">accept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
+            <span class="c1"># print(&quot;prob: &quot; + str(prob))</span>
+            <span class="c1"># print(&quot;accept: &quot; + str(accept))</span>
+            <span class="k">if</span> <span class="n">accept</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># print(&#39;accept service&#39;)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fulfill_req</span><span class="p">(</span><span class="n">newState</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">sink</span><span class="p">)</span>
+                <span class="n">reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fare</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span>
+                                     <span class="n">dispatch_dist</span><span class="p">,</span> <span class="n">service_dist</span><span class="p">)</span>
+                <span class="n">reward</span> <span class="o">=</span> <span class="p">(</span><span class="n">reward</span> <span class="o">-</span> <span class="n">max_fail_reward</span><span class="p">)</span> <span class="o">/</span> <span class="n">reward_range</span>
+                <span class="n">accepted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(&#39;decline service&#39;)</span>
+                <span class="n">reward</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reward_denied</span><span class="p">()</span> <span class="o">-</span>
+                          <span class="n">max_fail_reward</span><span class="p">)</span> <span class="o">/</span> <span class="n">reward_range</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># updating the state with a new rideshare request</span>
+        <span class="n">new_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">newState</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_request</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">newState</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_request</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">newState</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">reward</span><span class="p">),</span> <span class="n">done</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;request&#39;</span><span class="p">:</span> <span class="n">new_request</span><span class="p">,</span> <span class="s1">&#39;acceptance&#39;</span><span class="p">:</span> <span class="n">accepted</span><span class="p">}</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

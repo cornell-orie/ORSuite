@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>The Ambulance Routing Problem &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The Multi-Armed Bandit Problem" href="bandit_readme.html" />
+    <link rel="prev" title="Revenue Management" href="airline_revenue_readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Ambulance Routing Problem</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#line">Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph">Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-assumptions">Model Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dynamics">Dynamics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#state-space">State Space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#action-space">Action space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#line-1">Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#graph-1">Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reward">Reward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transitions">Transitions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metric">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#heuristic-agents">Heuristic Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stable-agent">Stable Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metric-median-agent">Metric Median Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metric-k-mediod-agent">Metric K-Mediod Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-median-agent">Graph Median Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-mode-agent">Graph Mode Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The Ambulance Routing Problem</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/ambulance_routing_readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-ambulance-routing-problem">
+<h1>The Ambulance Routing Problem<a class="headerlink" href="#the-ambulance-routing-problem" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>One potential application of reinforcement learning involves positioning
+a server or servers (in this case an ambulance) in an optimal way
+geographically to respond to incoming calls while minimizing the
+distance traveled by the servers. This is closely related to the
+<a class="reference external" href="https://en.wikipedia.org/wiki/K-server_problem">k-server problem</a>,
+where there are <span class="math notranslate nohighlight">\(k\)</span> servers stationed in a space that must respond
+to requests arriving in that space in such a way as to minimize the
+total distance traveled.</p>
+<p>The ambulance routing problem addresses the problem by modeling an
+environment where there are ambulances stationed at locations, and calls
+come in that one of the ambulances must be sent to respond to. The goal
+of the agent is to minimize both the distance traveled by the ambulances
+between calls and the distance traveled to respond to a call by
+optimally choosing the locations to station the ambulances. The
+ambulance environment has been implemented in two different ways; as a
+1-dimensional number line <span class="math notranslate nohighlight">\([0,1]\)</span> along which ambulances will be
+stationed and calls will arrive, and a graph with nodes where ambulances
+can be stationed and calls can arrive, and edges between the nodes that
+ambulances travel along.</p>
+<div class="section" id="line">
+<h3>Line<a class="headerlink" href="#line" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ambulance_metric.py</span></code> is a 1-dimensional reinforcement learning
+environment in the space <span class="math notranslate nohighlight">\(X = [0, 1]\)</span>. Each ambulance in the
+problem can be located anywhere in <span class="math notranslate nohighlight">\(X\)</span>, so the state space is
+<span class="math notranslate nohighlight">\(S = X^k\)</span>, where <span class="math notranslate nohighlight">\(k\)</span> is the number of ambulances. The
+distance function is chosen by the user, who specifies what kind of norm
+to use. Calls for an ambulance can also arrive anywhere in <span class="math notranslate nohighlight">\(X\)</span>,
+and the nearest ambulance will respond to the call, leaving the
+locations of the other ambulances unchanged. Between calls the agent
+must choose a location to station each ambulance, with the goal of
+minimizing both the distance traveled between calls and to respond to a
+call.</p>
+<p>The default distribution for call arrivals is <span class="math notranslate nohighlight">\(Beta(5, 2)\)</span> over
+<span class="math notranslate nohighlight">\([0,1]\)</span>, however any probability distribution defined over the
+interval <span class="math notranslate nohighlight">\([0,1]\)</span> is valid. The probability distribution can also
+change with each timestep.</p>
+<p>For example, in a problem with two ambulances, imagine the ambulances
+are initially located at <span class="math notranslate nohighlight">\(0.4\)</span> and <span class="math notranslate nohighlight">\(0.6\)</span>, and the distance
+function being used is the <span class="math notranslate nohighlight">\(\ell_1\)</span> norm. The agent could choose
+to move the ambulances to <span class="math notranslate nohighlight">\(0.342\)</span> and <span class="math notranslate nohighlight">\(0.887\)</span>. If a call
+arrived at <span class="math notranslate nohighlight">\(0.115\)</span>, ambulance 1, which was at <span class="math notranslate nohighlight">\(0.342\)</span>, would
+respond to that call, and the state at the end of the iteration would be
+ambulance 1 at <span class="math notranslate nohighlight">\(0.115\)</span> and ambulance 2 at <span class="math notranslate nohighlight">\(0.887\)</span>. The agent
+could then choose new locations to move the ambulances to, and the cycle
+would repeat.</p>
+<p>At the beginning of the iteration:</p>
+<p>After the ambulances move to the locations specified by the agent:</p>
+<p>After ambulance 1 responds to the call:</p>
+</div>
+<div class="section" id="graph">
+<h3>Graph<a class="headerlink" href="#graph" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ambulance_graph.py</span></code> is structured as a graph of nodes <span class="math notranslate nohighlight">\(V\)</span> with
+edges between the nodes <span class="math notranslate nohighlight">\(E\)</span>. Each node represents a location where
+an ambulance could be stationed or a call could come in. The edges
+between nodes are undirected and have a weight representing the distance
+between those two nodes.</p>
+<p>The nearest ambulance to a call is determined by computing the shortest
+path from each ambulance to the call, and choosing the ambulance with
+the minimum length path. The calls arrive using a prespecified iid
+probability distribution. The default is for the probability of call
+arrivals to be evenly distributed over all the nodes; however, the user
+can also choose different probabilities for each of the nodes that a
+call will arrive at that node. For example, in the following graph the
+default setting would be for each call to have a 0.25 probability of
+arriving at each node, but the user could instead specify that there is
+a 0.1 probability of a call at node 0, and a 0.3 probability of a call
+arriving at each of the other three nodes.</p>
+<p>After each call comes in, the agent will choose where to move each
+ambulance in the graph. Every ambulance except the ambulance that moved
+to respond to the call will be at the same location where the agent
+moved it to on the previous iteration, and the ambulance that moved to
+respond to the call will be at the node where the call came in.</p>
+<p>The graph environment is currently implemented using the <a class="reference external" href="https://networkx.org/documentation/stable/index.html">networkx
+package</a>.</p>
+</div>
+</div>
+<div class="section" id="model-assumptions">
+<h2>Model Assumptions<a class="headerlink" href="#model-assumptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>New calls do not arrive while an ambulance is in transit</p></li>
+<li><p>There is no step for traveling to a hospital after responding to a
+call</p></li>
+</ul>
+</div>
+<div class="section" id="dynamics">
+<h2>Dynamics<a class="headerlink" href="#dynamics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="state-space">
+<h3>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Line<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>The state space for the line environment is <span class="math notranslate nohighlight">\(S = X^k\)</span> where
+<span class="math notranslate nohighlight">\(X = [0, 1]\)</span> and there are <span class="math notranslate nohighlight">\(k\)</span> ambulances. Each ambulance
+can be located at any point on the line <span class="math notranslate nohighlight">\(X\)</span>.</p>
+</div>
+<div class="section" id="id2">
+<h4>Graph<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>The graph environment consists of nodes <span class="math notranslate nohighlight">\(V\)</span> and edges between the
+nodes <span class="math notranslate nohighlight">\(E\)</span>, and each ambulance can be located at any node
+<span class="math notranslate nohighlight">\(v \in V\)</span> (and multiple ambulances can be at the same node). The
+state space of this environment is <span class="math notranslate nohighlight">\(S = V^k\)</span>, where <span class="math notranslate nohighlight">\(k\)</span> is
+the number of ambulances.</p>
+</div>
+</div>
+<div class="section" id="action-space">
+<h3>Action space<a class="headerlink" href="#action-space" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="line-1">
+<span id="id3"></span><h4>Line<a class="headerlink" href="#line-1" title="Permalink to this headline">¶</a></h4>
+<p>The agent chooses a location for each ambulance to travel to between
+calls. The location for each ambulance can be any point <span class="math notranslate nohighlight">\(t \in X\)</span>
+where <span class="math notranslate nohighlight">\(X = [0, 1]\)</span>.</p>
+</div>
+<div class="section" id="graph-1">
+<span id="id4"></span><h4>Graph<a class="headerlink" href="#graph-1" title="Permalink to this headline">¶</a></h4>
+<p>The agent chooses a node for each ambulance to travel to between calls.
+The location for any ambulance can be any node <span class="math notranslate nohighlight">\(v \in V\)</span>, so the
+action space <span class="math notranslate nohighlight">\(A\)</span> will be <span class="math notranslate nohighlight">\(A = V^k\)</span>.</p>
+</div>
+</div>
+<div class="section" id="reward">
+<h3>Reward<a class="headerlink" href="#reward" title="Permalink to this headline">¶</a></h3>
+<p>The reward is
+<span class="math notranslate nohighlight">\(-1 \cdot (\alpha \cdot d(s, a) + (1 - \alpha) \cdot d(a, n))\)</span>
+where <span class="math notranslate nohighlight">\(s\)</span> is the previous state of the system, <span class="math notranslate nohighlight">\(a\)</span> is the
+action chosen by the user, <span class="math notranslate nohighlight">\(n\)</span> is the state of the system after
+the new call arrival, and <span class="math notranslate nohighlight">\(d\)</span> is the distance function. In the
+case of the metric environment <span class="math notranslate nohighlight">\(d\)</span> is the norm specified by the
+user, and in the graph environment <span class="math notranslate nohighlight">\(d\)</span> is the shortest distance
+between two nodes. The goal of the agent is to maximize this reward, and
+because the reward is negative this implies getting the reward as close
+to <span class="math notranslate nohighlight">\(0\)</span> as possible.</p>
+<p>The <span class="math notranslate nohighlight">\(\alpha\)</span> parameter allows the user to control the proportional
+difference in cost to move ambulances normally versus when responding to
+an emergency. In real world scenarios the distance traveled to respond
+to a call will likely be more costly than the distance traveled between
+calls because of the additional cost of someone having to wait a long
+time for an ambulance.</p>
+<p>By collecting data on their past actions, call arrival locations, and
+associated rewards, an agent’s goal is to learn how to most effectively
+position ambulances to respond to calls to minimize the distance the
+ambulances have to travel.</p>
+</div>
+<div class="section" id="transitions">
+<h3>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline">¶</a></h3>
+<p>Given an initial state at the start of the iteration <span class="math notranslate nohighlight">\(x\)</span>, an
+action chosen by the user <span class="math notranslate nohighlight">\(a\)</span>, and a call arrival <span class="math notranslate nohighlight">\(p\)</span>, the
+state at the end of the iteration will be</p>
+<p><span class="math notranslate nohighlight">\(\begin{align*}  x_i^{new} &amp; = \begin{cases}  a_i \qquad &amp; i \neq i^\star \\  p_h \qquad &amp; i = i^\star  \end{cases} \\ \end{align*}\)</span></p>
+<p>for all ambulances <span class="math notranslate nohighlight">\(i \in [k]\)</span>, where <span class="math notranslate nohighlight">\(i^*\)</span> is the nearest
+ambulance to the call <span class="math notranslate nohighlight">\(p\)</span> from the action <span class="math notranslate nohighlight">\(a\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{align*}  i^\star = \text{argmin}_{i \in [k]} |a_i - p| \end{align*}\)</span></p>
+</div>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="metric">
+<h3>Metric<a class="headerlink" href="#metric" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p>
+<p>Returns the environment to its original state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">step(action)</span></code></p>
+<p>Takes an action from the agent and returns the state of the system after
+the next arrival. * <code class="docutils literal notranslate"><span class="pre">action</span></code>: a list with the location of each
+ambulance, where each location is a float between <span class="math notranslate nohighlight">\(0\)</span> and
+<span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p>Ex. two ambulances at 0.572 and 0.473 would be <code class="docutils literal notranslate"><span class="pre">[0.572,</span> <span class="pre">0.473]</span></code></p>
+<p>Returns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: A list containing the locations of each ambulance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reward</span></code>: The reward associated with the most recent action and
+event</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pContinue</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">info</span></code>: a dictionary containing the node where the most recent
+arrival occured</p>
+<ul>
+<li><p>Ex. <code class="docutils literal notranslate"><span class="pre">{'arrival':</span> <span class="pre">0.988}</span></code> if the most recent arrival was at 0.988</p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">render</span></code></p>
+<p>Renders an iteration by showing three pictures: where the ambulances are
+after moving to their action location, the location of the call arrival,
+and the locations of the ambulances after an ambulance moves to respond
+to the call.</p>
+<p>Takes one parameter <code class="docutils literal notranslate"><span class="pre">mode</span></code>. When <code class="docutils literal notranslate"><span class="pre">mode</span> <span class="pre">=</span> <span class="pre">&quot;rgb_array&quot;</span></code> returns a
+tuple of three rgb_arrays representing the three different images that
+need to be rendered.</p>
+<p><code class="docutils literal notranslate"><span class="pre">close</span></code></p>
+<p>Currently unimplemented</p>
+<p>Init parameters for the line ambulance environment, passed in using a
+dictionary named CONFIG</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epLen</span></code>: the length of each episode, i.e. how many calls will come
+in before the episode terminates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arrival_dist(timestep)</span></code>: a function that returns a sample from a
+probability distribution. The probability distribution can change
+with each timestep.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: a float <span class="math notranslate nohighlight">\(\in [0,1]\)</span> that controls the proportional
+difference between the cost to move ambulances in between calls and
+the cost to move an ambulance to respond to a call.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">0</span></code>: no cost to move between calls</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1</span></code>: no cost to move to respond to a call</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starting_state</span></code>: a list of floats <span class="math notranslate nohighlight">\(\in (0,1)\)</span> the length of
+the number of ambulances. Each entry in the list corresponds to the
+starting location for that ambulance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_ambulance</span></code>: integer representing the number of ambulances in
+the system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">norm</span></code>: an integer representing the norm to use to calculate
+distances; in most cases it should probably be set to 1 to be the
+<span class="math notranslate nohighlight">\(\ell_1\)</span> norm</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Graph<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p>
+<p>Returns the environment to its original state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">step(action)</span></code></p>
+<p>Takes an action from the agent and returns the state of the system after
+the next arrival. * <code class="docutils literal notranslate"><span class="pre">action</span></code>: a list with the location of each
+ambulance</p>
+<p>Ex. two ambulances at nodes 0 and 6 would be <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">6]</span></code></p>
+<p>Returns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: A list containing the locations of each ambulance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reward</span></code>: The reward associated with the most recent action and
+event</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pContinue</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">info</span></code>: a dictionary containing the node where the most recent
+arrival occured</p>
+<ul>
+<li><p>Ex. <code class="docutils literal notranslate"><span class="pre">{'arrival':</span> <span class="pre">1}</span></code> if the most recent arrival was at node 1</p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">render</span></code></p>
+<p>Currently unimplemented</p>
+<p><code class="docutils literal notranslate"><span class="pre">close</span></code></p>
+<p>Currently unimplemented</p>
+<p>Init parameters for the graph ambulance environment, passed in using a
+dictionary named CONFIG</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epLen</span></code>: the length of each episode, i.e. how many calls will come
+in before the episode terminates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arrival_dist(timestep,</span> <span class="pre">num_nodes,</span> <span class="pre">[arrival_data])</span></code>: a function on
+the timestep and number of nodes in the graph (and a list of arrival
+data if <code class="docutils literal notranslate"><span class="pre">from_data</span> <span class="pre">=</span> <span class="pre">True</span></code>), returning a numpy array with an entry
+for each node in the graph representing the probability of an arrival
+occurring at that node. All the entries in the array must forma a
+probability distribution, i.e. they must sum to 1.</p>
+<ul>
+<li><p>When generating arrivals from data, the arrivals might be
+deterministic. In this case the array generated at each timestep
+would have an entry of 1 at the node where the call arrives and 0
+for all other nodes.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: controls the proportional difference between the cost to
+move ambulances in between calls and the cost to move an ambulance to
+respond to a call.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">0</span></code>: no cost to move between calls</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1</span></code>: no cost to move to respond to a call</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_data</span></code>: an indicator of whether or not the ambulance arrivals
+are being read from data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">edges</span></code>: a list of tuples where each tuple has three entries
+corresponding to the starting node, the ending node, and the distance
+between them. The distance is a dictionary with one entry,
+‘travel_time’, where the value is an int representing the time
+required to travel between the two nodes</p>
+<ul>
+<li><p>Ex. <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">4,</span> <span class="pre">{'travel_time':</span> <span class="pre">2})</span></code> is an edge between nodes 0 and
+4 with travel time 2</p></li>
+<li><p>The graph is undirected and nodes are inferred from the edges</p></li>
+<li><p>Requires that the graph is fully connected</p></li>
+<li><p>Requires that the numbering of nodes is chronological and starts
+at 0 (ie, if you have 5 nodes they must be labeled 0, 1, 2, 3, and
+4)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starting_state</span></code>: a list where each index corresponds to an
+ambulance, and the entry at that index is the node where the
+ambulance is located</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_ambulance</span></code>: integer representing the number of ambulances in
+the system (kind of redundant, maybe we should get rid of this?)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="heuristic-agents">
+<h2>Heuristic Agents<a class="headerlink" href="#heuristic-agents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stable-agent">
+<h3>Stable Agent<a class="headerlink" href="#stable-agent" title="Permalink to this headline">¶</a></h3>
+<p>The stable agent does not move any of the ambulances between calls, and
+the only time an ambulance moves is when responding to an incoming call.
+In other words, the policy <span class="math notranslate nohighlight">\(\pi\)</span> chosen by the agent for any given
+state <span class="math notranslate nohighlight">\(X\)</span> will be <span class="math notranslate nohighlight">\(\pi_h(X) = X\)</span></p>
+</div>
+<div class="section" id="metric-median-agent">
+<h3>Metric Median Agent<a class="headerlink" href="#metric-median-agent" title="Permalink to this headline">¶</a></h3>
+<p>The median agent for the metric environment takes a list of all past
+call arrivals sorted by arrival location, and partitions it into
+<span class="math notranslate nohighlight">\(k\)</span> quantiles where <span class="math notranslate nohighlight">\(k\)</span> is the number of ambulances. The
+algorithm then selects the middle data point in each quantile as the
+locations to station the ambulances.</p>
+</div>
+<div class="section" id="metric-k-mediod-agent">
+<h3>Metric K-Mediod Agent<a class="headerlink" href="#metric-k-mediod-agent" title="Permalink to this headline">¶</a></h3>
+<p><strong>k-medoid is currently not included because it takes too long to run</strong></p>
+<p>The k-medoid agent uses the k-medoid algorithm where <span class="math notranslate nohighlight">\(k\)</span> is the
+number of ambulances to figure out where to station ambulances. The
+k-medoids algorithm attempts to find <span class="math notranslate nohighlight">\(k\)</span> clusters of data such
+that the total distance from each of the data points to the center of
+the cluster is minimized, however it differs from k-means in that it
+always chooses an element of the dataset as the center of the cluster.
+The k-medoid agent is implemented using the <a class="reference external" href="https://scikit-learn-extra.readthedocs.io/en/latest/generated/sklearn_extra.cluster.KMedoids.html">scikit learn k-medoids
+algorithm</a>.
+The policy <span class="math notranslate nohighlight">\(\pi\)</span> chosen by the agent for a state <span class="math notranslate nohighlight">\(X\)</span> will be
+<span class="math notranslate nohighlight">\(\pi_h(X) = kmedoid\text{(historical call data)}\)</span></p>
+<p>The precise definition of the medoid <span class="math notranslate nohighlight">\(x_{\text{medoid}}\)</span> for a set
+of points <span class="math notranslate nohighlight">\(\mathcal{X} := \{x_1, x_2, ..., x_n\}\)</span> with a distance
+function <span class="math notranslate nohighlight">\(d\)</span> is</p>
+<p><span class="math notranslate nohighlight">\(x_{\text{medoid}} = \text{arg} \text{min}_{y \in \mathcal{X}} \sum_{i=1}^n d(y, x_i)\)</span></p>
+</div>
+<div class="section" id="graph-median-agent">
+<h3>Graph Median Agent<a class="headerlink" href="#graph-median-agent" title="Permalink to this headline">¶</a></h3>
+<p>The median agent for the graph environment chooses to station the
+ambulances at the nodes where the minimum distance would have to be
+traveled to respond to all calls that have arrived in the past. The
+distance between each pair of nodes is calculated and put into a
+(symmetric) matrix, where an entry in the matrix <span class="math notranslate nohighlight">\((i, j)\)</span> is the
+length of the shortest path between nodes <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. This
+matrix is multiplied by a vector containing the number of calls that
+have arrived at each node in the past. The minimum total distances in
+the resulting matrix are chosen as the nodes at which to station the
+ambulances.</p>
+<p>The following is an example calculated for the graph from the overview
+assuming the data of past call arrivals is:</p>
+<p><span class="math notranslate nohighlight">\([0,0,3,2,0,1,1,1,0,3,3,3,2,3,3]\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} d(0,0) &amp; d(0,1) &amp; d(0,2) &amp; d(0,3)\\ d(1,0) &amp; d(1,1) &amp; d(1,2) &amp; d(1,3)\\ d(2,0) &amp; d(2,1) &amp; d(2,2) &amp; d(2,3)\\ d(3,0) &amp; d(3,1) &amp; d(3,2) &amp; d(3,3) \end{bmatrix} = \begin{bmatrix} 0 &amp; 4 &amp; 5 &amp; 3\\ 4 &amp; 0 &amp; 2 &amp; 5\\ 5 &amp; 2 &amp; 0 &amp; 3\\ 3 &amp; 5 &amp; 3 &amp; 0 \end{bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} \sum_{x \in \text{past data}} \mathbb{1}(x = 0)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 1)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 2)\\ \sum_{x \in \text{past data}} \mathbb{1}(x = 3) \end{bmatrix} = \begin{bmatrix} 4\\ 3\\ 2\\ 6 \end{bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; 4 &amp; 5 &amp; 3\\ 4 &amp; 0 &amp; 2 &amp; 5\\ 5 &amp; 2 &amp; 0 &amp; 3\\ 3 &amp; 5 &amp; 3 &amp; 0 \end{bmatrix} \begin{bmatrix} 4\\ 3\\ 2\\ 6 \end{bmatrix}  = \begin{bmatrix} 40\\ 50\\ 44\\ 33 \end{bmatrix}\)</span></p>
+<p>The graph median agent would choose to position the first ambulance at
+node 3, the second ambulance at node 0, etc.</p>
+</div>
+<div class="section" id="graph-mode-agent">
+<h3>Graph Mode Agent<a class="headerlink" href="#graph-mode-agent" title="Permalink to this headline">¶</a></h3>
+<p>The mode agent chooses to station the ambulances at the nodes where the
+most calls have come in the past. The first ambulance will be stationed
+at the node with the most historical calls, the second ambulance at the
+node with the second most historical calls, etc. The policy <span class="math notranslate nohighlight">\(\pi\)</span>
+chosen by the agent for a state <span class="math notranslate nohighlight">\(X\)</span> will be
+<span class="math notranslate nohighlight">\(\pi_h(X) = mode\text{(historical call data)}\)</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="bandit_readme.html" class="btn btn-neutral float-right" title="The Multi-Armed Bandit Problem" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="airline_revenue_readme.html" class="btn btn-neutral float-left" title="Revenue Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

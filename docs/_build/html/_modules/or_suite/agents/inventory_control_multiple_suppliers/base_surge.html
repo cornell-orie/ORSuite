@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.agents.inventory_control_multiple_suppliers.base_surge &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.agents.inventory_control_multiple_suppliers.base_surge</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.agents.inventory_control_multiple_suppliers.base_surge</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Agent</span>
+
+
+<div class="viewcode-block" id="base_surgeAgent"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent">[docs]</a><span class="k">class</span> <span class="nc">base_surgeAgent</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses a value, r, which is a vector of order amounts of length number of suppliers - 1, and an order-up-to-amount, S, which is used to calculate the order amount for the supplier with the greatest lead time.</span>
+
+<span class="sd">    The base surge agent has 2 parameters, r and S. </span>
+<span class="sd">    Each action is expressed as [r,[orderamount]]. r is a vector of the order amounts for all suppliers except the one with the greatest lead time. </span>
+<span class="sd">    S represents the &quot;order up to amount&quot;. </span>
+<span class="sd">    orderamount is calculated by calculating S - I where I is the current on-hand inventory.</span>
+<span class="sd">    This value is then made 0 if it is negative or is reduced to the maxorder if it is greater. </span>
+<span class="sd">    This order amount is used for the supplier with the greatest lead time.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        r: A vector of order amounts of length number of suppliers - 1.</span>
+<span class="sd">        S: The order-up-to amount for the supplier with the greatest lead time.</span>
+<span class="sd">        config: The dictionary of values used to set up the environment.</span>
+<span class="sd">        offset: Either 0 or the value of the max_inventory. It is used to have correct order amounts when inventory is strictly positive or if it is positive and negative.</span>
+<span class="sd">        max_order: The maximum order amount for every supplier.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="base_surgeAgent.__init__"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Initializes the agent with attributes r and S.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            r: A vector of order amounts of length number of suppliers - 1.</span>
+<span class="sd">            S: The order-up-to amount for the supplier with the greatest lead time.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="base_surgeAgent.update_config"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Update agent information based on the config__file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            env: The environment being used.</span>
+<span class="sd">            config: The dictionary of values used to set up the environment.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;neg_inventory&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_inventory&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_order</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_order&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="base_surgeAgent.pick_action"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.pick_action">[docs]</a>    <span class="k">def</span> <span class="nf">pick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Select an action based upon the observation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obs: The most recently observed state.</span>
+<span class="sd">            h: Not used.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list:</span>
+<span class="sd">            action: The action the agent will take in the next timestep.&#39;&#39;&#39;</span>
+        <span class="c1"># Step 1, extract I_t from obs</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span>
+
+        <span class="n">order_amount</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_order</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">-</span> <span class="n">inventory</span><span class="p">))</span>
+        <span class="c1"># TODO: Max(0, asdf) important? Is it ever realized?</span>
+        <span class="c1"># adjust for the stuff which is currently coming in from previous lead time step?</span>
+
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="p">[</span><span class="n">order_amount</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">action</span></div>
+
+<div class="viewcode-block" id="base_surgeAgent.update_parameters"><a class="viewcode-back" href="../../../../base_surge.html#or_suite.agents.inventory_control_multiple_suppliers.base_surge.base_surgeAgent.update_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Update the parameters, r and S.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param: A list of the form [r, S] where r is a list of integers and S is an integer.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div></div>
+        <span class="c1">#print(self.r, self.S)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

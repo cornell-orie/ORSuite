@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Median sklearn Agent &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Median Agent" href="median.html" />
+    <link rel="prev" title="Median Graph Agent" href="median_graph.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="agents.html">Agents</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ambulance_agent.html">Ambulance Agents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="command_line.html">Command Line Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="median_graph.html">Median Graph Agent</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Median sklearn Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="median.html">Median Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mode_graph.html">Mode Graph Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stable.html">Stable Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_agents.html">Inventory Control Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil_discovery_agent.html">Oil Discovery Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_allocation_agent.html">Resource Allocation Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revenue_management_agents.html">Revenue Management Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rl_agent.html">RL Agents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="agents.html">Agents</a> &raquo;</li>
+        
+          <li><a href="ambulance_agent.html">Ambulance Agents</a> &raquo;</li>
+        
+      <li>Median sklearn Agent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/median_sklearn.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.agents.ambulance.median_sklearn">
+<span id="median-sklearn-agent"></span><h1>Median sklearn Agent<a class="headerlink" href="#module-or_suite.agents.ambulance.median_sklearn" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.ambulance.median_sklearn.</span></span><span class="sig-name descname"><span class="pre">median_sklearnAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agent that implements a k-medoid heuristic algorithm for the metric ambulance environment</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears data and call_locs which contain data on what has occurred so far in the environment</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(UNIMPLEMENTED)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.pick_action">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.pick_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations are chosen by finding the k-medoids in the
+accumulated arrival data, where k is the number of ambulances, using
+sci-kit learn’s k-medoids algorithm</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) number of time steps to run the experiment for</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list list) a list of all the states of the environment observed so far</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.call_locs">
+<span class="sig-name descname"><span class="pre">call_locs</span></span><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.call_locs" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list) the locations of all calls observed so far</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epLen</strong> – (int) number of time steps to run the experiment for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.greedy">
+<span class="sig-name descname"><span class="pre">greedy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.greedy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.greedy" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the first iteration, choose the starting state
+After that, choose locations for the ambulances that are most centrally
+located to the locations of previous calls using the k-medoids algorithm
+For more details about the k-medoids algorithm, see the readme document
+for the ambulance environment or the sci-kit learn documentation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_obs">
+<span class="sig-name descname"><span class="pre">update_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newObs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.update_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds newObs, the most recently observed state, to data
+adds the most recent call arrival, found in info[‘arrival’] to call_locs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_policy">
+<span class="sig-name descname"><span class="pre">update_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/ambulance/median_sklearn.html#median_sklearnAgent.update_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.ambulance.median_sklearn.median_sklearnAgent.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update internal policy based upon records.</p>
+<p>Not used, because a greedy algorithm does not have a policy.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="median.html" class="btn btn-neutral float-right" title="Median Agent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="median_graph.html" class="btn btn-neutral float-left" title="Median Graph Agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

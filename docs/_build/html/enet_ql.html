@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>eNET QL Agent &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Random Agent" href="random.html" />
+    <link rel="prev" title="eNET MB Agent" href="enet_mb.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="agents.html">Agents</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ambulance_agent.html">Ambulance Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_agents.html">Inventory Control Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil_discovery_agent.html">Oil Discovery Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_allocation_agent.html">Resource Allocation Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revenue_management_agents.html">Revenue Management Agents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rl_agent.html">RL Agents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ada_mb.html">Adaptive Discretization MB Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ada_ql.html">Adaptive Discretization QL Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discrete_mb.html">Discrete MB Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discrete_ql.html">Discrete QL Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enet_mb.html">eNET MB Agent</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">eNET QL Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random.html">Random Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="agents.html">Agents</a> &raquo;</li>
+        
+          <li><a href="rl_agent.html">RL Agents</a> &raquo;</li>
+        
+      <li>eNET QL Agent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/enet_ql.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.agents.rl.enet_ql">
+<span id="enet-ql-agent"></span><h1>eNET QL Agent<a class="headerlink" href="#module-or_suite.agents.rl.enet_ql" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.rl.enet_ql.</span></span><span class="sig-name descname"><span class="pre">eNetQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_action_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uniform Discretization Q-Learning algorithm  implemented for enviroments
+with continuous states and actions using the metric induces by the l_inf norm</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) number of steps per episode</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.scaling">
+<span class="sig-name descname"><span class="pre">scaling</span></span><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float) scaling parameter for confidence intervals</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.action_net">
+<span class="sig-name descname"><span class="pre">action_net</span></span><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.action_net" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) of a discretization of action space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.state_net">
+<span class="sig-name descname"><span class="pre">state_net</span></span><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.state_net" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) of a discretization of the state space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.state_action_dim">
+<span class="sig-name descname"><span class="pre">state_action_dim</span></span><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.state_action_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>d_1 + d_2 dimensions of state and action space respectively</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_action_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.get_num_arms">
+<span class="sig-name descname"><span class="pre">get_num_arms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.get_num_arms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.get_num_arms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of arms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.pick_action">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.pick_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select action according to a greedy policy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – int - current state</p></li>
+<li><p><strong>timestep</strong> – int - timestep <em>within</em> episode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>action</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.update_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update agent information based on the config__file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.update_obs">
+<span class="sig-name descname"><span class="pre">update_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newObs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.update_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.update_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add observation to records</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.rl.enet_ql.eNetQL.update_policy">
+<span class="sig-name descname"><span class="pre">update_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/rl/enet_ql.html#eNetQL.update_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.rl.enet_ql.eNetQL.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update internal policy based upon records</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="random.html" class="btn btn-neutral float-right" title="Random Agent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="enet_mb.html" class="btn btn-neutral float-left" title="eNET MB Agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

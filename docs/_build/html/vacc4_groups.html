@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Vaccine 4 Groups &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Agents" href="agents.html" />
+    <link rel="prev" title="Dynamics Model 4 Groups" href="dynamics_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="envs.html">Environments</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="airline_revenue.html">Airline Revenue Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ambulance.html">Ambulance Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite_armed.html">Finite Armed Bandit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_control.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oil.html">Oil Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">Resource Allocation Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rideshare.html">Ridesharing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="vaccine.html">Vaccine Allotment Environments</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dynamics_model.html">Dynamics Model 4 Groups</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Vaccine 4 Groups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="envs.html">Environments</a> &raquo;</li>
+        
+          <li><a href="vaccine.html">Vaccine Allotment Environments</a> &raquo;</li>
+        
+      <li>Vaccine 4 Groups</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/vacc4_groups.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.envs.vaccine_allotment.vacc_4groups">
+<span id="vaccine-4-groups"></span><h1>Vaccine 4 Groups<a class="headerlink" href="#module-or_suite.envs.vaccine_allotment.vacc_4groups" title="Permalink to this headline">¶</a></h1>
+<p>A simple vaccine distribution environment.</p>
+<p>Agent interacts w/ environment by picking a vaccine priority group order for vaccine distribution to a population over a set time period.
+Vaccines are distributed to the first priority group until there are no vaccines left or no people in the first priority group.
+If there are still vaccines available, they are distributed to the next priority group.
+We go down the priority list until vaccine supply is exhausted or there are no vaccine candidates left.
+There is a penalty for new infections in this time period.
+Only 4 groups are considered (e.g. medical workers, essential non-medical workers, low-risk, others):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>TOTAL population size and vaccine supply for each time period is kept constant.</p></li>
+<li><p>Each group is split into susceptible (S), asymptomatically infected (A)</p></li>
+<li><p>We keep track of agreggate mildly symptomatically infected (I) and hospitalized (H) individuals.</p></li>
+</ul>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.envs.vaccine_allotment.vacc_4groups.</span></span><span class="sig-name descname"><span class="pre">VaccineEnvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'epLen':</span> <span class="pre">4,</span> <span class="pre">'parameters':</span> <span class="pre">{'H':</span> <span class="pre">array([0.2,</span> <span class="pre">0.2,</span> <span class="pre">0.8,</span> <span class="pre">0.3]),</span> <span class="pre">'P':</span> <span class="pre">array([0.15,</span> <span class="pre">0.15,</span> <span class="pre">0.7,</span> <span class="pre">0.2]),</span> <span class="pre">'beta':</span> <span class="pre">0.14285714285714285,</span> <span class="pre">'contact_matrix':</span> <span class="pre">array([[1.e-04,</span> <span class="pre">1.e-04,</span> <span class="pre">3.e-05,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">1.e-04],</span> <span class="pre">[0.e+00,</span> <span class="pre">1.e-04,</span> <span class="pre">5.e-05,</span> <span class="pre">1.e-04,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00],</span> <span class="pre">[0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">3.e-05,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00],</span> <span class="pre">[0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00]]),</span> <span class="pre">'gamma':</span> <span class="pre">100,</span> <span class="pre">'priority':</span> <span class="pre">['1',</span> <span class="pre">'2',</span> <span class="pre">'3',</span> <span class="pre">'4'],</span> <span class="pre">'time_step':</span> <span class="pre">7,</span> <span class="pre">'vaccines':</span> <span class="pre">500},</span> <span class="pre">'starting_state':</span> <span class="pre">array([990,</span> <span class="pre">1990,</span> <span class="pre">990,</span> <span class="pre">5990,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0])}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple vaccine distribution environment with a discrete action and observation space.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(dict) Contains the parameters needed to set up the vaccine environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Number of time steps in an episode.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.vaccines">
+<span class="sig-name descname"><span class="pre">vaccines</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.vaccines" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Current number of vaccines available per time step.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) Current priority order of the groups.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>(dict) Contains the parameters needed for the dynamics.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.total_pop">
+<span class="sig-name descname"><span class="pre">total_pop</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.total_pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Total population size.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>(np.array) Current state of the environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.starting_state">
+<span class="sig-name descname"><span class="pre">starting_state</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.starting_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>(np.array) Beginning state of the environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.timestep">
+<span class="sig-name descname"><span class="pre">timestep</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.timestep" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The step we are on.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.action_space">
+<span class="sig-name descname"><span class="pre">action_space</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.action_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(spaces.Discrete)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.all_priority_orders">
+<span class="sig-name descname"><span class="pre">all_priority_orders</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.all_priority_orders" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.observation_space">
+<span class="sig-name descname"><span class="pre">observation_space</span></span><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.observation_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(spaces.MultiDiscrete)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'epLen':</span> <span class="pre">4,</span> <span class="pre">'parameters':</span> <span class="pre">{'H':</span> <span class="pre">array([0.2,</span> <span class="pre">0.2,</span> <span class="pre">0.8,</span> <span class="pre">0.3]),</span> <span class="pre">'P':</span> <span class="pre">array([0.15,</span> <span class="pre">0.15,</span> <span class="pre">0.7,</span> <span class="pre">0.2]),</span> <span class="pre">'beta':</span> <span class="pre">0.14285714285714285,</span> <span class="pre">'contact_matrix':</span> <span class="pre">array([[1.e-04,</span> <span class="pre">1.e-04,</span> <span class="pre">3.e-05,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">1.e-04],</span> <span class="pre">[0.e+00,</span> <span class="pre">1.e-04,</span> <span class="pre">5.e-05,</span> <span class="pre">1.e-04,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00],</span> <span class="pre">[0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">3.e-05,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00],</span> <span class="pre">[0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00,</span> <span class="pre">3.e-05,</span> <span class="pre">0.e+00,</span> <span class="pre">0.e+00]]),</span> <span class="pre">'gamma':</span> <span class="pre">100,</span> <span class="pre">'priority':</span> <span class="pre">['1',</span> <span class="pre">'2',</span> <span class="pre">'3',</span> <span class="pre">'4'],</span> <span class="pre">'time_step':</span> <span class="pre">7,</span> <span class="pre">'vaccines':</span> <span class="pre">500},</span> <span class="pre">'starting_state':</span> <span class="pre">array([990,</span> <span class="pre">1990,</span> <span class="pre">990,</span> <span class="pre">5990,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">10,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0])}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a VaccineEnvironment object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – <p>dictionary with the following keys (and corresponding values)</p>
+<ul>
+<li><p>epLen : (int) Number of time steps.</p></li>
+<li><p>starting_state : (np.array) initial population group sizes; should contain 11 entries &gt; [S1 S2 S3 S4 A1 A2 A3 A4 I H R]</p></li>
+<li><p>parameters : (dict) of parameter values to pass to dynamics model with the folowing keys and values:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>contact_matrix: (np.array of floats) Contact rates between susceptible people in each class and the infected people.</p></li>
+<li><p>P: (np.array of floats) P = [p1 p2 p3 p4] where pi = Prob(symptomatic | infected) for a person in class i.</p></li>
+<li><p>H: (np.array of floats) H = [h1 h2 h3 h4] where hi = Prob(hospitalized | symptomatic) for a person in class i.</p></li>
+<li><p>beta: (float) Recovery rate.</p></li>
+<li><p>gamma: (int) Vaccination rate.</p></li>
+<li><p>vaccines: (int) Number of vaccine available for this time period.</p></li>
+<li><p>priority: (list of chars) Vaccination priority order of the four groups.</p></li>
+<li><p>time_step: (float) Number of units of time you want the simulation to run for e.g. if all your rates are per day and you want to simulate 7 days, time_step = 7.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</p>
+</dd>
+</dl>
+<p>Action Space (finite):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Set of all possible actions (priority orders in this case).</p></li>
+<li><p>An action is an index i and the corresponding permutation is all_priority_orders[i].</p></li>
+<li><p>0 corresponds to [], which means no priority order.</p></li>
+<li><p>See vaccine_allocation_readme.ipynb for more detail.</p></li>
+</ul>
+</div></blockquote>
+<p>Observation space (finite):
+A tuple of integer values representing certain population stats.
+See vaccine_allocation_readme.ipynb for more detail.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override close in your subclass to perform any necessary cleanup.</p>
+<p>Environments will automatically close() themselves when
+garbage collected or when the program exits.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'console'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the environment.</p>
+<p>The set of supported modes varies per environment. (And some
+environments do not support rendering at all.) By convention,
+if mode is:</p>
+<ul class="simple">
+<li><p>human: render to the current display or terminal and
+return nothing. Usually for human consumption.</p></li>
+<li><p>rgb_array: Return an numpy.ndarray with shape (x, y, 3),
+representing RGB values for an x-by-y pixel image, suitable
+for turning into a video.</p></li>
+<li><p>ansi: Return a string (str) or StringIO.StringIO containing a
+terminal-style text representation. The text can include newlines
+and ANSI escape sequences (e.g. for colors).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Make sure that your class’s metadata ‘render.modes’ key includes</dt><dd><p>the list of supported modes. It’s recommended to call super()
+in implementations to use the functionality of this method.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em>) – the mode to render with</p>
+</dd>
+</dl>
+<p>Example:</p>
+<dl>
+<dt>class MyEnv(Env):</dt><dd><p>metadata = {‘render.modes’: [‘human’, ‘rgb_array’]}</p>
+<dl class="simple">
+<dt>def render(self, mode=’human’):</dt><dd><dl class="simple">
+<dt>if mode == ‘rgb_array’:</dt><dd><p>return np.array(…) # return RGB frame suitable for video</p>
+</dd>
+<dt>elif mode == ‘human’:</dt><dd><p>… # pop up a window and render</p>
+</dd>
+<dt>else:</dt><dd><p>super(MyEnv, self).render(mode=mode) # just raise an exception</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reinitializes variables and returns the starting state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/envs/vaccine_allotment/vacc_4groups.html#VaccineEnvironment.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.envs.vaccine_allotment.vacc_4groups.VaccineEnvironment.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves one step in the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> – int; the chosen action.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>reward: double; the reward based on chosen action.</p>
+<p>newState: np.array of integers; the new state.</p>
+<p>done: 0/1; the flag for end of the episode.</p>
+<p>info: dict; information we can use to plot things related to disease dynamics.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>double, np.array of integers, 0/1, dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="agents.html" class="btn btn-neutral float-right" title="Agents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dynamics_model.html" class="btn btn-neutral float-left" title="Dynamics Model 4 Groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

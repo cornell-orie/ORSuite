@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>or_suite.envs.ambulance.ambulance_graph &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>or_suite.envs.ambulance.ambulance_graph</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for or_suite.envs.ambulance.ambulance_graph</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Implementation of an RL environment in a discrete graph space.</span>
+
+<span class="sd">An ambulance environment over a simple graph.  An agent interacts through </span>
+<span class="sd">the environment by selecting locations for various ambulances over the graph.  Afterwards </span>
+<span class="sd">a patient arrives and the ambulance most go and serve the arrival, paying a </span>
+<span class="sd">cost to travel.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">from</span> <span class="nn">gym</span> <span class="kn">import</span> <span class="n">spaces</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">env_configs</span>
+
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment">[docs]</a><span class="k">class</span> <span class="nc">AmbulanceGraphEnvironment</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A graph of nodes V with edges between the nodes E; each node represents a </span>
+<span class="sd">    location where an ambulance could be stationed or a call could come in. The </span>
+<span class="sd">    edges between nodes are undirected and have a weight representing the distance </span>
+<span class="sd">    between those two nodes.</span>
+<span class="sd">    The nearest ambulance to a call is determined by computing the shortest path </span>
+<span class="sd">    from each ambulance to the call, and choosing the ambulance with the minimum </span>
+<span class="sd">    length path. The calls arrive according to a prespecified iid probability </span>
+<span class="sd">    distribution that can change over time.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        epLen: The int number of time steps to run the experiment for.</span>
+<span class="sd">        arrival_dist: A lambda arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.</span>
+<span class="sd">        alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.</span>
+<span class="sd">        from_data: A bool indicator for whether the arrivals will be read from data or randomly generated.</span>
+<span class="sd">        arrival_data: An int list only used if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space.</span>
+<span class="sd">        episode_num: The (int) current episode number, increments every time the environment is reset.</span>
+<span class="sd">        graph: A networkx Graph representing the observation space.</span>
+<span class="sd">        num_nodes: The (int) number of nodes in the graph.</span>
+<span class="sd">        state: An int list representing the current state of the environment.</span>
+<span class="sd">        timestep: The (int) timestep the current episode is on.</span>
+<span class="sd">        lengths: A symmetric float matrix containing the distance between each pair of nodes.</span>
+<span class="sd">        starting_state: An int list containing the starting locations for each ambulance.</span>
+<span class="sd">        num_ambulance: The (int) number of ambulances in the environment.</span>
+<span class="sd">        action_space: (Gym.spaces MultiDiscrete) Actions must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph.</span>
+<span class="sd">        observation_space: (Gym.spaces MultiDiscrete) The environment state must be the length of the number of ambulances, every entry is an int corresponding to a node in the graph.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;render.modes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;human&#39;</span><span class="p">]}</span>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.__init__"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">env_configs</span><span class="o">.</span><span class="n">ambulance_graph_default_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args: </span>
+<span class="sd">            config: A dictionary (dict) containing the parameters required to set up a metric ambulance environment.</span>
+<span class="sd">            epLen: The (int) number of time steps to run the experiment for.</span>
+<span class="sd">            arrival_dist: A (lambda) arrival distribution for calls over the observation space; takes an integer (step) and returns an integer that corresponds to a node in the observation space.</span>
+<span class="sd">            alpha: A float controlling proportional difference in cost to move between calls and to respond to a call.</span>
+<span class="sd">            from_data: A bool indicator for whether the arrivals will be read from data or randomly generated.</span>
+<span class="sd">            data: An int list only needed if from_data is True, this is a list of arrivals, where each arrival corresponds to a node in the observation space.</span>
+<span class="sd">            edges: A tuple list where each tuple corresponds to an edge in the graph. The tuples are of the form (int1, int2, {&#39;travel_time&#39;: int3}). int1 and int2 are the two endpoints of the edge, and int3 is the time it takes to travel from one endpoint to the other.</span>
+<span class="sd">            starting_state: An int list containing the starting locations for each ambulance.</span>
+<span class="sd">            num_ambulance: The (int) number of ambulances in the environment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AmbulanceGraphEnvironment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;epLen&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;starting_state&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_ambulance</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_ambulance&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arrival_dist</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;arrival_dist&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;from_data&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_lengths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arrival_data</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">episode_num</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Creates an array stored in space_array the length of the number of ambulances</span>
+        <span class="c1"># where every entry is the number of nodes in the graph</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="n">space_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_ambulance</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+
+        <span class="c1"># Creates a space where every ambulance can be located at any of the nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span><span class="n">space_array</span><span class="p">)</span>
+
+        <span class="c1"># The definition of the observation space is the same as the action space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">MultiDiscrete</span><span class="p">(</span><span class="n">space_array</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.reset"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reinitializes variables and returns the starting state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">episode_num</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">starting_state</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.step"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move one step in the environment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            action: An int list of nodes the same length as the number of ambulances,</span>
+<span class="sd">                where each entry i in the list corresponds to the chosen location for </span>
+<span class="sd">                ambulance i.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float, int, bool:</span>
+<span class="sd">            reward: A float representing the reward based on the action chosen.</span>
+
+<span class="sd">            newState: An int list representing the state of the environment after the action and call arrival.</span>
+
+<span class="sd">            done: A bool flag indicating the end of the episode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="n">old_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+
+        <span class="c1"># The location of the new arrival is chosen randomly from among the nodes</span>
+        <span class="c1"># in the graph according to the arrival distribution</span>
+        <span class="n">prob_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_data</span><span class="p">:</span>
+            <span class="n">dataset_step</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episode_num</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epLen</span> <span class="o">+</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arrival_data</span><span class="p">)</span>
+            <span class="n">prob_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrival_dist</span><span class="p">(</span>
+                <span class="n">dataset_step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrival_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prob_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrival_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prob_list</span><span class="p">)</span>
+
+        <span class="c1"># Finds the distance traveled by all the ambulances from the old state to</span>
+        <span class="c1"># the chosen action, assuming that each ambulance takes the shortest path,</span>
+        <span class="c1"># which is stored in total_dist_oldstate_to_action</span>
+        <span class="c1"># Also finds the closest ambulance to the call based on their locations at</span>
+        <span class="c1"># the end of the action, using shortest paths</span>
+        <span class="n">shortest_length</span> <span class="o">=</span> <span class="mi">999999999</span>
+        <span class="n">closest_amb_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">closest_amb_loc</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="n">closest_amb_idx</span><span class="p">]</span>
+
+        <span class="n">total_dist_oldstate_to_action</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">amb_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)):</span>
+            <span class="n">new_length</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="n">amb_idx</span><span class="p">],</span> <span class="n">new_arrival</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;travel_time&#39;</span><span class="p">)</span>
+
+            <span class="n">total_dist_oldstate_to_action</span> <span class="o">+=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">amb_idx</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="n">amb_idx</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;dist&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">new_length</span> <span class="o">&lt;</span> <span class="n">shortest_length</span><span class="p">:</span>
+                <span class="n">shortest_length</span> <span class="o">=</span> <span class="n">new_length</span>
+                <span class="n">closest_amb_idx</span> <span class="o">=</span> <span class="n">amb_idx</span>
+                <span class="n">closest_amb_loc</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="n">closest_amb_idx</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+        <span class="c1"># Update the state of the system according to the action taken and change</span>
+        <span class="c1"># the location of the closest ambulance to the call to the call location</span>
+        <span class="n">newState</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">newState</span><span class="p">[</span><span class="n">closest_amb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arrival</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">newState</span>
+
+        <span class="c1"># The reward is a linear combination of the distance traveled to the action</span>
+        <span class="c1"># and the distance traveled to the call</span>
+        <span class="c1"># alpha controls the tradeoff between cost to travel between arrivals and</span>
+        <span class="c1"># cost to travel to a call</span>
+        <span class="c1"># The reward is negated so that maximizing it will minimize the distance</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">total_dist_oldstate_to_action</span> <span class="o">+</span>
+                       <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">shortest_length</span><span class="p">)</span>
+
+        <span class="c1"># The info dictionary is used to pass the location of the most recent arrival</span>
+        <span class="c1"># so it can be used by the agent</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;arrival&#39;</span><span class="p">:</span> <span class="n">new_arrival</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epLen</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">newState</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span>  <span class="n">done</span><span class="p">,</span> <span class="n">info</span></div>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.render"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;console&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s1">&#39;console&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.close"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AmbulanceGraphEnvironment.find_lengths"><a class="viewcode-back" href="../../../../ambulance_graph.html#or_suite.envs.ambulance.ambulance_graph.AmbulanceGraphEnvironment.find_lengths">[docs]</a>    <span class="k">def</span> <span class="nf">find_lengths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a graph, find_lengths first calculates the pairwise shortest distance </span>
+<span class="sd">        between all the nodes, which is stored in a (symmetric) matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dict_lengths</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">all_pairs_dijkstra_path_length</span><span class="p">(</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;travel_time&#39;</span><span class="p">))</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">):</span>
+                <span class="n">lengths</span><span class="p">[</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_lengths</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="n">node2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">lengths</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
