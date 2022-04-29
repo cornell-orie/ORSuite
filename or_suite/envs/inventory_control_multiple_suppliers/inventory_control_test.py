@@ -128,6 +128,7 @@ def test_initial_state_three():
 
 def test_step_three():
     np.random.seed(10)
+    env3.reset()
     newState, reward, done, info = env3.step([1, 15, 4])
 
     # Test if new state is part of observation space
