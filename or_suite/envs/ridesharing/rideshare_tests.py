@@ -39,8 +39,7 @@ def test_step():
     assert type(reward) == np.float64, "Reward is not a float"
 
     # Check value of reward
-    difference = abs(reward - (0.0))
-    assert difference <= .000001 and difference >= 0.0
+    assert reward <= 1 and reward >= 0.0
 
     # Do step again
     newState, reward, done, info = env.step(1)
