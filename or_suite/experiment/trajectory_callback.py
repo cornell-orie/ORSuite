@@ -12,14 +12,15 @@ from stable_baselines3.common.callbacks import BaseCallback
 
 class TrajectoryCallback(BaseCallback):
     """
-    Custom callback for plotting additional values in tensorboard.
+    Custom callback for plotting trajectory information for a StatebleBaselines experiment.
 
     Args:
-        verbose: (bool) Print trajectory info to the console
+        verbose: (int) 1 to print trajectory information to console, 0 not to print
 
     Attributes:
         verbose: (int) 1 to print information, 0 to not print
         trajectory: (list) A list of dictionaries to hold the trajectory information 
+        iteration_number: (int) A running count of which iteration training is on
     """
 
     def __init__(self, verbose=0):
@@ -29,6 +30,12 @@ class TrajectoryCallback(BaseCallback):
         self.iteration_number = 0
 
     def _on_step(self) -> bool:
+        """
+        After each step of training, saves the trajectory information to a dictionary.
+
+        Trajectory information is iteration, episode, step, oldState, action, reward, newState, info.
+        """
+        # Get values from local variables
         reward = self.locals["rewards"][0]
         action = self.locals["clipped_actions"][0]
         info = self.locals["infos"][0]
@@ -48,6 +55,7 @@ class TrajectoryCallback(BaseCallback):
         # iteration is done in outside loop for training, so it is not taken from self.locals
         iteration = self.iteration_number
 
+        # create dictionary for this time step
         step_dict = {'iter': iteration,
                      'episode': episode,
                      'step': step,
@@ -56,8 +64,10 @@ class TrajectoryCallback(BaseCallback):
                      'reward': reward,
                      'newState': next_state,
                      'info': info}
+        # append this time step to list of trajectory info for all timesteps
         self.trajectory.append(step_dict)
 
+        # print out information
         if self.verbose:
             # print(self.locals)
             print('Iteration: {}'.format(iteration))
@@ -73,4 +83,9 @@ class TrajectoryCallback(BaseCallback):
         return True
 
     def update_iter(self):
+        """
+        Updates the iteration number. 
+
+        This is called by sb_experiment.py to manually increment the iteration number in its training loop.
+        """
         self.iteration_number += 1
