@@ -12,9 +12,9 @@ ORSuite is a collection of environments, agents, and instrumentation, aimed at p
 - selecting algorithms
 - running experiment/generating figures
 
-This guide will go through how to read and run experiments made by ORSuite. 
+This guide follows the ambulance environment model and will go through how to read and run experiments made by ORSuite. 
 
-This guide follows the ambulance environment model. The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances. 
+The ambulance routing problem addresses the problem by modeling an environment where there are ambulances stationed at locations, and calls come in that one of the ambulances must be sent to respond to. The goal of the agent is to minimize both the distance traveled by the ambulances between calls and the distance traveled to respond to a call by optimally choosing the locations to station the ambulances. 
 
 For more information on the example see `examples/ambulance_metric_environment.ipynb`.
 For more information on the environment see `or_suite/envs/ambulance/ambulance_metric.py`.
@@ -83,13 +83,13 @@ Other agents are further specified within each experiment in "ORSuite/examples".
 
 `SB PPO` is Proximal Policy Optimization. This agent comes from stable_baselines_3. When policy is updated, there is a parameter that “clips” each policy update so that action update does not go too far.
 
-`AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the $\ell_{\infty}$ norm.
+`AdaQL` is an Adaptive Discretization Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induced by the l_inf norm.
 
-`AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the  $\ell_{\infty}$ norm.
+`AdaMB` is an Adaptive Discretizaiton Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induced by the  l_inf norm.
 
-`Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the $\ell_{\infty}$ norm.
+`Unif QL` is an eNet Model-Based Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
 
-`Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the $\ell_{\infty}$ norm.
+`Unif MB` is a eNet Model-Free Agent, implemented for enviroments with continuous states and actions using the metric induces by the l_inf norm.
 
 Specifying the agents in the code looks like: 
 ```
