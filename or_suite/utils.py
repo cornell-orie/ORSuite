@@ -203,7 +203,7 @@ def times_out_of_budget(traj, env_config):
     traj_index = 0
     for iter_num in range(num_iter):
         for ep in range(num_eps):
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
                 old_budget = cur_dict['oldState'][:num_commodities]
@@ -240,7 +240,7 @@ def delta_EFFICIENCY(traj, env_config):
         # print(iter_num)
         for ep in range(num_eps):
             # print(ep)
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             # print('budget:' + str(budget))
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
@@ -267,7 +267,7 @@ def delta_PROP(traj, env_config):
     for iter_num in range(num_iter):
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
@@ -305,7 +305,7 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
@@ -346,7 +346,7 @@ def delta_COUNTERFACTUAL_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
@@ -392,7 +392,7 @@ def delta_EXANTE_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            budget = np.copy(env_config['init_budget']())
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):

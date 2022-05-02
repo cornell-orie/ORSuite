@@ -48,7 +48,7 @@ class fixedThresholdAgent(Agent):
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
-        self.budget_remaining = np.copy(self.env_config['init_budget'])
+        self.budget_remaining = np.copy(self.env_config['init_budget']())
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
@@ -92,7 +92,7 @@ class fixedThresholdAgent(Agent):
         """
         Uses solver to get the lower threshold
         """
-        budget = self.env_config['init_budget']
+        budget = self.env_config['init_budget']()
         weights = self.env_config['weight_matrix']
         n = self.env_config['num_rounds']
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
@@ -132,7 +132,7 @@ class fixedThresholdAgent(Agent):
 
     def reset(self):
         ''' Resets data matrix to be empty '''
-        self.budget_remaining = np.copy(self.env_config['init_budget'])
+        self.budget_remaining = np.copy(self.env_config['init_budget']())
         self.data = []
 
     def update_config(self, env, config):
@@ -147,7 +147,7 @@ class fixedThresholdAgent(Agent):
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
-        self.budget_remaining = np.copy(self.env_config['init_budget'])
+        self.budget_remaining = np.copy(self.env_config['init_budget']())
 
     def pick_action(self, state, step):
         ''' 

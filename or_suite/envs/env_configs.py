@@ -13,17 +13,19 @@ import ast
 resource_allocation_default_config = {'K': 2,
                                       'num_rounds': 10,
                                       'weight_matrix': np.array([[1, 2], [.3, 9], [1, 1]]),
-                                      'init_budget': 10*np.ones(2),
+                                      'init_budget': lambda: 10*np.ones(2),
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
-                                      'utility_function': lambda x, theta: np.dot(x, theta)
+                                      'utility_function': lambda x, theta: np.dot(x, theta),
+                                      'from_data': False
                                       }
 
 resource_allocation_simple_config = {'K': 1,
                                      'num_rounds': 10,
                                      'weight_matrix': np.array([[1]]),
-                                     'init_budget': np.array([20.]),
+                                     'init_budget': lambda: np.array([20.]),
                                      'utility_function': lambda x, theta: x,
-                                     'type_dist': lambda i: np.array([2])
+                                     'type_dist': lambda i: np.array([2]),
+                                     'from_data': False
                                      }
 
 
@@ -55,22 +57,32 @@ class FoodbankAllocationDistribution(object):
         self.mean_size = np.zeros(self.epLen)
         self.stdev_size = np.zeros(self.epLen)
 
+        print(f"init_index {self.index}")
+
         self.reset_index()
 
     def reset_index(self):
         self.index = np.random.choice(self.max_n, self.epLen, replace=False)
+        print(f"reset_index {self.index}")
         self.mean_size = np.asarray(
             [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
         self.stdev_size = np.asarray(
             [(dist_types**2) * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
 
     def get_type_distribution(self, i):
-        if i == 0:  # beginning of episode, so reset
-            self.reset_index
+        print("type distribution")
+        arrival = np.maximum(1, np.random.normal(
+            self.mean_size, self.stdev_size))[i]
 
-        return np.maximum(1, np.random.normal(self.mean_size, self.stdev_size))[i]
+        if i == self.epLen - 1:  # beginning of episode, so reset
+            print("if reset")
+            self.reset_index()
+
+        return arrival
 
     def get_budget(self):
+        print('getting budget again')
+        print(f"budget index {self.index}")
         return np.asarray([np.sum(np.asarray(
             [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)]))]*5)
 
@@ -84,9 +96,10 @@ def resource_allocation_foodbank_config(n):
     foodbank_dictionary = {'K': 5,
                            'num_rounds': n,
                            'weight_matrix': weights_fbst,
-                           'init_budget': foodbank_allocation_distribution.get_budget(),
+                           'init_budget': lambda: foodbank_allocation_distribution.get_budget(),
                            'utility_function': lambda x, theta: np.dot(x, theta),
-                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i)
+                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i),
+                           'from_data': True
                            }
 
     return foodbank_dictionary

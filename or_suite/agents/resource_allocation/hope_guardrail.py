@@ -48,7 +48,7 @@ class hopeguardrailAgent(Agent):
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
-        self.budget_remaining = np.copy(self.env_config['init_budget'])
+        self.budget_remaining = np.copy(self.env_config['init_budget']())
         self.scale = scale
         self.epLen = epLen
         self.data = []
@@ -99,7 +99,7 @@ class hopeguardrailAgent(Agent):
         Args:
             init_sizes (list) : vector containing the number of each type at each location
         """
-        budget = self.env_config['init_budget']
+        budget = self.env_config['init_budget']()
         weights = self.env_config['weight_matrix']
         n = self.env_config['num_rounds']
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
@@ -146,7 +146,7 @@ class hopeguardrailAgent(Agent):
 
     def reset(self):
         ''' Resets data matrix to be empty '''
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.current_budget = np.copy(self.env_config['init_budget']())
         self.data = []
 
     def update_config(self, env, config):
@@ -161,7 +161,7 @@ class hopeguardrailAgent(Agent):
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.current_budget = np.copy(self.env_config['init_budget']())
 
     def pick_action(self, state, step):
         ''' 
