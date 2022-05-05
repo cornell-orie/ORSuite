@@ -58,7 +58,7 @@ class FoodbankAllocationDistribution(object):
 
     def reset_index(self):
         self.index = np.random.choice(self.max_n, self.epLen, replace=False)
-        print("index", self.index)
+        # print("index", self.index)
         self.mean_size = np.asarray(
             [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
         self.stdev_size = np.asarray(
@@ -68,12 +68,12 @@ class FoodbankAllocationDistribution(object):
         arrival = np.maximum(1, np.random.normal(
             self.mean_size, self.stdev_size))[i]
 
-        print("iter: ", i)
-        if i == self.epLen:
-            print("arrival reset!")
+        # print("iter: ", i)
+        if i == self.epLen-1:
+            # print("arrival reset!")
             self.reset_index()
 
-        print("arrival ", arrival)
+        # print("arrival ", arrival)
         return arrival
 
     def get_budget(self):

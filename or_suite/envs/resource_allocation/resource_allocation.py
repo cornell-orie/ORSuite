@@ -80,17 +80,14 @@ class ResourceAllocationEnvironment(gym.Env):
 
         # caling self.type_dist(0) first so env resets
         self.budget = self.config['init_budget']()
-        self.starting_state = np.concatenate(
-            [self.budget, self.type_dist(0)]).astype(np.float32)
+        # self.starting_state = np.concatenate(
+        #     [self.budget, self.type_dist(0)]).astype(np.float32)
         self.timestep = 0
         self.state = self.starting_state
 
-        print()
-        print("env reset!")
-        print("starting_state", self.state)
-        print("budget", self.budget)
-        print("timestep ", self.timestep)
-        print("epLen ", self.epLen)
+        # print()
+        # print("env reset!")
+        # print("starting_state", self.state)
         # index is printed in env_configs.py
 
         return self.starting_state
@@ -155,14 +152,16 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.state = np.concatenate([new_budget, new_type]).astype(np.float32)
 
+        # print()
+        # print("timestep in action ", self.timestep)
+        # print("new state ", self.state)
+
         self.action_space = spaces.Box(low=0, high=max(new_budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
 
         self.timestep += 1
 
         # print(f"new budget for step {self.timestep} is {new_budget}")
-        print("timestep in action ", self.timestep)
-        print("new_type ", self.type_dist)
         return self.state, float(reward),  done, info
 
     def render(self, mode='console'):
