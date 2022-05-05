@@ -201,14 +201,22 @@ def times_out_of_budget(traj, env_config):
 
     times_out_budget = 0
     traj_index = 0
+    # print(f"traj: {traj}")
+    # print(f"iters {num_iter}")
+    # print(f"eps {num_eps}")
+    # print(f"steps {num_steps}")
+
     for iter_num in range(num_iter):
         for ep in range(num_eps):
-            budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
+            # budget = np.copy(env_config['init_budget']())
             for step in range(num_steps):
+                # print(f"retrieved budget for traj index {traj_index} is {budget} in times_out_of_budget")
                 cur_dict = traj[traj_index]
-                old_budget = cur_dict['oldState'][:num_commodities]
-                old_type = cur_dict['oldState'][num_commodities:]
-                allocation = cur_dict['action']
+                old_budget = cur_dict['oldState'][:num_commodities].copy()
+                old_type = cur_dict['oldState'][num_commodities:].copy()
+                allocation = cur_dict['action'].copy()
 
                 if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
                     # updates the budget by the old budget and the allocation given
@@ -239,8 +247,10 @@ def delta_EFFICIENCY(traj, env_config):
     for iter_num in range(num_iter):
         # print(iter_num)
         for ep in range(num_eps):
+            # pull out cur_dict for init_bud and curr_arrival
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             # print(ep)
-            budget = np.copy(env_config['init_budget']())
             # print('budget:' + str(budget))
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
@@ -252,6 +262,8 @@ def delta_EFFICIENCY(traj, env_config):
 #                budget -= cur_dict['oldState']
             final_avg_efficiency[ep] += np.sum(budget)
     return (-1)*np.mean(final_avg_efficiency)
+
+    return 0
 
 
 def delta_PROP(traj, env_config):
@@ -267,15 +279,17 @@ def delta_PROP(traj, env_config):
     for iter_num in range(num_iter):
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget']())
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             prop_alloc = budget / np.sum(sizes)
@@ -305,15 +319,17 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget']())
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             max_envy = 0
@@ -322,8 +338,8 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
                 for t1 in range(num_steps):
                     for theta2 in range(num_types):
                         for t2 in range(num_steps):
-                            max_envy = max(max_envy, utility_function(
-                                X_alg[t2, theta2], weight_matrix[theta2]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1]))
+                            max_envy = max(max_envy, np.abs(utility_function(
+                                X_alg[t2, theta2], weight_matrix[theta2]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1])))
 
             final_avg_envy[ep] += max_envy
 
@@ -340,21 +356,22 @@ def delta_COUNTERFACTUAL_ENVY(traj, env_config):
     final_avg_envy = np.zeros(num_eps)
 
     prob, solver = generate_cvxpy_solve(num_types, num_commodities)
-
     traj_index = 0
     for iter_num in range(num_iter):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget']())
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             X_opt = offline_opt(budget, sizes, weight_matrix, solver)
@@ -392,14 +409,16 @@ def delta_EXANTE_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget']())
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[iter_num, ep, step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[iter_num, ep, step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             X_opt[iter_num, ep] = offline_opt(

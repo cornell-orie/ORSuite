@@ -44,7 +44,8 @@ class hopeguardrailAgent(Agent):
             env_config: parameters used in initialization of environment
             scale: hyperparameter to be used in calculating threshold 
         '''
-
+        print("epLen ", epLen)
+        print("scale ", scale)
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]

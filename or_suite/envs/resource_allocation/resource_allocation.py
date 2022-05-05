@@ -60,7 +60,6 @@ class ResourceAllocationEnvironment(gym.Env):
         self.type_dist = config['type_dist']
         self.utility_function = config['utility_function']
         self.budget = config['init_budget']()
-
         self.starting_state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
@@ -80,19 +79,19 @@ class ResourceAllocationEnvironment(gym.Env):
         """
 
         # caling self.type_dist(0) first so env resets
-        arrivals = self.type_dist(0)
         self.budget = self.config['init_budget']()
         self.starting_state = np.concatenate(
-            [self.budget, arrivals]).astype(np.float32)
+            [self.budget, self.type_dist(0)]).astype(np.float32)
         self.timestep = 0
         self.state = self.starting_state
 
-        # Add a flag to see if it is "from_data" in the env_convig.  If it is
-        # call the "reset" of the config object to reset everything
         print()
         print("env reset!")
-        print(self.state)
-        print(self.budget)
+        print("starting_state", self.state)
+        print("budget", self.budget)
+        print("timestep ", self.timestep)
+        print("epLen ", self.epLen)
+        # index is printed in env_configs.py
 
         return self.starting_state
 
@@ -124,6 +123,8 @@ class ResourceAllocationEnvironment(gym.Env):
         # reshaping the allocation into a matrix
         allocation = np.reshape(
             np.array(action), (self.num_types, self.num_commodities))
+
+        # print(f"old budget for step {self.timestep} is {old_budget}")
 
         # determines if the allocation is valid, i.e. algorithm is able to allocate the allocation
         # to each of the types, based on the number of people of each type
@@ -159,6 +160,9 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.timestep += 1
 
+        # print(f"new budget for step {self.timestep} is {new_budget}")
+        print("timestep in action ", self.timestep)
+        print("new_type ", self.type_dist)
         return self.state, float(reward),  done, info
 
     def render(self, mode='console'):
