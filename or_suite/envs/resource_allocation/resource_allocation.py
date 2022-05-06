@@ -77,20 +77,18 @@ class ResourceAllocationEnvironment(gym.Env):
         Requires: the observation must be a numpy array
         Returns: np.array
         """
+        print()
+        print("env reset!")
 
-        # caling self.type_dist(0) first so env resets
+        self.state = np.concatenate(
+            [self.budget, self.type_dist(0)]).astype(np.float32)
         self.budget = self.config['init_budget']()
-        # self.starting_state = np.concatenate(
-        #     [self.budget, self.type_dist(0)]).astype(np.float32)
         self.timestep = 0
-        self.state = self.starting_state
 
-        # print()
-        # print("env reset!")
-        # print("starting_state", self.state)
+        print("starting_state", self.state)
         # index is printed in env_configs.py
 
-        return self.starting_state
+        return self.state
 
     def get_config(self):
         """Returns: the environment config (dict)."""
@@ -158,6 +156,10 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.action_space = spaces.Box(low=0, high=max(new_budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
+
+        print("timestep: ", self.timestep)
+        print("new state", self.state)
+        print("reward: ", reward)
 
         self.timestep += 1
 

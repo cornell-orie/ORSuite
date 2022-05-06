@@ -44,8 +44,6 @@ class hopeguardrailAgent(Agent):
             env_config: parameters used in initialization of environment
             scale: hyperparameter to be used in calculating threshold 
         '''
-        print("epLen ", epLen)
-        print("scale ", scale)
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
@@ -54,7 +52,7 @@ class hopeguardrailAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 5
+        self.conf_const = 1
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
