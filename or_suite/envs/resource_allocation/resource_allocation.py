@@ -69,7 +69,7 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.action_space = spaces.Box(low=0, high=max(self.budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
-        self.observation_space = spaces.Box(low=0, high=np.inf,
+        self.observation_space = spaces.Box(low=0, high=max(self.budget),
                                             shape=(self.num_commodities+self.num_types,), dtype=np.float32)
 
     def reset(self):
