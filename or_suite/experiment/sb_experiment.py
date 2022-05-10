@@ -67,6 +67,8 @@ class SB_Experiment(object):
         self.save_trajectory = dict['saveTrajectory']
         self.render_flag = dict['render']
 
+        self.data = np.zeros([dict['nEps']*self.num_iters, 5])
+
         self.model = model
         # print('epLen: ' + str(self.epLen))
 
@@ -118,10 +120,10 @@ class SB_Experiment(object):
             iterations = np.append(iterations, [i for _ in range(self.nEps)])
 
             memory = np.append(memory, [current for _ in range(self.nEps)])
-        
-        #save trajectory info
+
+        # save trajectory info
         self.trajectory = self.callback.trajectory
-        
+
         # print(self.env.get_episode_rewards())
         # print(len(self.env.get_episode_rewards()))
         # rewards are kept cumulatively so we save it out of the loop
