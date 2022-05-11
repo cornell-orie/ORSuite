@@ -201,10 +201,10 @@ def times_out_of_budget(traj, env_config):
 
     times_out_budget = 0
     traj_index = 0
-    for dict in traj:
-        print()
-        for k, v in dict.items():
-            print(k, v)
+    # for dict in traj:
+    #     print()
+    #     for k, v in dict.items():
+    #         print(k, v)
 
     for iter_num in range(num_iter):
         for ep in range(num_eps):

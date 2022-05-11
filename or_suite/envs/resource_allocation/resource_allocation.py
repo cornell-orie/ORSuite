@@ -60,6 +60,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.type_dist = config['type_dist']
         self.utility_function = config['utility_function']
         self.budget = config['init_budget']()
+        self.from_data = config['from_data']
         self.starting_state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
@@ -77,16 +78,15 @@ class ResourceAllocationEnvironment(gym.Env):
         Requires: the observation must be a numpy array
         Returns: np.array
         """
-        print()
-        print("env reset!")
+        # IF FLAG: (OF WHEN THE SETUP IS THE FBST DATA)
+        # RESET INDEX IN THE ENV_CONFIG
+        if self.from_data:
+            self.type_dist(-1)
 
         self.state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
         self.budget = self.config['init_budget']()
         self.timestep = 0
-
-        print("starting_state", self.state)
-        # index is printed in env_configs.py
 
         return self.state
 
@@ -157,9 +157,9 @@ class ResourceAllocationEnvironment(gym.Env):
         self.action_space = spaces.Box(low=0, high=max(new_budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
 
-        print("timestep: ", self.timestep)
-        print("new state", self.state)
-        print("reward: ", reward)
+        # print("timestep: ", self.timestep)
+        # print("new state", self.state)
+        # print("reward: ", reward)
 
         self.timestep += 1
 

@@ -52,7 +52,7 @@ class fixedThresholdAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 5
+        self.conf_const = 1
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -161,6 +161,12 @@ class fixedThresholdAgent(Agent):
         Returns: 
             matrix where each row is a K-dimensional vector denoting how much of each commodity is given to each type
         '''
+        if step == 0:
+            self.current_budget = np.copy(self.env_config['init_budget']())
+            self.exp_endowments, self.var_endowments = self.get_expected_endowments()
+            self.prob, self.solver = self.generate_cvxpy_solver()
+            self.lower_sol = np.zeros((self.num_types, self.num_resources))
+
         if np.all(self.budget_remaining == 0):
             pass
 

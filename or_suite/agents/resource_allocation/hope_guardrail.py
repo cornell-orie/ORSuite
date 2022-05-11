@@ -174,6 +174,17 @@ class hopeguardrailAgent(Agent):
         Returns: matrix where each row is a K-dimensional vector denoting how 
                 much of each commodity is given to each type
         '''
+
+        # CHECK IF STEP = 0
+        # IF ZERO: GET THE STARTING BUDGET
+        # RESOLVE FOR THE EXPECTED ENDOWMENTS AND SAVE THEM
+        if step == 0:
+            self.current_budget = np.copy(self.env_config['init_budget']())
+            self.exp_endowments, self.var_endowments = self.get_expected_endowments()
+            self.prob, self.solver = self.generate_cvxpy_solver()
+            self.lower_sol = np.zeros((self.num_types, self.num_resources))
+            self.upper_sol = np.zeros((self.num_types, self.num_resources))
+
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step

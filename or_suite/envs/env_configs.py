@@ -16,6 +16,7 @@ resource_allocation_default_config = {'K': 2,
                                       'init_budget': lambda: 10*np.ones(2),
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
                                       'utility_function': lambda x, theta: np.dot(x, theta),
+                                      'from_data': False
                                       }
 
 resource_allocation_simple_config = {'K': 1,
@@ -24,6 +25,7 @@ resource_allocation_simple_config = {'K': 1,
                                      'init_budget': lambda: np.array([20.]),
                                      'utility_function': lambda x, theta: x,
                                      'type_dist': lambda i: np.array([2]),
+                                     'from_data': False
                                      }
 
 
@@ -69,8 +71,7 @@ class FoodbankAllocationDistribution(object):
             self.mean_size, self.stdev_size))[i]
 
         # print("iter: ", i)
-        if i == self.epLen-1:
-            # print("arrival reset!")
+        if i == -1:
             self.reset_index()
 
         # print("arrival ", arrival)
@@ -91,7 +92,8 @@ def resource_allocation_foodbank_config(n):
                            'weight_matrix': weights_fbst,
                            'init_budget': lambda: foodbank_allocation_distribution.get_budget(),
                            'utility_function': lambda x, theta: np.dot(x, theta),
-                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i)
+                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i),
+                           'from_data': True
                            }
 
     return foodbank_dictionary

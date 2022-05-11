@@ -9,3 +9,4 @@ or_suite.egg-info/
 .nbgrader.log
 simulations/tmp/
 .DS_Store
+.vscode/
