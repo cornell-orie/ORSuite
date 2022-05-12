@@ -230,7 +230,6 @@ def plot_line_plots(path_list, algo_list, fig_path, fig_name, plot_freq):
         plt.style.use(os.path.join(script_dir, rel_path))
     plt.rc('text', usetex=True)
 
-
     fig, ax = plt.subplots(1, 3, constrained_layout=False, figsize=(15, 5))
     fig.suptitle('Comparison of Performance Metrics')
 

@@ -3,29 +3,104 @@
 File containing default configurations for the various environments implemented in ORSuite.
 
 """
-
 import numpy as np
+import pandas as pd
 import os
 import re
 import ast
 
+
 resource_allocation_default_config = {'K': 2,
                                       'num_rounds': 10,
                                       'weight_matrix': np.array([[1, 2], [.3, 9], [1, 1]]),
-                                      'init_budget': 10*np.ones(2),
+                                      'init_budget': lambda: 10*np.ones(2),
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
                                       'utility_function': lambda x, theta: np.dot(x, theta),
+                                      'from_data': False
                                       'MAX_VAL': 1000
                                       }
 
 resource_allocation_simple_config = {'K': 1,
                                      'num_rounds': 10,
                                      'weight_matrix': np.array([[1]]),
-                                     'init_budget': np.array([20.]),
+                                     'init_budget': lambda: np.array([20.]),
                                      'utility_function': lambda x, theta: x,
                                      'type_dist': lambda i: np.array([2]),
+                                     'from_data': False
                                      'MAX_VAL': 1000
                                      }
+
+
+# config with data from MFP Regular Sites
+script_dir = os.path.dirname(__file__)
+rel_path = './resource_allocation/resource_data/'
+resource_file = open(os.path.join(script_dir, rel_path+'MFP.csv'), "r")
+df = pd.read_csv(resource_file)
+resource_file.close()
+
+data_weights = df['Average Demand per Visit']
+data_stdev = df['StDev(Demand per Visit)']
+
+weights_fbst = np.asarray(
+    [[3.9, 3.0, 2.8, 2.7, .1], [3.9, 3.0, .1, 2.7, .1], [3.9, 3.0, 2.8, 2.7, 1.9]])
+sum_of_rows = weights_fbst.sum(axis=1)
+weights_fbst = weights_fbst / sum_of_rows[:, np.newaxis]
+dist_types = np.asarray([.25, .3, 1-.25-.3])
+
+
+class FoodbankAllocationDistribution(object):
+    """Class object to preserve state of randomness 
+    within length of episode for resource allocation"""
+
+    def __init__(self, n):
+        self.epLen = n
+        self.max_n = 70
+
+        self.index = np.zeros(self.epLen)
+        self.mean_size = np.zeros((self.epLen, len(dist_types)))
+        self.stdev_size = np.zeros((self.epLen, len(dist_types)))
+        self.reset_index()
+
+    def reset_index(self):
+        self.index = np.random.choice(self.max_n, self.epLen, replace=False)
+        self.mean_size = np.asarray(
+            [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
+        self.stdev_size = np.asarray(
+            [(dist_types**2) * data_stdev[self.index].to_numpy()[j] for j in range(self.epLen)])
+
+    def get_type_distribution(self, i):
+        arrival = np.maximum(1, np.random.normal(
+            self.mean_size, self.stdev_size))[i]
+
+        if i == -2:
+            return self.mean_size, self.stdev_size
+
+        if i == -1:
+            self.reset_index()
+
+        return arrival
+
+    def get_budget(self):
+        return np.asarray([np.sum(self.mean_size)]*5)
+
+
+def resource_allocation_foodbank_config(n):
+    max_n = 70
+    assert n <= max_n
+
+    foodbank_allocation_distribution = FoodbankAllocationDistribution(n)
+
+    foodbank_dictionary = {'K': 5,
+                           'num_rounds': n,
+                           'weight_matrix': weights_fbst,
+                           'init_budget': lambda: foodbank_allocation_distribution.get_budget(),
+                           'utility_function': lambda x, theta: np.dot(x, theta),
+                           'type_dist': lambda i: foodbank_allocation_distribution.get_type_distribution(i),
+                           'from_data': True
+                           }
+
+    return foodbank_dictionary
+
 
 resource_allocation_simple_poisson_config = {'K': 1,
                                              'num_rounds': 10,
