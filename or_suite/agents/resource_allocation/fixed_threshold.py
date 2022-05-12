@@ -52,7 +52,7 @@ class fixedThresholdAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 1
+        self.conf_const = 2
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -98,8 +98,10 @@ class fixedThresholdAgent(Agent):
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
         future_size = init_sizes + tot_size
 
-        conf_bnd = self.conf_const * np.sqrt(np.max(self.var_endowments, axis=1)
+        conf_bnd = self.conf_const * np.sqrt(np.max(np.sqrt(self.var_endowments), axis=1)
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
+
+        # print(f'Shape of confidence bound: {conf_bnd.shape}')
 
         lower_exp_size = future_size * \
             (1 + np.max(conf_bnd / future_size))
@@ -192,5 +194,5 @@ class fixedThresholdAgent(Agent):
 
         self.budget_remaining = budget_remaining - \
             np.matmul(sizes, action)
-
+        print(f'Action: {action}')
         return action

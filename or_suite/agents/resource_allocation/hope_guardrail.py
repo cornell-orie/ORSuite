@@ -52,7 +52,7 @@ class hopeguardrailAgent(Agent):
         self.epLen = epLen
         self.data = []
         self.first_allocation_done = False
-        self.conf_const = 1
+        self.conf_const = 2
         self.exp_endowments, self.var_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -107,7 +107,7 @@ class hopeguardrailAgent(Agent):
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
         future_size = init_sizes + tot_size
 
-        conf_bnd = self.conf_const * np.sqrt(np.max(self.var_endowments, axis=1)
+        conf_bnd = self.conf_const * np.sqrt(np.max(np.sqrt(self.var_endowments), axis=1)
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
 
         lower_exp_size = future_size * \
@@ -212,7 +212,7 @@ class hopeguardrailAgent(Agent):
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step
 
-        conf_bnd = np.sqrt(np.max(self.var_endowments, axis=1)
+        conf_bnd = np.sqrt(np.max(np.sqrt(self.var_endowments), axis=1)
                            * np.mean(self.exp_endowments, axis=1)*num_remaining)
 
         budget_required = budget_remaining - np.matmul(sizes, self.upper_sol) - np.matmul(
