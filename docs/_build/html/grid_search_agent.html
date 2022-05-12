@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Grid Search Agent &mdash; ORSuite  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Resource Allocation Agents" href="resource_allocation_agent.html" />
+    <link rel="prev" title="Oil Discovery Agents" href="oil_discovery_agent.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ORSuite
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Important Files:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">ORSuite Contribution Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="envs.html">Environments</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="agents.html">Agents</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ambulance_agent.html">Ambulance Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventory_agents.html">Inventory Control Agents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="oil_discovery_agent.html">Oil Discovery Agents</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Grid Search Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resource_allocation_agent.html">Resource Allocation Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revenue_management_agents.html">Revenue Management Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rl_agent.html">RL Agents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="airline_revenue_readme.html">Revenue Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oil_discovery_readme.html">The Oil Discovery Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource_allocation_readme.html">Resource Allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ORSuite</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="agents.html">Agents</a> &raquo;</li>
+        
+          <li><a href="oil_discovery_agent.html">Oil Discovery Agents</a> &raquo;</li>
+        
+      <li>Grid Search Agent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/grid_search_agent.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-or_suite.agents.oil_discovery.grid_search">
+<span id="grid-search-agent"></span><h1>Grid Search Agent<a class="headerlink" href="#module-or_suite.agents.oil_discovery.grid_search" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">or_suite.agents.oil_discovery.grid_search.</span></span><span class="sig-name descname"><span class="pre">grid_searchAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agent that uses a bisection-method heuristic algorithm to the find location with
+the highest probability of discovering oil.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>resets bounds of agent to reflect upper and lower bounds of metric space</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(UNIMPLEMENTED)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_obs">
+<span class="sig-name descname"><span class="pre">update_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newObs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.update_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>record reward of current midpoint
+or move bounds in direction of higher reward</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.pick_action">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.pick_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>move agent to midpoint or perturb current dimension</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.epLen">
+<span class="sig-name descname"><span class="pre">epLen</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.epLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) number of time steps to run the experiment for</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.dim">
+<span class="sig-name descname"><span class="pre">dim</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) dimension of metric space for agent and environment</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.upper">
+<span class="sig-name descname"><span class="pre">upper</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list list) matrix containing upper bounds of agent at each step in dimension</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.lower">
+<span class="sig-name descname"><span class="pre">lower</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list list) matrix contianing lower bounds of agent at each step in dimension</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.perturb_estimates">
+<span class="sig-name descname"><span class="pre">perturb_estimates</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.perturb_estimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list list) matrix containing estimated rewards from perturbation in each dimension</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.midpoint_value">
+<span class="sig-name descname"><span class="pre">midpoint_value</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.midpoint_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float list) list containing midpoint of agent at each step</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.dim_index">
+<span class="sig-name descname"><span class="pre">dim_index</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.dim_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int list) list looping through various dimensions during perturbation</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.select_midpoint">
+<span class="sig-name descname"><span class="pre">select_midpoint</span></span><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.select_midpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool list) list recording whether to take midpoint or perturb at given step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epLen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epLen</strong> – (int) number of time steps to run the experiment for</p></li>
+<li><p><strong>dim</strong> – (int) dimension of metric space for agent and environment</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">pick_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.pick_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>If upper and lower bounds are updated based on perturbed values, move agent to midpoint.
+Else, perturb dimension by factor equal to half the distance from each bound to midpoint.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">update_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newObs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.update_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>If no perturbations needed, update reward to be value at midpoint.
+Else, adjust upper or lower bound in the direction of higher
+reward as determined by the perturbation step. Agent loops across
+each dimension separately, and updates estimated midpoint after each
+loop.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_policy">
+<span class="sig-name descname"><span class="pre">update_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/or_suite/agents/oil_discovery/grid_search.html#grid_searchAgent.update_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#or_suite.agents.oil_discovery.grid_search.grid_searchAgent.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update internal policy based upon records.</p>
+<p>Not used, because a greedy algorithm does not have a policy.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="resource_allocation_agent.html" class="btn btn-neutral float-right" title="Resource Allocation Agents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="oil_discovery_agent.html" class="btn btn-neutral float-left" title="Oil Discovery Agents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Christina Yu.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

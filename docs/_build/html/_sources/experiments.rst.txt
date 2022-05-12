@@ -6,3 +6,4 @@ Experiments
 
   experiment_file
   sb_experiment_file
+  trajectory_callback

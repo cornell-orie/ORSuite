@@ -17,6 +17,7 @@ resource_allocation_default_config = {'K': 2,
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
                                       'utility_function': lambda x, theta: np.dot(x, theta),
                                       'from_data': False
+                                      'MAX_VAL': 1000
                                       }
 
 resource_allocation_simple_config = {'K': 1,
@@ -26,6 +27,7 @@ resource_allocation_simple_config = {'K': 1,
                                      'utility_function': lambda x, theta: x,
                                      'type_dist': lambda i: np.array([2]),
                                      'from_data': False
+                                     'MAX_VAL': 1000
                                      }
 
 
@@ -105,14 +107,15 @@ resource_allocation_simple_poisson_config = {'K': 1,
                                              'weight_matrix': np.array([[1]]),
                                              'init_budget': np.array([20.]),
                                              'utility_function': lambda x, theta: x,
-                                             'type_dist': lambda i: [1+np.random.poisson(lam=1)]
+                                             'type_dist': lambda i: [1+np.random.poisson(lam=1)],
+                                             'MAX_VAL': 1000
                                              }
 
 
 ambulance_metric_default_config = {'epLen': 5,
                                    'arrival_dist': lambda x: np.random.beta(5, 2),
                                    'alpha': 0.25,
-                                   'starting_state': np.array([0.0]),
+                                   'starting_state': np.array([0.0], dtype=np.float32),
                                    'num_ambulance': 1,
                                    'norm': 1
                                    }
@@ -244,14 +247,33 @@ rideshare_graph_ny_config = {
     'gamma': 1,
     'd_threshold': 4.700448825133434
 }
+rideshare_graph_simple_config = {
+    'epLen': 5,
+    'edges': [(0, 1, {'travel_time': 100}),
+              (0, 2, {'travel_time': 1}),
+              (1, 2, {'travel_time': 10})
+              ],
+    'starting_state': [2, 2, 1],
+    'num_cars': 5,
+    'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
+    'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
+    'reward_denied': lambda: 0,
+    'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
+    'travel_time': lambda velocity, to_sink: int(to_sink / velocity),
+    'fare': 3,
+    'cost': 1,
+    'velocity': 3,
+    'gamma': 1,
+    'd_threshold': 20
+}
 
 rideshare_graph_default_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
-              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 10}),
-              (1, 3, {'travel_time': 10}), (2, 3, {'travel_time': 10})],
-    'starting_state': [2, 3, 3, 2],
-    'num_cars': 10,
+    'edges': [(0, 1, {'travel_time': 1}), (0, 2, {'travel_time': 100}),
+              (0, 3, {'travel_time': 10}), (1, 2, {'travel_time': 20}),
+              (1, 3, {'travel_time': 1}), (2, 3, {'travel_time': 70})],
+    'starting_state': [1, 1, 1, 0],
+    'num_cars': 3,
     'request_dist': lambda step, num_nodes: np.random.choice(num_nodes, size=2),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,
@@ -266,13 +288,12 @@ rideshare_graph_default_config = {
 
 rideshare_graph_2cities_config = {
     'epLen': 5,
-    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}),
-              (0, 3, {'travel_time': 10}), (0, 4, {'travel_time': 50}),
-              (4, 5, {'travel_time': 10}), (4, 6, {'travel_time': 10})],
-    'starting_state': [0, 0, 3, 0, 3, 3, 0],
-    'num_cars': 9,
-    'request_dist': lambda step, num_nodes: np.array([np.random.randint(0, 4), np.random.randint(4, 7)]) if np.random.random() > 1/2
-    else np.array([np.random.randint(4, 7), np.random.randint(0, 4)]),
+    'edges': [(0, 1, {'travel_time': 10}), (0, 2, {'travel_time': 10}), (0, 3, {'travel_time': 50}),
+              (3, 4, {'travel_time': 10}), (3, 5, {'travel_time': 10})],
+    'starting_state': [0, 0, 1, 0, 1, 1],
+    'num_cars': 3,
+    'request_dist': lambda step, num_nodes: np.array([np.random.randint(0, 3), np.random.randint(3, 6)]) if np.random.random() > 1/2
+    else np.array([np.random.randint(3, 6), np.random.randint(0, 3)]),
     'reward': lambda fare, cost, to_source, to_sink: (fare - cost) * to_sink - cost * to_source,
     'reward_denied': lambda: 0,
     'reward_fail': lambda max_dist, cost: -10000 * cost * max_dist,
@@ -390,14 +411,23 @@ rideshare_graph_0_3_rides_config = {
     'd_threshold': 3
 }
 
+
 oil_environment_default_config = {
     'epLen': 5,
     'dim': 1,
-    'starting_state': np.asarray([0]),
+    'starting_state': np.asarray([0], dtype=np.float32),
     'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-a))),
     'cost_param': 0,
     'noise_variance': lambda x, a, h: 0
+}
 
+oil_environment_binary_config = {
+    'epLen': 5,
+    'dim': 1,
+    'starting_state': np.asarray([0], dtype=np.float32),
+    'oil_prob': lambda x, a, h: np.exp((-1)*np.sum(np.abs(x-(1/9*h)))),
+    'cost_param': 0,
+    'noise_variance': lambda x, a, h: 0
 }
 
 inventory_control_multiple_suppliers_default_config = {

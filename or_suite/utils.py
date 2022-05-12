@@ -2,7 +2,10 @@ import numpy as np
 import cvxpy as cp
 import pandas as pd
 import or_suite
-
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3 import PPO
+from stable_baselines3 import DQN
+from stable_baselines3.ppo import MlpPolicy
 
 """
 Helper code to run a single simulation of either an ORSuite experiment or the wrapper for a stable baselines algorithm.
@@ -63,6 +66,55 @@ def run_single_sb_algo(env, agent, settings):
     exp = or_suite.experiment.sb_experiment.SB_Experiment(env, agent, settings)
     _ = exp.run()
     dt_data = exp.save_data()
+
+
+def run_single_sb_algo_tune(env, agent, epLen, param_list, settings):
+    best_reward = (-1)*np.inf
+    best_param = (param_list['learning_rate'][0], param_list['gamma'][0])
+
+    if agent == 'SB PPO':
+        for learning_rate in param_list['learning_rate']:
+            for gamma in param_list['gamma']:
+                mon_env = Monitor(env)
+                model = PPO(MlpPolicy, mon_env, learning_rate=learning_rate, gamma=gamma,
+                            verbose=0, n_steps=epLen)
+                exp = or_suite.experiment.sb_experiment.SB_Experiment(
+                    mon_env, model, settings)
+                exp.data = np.zeros([exp.nEps*exp.num_iters, 5])
+                exp.run()
+                dt = pd.DataFrame(exp.data, columns=[
+                    'episode', 'iteration', 'epReward', 'time', 'memory'])
+                avg_end_reward = dt[dt['episode'] ==
+                                    dt.max()['episode']].iloc[0]['epReward']
+                # print(avg_end_reward)
+                if avg_end_reward >= best_reward:
+                    best_reward = avg_end_reward
+
+                    best_param = (learning_rate, gamma)
+                    best_exp = exp
+    elif agent == 'SB DQN':
+        for learning_rate in param_list['learning_rate']:
+            for gamma in param_list['gamma']:
+                model = DQN(MlpPolicy, env, learning_rate=learning_rate, gamma=gamma,
+                            verbose=0, n_steps=epLen)
+                exp = or_suite.experiment.sb_experiment.SB_Experiment(
+                    env, model, settings)
+
+                exp.run()
+                dt = pd.DataFrame(exp.data, columns=[
+                    'episode', 'iteration', 'epReward', 'time', 'memory'])
+                avg_end_reward = dt[dt['episode'] ==
+                                    dt.max()['episode']].iloc[0]['epReward']
+                # print(avg_end_reward)
+                if avg_end_reward >= best_reward:
+                    best_reward = avg_end_reward
+
+                    best_param = (learning_rate, gamma)
+                    best_exp = exp
+
+    print(f"Chosen parameters: {best_param}")
+    best_exp.save_data()
+    print(best_param)
 
 
 '''

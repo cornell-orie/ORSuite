@@ -87,7 +87,6 @@
             
               <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
@@ -98,8 +97,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
@@ -245,7 +247,8 @@
 
 <span class="sd">            done: 0/1; the flag for end of the episode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
         <span class="c1"># print(&#39;state: &#39; + str(self.state))</span>
         <span class="c1"># print(&#39;action: &#39; + str(action))</span>
@@ -254,7 +257,7 @@
         <span class="c1"># print(&#39;reward: &#39; + str(reward))</span>
 
         <span class="n">newState</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">action</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)))))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span><span class="p">)))),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
         <span class="c1"># newState = min(1, max(0, action + np.random.normal(0, np.sqrt(self.noise_variance(self.state, action, self.timestep)))))</span>
         <span class="c1"># newState = action</span>

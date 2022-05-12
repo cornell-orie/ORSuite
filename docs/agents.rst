@@ -6,6 +6,7 @@ Agents
 
   ambulance_agent
   inventory_agents
+  oil_discovery_agent
   resource_allocation_agent
   revenue_management_agents
   rl_agent

@@ -42,7 +42,6 @@ class closetCarAgent(Agent):
 
     def update_policy(self, h):
         '''Update internal policy based upon records'''
-        self.greedy = self.greedy
         return
 
     def find_lengths(self, graph, num_nodes):

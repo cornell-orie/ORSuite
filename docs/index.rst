@@ -13,6 +13,7 @@ Welcome to ORSuite's documentation!
    :caption: Important Files:
 
    contribution_guide
+   experiment_guide
 
 .. toctree::
    :maxdepth: 1

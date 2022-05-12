@@ -87,7 +87,6 @@
             
               <p class="caption"><span class="caption-text">Important Files:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">OR Suite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution_guide.html">ORSuite Contribution Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Contents:</span></p>
@@ -98,8 +97,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Problem Notebooks:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../airline_revenue_readme.html">Revenue Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../ambulance_routing_readme.html">The Ambulance Routing Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../bandit_readme.html">The Multi-Armed Bandit Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inventory_control_readme.html">Inventory Control with Lead Times and Multiple Suppliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../oil_discovery_readme.html">The Oil Discovery Problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../resource_allocation_readme.html">Resource Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../vaccine_allocation_readme.html">The Vaccine Allocation Problem</a></li>
 </ul>
@@ -177,6 +179,7 @@
 <span class="sd">most go and serve the arrival, paying a cost of travel.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="c1">#import rendering</span>
 <span class="kn">import</span> <span class="nn">pyglet</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -184,14 +187,13 @@
 <span class="kn">from</span> <span class="nn">gym</span> <span class="kn">import</span> <span class="n">spaces</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">env_configs</span>
-<span class="c1">#from gym.envs.classic_control import rendering</span>
+<span class="kn">from</span> <span class="nn">gym.envs.classic_control</span> <span class="kn">import</span> <span class="n">rendering</span>
 <span class="c1"># import pyglet</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">renderdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">currentdir</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">renderdir</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">rendering</span>
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span><span class="p">)</span>
 
@@ -246,7 +248,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">num_ambulance</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_ambulance&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arrival_dist</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;arrival_dist&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span>
-
         <span class="c1"># variables used for rendering code</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">most_recent_action</span> <span class="o">=</span> <span class="kc">None</span>
@@ -284,7 +285,8 @@
 
 <span class="sd">            done: A bool flag indicating the end of the episode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
         <span class="n">old_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>

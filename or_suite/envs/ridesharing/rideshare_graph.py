@@ -148,6 +148,7 @@ class RideshareGraphEnvironment(gym.Env):
 
            - A boolean indicating whether or not the model has reached the limit timestep.
         """
+
         assert self.action_space.contains(action)
 
         done = False
@@ -157,6 +158,10 @@ class RideshareGraphEnvironment(gym.Env):
         newState = np.copy(self.state)
         dispatch_dist = self.lengths[action, source]
         service_dist = self.lengths[source, sink]
+
+        reward_range = self.reward(
+            self.fare, self.cost, 0, self.max_dist) - self.reward_fail(self.max_dist, self.cost)
+        max_fail_reward = self.reward_fail(self.max_dist, self.cost)
 
         # If there is a car at the location the agent chose
         if newState[action] > 0:
@@ -170,12 +175,14 @@ class RideshareGraphEnvironment(gym.Env):
                 self.fulfill_req(newState, action, sink)
                 reward = self.reward(self.fare, self.cost,
                                      dispatch_dist, service_dist)
+                reward = (reward - max_fail_reward) / reward_range
                 accepted = True
             else:
                 # print('decline service')
-                reward = self.reward_denied()
+                reward = (self.reward_denied() -
+                          max_fail_reward) / reward_range
         else:
-            reward = self.reward_fail(self.max_dist, self.cost)
+            reward = 0
             done = False
 
         # updating the state with a new rideshare request

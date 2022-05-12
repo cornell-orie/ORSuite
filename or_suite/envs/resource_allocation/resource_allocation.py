@@ -63,6 +63,7 @@ class ResourceAllocationEnvironment(gym.Env):
         self.from_data = config['from_data']
         self.starting_state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
+        self.MAX_VAL = config['MAX_VAL']
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.state = self.starting_state
@@ -70,7 +71,8 @@ class ResourceAllocationEnvironment(gym.Env):
 
         self.action_space = spaces.Box(low=0, high=max(self.budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
-        self.observation_space = spaces.Box(low=0, high=max(self.budget),
+        # First K entries of observation space is the remaining budget, next is the number of each type at the location
+        self.observation_space = spaces.Box(low=0, high=np.append(self.budget, [self.MAX_VAL]*self.num_types),
                                             shape=(self.num_commodities+self.num_types,), dtype=np.float32)
 
     def reset(self):

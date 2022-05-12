@@ -28,6 +28,7 @@ def test_initial_state():
 
 
 def test_step():
+    env.reset()
     newState, reward, done, info = env.step(1)
 
     # Test if new state is part of observation space
@@ -38,8 +39,7 @@ def test_step():
     assert type(reward) == np.float64, "Reward is not a float"
 
     # Check value of reward
-    difference = abs(reward - (0.0))
-    assert difference <= .000001 and difference >= 0.0
+    assert reward <= 1 and reward >= 0.0
 
     # Do step again
     newState, reward, done, info = env.step(1)
@@ -49,8 +49,7 @@ def test_step():
         newState), "Returned state is not part of given observation space after step"
 
     # Check value of reward
-    difference = abs(reward - (10.0))
-    assert difference <= .000001 and difference >= 0.0
+    assert reward <= 1 and reward >= 0.0
 
     check_env(env, skip_render_check=True)
 

@@ -34,7 +34,6 @@ class randomCarAgent(Agent):
 
     def update_policy(self, h):
         '''Update internal policy based upon records'''
-        self.greedy = self.greedy
         return
 
     def greedy(self, state, timestep, epsilon=0):
