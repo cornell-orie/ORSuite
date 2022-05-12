@@ -28,7 +28,7 @@ class hopeguardrailAgent(Agent):
         first_allocation_done (bool) : Flag that if false, gets upper and lower thresh
         conf_const (int) : Hyperparameter for confidence bound
         exp_endowments (list) : Matrix containing expected proportion of endowments for location t
-        var_endowments (list) : Matrix describing variance of exp_endowments
+        stdev_endowments (list) : Matrix describing variance of exp_endowments
         prob (cvxpy object) : CVXPY problem object
         solver (lambda function) : Function that solves the problem given data
         lower_sol (np.array) : Matrix of lower threshold 
@@ -53,12 +53,12 @@ class hopeguardrailAgent(Agent):
         self.data = []
         self.first_allocation_done = False
         self.conf_const = 2
-        self.exp_endowments, self.var_endowments = self.get_expected_endowments()
+        self.exp_endowments, self.stdev_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
         self.upper_sol = np.zeros((self.num_types, self.num_resources))
         print('Mean and variance endomwnets:')
-        print(self.exp_endowments, self.var_endowments)
+        print(self.exp_endowments, self.stdev_endowments)
 
     def generate_cvxpy_solver(self):
         """
@@ -107,7 +107,7 @@ class hopeguardrailAgent(Agent):
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
         future_size = init_sizes + tot_size
 
-        conf_bnd = self.conf_const * np.sqrt(np.max(np.sqrt(self.var_endowments), axis=1)
+        conf_bnd = self.conf_const * np.sqrt(np.max(self.stdev_endowments, axis=1)
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
 
         lower_exp_size = future_size * \
@@ -144,7 +144,7 @@ class hopeguardrailAgent(Agent):
             exp_size[:, t] = (1/N)*exp_size[:, t]
             var_size[:, t] = np.var(np.asarray(cur_list), axis=0)
 
-        return exp_size, var_size
+        return exp_size, np.sqrt(var_size)
 
     def reset(self):
         ''' Resets data matrix to be empty '''
@@ -185,7 +185,7 @@ class hopeguardrailAgent(Agent):
             self.current_budget = np.copy(self.env_config['init_budget']())
             mean, stdev = self.env_config['type_dist'](-2)
             self.exp_endowments = np.transpose(mean)
-            self.var_endowments = np.transpose(stdev**2)
+            self.stdev_endowments = np.transpose(stdev**2)
             sizes = state[self.num_resources:]
             self.lower_sol, self.upper_sol = self.get_lower_upper_sol(sizes)
             print('Lower and Upper Solutions:')
@@ -212,7 +212,7 @@ class hopeguardrailAgent(Agent):
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step
 
-        conf_bnd = np.sqrt(np.max(np.sqrt(self.var_endowments), axis=1)
+        conf_bnd = np.sqrt(np.max(self.stdev_endowments, axis=1)
                            * np.mean(self.exp_endowments, axis=1)*num_remaining)
 
         budget_required = budget_remaining - np.matmul(sizes, self.upper_sol) - np.matmul(
