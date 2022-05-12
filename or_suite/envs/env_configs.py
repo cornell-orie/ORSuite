@@ -37,6 +37,7 @@ df = pd.read_csv(resource_file)
 resource_file.close()
 
 data_weights = df['Average Demand per Visit']
+data_stdev = df['StDev(Demand per Visit)']
 
 weights_fbst = np.asarray(
     [[3.9, 3.0, 2.8, 2.7, .1], [3.9, 3.0, .1, 2.7, .1], [3.9, 3.0, 2.8, 2.7, 1.9]])
@@ -60,17 +61,22 @@ class FoodbankAllocationDistribution(object):
 
     def reset_index(self):
         self.index = np.random.choice(self.max_n, self.epLen, replace=False)
-        # print("index", self.index)
         self.mean_size = np.asarray(
             [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
         self.stdev_size = np.asarray(
-            [(dist_types**2) * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
+            [(dist_types**2) * data_stdev[self.index].to_numpy()[j] for j in range(self.epLen)])
+        print("index", self.index)
+        print(f"mean{self.mean_size}")
+        print(f"std_dev{self.stdev_size}")
 
     def get_type_distribution(self, i):
         arrival = np.maximum(1, np.random.normal(
             self.mean_size, self.stdev_size))[i]
 
         # print("iter: ", i)
+        if i == -2:
+            return self.mean_size, self.stdev_size
+
         if i == -1:
             self.reset_index()
 

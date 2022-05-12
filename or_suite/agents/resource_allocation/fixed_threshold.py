@@ -163,21 +163,19 @@ class fixedThresholdAgent(Agent):
         '''
         if step == 0:
             self.current_budget = np.copy(self.env_config['init_budget']())
-            self.exp_endowments, self.var_endowments = self.get_expected_endowments()
-            self.prob, self.solver = self.generate_cvxpy_solver()
-            self.lower_sol = np.zeros((self.num_types, self.num_resources))
+            mean, stdev = self.env_config['type_dist'](-2)
+            self.exp_endowments = np.transpose(mean)
+            self.var_endowments = np.transpose(stdev**2)
+            sizes = state[self.num_resources:]
+            self.lower_sol = self.get_lower_upper_sol(sizes)
+            print('Lower and Upper Solutions:')
+            print(self.lower_sol)
 
         if np.all(self.budget_remaining == 0):
             pass
 
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
-
-        if not self.first_allocation_done:
-            self.lower_sol = self.get_lower_upper_sol(sizes)
-            self.first_allocation_done = True
-            print('Lower Solutions:')
-            print(self.lower_sol)
 
         lower_thresh = self.lower_sol
 

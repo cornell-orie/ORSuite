@@ -101,6 +101,9 @@ class hopeguardrailAgent(Agent):
         budget = self.env_config['init_budget']()
         weights = self.env_config['weight_matrix']
         n = self.env_config['num_rounds']
+        # print(f"endowments {self.exp_endowments[1:, :]}")
+        # print(f"init_sizes {self.exp_endowments}")
+
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
         future_size = init_sizes + tot_size
 
@@ -180,21 +183,34 @@ class hopeguardrailAgent(Agent):
         # RESOLVE FOR THE EXPECTED ENDOWMENTS AND SAVE THEM
         if step == 0:
             self.current_budget = np.copy(self.env_config['init_budget']())
-            self.exp_endowments, self.var_endowments = self.get_expected_endowments()
-            self.prob, self.solver = self.generate_cvxpy_solver()
-            self.lower_sol = np.zeros((self.num_types, self.num_resources))
-            self.upper_sol = np.zeros((self.num_types, self.num_resources))
+            mean, stdev = self.env_config['type_dist'](-2)
+            self.exp_endowments = np.transpose(mean)
+            self.var_endowments = np.transpose(stdev**2)
+            sizes = state[self.num_resources:]
+            self.lower_sol, self.upper_sol = self.get_lower_upper_sol(sizes)
+            print('Lower and Upper Solutions:')
+            print(self.lower_sol)
+            print(self.upper_sol)
+
+        """
+        1. mean and stddev use from config
+            mean should be a T x 3 vector (T time periods, 3 types)
+            the conf_bnd should be a vector of size 3
+            so fix the axis so that works out
+        
+        stdev is same
+        but make sure that you use the variance (so square of it)
+
+        2. double check that the index + means are matching across all algorithms (and lower threshold solution)
+
+        3. Sorry......but run the experiment with n=5,10,15,20,25,50
+        write down the counterfactual envy, efficiency, hindsight envy
+        make plot like in paper
+        """
 
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
         num_remaining = self.env_config['num_rounds'] - step
-
-        if not self.first_allocation_done:
-            self.lower_sol, self.upper_sol = self.get_lower_upper_sol(sizes)
-            self.first_allocation_done = True
-            print('Lower and Upper Solutions:')
-            print(self.lower_sol)
-            print(self.upper_sol)
 
         conf_bnd = np.sqrt(np.max(self.var_endowments, axis=1)
                            * np.mean(self.exp_endowments, axis=1)*num_remaining)
