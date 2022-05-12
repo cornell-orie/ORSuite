@@ -71,26 +71,15 @@ class RideshareGraphEnvironment(gym.Env):
         self.reward_fail = config['reward_fail']
         self.cost = config['cost']
         self.fare = config['fare']
-        self.velocity = config['velocity']
         self.max_dist = np.max(self.lengths.flatten())
         self.gamma = config['gamma']
         self.d_threshold = config['d_threshold']
         self.action_space = spaces.Discrete(self.num_nodes)
-        self.num_transit = 0
-        self.in_transit = np.zeros((self.num_cars, 2), dtype=int)
-        self.travel_time = config['travel_time']
-        if self.travel_time:
-            vec = [self.num_cars for _ in range(self.num_nodes)] + [self.num_nodes for _ in range(self.num_cars)] + [
-                self.epLen for _ in range(self.num_cars)] + [self.num_cars] + [self.num_nodes, self.num_nodes]
-            self.starting_state = np.asarray(np.concatenate(
-                (self.config['starting_state'], self.in_transit.flatten(), [self.num_transit], self.request_dist(0, self.num_nodes))))
-
-        else:
-            vec = [self.num_cars+1 for _ in range(
-                self.num_nodes)] + [self.num_nodes, self.num_nodes]
-            self.starting_state = np.asarray(np.concatenate(
-                (self.config['starting_state'], self.request_dist(0, self.num_nodes))))
+        vec = [self.num_cars+1 for _ in range(
+            self.num_nodes)] + [self.num_nodes, self.num_nodes]
         self.observation_space = spaces.MultiDiscrete(vec)
+        self.starting_state = np.asarray(np.concatenate(
+            (self.config['starting_state'], self.request_dist(0, self.num_nodes))))
         self.state = self.starting_state
 
     def reset(self):
@@ -116,29 +105,6 @@ class RideshareGraphEnvironment(gym.Env):
         """
         state[dispatch] -= 1
         state[sink] += 1
-
-    def step_in_transit(self, state):
-        for i in range(state[-3]):
-            state[self.num_nodes + 2 * i + 1] -= 1
-            # When the transit is complete
-            if state[self.num_nodes + 2 * i + 1] <= 0:
-                # Make the car who completed transit available again
-                transit_arrival = state[self.num_nodes + 2 * i]
-                state[transit_arrival] += 1
-        # Removing & Compressing down
-        for i in range(state[-3] - 1, -1, -1):
-            if state[self.num_nodes + 2 * i + 1] <= 0:
-                if i == state[-3] - 1:
-                    state[self.num_nodes + 2 * i] = 0
-                    state[self.num_nodes + 2 * i + 1] = 0
-                else:
-                    state[self.num_nodes + 2 *
-                          i] = state[self.num_nodes + 2 * state[-3] - 2]
-                    state[self.num_nodes + 2 * i +
-                          1] = state[self.num_nodes + 2 * state[-3] - 1]
-                    state[self.num_nodes + 2 * state[-3] - 2] = 0
-                    state[self.num_nodes + 2 * state[-3] - 1] = 0
-                state[-3] -= 1
 
     def find_lengths(self, graph, num_nodes):
         """Find the lengths between each pair of nodes in [graph].
@@ -217,19 +183,16 @@ class RideshareGraphEnvironment(gym.Env):
                           max_fail_reward) / reward_range
         else:
             reward = 0
+            done = False
 
         # updating the state with a new rideshare request
         new_request = self.request_dist(self.timestep, self.num_nodes)
         newState[-2] = new_request[0]
         newState[-1] = new_request[1]
-
-        # reducing remaining time for cars in transit or completing the transit
-        if self.travel_time:
-            self.step_in_transit(newState)
-
+        self.state = newState
         if self.timestep == self.epLen - 1:
             done = True
-        self.state = newState
+
         self.timestep += 1
 
         return self.state, np.float64(reward), done, {'request': new_request, 'acceptance': accepted}

@@ -170,7 +170,8 @@ rideshare_graph_ny_config = {
     'cost': 1,
     'velocity': 0.011959030558032642,
     'gamma': 1,
-    'd_threshold': 4.700448825133434
+    'd_threshold': 4.700448825133434,
+    'travel_time': True
 }
 rideshare_graph_simple_config = {
     'epLen': 5,
@@ -189,7 +190,8 @@ rideshare_graph_simple_config = {
     'cost': 1,
     'velocity': 3,
     'gamma': 1,
-    'd_threshold': 20
+    'd_threshold': 20,
+    'travel_time': True
 }
 
 rideshare_graph_default_config = {
@@ -208,7 +210,8 @@ rideshare_graph_default_config = {
     'cost': 1,
     'velocity': 3,
     'gamma': 1,
-    'd_threshold': 20
+    'd_threshold': 20,
+    'travel_time': True
 }
 
 rideshare_graph_2cities_config = {
@@ -227,7 +230,8 @@ rideshare_graph_2cities_config = {
     'cost': 1,
     'velocity': 20,
     'gamma': 1,
-    'd_threshold': 15
+    'd_threshold': 15,
+    'travel_time': False
 }
 
 rideshare_graph_ring_config = {
@@ -247,7 +251,8 @@ rideshare_graph_ring_config = {
     'cost': 1,
     'velocity': 10,
     'gamma': 1,
-    'd_threshold': 7
+    'd_threshold': 7,
+    'travel_time': True
 }
 
 # Helper function for setting the initial car location in ithaca. Puts two car every other node
@@ -295,7 +300,8 @@ rideshare_graph_0_1_rides_config = {
     'cost': 1,
     'velocity': 1/3,
     'gamma': 0.25,
-    'd_threshold': 3
+    'd_threshold': 3,
+    'travel_time': True
 }
 
 rideshare_graph_0_2_rides_config = {
@@ -314,7 +320,8 @@ rideshare_graph_0_2_rides_config = {
     'cost': 1,
     'velocity': 1/3,
     'gamma': 0.25,
-    'd_threshold': 3
+    'd_threshold': 3,
+    'travel_time': True
 }
 
 rideshare_graph_0_3_rides_config = {
@@ -333,7 +340,8 @@ rideshare_graph_0_3_rides_config = {
     'cost': 1,
     'velocity': 1/3,
     'gamma': 0.25,
-    'd_threshold': 3
+    'd_threshold': 3,
+    'travel_time': True
 }
 
 
