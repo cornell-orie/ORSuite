@@ -185,7 +185,7 @@ class hopeguardrailAgent(Agent):
             self.current_budget = np.copy(self.env_config['init_budget']())
             mean, stdev = self.env_config['type_dist'](-2)
             self.exp_endowments = np.transpose(mean)
-            self.stdev_endowments = np.transpose(stdev**2)
+            self.stdev_endowments = np.transpose(stdev)
             sizes = state[self.num_resources:]
             self.lower_sol, self.upper_sol = self.get_lower_upper_sol(sizes)
             print('Lower and Upper Solutions:')
@@ -226,7 +226,7 @@ class hopeguardrailAgent(Agent):
             np.array([budget_remaining / np.sum(sizes)])
 
         # changing values below .0005 up so that no -.inf is given if allocation = 0 when taking log
-        allocation = np.array([list(map(lambda x: max(x, .0005), values))
+        allocation = np.array([list(map(lambda x: max(x, 0.0), values))
                                for values in allocation])
 
         return allocation

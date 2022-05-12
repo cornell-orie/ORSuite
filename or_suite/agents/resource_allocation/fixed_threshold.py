@@ -167,7 +167,7 @@ class fixedThresholdAgent(Agent):
             self.current_budget = np.copy(self.env_config['init_budget']())
             mean, stdev = self.env_config['type_dist'](-2)
             self.exp_endowments = np.transpose(mean)
-            self.stdev_endowments = np.transpose(stdev**2)
+            self.stdev_endowments = np.transpose(stdev)
             sizes = state[self.num_resources:]
             self.lower_sol = self.get_lower_upper_sol(sizes)
             print('Lower and Upper Solutions:')
@@ -189,7 +189,8 @@ class fixedThresholdAgent(Agent):
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
         # prevent non-negative values
-        action = np.array([list(map(lambda x: max(x, .0005), values))
+        
+        action = np.array([list(map(lambda x: max(x, 0.0), values))
                            for values in action])
 
         self.budget_remaining = budget_remaining - \

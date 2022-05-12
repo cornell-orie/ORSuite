@@ -125,9 +125,9 @@ class ResourceAllocationEnvironment(gym.Env):
         # to each of the types, based on the number of people of each type
         if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
 
-            reward = (1/np.sum(old_type))*sum(
+            reward = max(-100, (1/np.sum(old_type))*sum(
                 [old_type[theta]*np.log(self.utility_function(allocation[theta, :],
-                                        self.weight_matrix[theta, :])) for theta in range(self.num_types)])
+                                        self.weight_matrix[theta, :])) for theta in range(self.num_types)]))
 
             # updates the budget by the old budget and the allocation given
             if self.timestep != self.epLen - 1:
