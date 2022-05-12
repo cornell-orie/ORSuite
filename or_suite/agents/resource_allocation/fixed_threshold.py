@@ -77,7 +77,6 @@ class fixedThresholdAgent(Agent):
         constraints += [0 <= x]
         for i in range(num_resources):
             constraints += [x[:, i] @ sizes <= budget[i]]
-        # constraints += [x @ sizes <= budget]
         prob = cp.Problem(objective, constraints)
 
         def solver(true_sizes, true_weights, true_budget):
@@ -100,8 +99,6 @@ class fixedThresholdAgent(Agent):
 
         conf_bnd = self.conf_const * np.sqrt(np.max(self.stdev_endowments, axis=1)
                                              * np.mean(self.exp_endowments, axis=1)*(n-1))
-
-        # print(f'Shape of confidence bound: {conf_bnd.shape}')
 
         lower_exp_size = future_size * \
             (1 + np.max(conf_bnd / future_size))
@@ -188,8 +185,6 @@ class fixedThresholdAgent(Agent):
             (1 - resource_index) * \
             np.array([budget_remaining / np.sum(sizes), ]*self.num_types)
 
-        # prevent non-negative values
-        
         action = np.array([list(map(lambda x: max(x, 0.0), values))
                            for values in action])
 

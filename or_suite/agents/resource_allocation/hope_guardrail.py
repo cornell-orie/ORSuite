@@ -101,8 +101,6 @@ class hopeguardrailAgent(Agent):
         budget = self.env_config['init_budget']()
         weights = self.env_config['weight_matrix']
         n = self.env_config['num_rounds']
-        # print(f"endowments {self.exp_endowments[1:, :]}")
-        # print(f"init_sizes {self.exp_endowments}")
 
         tot_size = np.sum(self.exp_endowments[:, 1:], axis=1)
         future_size = init_sizes + tot_size
@@ -177,10 +175,6 @@ class hopeguardrailAgent(Agent):
         Returns: matrix where each row is a K-dimensional vector denoting how 
                 much of each commodity is given to each type
         '''
-
-        # CHECK IF STEP = 0
-        # IF ZERO: GET THE STARTING BUDGET
-        # RESOLVE FOR THE EXPECTED ENDOWMENTS AND SAVE THEM
         if step == 0:
             self.current_budget = np.copy(self.env_config['init_budget']())
             mean, stdev = self.env_config['type_dist'](-2)
@@ -191,22 +185,6 @@ class hopeguardrailAgent(Agent):
             print('Lower and Upper Solutions:')
             print(self.lower_sol)
             print(self.upper_sol)
-
-        """
-        1. mean and stddev use from config
-            mean should be a T x 3 vector (T time periods, 3 types)
-            the conf_bnd should be a vector of size 3
-            so fix the axis so that works out
-        
-        stdev is same
-        but make sure that you use the variance (so square of it)
-
-        2. double check that the index + means are matching across all algorithms (and lower threshold solution)
-
-        3. Sorry......but run the experiment with n=5,10,15,20,25,50
-        write down the counterfactual envy, efficiency, hindsight envy
-        make plot like in paper
-        """
 
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]
@@ -225,7 +203,6 @@ class hopeguardrailAgent(Agent):
             + (1 - budget_required) * (1 - budget_index) * \
             np.array([budget_remaining / np.sum(sizes)])
 
-        # changing values below .0005 up so that no -.inf is given if allocation = 0 when taking log
         allocation = np.array([list(map(lambda x: max(x, 0.0), values))
                                for values in allocation])
 

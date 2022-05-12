@@ -119,8 +119,6 @@ class ResourceAllocationEnvironment(gym.Env):
         allocation = np.reshape(
             np.array(action), (self.num_types, self.num_commodities))
 
-        # print(f"old budget for step {self.timestep} is {old_budget}")
-
         # determines if the allocation is valid, i.e. algorithm is able to allocate the allocation
         # to each of the types, based on the number of people of each type
         if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
@@ -149,21 +147,10 @@ class ResourceAllocationEnvironment(gym.Env):
         info = {'type': new_type}
 
         self.state = np.concatenate([new_budget, new_type]).astype(np.float32)
-
-        # print()
-        # print("timestep in action ", self.timestep)
-        # print("new state ", self.state)
-
         self.action_space = spaces.Box(low=0, high=max(new_budget),
                                        shape=(self.num_types, self.num_commodities), dtype=np.float32)
-
-        # print("timestep: ", self.timestep)
-        # print("new state", self.state)
-        # print("reward: ", reward)
-
         self.timestep += 1
 
-        # print(f"new budget for step {self.timestep} is {new_budget}")
         return self.state, float(reward),  done, info
 
     def render(self, mode='console'):

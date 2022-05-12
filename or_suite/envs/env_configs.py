@@ -65,22 +65,17 @@ class FoodbankAllocationDistribution(object):
             [dist_types * data_weights[self.index].to_numpy()[j] for j in range(self.epLen)])
         self.stdev_size = np.asarray(
             [(dist_types**2) * data_stdev[self.index].to_numpy()[j] for j in range(self.epLen)])
-        print("index", self.index)
-        print(f"mean{self.mean_size}")
-        print(f"std_dev{self.stdev_size}")
 
     def get_type_distribution(self, i):
         arrival = np.maximum(1, np.random.normal(
             self.mean_size, self.stdev_size))[i]
 
-        # print("iter: ", i)
         if i == -2:
             return self.mean_size, self.stdev_size
 
         if i == -1:
             self.reset_index()
 
-        # print("arrival ", arrival)
         return arrival
 
     def get_budget(self):
