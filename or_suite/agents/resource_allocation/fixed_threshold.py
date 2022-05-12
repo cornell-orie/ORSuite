@@ -53,6 +53,7 @@ class fixedThresholdAgent(Agent):
         self.data = []
         self.first_allocation_done = False
         self.conf_const = 2
+        self.from_data = env_config['from_data']
         self.exp_endowments, self.stdev_endowments = self.get_expected_endowments()
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
@@ -162,9 +163,10 @@ class fixedThresholdAgent(Agent):
         '''
         if step == 0:
             self.current_budget = np.copy(self.env_config['init_budget']())
-            mean, stdev = self.env_config['type_dist'](-2)
-            self.exp_endowments = np.transpose(mean)
-            self.stdev_endowments = np.transpose(stdev)
+            if self.from_data:
+                mean, stdev = self.env_config['type_dist'](-2)
+                self.exp_endowments = np.transpose(mean)
+                self.stdev_endowments = np.transpose(stdev)
             sizes = state[self.num_resources:]
             self.lower_sol = self.get_lower_upper_sol(sizes)
             print('Lower and Upper Solutions:')
@@ -190,5 +192,4 @@ class fixedThresholdAgent(Agent):
 
         self.budget_remaining = budget_remaining - \
             np.matmul(sizes, action)
-        print(f'Action: {action}')
         return action
