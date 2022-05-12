@@ -2,7 +2,10 @@ import numpy as np
 import cvxpy as cp
 import pandas as pd
 import or_suite
-
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3 import PPO
+from stable_baselines3 import DQN
+from stable_baselines3.ppo import MlpPolicy
 
 """
 Helper code to run a single simulation of either an ORSuite experiment or the wrapper for a stable baselines algorithm.
@@ -63,6 +66,55 @@ def run_single_sb_algo(env, agent, settings):
     exp = or_suite.experiment.sb_experiment.SB_Experiment(env, agent, settings)
     _ = exp.run()
     dt_data = exp.save_data()
+
+
+def run_single_sb_algo_tune(env, agent, epLen, param_list, settings):
+    best_reward = (-1)*np.inf
+    best_param = (param_list['learning_rate'][0], param_list['gamma'][0])
+
+    if agent == 'SB PPO':
+        for learning_rate in param_list['learning_rate']:
+            for gamma in param_list['gamma']:
+                mon_env = Monitor(env)
+                model = PPO(MlpPolicy, mon_env, learning_rate=learning_rate, gamma=gamma,
+                            verbose=0, n_steps=epLen)
+                exp = or_suite.experiment.sb_experiment.SB_Experiment(
+                    mon_env, model, settings)
+                exp.data = np.zeros([exp.nEps*exp.num_iters, 5])
+                exp.run()
+                dt = pd.DataFrame(exp.data, columns=[
+                    'episode', 'iteration', 'epReward', 'time', 'memory'])
+                avg_end_reward = dt[dt['episode'] ==
+                                    dt.max()['episode']].iloc[0]['epReward']
+                # print(avg_end_reward)
+                if avg_end_reward >= best_reward:
+                    best_reward = avg_end_reward
+
+                    best_param = (learning_rate, gamma)
+                    best_exp = exp
+    elif agent == 'SB DQN':
+        for learning_rate in param_list['learning_rate']:
+            for gamma in param_list['gamma']:
+                model = DQN(MlpPolicy, env, learning_rate=learning_rate, gamma=gamma,
+                            verbose=0, n_steps=epLen)
+                exp = or_suite.experiment.sb_experiment.SB_Experiment(
+                    env, model, settings)
+
+                exp.run()
+                dt = pd.DataFrame(exp.data, columns=[
+                    'episode', 'iteration', 'epReward', 'time', 'memory'])
+                avg_end_reward = dt[dt['episode'] ==
+                                    dt.max()['episode']].iloc[0]['epReward']
+                # print(avg_end_reward)
+                if avg_end_reward >= best_reward:
+                    best_reward = avg_end_reward
+
+                    best_param = (learning_rate, gamma)
+                    best_exp = exp
+
+    print(f"Chosen parameters: {best_param}")
+    best_exp.save_data()
+    print(best_param)
 
 
 '''
@@ -193,6 +245,48 @@ def generate_cvxpy_solve(num_types, num_resources):
     return prob, solver
 
 
+def times_out_of_budget(traj, env_config):
+    num_iter = traj[-1]['iter']+1
+    num_eps = traj[-1]['episode']+1
+    num_steps = traj[-1]['step']+1
+    num_types, num_commodities = traj[-1]['action'].shape
+
+    times_out_budget = 0
+    traj_index = 0
+    # for dict in traj:
+    #     print()
+    #     for k, v in dict.items():
+    #         print(k, v)
+
+    for iter_num in range(num_iter):
+        for ep in range(num_eps):
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
+            # budget = np.copy(env_config['init_budget']())
+            for step in range(num_steps):
+                # print(f"retrieved budget for traj index {traj_index} is {budget} in times_out_of_budget")
+                cur_dict = traj[traj_index]
+                old_budget = cur_dict['oldState'][:num_commodities].copy()
+                old_type = cur_dict['oldState'][num_commodities:].copy()
+                allocation = cur_dict['action'].copy()
+
+                if np.min(old_budget - np.matmul(old_type, allocation)) >= -.0005:
+                    # updates the budget by the old budget and the allocation given
+                    if traj_index != ep - 1:
+                        # temp budget in case of rounding errors
+                        budget = old_budget-np.matmul(old_type, allocation)
+
+                    else:
+                        budget = budget
+                else:  # algorithm is allocating more than the budget, output a negative infinity reward
+                    budget = old_budget
+                    times_out_budget += 1
+
+                traj_index += 1
+
+    return times_out_budget/num_iter
+
+
 def delta_EFFICIENCY(traj, env_config):
     num_iter = traj[-1]['iter']+1
     num_eps = traj[-1]['episode']+1
@@ -205,8 +299,10 @@ def delta_EFFICIENCY(traj, env_config):
     for iter_num in range(num_iter):
         # print(iter_num)
         for ep in range(num_eps):
+            # pull out cur_dict for init_bud and curr_arrival
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             # print(ep)
-            budget = np.copy(env_config['init_budget'])
             # print('budget:' + str(budget))
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
@@ -218,6 +314,8 @@ def delta_EFFICIENCY(traj, env_config):
 #                budget -= cur_dict['oldState']
             final_avg_efficiency[ep] += np.sum(budget)
     return (-1)*np.mean(final_avg_efficiency)
+
+    return 0
 
 
 def delta_PROP(traj, env_config):
@@ -233,15 +331,17 @@ def delta_PROP(traj, env_config):
     for iter_num in range(num_iter):
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             prop_alloc = budget / np.sum(sizes)
@@ -271,15 +371,17 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             max_envy = 0
@@ -288,8 +390,8 @@ def delta_HINDSIGHT_ENVY(traj, env_config):
                 for t1 in range(num_steps):
                     for theta2 in range(num_types):
                         for t2 in range(num_steps):
-                            max_envy = max(max_envy, utility_function(
-                                X_alg[t2, theta2], weight_matrix[theta1]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1]))
+                            max_envy = max(max_envy, np.abs(utility_function(
+                                X_alg[t2, theta2], weight_matrix[theta2]) - utility_function(X_alg[t1, theta1], weight_matrix[theta1])))
 
             final_avg_envy[ep] += max_envy
 
@@ -306,21 +408,22 @@ def delta_COUNTERFACTUAL_ENVY(traj, env_config):
     final_avg_envy = np.zeros(num_eps)
 
     prob, solver = generate_cvxpy_solve(num_types, num_commodities)
-
     traj_index = 0
     for iter_num in range(num_iter):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             X_alg = np.zeros((num_steps, num_types, num_commodities))
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             X_opt = offline_opt(budget, sizes, weight_matrix, solver)
@@ -358,14 +461,16 @@ def delta_EXANTE_ENVY(traj, env_config):
 
         for ep in range(num_eps):
 
-            budget = np.copy(env_config['init_budget'])
+            # budget = np.copy(env_config['init_budget']())
+            cur_dict = traj[traj_index]
+            budget = cur_dict['oldState'][:num_commodities].copy()
             sizes = np.zeros((num_steps, num_types))
 
             for step in range(num_steps):
                 cur_dict = traj[traj_index]
 
-                X_alg[iter_num, ep, step] = cur_dict['action']
-                sizes[step] = cur_dict['oldState'][num_commodities:]
+                X_alg[iter_num, ep, step] = cur_dict['action'].copy()
+                sizes[step] = cur_dict['oldState'][num_commodities:].copy()
                 traj_index += 1
 
             X_opt[iter_num, ep] = offline_opt(

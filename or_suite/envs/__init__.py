@@ -27,6 +27,11 @@ register(id='Resource-v0',
          entry_point='or_suite.envs.resource_allocation.resource_allocation:ResourceAllocationEnvironment'
          )
 
+register(id='Resource-v1',
+         entry_point='or_suite.envs.resource_allocation.resource_allocation_discrete:DiscreteResourceAllocationEnvironment'
+         )
+
+
 # Finite Armed Bandit
 
 register(id='Bandit-v0',
