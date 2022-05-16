@@ -89,6 +89,8 @@ class ResourceAllocationEnvironment(gym.Env):
             [self.budget, self.type_dist(0)]).astype(np.float32)
         self.budget = self.config['init_budget']()
         self.timestep = 0
+        self.action_space = spaces.Box(low=0, high=max(self.budget),
+                                       shape=(self.num_types, self.num_commodities), dtype=np.float32)
 
         return self.state
 

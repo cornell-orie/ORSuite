@@ -29,7 +29,7 @@ def test_initial_state():
 
 def test_step():
     env.reset()
-    newState, reward, done, info = env.step([0, .3, 0, .2, 0, .4])
+    newState, reward, done, info = env.step([[2]])
 
     # Test if new state is part of observation space
     assert env.observation_space.contains(
@@ -41,7 +41,7 @@ def test_step():
             reward) == float, "Reward is not a float"
 
     # Check value of reward
-    difference = abs(reward - (0.4054651081081644))
+    difference = abs(reward - (0.6931471805599453))
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
