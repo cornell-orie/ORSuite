@@ -58,8 +58,6 @@ class hopeguardrailAgent(Agent):
         self.prob, self.solver = self.generate_cvxpy_solver()
         self.lower_sol = np.zeros((self.num_types, self.num_resources))
         self.upper_sol = np.zeros((self.num_types, self.num_resources))
-        print('Mean and variance endomwnets:')
-        print(self.exp_endowments, self.stdev_endowments)
 
     def generate_cvxpy_solver(self):
         """
@@ -185,9 +183,6 @@ class hopeguardrailAgent(Agent):
             sizes = state[self.num_resources:]
             self.lower_sol, self.upper_sol = self.get_lower_upper_sol(
                 sizes)
-            print('Lower and Upper Solutions:')
-            print(self.lower_sol)
-            print(self.upper_sol)
 
         budget_remaining = state[:self.num_resources]
         sizes = state[self.num_resources:]

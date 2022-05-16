@@ -13,7 +13,7 @@ import ast
 resource_allocation_default_config = {'K': 2,
                                       'num_rounds': 10,
                                       'weight_matrix': np.array([[1, 2], [.3, 9], [1, 1]]),
-                                      'init_budget': lambda: 10*np.ones(2),
+                                      'init_budget': lambda: 9*10*np.ones(2),
                                       'type_dist': lambda i: 1+np.random.poisson(size=(3), lam=(1, 2, 3)),
                                       'utility_function': lambda x, theta: np.dot(x, theta),
                                       'from_data': False,
@@ -106,12 +106,12 @@ def resource_allocation_foodbank_config(n):
 resource_allocation_simple_poisson_config = {'K': 1,
                                              'num_rounds': 10,
                                              'weight_matrix': np.array([[1]]),
-                                             'init_budget': np.array([20.]),
+                                             'init_budget': lambda: np.array([15.]),
                                              'utility_function': lambda x, theta: x,
-                                             'type_dist': lambda i: [1+np.random.poisson(lam=1)],
+                                             'from_data': False,
+                                             'type_dist': lambda i: [1+np.random.poisson(lam=0.5)],
                                              'MAX_VAL': 1000
                                              }
-
 
 ambulance_metric_default_config = {'epLen': 5,
                                    'arrival_dist': lambda x: np.random.beta(5, 2),

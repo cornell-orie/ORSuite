@@ -36,7 +36,7 @@ class equalAllocationAgent(Agent):
         self.env_config = env_config
         self.num_types = env_config['weight_matrix'].shape[0]
         self.num_resources = self.env_config['weight_matrix'].shape[1]
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.current_budget = np.copy(self.env_config['init_budget']())
         self.epLen = epLen
         self.data = []
         self.rel_exp_endowments = self.get_expected_endowments()
@@ -59,7 +59,7 @@ class equalAllocationAgent(Agent):
 
     def reset(self):
         # resets data matrix to be empty
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.current_budget = np.copy(self.env_config['init_budget']())
         self.data = []
 
     def update_config(self, env, config):
@@ -74,7 +74,7 @@ class equalAllocationAgent(Agent):
 
     def update_policy(self, k):
         '''Update internal policy based upon records'''
-        self.current_budget = np.copy(self.env_config['init_budget'])
+        self.current_budget = np.copy(self.env_config['init_budget']())
 
     def pick_action(self, state, step):
         '''

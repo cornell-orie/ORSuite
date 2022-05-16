@@ -9,7 +9,6 @@ conditioned that allocation is within budget
 import numpy as np
 import gym
 from gym import spaces
-# import math
 from .. import env_configs
 
 
@@ -64,7 +63,6 @@ class ResourceAllocationEnvironment(gym.Env):
         self.starting_state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
         self.MAX_VAL = config['MAX_VAL']
-        # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
         self.state = self.starting_state
         self.timestep = 0
@@ -80,8 +78,7 @@ class ResourceAllocationEnvironment(gym.Env):
         Requires: the observation must be a numpy array
         Returns: np.array
         """
-        # IF FLAG: (OF WHEN THE SETUP IS THE FBST DATA)
-        # RESET INDEX IN THE ENV_CONFIG
+        # if FBST data, then reset index in env_config
         if self.from_data:
             self.type_dist(-1)
 

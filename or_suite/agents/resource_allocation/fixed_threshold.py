@@ -169,8 +169,6 @@ class fixedThresholdAgent(Agent):
                 self.stdev_endowments = np.transpose(stdev)
             sizes = state[self.num_resources:]
             self.lower_sol = self.get_lower_upper_sol(sizes)
-            print('Lower and Upper Solutions:')
-            print(self.lower_sol)
 
         if np.all(self.budget_remaining == 0):
             pass
