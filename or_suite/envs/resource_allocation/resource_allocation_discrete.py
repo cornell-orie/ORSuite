@@ -39,16 +39,25 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
         self.num_types = config['weight_matrix'].shape[0]
         self.num_commodities = config['K']
         self.epLen = config['num_rounds']
-        self.budget = config['init_budget']
+        self.budget = config['init_budget']()
         self.type_dist = config['type_dist']
         self.utility_function = config['utility_function']
         # print(config['init_budget'])
         # print(self.type_dist(0))
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
 
-        self.starting_state = np.concatenate(
-            [config['init_budget'], self.type_dist(0)])
+        #self.starting_state = np.concatenate(
+        #    [config['init_budget'](), self.type_dist(0)])
         # print(np.concatenate([config['init_budget'],self.type_dist(0)]))
+
+        self.starting_state = []
+        for x in config['init_budget']():
+            self.starting_state.append(int(x))
+        for y in self.type_dist(0):
+            self.starting_state.append(int(y))
+        self.starting_state = np.array(self.starting_state)
+        
+
 
         self.state = self.starting_state
         self.timestep = 0
@@ -58,7 +67,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
             [round(max(self.budget)) for _ in range(self.num_commodities*self.num_types)])
         # First K entries of observation space is the remaining budget, next is the number of each type at the location
         self.observation_space = spaces.MultiDiscrete(
-            [round(max(self.budget)) for _ in range(self.num_commodities+self.num_types)])
+            [round(max(self.budget+1)) for _ in range(self.num_commodities+self.num_types)])
 
     def reset(self):
         """
@@ -68,7 +77,11 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
         # Initialize the timestep
         self.timestep = 0
         self.state = self.starting_state
+        self.budget = self.config['init_budget']()
+        self.action_space = spaces.MultiDiscrete(
+            [round(max(self.budget)) for _ in range(self.num_commodities*self.num_types)])
         return self.starting_state
+        
 
     def get_config(self):
         return self.config
@@ -94,7 +107,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
         
         # assert that each element of action is int
         for a in action:
-            assert type(a) == int
+            assert type(a) == int or type(a) == np.int64
 
         # subdividing state of (b,N) into the two components
         old_budget = self.state[:self.num_commodities]
@@ -130,7 +143,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
 
         else:  # algorithm is allocating more than the budget, output a negative infinity reward
             print('Out of Budget!')
-            reward = -np.inf
+            reward = -100
             done = True
             new_budget = old_budget
 
@@ -145,7 +158,7 @@ class DiscreteResourceAllocationEnvironment(gym.Env):
 
         self.timestep += 1
 
-        return self.state, reward,  done, info
+        return self.state, float(reward),  done, info
 
     def render(self, mode='console'):
         if mode != 'console':
