@@ -11,13 +11,12 @@ from stable_baselines3.common.env_checker import check_env
 
 CONFIG = env_configs.resource_allocation_simple_config
 np.random.seed(10)
-env = gym.make('Resource-v0', config=CONFIG)
+env = gym.make('Resource-v1', config=CONFIG)
 
 
 def test_initial_state():
     for i in range(len(env.starting_state)):
-        assert type(env.starting_state[i]) == np.float64 or type(
-            env.starting_state[i]) == np.float32, "Starting state array does not type int"
+        assert type(env.starting_state[i]) == int or type(env.starting_state[i]) == np.int64, "Starting state array does not type int"
 
     # Test to see if timestep starts at zero
     assert env.timestep == 0, "Timestep does not start at 0"
@@ -29,30 +28,29 @@ def test_initial_state():
 
 def test_step():
     env.reset()
-    newState, reward, done, info = env.step([[2]])
+    newState, reward, done, info = env.step([2])
 
     # Test if new state is part of observation space
     assert env.observation_space.contains(
         newState), "Returned state is not part of given observation space after step"
-
     # Test to see if returned reward is a float
     assert type(reward) == np.float64 or type(
         reward) == np.float32 or type(
             reward) == float, "Reward is not a float"
 
     # Check value of reward
-    difference = abs(reward - (0.6931471805599453))
+    difference = abs(reward - (0.69314718))
     assert difference <= .000001 and difference >= 0.0
 
     # Do step again
-    newState, reward, done, info = env.step([[0.5]])
+    newState, reward, done, info = env.step([1])
 
     # Test if new state is part of observation space
     assert env.observation_space.contains(
         newState), "Returned state is not part of given observation space after step"
 
     # Check value of reward
-    difference = abs(reward - (-0.69314718))
+    difference = abs(reward - (0))
     assert difference <= .000001 and difference >= 0.0
 
     check_env(env, skip_render_check=True)
@@ -61,7 +59,7 @@ def test_step():
     # May need to change this step based on test_bad action fix
     # This action may not be valid according to the action space
     env.reset()
-    newState, reward, done, info = env.step([[11.0]])
+    newState, reward, done, info = env.step([11])
     assert reward == -100.0
 
 
