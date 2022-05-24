@@ -55,7 +55,7 @@ def test_step():
     difference = abs(reward - (-0.69314718))
     assert difference <= .000001 and difference >= 0.0
 
-    check_env(env, skip_render_check=True)
+    # check_env(env, skip_render_check=True)
 
     # Test if going over budget causes negative infinite reward
     # May need to change this step based on test_bad action fix
@@ -78,3 +78,9 @@ def test_reset():
     for i in range(len(env.starting_state)):
         assert env.state[i] == env.starting_state[i], "State not set back to starting state on reset at index {}".format(
             i)
+
+
+if __name__ == "__main__":
+    test_step()
+    test_bad_action()
+    test_reset()
