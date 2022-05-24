@@ -82,6 +82,9 @@ class ResourceAllocationEnvironment(gym.Env):
         if self.from_data:
             self.type_dist(-1)
 
+        self.action_space = spaces.Box(low=0, high=max(self.budget),
+                                       shape=(self.num_types, self.num_commodities), dtype=np.float32)
+
         self.state = np.concatenate(
             [self.budget, self.type_dist(0)]).astype(np.float32)
         self.budget = self.config['init_budget']()

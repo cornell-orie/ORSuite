@@ -76,3 +76,9 @@ def test_reset():
     for i in range(len(env.starting_state)):
         assert env.state[i] == env.starting_state[i], "State not set back to starting state on reset at index {}".format(
             i)
+
+if __name__ == "__main__":
+    test_initial_state()
+    test_step()
+    test_bad_action()
+    test_reset()
