@@ -72,4 +72,4 @@ The repository has three main components as a traditional Reinforcement Learning
 
 ### Contribution Guide
 
-See 'ORSuite Contribution Guide' to see information on how to add new environments and algorithms to the package.
+See 'ORSuite Contribution Guide' to see information on how to add new environments and algorithms to the package.  
