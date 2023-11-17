@@ -12,7 +12,7 @@ from or_suite.utils import *
 from or_suite.plots import *
 
 
-from gym.core import Env, GoalEnv, Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper
+from gym.core import Env, Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper
 from gym.envs import make, spec, register
 
 
