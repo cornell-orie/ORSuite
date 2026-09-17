@@ -44,6 +44,13 @@
 
 
 # OR Suite
+
+**⚠️ Package Update in Progress**
+
+Due to recent updates to the [Gymnasium API](https://gymnasium.farama.org/), including changes in environment conventions and notation, the current ORSuite package is temporarily incompatible with the latest Gymnasium releases. We are actively updating the package to restore compatibility.
+
+For questions or updates, please contact [sean.sinclair@northwestern.edu](mailto:sean.sinclair@northwestern.edu).
+
 Reinforcement learning (RL) is a natural model for problems involving real-time sequential decision making. In these models, a principal interacts with a system having stochastic transitions and rewards and aims to control the system online (by exploring available actions using real-time feedback) or offline (by exploiting known properties of the system).
 
 These project revolves around providing a unified landscape on scaling reinforcement learning algorithms to operations research domains.
